@@ -2,6 +2,7 @@ package physics.testing;
 
 import com.badlogic.ashley.core.Engine;
 import physics.components.ComponentFactory;
+import physics.constants.CompoMappers;
 import physics.entities.Ball;
 import physics.entities.EntityFactory;
 import physics.entities.Hole;
@@ -66,6 +67,8 @@ public class GameCreationDemo
 
 		//getting ball of player 1
 		game.getBall (p1);
+
+		Vector3 pos = CompoMappers.POSITION.get (game.getBall (p1));
 
 		//@TODO enable cloning of games
 
