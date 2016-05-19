@@ -1,6 +1,5 @@
 package physics.entities;
 
-import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import physics.logic.ComponentBundle;
 import physics.systems.SystemsTracker;
@@ -24,7 +23,8 @@ public class EntityFactory
 	 */
 	public Entity produce()
 	{
-
+		//@TODO implement
+		return null;
 	}
 
 	/**
@@ -34,7 +34,8 @@ public class EntityFactory
 	 */
 	public boolean hasComponent (ComponentBundle ... c)
 	{
-
+		//@TODO implement
+		return false;
 	}
 
 	/**

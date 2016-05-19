@@ -16,7 +16,7 @@ public class SystemsTracker
 
 	public SystemsTracker()
 	{
-
+		//@TODO implement
 	}
 
 	/**
@@ -25,7 +25,8 @@ public class SystemsTracker
 	 */
 	public ArrayList<EntitySystem> systemsInUse()
 	{
-
+		//@TODO implement
+		return null;
 	}
 
 	/**
@@ -34,7 +35,8 @@ public class SystemsTracker
 	 */
 	public boolean hasComponent (ComponentBundle c)
 	{
-
+		//@TODO implement
+		return false;
 	}
 
 	/**

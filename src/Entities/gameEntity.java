@@ -1,20 +1,19 @@
 package Entities;
 
-import org.lwjgl.util.vector.Vector3f;
-
-import com.badlogic.ashley.core.Entity;
-
 import ModelBuildComponents.TexturedModel;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.math.Vector3;
+import org.lwjgl.util.vector.Vector3f;
 
 
 public class gameEntity extends Entity {
 
 	private TexturedModel model;
-	private Vector3f position;
+	private Vector3 position;
 	private float rotX, rotY, rotZ;
 	private float scale;
 
-	public gameEntity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ,
+	public gameEntity(TexturedModel model, Vector3 position, float rotX, float rotY, float rotZ,
 			float scale) {
 		this.model = model;
 		//Translate the physics.components into Coordinates
@@ -46,10 +45,10 @@ public class gameEntity extends Entity {
 	}
 
 	public Vector3f getPosition() {
-		return position;
+		return new Vector3f (position.x, position.y, position.z);
 	}
 
-	public void setPosition(Vector3f position) {
+	public void setPosition (Vector3 position) {
 		//Translate the physics.components into Coordinates
 		this.position = position;
 	}

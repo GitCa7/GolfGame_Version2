@@ -3,6 +3,7 @@ package physics.logic;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.math.Vector3;
 import physics.entities.Ball;
+import physics.entities.Hole;
 
 import java.util.HashMap;
 

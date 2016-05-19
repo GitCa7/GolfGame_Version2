@@ -36,7 +36,8 @@ public class Player
 	 */
 	public boolean equals (Player comp)
 	{
-
+		//@TODO implement
+		return false;
 	}
 
 	/**

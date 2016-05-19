@@ -20,6 +20,10 @@
 *.eml
 *.iml
 
+#maven
+target/
+pom.xml
+
 #crash logs
 *.log
 

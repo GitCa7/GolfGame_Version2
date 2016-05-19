@@ -1,11 +1,5 @@
 package GameRun;
 
-import java.util.ArrayList;
-import java.util.Random;
-
-import org.lwjgl.opengl.Display;
-import org.lwjgl.util.vector.Vector3f;
-
 import Entities.Ball;
 import Entities.Camera;
 import Entities.Light;
@@ -19,6 +13,19 @@ import RenderComponents.Loader;
 import RenderComponents.MasterRenderer;
 import RenderComponents.OBJLoader;
 import TerrainComponents.Terrain;
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.math.Vector3;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector3f;
+import physics.components.Force;
+import physics.components.PositionBridge;
+import physics.components.Velocity;
+import physics.systems.ForceApply;
+import physics.systems.Movement;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 
 
@@ -38,7 +45,8 @@ public class HeightMapSurfaceTest {
 		Light light;
 		MousePicker mousePick, mousePick2;
 		
-		
+		ArrayList<Entity> physicsEntities;
+		Engine modelEngine;
 		
 		public HeightMapSurfaceTest()	{
 			DisplayManager.createDisplay();
@@ -49,12 +57,13 @@ public class HeightMapSurfaceTest {
 			terrains = new ArrayList<Terrain>();
 			cam = new Camera();
 			
-			
+			physicsEntities = new ArrayList<Entity>();
+			modelEngine = new Engine();
 			
 			createSurrondings();
 			setUpTerrain();
 			setUpScene();
-			//setUpEntities();
+			setUpEntities();
 			
 			//mousePick = new MousePicker(cam, renderer.getProjectionMatrix(), terrains.get(0));
 			//mousePick2 = new MousePicker(cam, renderer.getProjectionMatrix(), terrains.get(1));
@@ -63,6 +72,9 @@ public class HeightMapSurfaceTest {
 			
 			
 		}
+
+
+
 		
 		public void createSurrondings()	{
 			RawModel grassModel = OBJLoader.loadObjModel("grassModel", loader);
@@ -81,18 +93,37 @@ public class HeightMapSurfaceTest {
 	        Random ran = new Random();
 	        for(int i = 0; i< 100; i++)	{
 	        	
-	        	surrondings.add(new gameEntity(grassTextModel, new Vector3f(ran.nextFloat() * 800 - 400, 3, ran.nextFloat() * -600), 180, 0, 0, 3));
-	        	surrondings.add(new gameEntity(fernTextModel, new Vector3f(ran.nextFloat() * 800 - 400, 0, ran.nextFloat() * -600), 0, 0, 0, 3));
+	        	surrondings.add(new gameEntity(grassTextModel, new Vector3(ran.nextFloat() * 800 - 400, 3, ran.nextFloat() * -600), 180, 0, 0, 3));
+	        	surrondings.add(new gameEntity(fernTextModel, new Vector3(ran.nextFloat() * 800 - 400, 0, ran.nextFloat() * -600), 0, 0, 0, 3));
 	        }
 		}
 		
-		/*
-		public void setUpEntities()	{
-			gameEntity golfBall = new Ball(0, 0, null);
-			physics.entities.add(golfBall);
-			
+
+		public void setUpEntities ()
+		{
+			gameEntity golfBall = new Ball();
+			PositionBridge pBrid = new PositionBridge (golfBall);
+			pBrid.set (4, 20, -455);
+
+			Entity e = new Entity();
+			e.add (pBrid);
+			e.add (new Velocity());
+			e.add (new Force());
+
+			entities.add (golfBall);
 		}
-		*/
+
+		public void setUpEngine()
+		{
+			for (Entity e : physicsEntities)
+				modelEngine.addEntity (e);
+
+			Movement moving = new Movement();
+			ForceApply fApplying = new ForceApply();
+
+			modelEngine.addSystem (moving);
+			modelEngine.addSystem (fApplying);
+		}
 	   
 	    public void setUpTerrain(){
 	    	Terrain terrain = new Terrain(0,0,"heightmap");
@@ -122,7 +153,8 @@ public class HeightMapSurfaceTest {
 	           for(Terrain terrain:terrains)	{
 	        	   renderer.processTerrain(terrain);
 	           }
-	           
+
+			   modelEngine.update(1);
 	           
 	           //mousePick.update();
 	           //mousePick2.update();
