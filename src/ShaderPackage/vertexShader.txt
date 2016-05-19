@@ -1,4 +1,4 @@
-#version 400 core
+#version 140
 
 in vec3 position;
 in vec2 textureCoords;
