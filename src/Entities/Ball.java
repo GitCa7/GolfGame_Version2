@@ -31,7 +31,7 @@ public class Ball extends gameEntity	{
 	 */
 	public Ball (float radius, float density, GravityForce.Builder gBuild)
 	{
-		//Translate the components into Coordinates
+		//Translate the physics.components into Coordinates
 		super(staticModel, position, 0, 0, 0, scale);
 		
 		

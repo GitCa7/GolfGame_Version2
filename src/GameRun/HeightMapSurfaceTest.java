@@ -89,7 +89,7 @@ public class HeightMapSurfaceTest {
 		/*
 		public void setUpEntities()	{
 			gameEntity golfBall = new Ball(0, 0, null);
-			entities.add(golfBall);
+			physics.entities.add(golfBall);
 			
 		}
 		*/

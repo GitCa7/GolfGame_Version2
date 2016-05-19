@@ -1,8 +1,9 @@
-package LogicAndExtras;
+package physics.logic;
 
 import com.badlogic.ashley.core.Engine;
 import physics.entities.Ball;
 import physics.entities.EntityFactory;
+import physics.entities.Hole;
 import physics.systems.SystemsTracker;
 
 import java.util.HashMap;
@@ -16,12 +17,11 @@ import java.util.HashMap;
 public class GameConfigurator
 {
 	/**
-	 * constructs game configurator for e with an empty map of balls, no hole set and no physics.systems stored
-	 * @param e
+	 * constructs game configurator using a new engine with an empty map of balls, no hole set and no physics.systems stored
 	 */
-	public GameConfigurator (Engine e)
+	public GameConfigurator ()
 	{
-
+		mEngine = new Engine();
 	}
 
 	/**

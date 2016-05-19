@@ -1,8 +1,9 @@
-package Entities;
+package physics.entities;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
-import LogicAndExtras.ComponentBundle;
+import physics.logic.ComponentBundle;
+import physics.systems.SystemsTracker;
 
 import java.util.ArrayList;
 
@@ -31,7 +32,7 @@ public class EntityFactory
 	 * @param c a given component bundle
 	 * @return true if this factory stores a bundle with the same identifier
 	 */
-	public boolean hasComponent (ComponentBundle c)
+	public boolean hasComponent (ComponentBundle ... c)
 	{
 
 	}
@@ -39,9 +40,9 @@ public class EntityFactory
 	/**
 	 * adds c to the set of component bundles stored
 	 * Precondition: no bundle with the same identifier was added before
-	 * @param c an instance of component bundle
+	 * @param cs an instance of component bundle
 	 */
-	public void addComponent (ComponentBundle c)
+	public void addComponent (ComponentBundle ... cs)
 	{
 
 	}
@@ -51,7 +52,7 @@ public class EntityFactory
 	 * Precondition: c exists within the set of component bundles
 	 * @param c the component bundle to remove
 	 */
-	public void removeComponent (ComponentBundle c)
+	public void removeComponents (ComponentBundle ... c)
 	{
 
 	}
