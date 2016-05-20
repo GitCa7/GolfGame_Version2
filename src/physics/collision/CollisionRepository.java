@@ -126,6 +126,7 @@ public class CollisionRepository
 	{
 		mColliderPairs = new ArrayList<>();
 		mEntityColliderMap = new HashMap<>();
+		mCache = new Cacher<>();
 	}
 
 	/**
