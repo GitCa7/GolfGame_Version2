@@ -24,6 +24,17 @@ public class Cacher<T>
 	}
 
 	/**
+	 * @return object remembered
+	 * @throws CacherException if no object is remembered
+	 */
+	public T get()
+	{
+		if (isEmpty())
+			throw new CacherException ("cannot return object: none remembered");
+		return mMemo;
+	}
+
+	/**
 	 * @param comp cacher to compare with
 	 * @return true if comp and this store equivalent objects
 	 */
