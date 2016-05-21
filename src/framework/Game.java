@@ -49,6 +49,14 @@ public class Game
 	}
 
 	/**
+	 * @return the hole entity set for this game
+	 */
+	public Hole getHole()
+	{
+
+	}
+
+	/**
 	 *
 	 * @return true if the simulation is currently running (i.e. balls are moving) and no hit can be executed
 	 */

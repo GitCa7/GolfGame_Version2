@@ -36,8 +36,7 @@ public class Player
 	 */
 	public boolean equals (Player comp)
 	{
-		//@TODO implement
-		return false;
+		return this.mName.equals (comp.mName);
 	}
 
 	/**

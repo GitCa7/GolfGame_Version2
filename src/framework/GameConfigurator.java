@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Engine;
 import physics.entities.Ball;
 import physics.entities.EntityFactory;
 import physics.entities.Hole;
+import physics.systems.EntitySystem;
 import physics.systems.SystemsTracker;
 
 import java.util.HashMap;
@@ -21,7 +22,10 @@ public class GameConfigurator
 	 */
 	public GameConfigurator ()
 	{
+		mSystemsTracker = new SystemsTracker();
 		mEngine = new Engine();
+		mBallMap = new HashMap<>();
+		mHole = null;
 	}
 
 	/**
@@ -30,7 +34,7 @@ public class GameConfigurator
 	 */
 	public EntityFactory entityFactory()
 	{
-
+		return new EntityFactory (mSystemsTracker);
 	}
 
 	/**
@@ -39,7 +43,13 @@ public class GameConfigurator
 	 */
 	public Game game()
 	{
+		if (mBallMap.size() < 1)
+			throw new IllegalStateException ("there are no players/balls");
+		if (mHole == null)
+			throw new IllegalStateException ("the hole is not set");
 
+		addAllSystems();
+		return new Game (mEngine, mBallMap, mHole);
 	}
 
 	/**
@@ -50,7 +60,9 @@ public class GameConfigurator
 	 */
 	public void addBall (Player p, Ball b)
 	{
-
+		if (mBallMap.containsKey (p))
+			throw new IllegalArgumentException ("player " + p + " maps to a ball already");
+		mBallMap.put (p, b);
 	}
 
 	/**
@@ -59,7 +71,7 @@ public class GameConfigurator
 	 */
 	public void setHole (Hole h)
 	{
-
+		mHole = h;
 	}
 
 	/**
@@ -69,7 +81,17 @@ public class GameConfigurator
 	 */
 	public void addEntities (EntityFactory e, int count)
 	{
+		for (int cAdd = 0; cAdd < count; ++cAdd)
+			mEngine.addEntity (e.produce());
+	}
 
+	/**
+	 * adds all systems tracked by the systems tracker to the engine
+	 */
+	private void addAllSystems()
+	{
+		for (EntitySystem es : mSystemsTracker.systemsInUse())
+			mEngine.addSystem (es);
 	}
 
 	/** mapping of players to their balls */

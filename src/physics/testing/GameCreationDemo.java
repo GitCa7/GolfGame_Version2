@@ -1,15 +1,14 @@
 package physics.testing;
 
-import com.badlogic.ashley.core.Engine;
 import physics.components.ComponentFactory;
 import physics.constants.CompoMappers;
 import physics.entities.Ball;
 import physics.entities.EntityFactory;
 import physics.entities.Hole;
-import physics.logic.ComponentBundle;
-import physics.logic.Game;
-import physics.logic.GameConfigurator;
-import physics.logic.Player;
+import framework.ComponentBundle;
+import framework.Game;
+import framework.GameConfigurator;
+import framework.Player;
 import physics.systems.EntitySystemFactory;
 
 /**

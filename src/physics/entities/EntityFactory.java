@@ -1,7 +1,7 @@
 package physics.entities;
 
 import com.badlogic.ashley.core.Entity;
-import physics.logic.ComponentBundle;
+import framework.ComponentBundle;
 import physics.systems.SystemsTracker;
 
 import java.util.ArrayList;
@@ -16,6 +16,14 @@ import java.util.ArrayList;
  */
 public class EntityFactory
 {
+
+	/**
+	 * @param tracker the systems tracker used by a superior class (i.e. GameConfigurator)
+	 */
+	public EntityFactory (SystemsTracker tracker)
+	{
+		mTrackSystems = tracker;
+	}
 
 	/**
 	 *
@@ -56,15 +64,6 @@ public class EntityFactory
 	public void removeComponents (ComponentBundle ... c)
 	{
 
-	}
-
-	/**
-	 *
-	 * @param tracker the physics.systems tracker used by a superior class (i.e. GameConfigurator)
-	 */
-	protected EntityFactory (SystemsTracker tracker)
-	{
-		mTrackSystems = tracker;
 	}
 
 

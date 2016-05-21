@@ -1,6 +1,6 @@
 package physics.systems;
 
-import physics.logic.ComponentBundle;
+import framework.ComponentBundle;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,40 +13,33 @@ import java.util.HashSet;
  */
 public class SystemsTracker
 {
-
+	/**
+	 * default constructor initializing fields
+	 */
 	public SystemsTracker()
 	{
-		//@TODO implement
+		mSystemsInUse = new HashSet<>();
 	}
 
 	/**
-	 *
-	 * @return A list of newly constructed physics.systems. For each component bundle stored, there is one system in this list.
+	 * @return A list of newly constructed systems. For each component bundle stored, there is one system in this list.
 	 */
 	public ArrayList<EntitySystem> systemsInUse()
 	{
-		//@TODO implement
-		return null;
+		ArrayList<EntitySystem> using = new ArrayList<>();
+		for (ComponentBundle cb : mSystemsInUse)
+			using.add (cb.system());
+		return using;
 	}
 
 	/**
-	 * @param c a given component bundle
-	 * @return true if there is a component bundle stored with the same identifier as c
-	 */
-	public boolean hasComponent (ComponentBundle c)
-	{
-		//@TODO implement
-		return false;
-	}
-
-	/**
-	 * adds b to the set of component bundles, representing the physics.systems in use.
-	 * Precondition: no component bundle with the same identifier as b is stored already.
+	 * adds b to the set of component bundles, representing the systems in use or does not do anything if such a system
+	 * was added previously.
 	 * @param b component bundle to track
 	 */
 	public void track (ComponentBundle b)
 	{
-
+		mSystemsInUse.add (b);
 	}
 
 
