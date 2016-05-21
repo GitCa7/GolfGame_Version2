@@ -20,6 +20,7 @@ public class SolidIntersection
 		mS1 = s1;
 		mS2 = s2;
 		mIntersection = null;
+		mIntersection1 = null;
 		mHasIntersection = false;
 	}
 
@@ -52,6 +53,7 @@ public class SolidIntersection
 	public void checkForIntersection()
 	{
 		int cVertex = 0;
+		int cVertex1 = 0;
 		mHasIntersection = false;
 		//iterate over vertices of s1
 		while (cVertex < mS1.getVertices().length && !mHasIntersection)
@@ -65,6 +67,18 @@ public class SolidIntersection
 			//increment
 			++cVertex;
 		}
+
+		while (cVertex < mS2.getVertices().length && !mHasIntersection)
+		{
+			//if vertex is within s2: set
+			if (mS1.isWithin (mS2.getVertices()[cVertex]))
+			{
+				mHasIntersection = true;
+				mIntersection1 = mS2.getVertices()[cVertex];
+			}
+			//increment
+			++cVertex1;
+		}
 	}
 
 	/**
@@ -77,7 +91,13 @@ public class SolidIntersection
 			checkForIntersection();
 	}
 
+	public boolean ismHasIntersection(){return mHasIntersection;}
+	public Vector3 getMIntersection(){return mIntersection;}
+	public Vector3 getMIntersection1(){return mIntersection1;}
+
+
 	private Solid mS1, mS2;
 	private Vector3 mIntersection;
+	private Vector3 mIntersection1;
 	private boolean mHasIntersection;
 }
