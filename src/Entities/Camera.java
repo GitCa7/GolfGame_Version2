@@ -80,6 +80,14 @@ public class Camera {
 		return pitch;
 	}
 
+	public void setYaw(float val) {
+		yaw = val;
+	}
+	
+	public void setPitch(float val) {
+		pitch = val;
+	}
+
 	public float getYaw() {
 		return yaw;
 	}

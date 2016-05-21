@@ -13,7 +13,7 @@ public class Triangle extends Shape
     /**  number of vertices of triangle */
     public static final int VERTICES = 3;
 
-
+   
     /**
      * parametric constructor
      * @param vertices vertices of triangle
@@ -23,4 +23,6 @@ public class Triangle extends Shape
     {
         super (vertices, border);
     }
+    
+    
 }

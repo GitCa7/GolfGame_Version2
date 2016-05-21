@@ -7,7 +7,7 @@ import com.badlogic.ashley.core.Entity;
 import ModelBuildComponents.TexturedModel;
 
 
-public class gameEntity extends Entity {
+public class gameEntity {
 
 	private TexturedModel model;
 	private Vector3f position;
@@ -17,7 +17,6 @@ public class gameEntity extends Entity {
 	public gameEntity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ,
 			float scale) {
 		this.model = model;
-		//Translate the components into Coordinates
 		this.position = position;
 		this.rotX = rotX;
 		this.rotY = rotY;
@@ -50,7 +49,6 @@ public class gameEntity extends Entity {
 	}
 
 	public void setPosition(Vector3f position) {
-		//Translate the components into Coordinates
 		this.position = position;
 	}
 
@@ -85,9 +83,5 @@ public class gameEntity extends Entity {
 	public void setScale(float scale) {
 		this.scale = scale;
 	}
-	
-	
-	
-	
-	
+
 }

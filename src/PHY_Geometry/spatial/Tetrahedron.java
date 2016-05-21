@@ -61,7 +61,7 @@ public class Tetrahedron extends Solid
      * @param p a point, given by vector
      * @return true if p is within the tetrahedron
      */
-    public boolean isWithin (Vector3 p)
+    public boolean isWithin(Vector3 p)
     {
 		//check plane equation: always positive for inward pointing normals => true
 		for (Plane tPlane : enclosingInwardPlanes())

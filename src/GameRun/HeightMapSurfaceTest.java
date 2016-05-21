@@ -9,6 +9,8 @@ import org.lwjgl.util.vector.Vector3f;
 import Entities.Ball;
 import Entities.Camera;
 import Entities.Light;
+import Entities.Obstacle;
+import Entities.entity;
 import Entities.gameEntity;
 import LogicAndExtras.MousePicker;
 import ModelBuildComponents.ModelTexture;
@@ -19,6 +21,7 @@ import RenderComponents.Loader;
 import RenderComponents.MasterRenderer;
 import RenderComponents.OBJLoader;
 import TerrainComponents.Terrain;
+
 
 
 
@@ -54,9 +57,9 @@ public class HeightMapSurfaceTest {
 			createSurrondings();
 			setUpTerrain();
 			setUpScene();
-			//setUpEntities();
+			setUpEntities();
 			
-			//mousePick = new MousePicker(cam, renderer.getProjectionMatrix(), terrains.get(0));
+			mousePick = new MousePicker(cam, renderer.getProjectionMatrix(), terrains.get(0));
 			//mousePick2 = new MousePicker(cam, renderer.getProjectionMatrix(), terrains.get(1));
 			
 			startGame();
@@ -86,23 +89,26 @@ public class HeightMapSurfaceTest {
 	        }
 		}
 		
-		/*
+		
 		public void setUpEntities()	{
-			gameEntity golfBall = new Ball(0, 0, null);
-			entities.add(golfBall);
+			
+			gameEntity cube = new Obstacle(new Vector3f(4,20,-455), 3);
+			entities.add(cube);
 			
 		}
-		*/
+		
 	   
 	    public void setUpTerrain(){
-	    	Terrain terrain = new Terrain(0,0,"heightmap");
-	        Terrain terrain2 = new Terrain(1,0,"heightmap");
+	    	Terrain terrain = new Terrain(0,0);
+	        //Terrain terrain2 = new Terrain(1,0,"heightmap");
 	        terrains.add(terrain);
-	        terrains.add(terrain2);
+	        //terrains.add(terrain2);
 	    }
 	    
 	   public void setUpScene()	{
-		   cam.setPosition(new Vector3f(4,20,-422));
+		   cam.setPosition(new Vector3f(-400,400,400));
+		   cam.setPitch(25);
+		   
 		   light = new Light(new Vector3f(20000,20000,2000),new Vector3f(1,1,1));
 	   }
 	    
@@ -123,15 +129,16 @@ public class HeightMapSurfaceTest {
 	        	   renderer.processTerrain(terrain);
 	           }
 	           
-	           
-	           //mousePick.update();
-	           //mousePick2.update();
 	           /*
+	           mousePick.update();
+	           //mousePick2.update();
+	           
 	           Vector3f Vec = mousePick.getCurrentTerrainPoint();
-	           Vector3f Vec2 = mousePick2.getCurrentTerrainPoint();
+	           //Vector3f Vec2 = mousePick2.getCurrentTerrainPoint();
 	           if(mousePick.getCurrentTerrainPoint() != null)	{
-	        	   System.out.println(Vec.x + "\t|\t" + Vec.y + "\t|\t" + Vec.z);
+	        	   //System.out.println(Vec.x + "\t|\t" + Vec.y + "\t|\t" + Vec.z);
 	           }
+	           
 	           if(mousePick2.getCurrentTerrainPoint() != null)	{
 	        	   System.out.println(Vec2.x + "\t|\t" + Vec2.y + "\t|\t" + Vec2.z);
 	           }
