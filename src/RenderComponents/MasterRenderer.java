@@ -112,7 +112,7 @@ public class MasterRenderer {
     }
      
     public void prepare() {
-    	//System.out.println("Entities Size: " + entities.size());
+    	//System.out.println("Entities Size: " + physics.entities.size());
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         GL11.glClearColor(0.0f, 0f, 0.0f, 1);
