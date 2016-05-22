@@ -1,6 +1,6 @@
 package physics.components;
-
 import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.math.Vector3;
 
 /**
  * interface for classes producing physics.components
@@ -10,3 +10,6 @@ public interface ComponentFactory
 {
 	public Component produce();
 }
+
+
+

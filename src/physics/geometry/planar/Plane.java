@@ -10,6 +10,7 @@ import physics.constants.GlobalObjects;
  * @autor martin
  * created 10.05.2016
  */
+
 public class Plane
 {
 
@@ -60,6 +61,7 @@ public class Plane
 
 		mOffset = points[0];
 		setNormal (indep[0], indep[1]);
+		distance = mOffset.dot(mNormal);
 
 		if (!inPlane (points))
 			throw new IllegalArgumentException ("points lie in a 3d space");
@@ -114,7 +116,13 @@ public class Plane
 	{
 		mNormal = v1.cpy();
 		mNormal.crs (v2);
+		mNormal.nor();
 	}
 
+	public float getDistance(){return distance;}
+
+
+
 	private Vector3 mOffset, mNormal;
+	private float distance;
 }
