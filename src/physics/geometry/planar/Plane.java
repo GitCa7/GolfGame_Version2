@@ -10,6 +10,8 @@ import physics.constants.GlobalObjects;
  * @autor martin
  * created 10.05.2016
  */
+
+//norm normal force
 public class Plane
 {
 
@@ -114,7 +116,10 @@ public class Plane
 	{
 		mNormal = v1.cpy();
 		mNormal.crs (v2);
+		mNormal.nor();
 	}
+
+
 
 	private Vector3 mOffset, mNormal;
 }

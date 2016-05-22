@@ -1,5 +1,5 @@
-package physics.testing;
 
+package physics.testing;
 import com.badlogic.ashley.core.Engine;
 import physics.components.ComponentFactory;
 import physics.constants.CompoMappers;

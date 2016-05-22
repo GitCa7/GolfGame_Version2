@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.*;
 
 public class Force extends Vector3 implements Component
 {
-
 	public Force clone()
 	{
 		Force f = new Force();

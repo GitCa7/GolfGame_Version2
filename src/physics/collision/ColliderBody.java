@@ -7,20 +7,22 @@ import physics.geometry.spatial.Solid;
  * @autor martin
  * created 16.05.2016
  */
-public class ColliderBody<T extends Solid>
+public class ColliderBody extends ColliderSolid
 {
 	/**
 	 *
 	 * @param colliding body colliding
-	 * @param collidingPart solid physics.collision is occuring at
 	 */
-	public ColliderBody (Body colliding, Solid collidingPart)
+	public ColliderBody (Body colliding, ColliderSolid solidCollider)
 	{
+		super(solidCollider.getCollidingVector(), solidCollider.getCollidingSolid());
 		mColliding = colliding;
-		mCollidingPart = collidingPart;
+		mColliderSolid=solidCollider;
 	}
 
 	/**
+	 *
+	 *
 	 *
 	 * @return body colliding stored
 	 */
@@ -30,8 +32,9 @@ public class ColliderBody<T extends Solid>
 	 *
 	 * @return the solid physics.collision is occurring at
 	 */
-	public Solid getCollidingSolid() { return mCollidingPart; }
+	public ColliderSolid getColliderSolid(){return mColliderSolid;}
 
 	private Body mColliding;
-	private Solid mCollidingPart;
+	private ColliderSolid mColliderSolid;
+
 }

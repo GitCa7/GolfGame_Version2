@@ -11,7 +11,7 @@ import physics.geometry.spatial.Solid;
  * @autor martin
  * created 13.05.2016
  */
-public class ColliderEntity<T extends Solid> extends ColliderBody<T>
+public class ColliderEntity extends ColliderBody
 {
 	/**
 	 *
@@ -20,7 +20,7 @@ public class ColliderEntity<T extends Solid> extends ColliderBody<T>
 	 */
 	public ColliderEntity(Entity collidingEntity, ColliderBody collidingBody)
 	{
-		super (collidingBody.getCollidingBody(), collidingBody.getCollidingSolid());
+		super (collidingBody.getCollidingBody(), collidingBody.getColliderSolid());
 		mColliding = collidingEntity;
 
 		assert (Families.COLLIDING.matches (mColliding));
@@ -31,13 +31,12 @@ public class ColliderEntity<T extends Solid> extends ColliderBody<T>
 	 *
 	 * @return entitiy stored
 	 */
-	public Entity getCollidingEntity() { return mColliding; }
-
+	public Entity getColliding() { return mColliding; }
 	/**
 	 *
 	 * @return true if entity stored is actively involved in collisions, i.e. belongs to accelerable family
 	 */
-	public boolean isActive() { return Families.ACCELERABLE.matches (getCollidingEntity()); }
+	public boolean isActive() { return Families.ACCELERABLE.matches (getColliding()); }
 
 
 	private Entity mColliding;
