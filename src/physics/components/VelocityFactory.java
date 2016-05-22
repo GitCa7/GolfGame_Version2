@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Component;
 
 /**
  * Created by Alexander on 20.05.2016.
+ * Factory for producing Velocity objects.
  */
 public class VelocityFactory implements ComponentFactory {
 

@@ -45,6 +45,8 @@ public class BodyIntersectionDetector
 
 	/**
 	 * searches all pairs of body physics.components for an intersection
+	 * pairs the respepective components if the do collider in the form of Colliders
+	 * @return
 	 */
 	public ColliderPair checkForIntersection() {
 		Iterator<Solid> iB1 = mB1.iterator();
@@ -59,16 +61,15 @@ public class BodyIntersectionDetector
 					mHasIntersection=true;
 					ColliderSolid collidingPair = new ColliderSolid(intersection.getMIntersection(), s2);
 					ColliderSolid collidingPair1 = new ColliderSolid(intersection.getMIntersection1(), s1);
-					ColliderPair<ColliderPair> pair = new ColliderPair(collidingPair, collidingPair1);
 					ColliderBody bc1 = new ColliderBody(mB1, collidingPair);
 					ColliderBody bc2 = new ColliderBody(mB2, collidingPair1);
-
-					return new ColliderPair(collidingPair, collidingPair1);
+					mIntersection=new ColliderPair(bc1, bc2);
+					return mIntersection;
 
 				}
 			}
 		}
-		return new ColliderPair(null, null);
+		return null;
 	}
 
 	private Body mB1, mB2;

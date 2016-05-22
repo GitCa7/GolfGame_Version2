@@ -6,6 +6,7 @@ import physics.geometry.spatial.Solid;
 
 /**
  * Created by Alexander on 20.05.2016.
+ * Factory to produce bodies.
  */
 public class BodyFactory implements ComponentFactory {
 

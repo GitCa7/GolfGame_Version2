@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.*;
 
 /**
  * Created by Alexander on 20.05.2016.
+ * Factory for producing GravityForce objects.
  */
 public class GravityForceFactory implements ComponentFactory {
 

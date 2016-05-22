@@ -19,4 +19,3 @@ public class ColliderPair<E>
 
 	public E mFirst, mSecond;
 }
-//make this generic
