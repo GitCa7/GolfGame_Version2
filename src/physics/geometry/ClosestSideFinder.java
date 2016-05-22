@@ -61,6 +61,8 @@ public class ClosestSideFinder
 
     public float distance(Vector3 vector, Plane plane){
         float distance=vector.dot(plane.getNormal())- plane.getDistance();
+        if(distance<0)
+            distance=-1*distance;
         return distance;
     }
     private Solid mSides;
