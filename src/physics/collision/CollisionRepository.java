@@ -40,7 +40,7 @@ public class CollisionRepository
 
 		for (ColliderPair cp : mColliderPairs)
 		{
-			if (cp.hasEntity (e))
+			if (cp.hasEntity(e))
 				collisions.add (cp);
 		}
 		return collisions;
@@ -54,7 +54,7 @@ public class CollisionRepository
 	{
 		for (ColliderPair cp : mColliderPairs)
 		{
-			if (cp.hasEntity (e))
+			if (cp.hasEntity(e))
 				return true;
 		}
 

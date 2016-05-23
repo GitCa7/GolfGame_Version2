@@ -4,6 +4,7 @@ package physics.systems;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import physics.collision.ColliderEntity;
 import physics.collision.ColliderPair;
 import physics.collision.CollisionComputer;
 import physics.collision.CollisionDetector;
@@ -54,16 +55,16 @@ public class CollisionDetectionSystem extends EntitySystem
 	public void update (float dTime)
 	{
 		//detect collisions
-		ArrayList<ColliderPair> colliding = mDetect.getAnyColliding();
+		ArrayList<ColliderPair<ColliderEntity>> colliding = mDetect.getAnyColliding();
 		//for each physics.collision detected
 		for (ColliderPair collPair : colliding)
 		{
 			//if entity 1 is active
-			if (collPair.mFirst.isActive())
+			if (((ColliderEntity)collPair.mFirst).isActive())
 			{
 				//compute force excerted
-				Entity active = collPair.mFirst.getColliding();
-				CollisionComputer computeImpact = new CollisionComputer (active, collPair.mSecond.getColliding());
+				Entity active = ((ColliderEntity)collPair.mFirst).getColliding();
+				CollisionComputer computeImpact = new CollisionComputer (active, ((ColliderEntity)collPair.mSecond).getColliding());
 				Vector3 impact = computeImpact.collisionForce();
 
 				assert (CompoMappers.FORCE.has (active));
@@ -71,11 +72,11 @@ public class CollisionDetectionSystem extends EntitySystem
 				driving.add (impact);
 			}
 			//if entity 2 is active
-			if (collPair.mSecond.isActive())
+			if (((ColliderEntity)collPair.mSecond).isActive())
 			{
 				//copute force excerted
-				Entity active = collPair.mSecond.getColliding();
-				CollisionComputer computeImpact = new CollisionComputer (active, collPair.mFirst.getColliding());
+				Entity active =((ColliderEntity)collPair.mSecond).getColliding();
+				CollisionComputer computeImpact = new CollisionComputer (active, ((ColliderEntity)collPair.mFirst).getColliding());
 				Vector3 impact = computeImpact.collisionForce();
 
 				assert (CompoMappers.FORCE.has (active));
