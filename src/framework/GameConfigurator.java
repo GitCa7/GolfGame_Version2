@@ -2,7 +2,7 @@ package framework;
 
 import com.badlogic.ashley.core.Engine;
 import physics.entities.Ball;
-import physics.entities.EntityFactory;
+import framework.entities.EntityFactory;
 import physics.entities.Hole;
 import physics.systems.EntitySystem;
 import physics.systems.SystemsTracker;

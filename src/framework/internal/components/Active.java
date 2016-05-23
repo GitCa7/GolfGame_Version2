@@ -1,4 +1,4 @@
-package physics.components.internal;
+package framework.internal.components;
 
 import physics.components.Component;
 
