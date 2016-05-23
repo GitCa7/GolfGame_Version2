@@ -8,14 +8,14 @@ public class Camera {
 	private Vector3f position;
 	
 	
-	private float pitch = 10;
+	private float pitch = 20;
 	private float yaw = 0;
 	private float roll;
 
 	private float movemntSpeed = 2f;
 	
 	public Camera(){
-		position = new Vector3f(0,5,0);
+		position = new Vector3f(0,0,0);
 		
 	}
 
@@ -82,6 +82,10 @@ public class Camera {
 
 	public void setYaw(float val) {
 		yaw = val;
+	}
+	
+	public void invertPitch() {
+		this.pitch = -pitch;
 	}
 	
 	public void setPitch(float val) {

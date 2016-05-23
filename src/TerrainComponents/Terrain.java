@@ -13,11 +13,12 @@ import com.badlogic.gdx.math.Vector3;
 
 import ModelBuildComponents.ModelTexture;
 import ModelBuildComponents.RawModel;
-import PHY_Geometry.planar.Line;
-import PHY_Geometry.planar.Triangle;
-import PHY_Geometry.spatial.Tetrahedron;
-import PHY_Geometry.spatial.TetrahedronBuilder;
 import RenderComponents.Loader;
+import physics.geometry.planar.Line;
+import physics.geometry.planar.Triangle;
+import physics.geometry.planar.TriangleBuilder;
+import physics.geometry.spatial.Tetrahedron;
+import physics.geometry.spatial.TetrahedronBuilder;
 
 
 
@@ -27,7 +28,7 @@ public class Terrain {
 	private RawModel model;
 
 	private static final float SIZE = 1000;
-    
+    private static final int triNumBorder = 43520;
     private static final float MAX_HEIGHT = 80;
     private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
     
@@ -254,7 +255,7 @@ public class Terrain {
         Vector3f normal;
         for(int i=0;i<VERTEX_COUNT;i++){
             for(int j=0;j<VERTEX_COUNT;j++){
-                vertices[vertexPointer*3] = -((float)j * 0.9f)/((float)VERTEX_COUNT - 1) * SIZE;
+                vertices[vertexPointer*3] = -((float)j)/((float)VERTEX_COUNT - 1) * SIZE;
                 
                 if(heightMapUse == true)	{
                 	vertices[vertexPointer*3+1] = getHeight(j, i, image);
@@ -425,60 +426,86 @@ public class Terrain {
     }
     
     
-    public Tetrahedron[] getAllTetrahedons()	{
+    public void getAllTetrahedons()	{
     	
     	float newPointDist = 5f;
     	
     	//need to go thoruhall triangles of the terrain
     	Triangle[] allTri = getAllTris();
+    	
     	Vector3[] temp;
-    	Vector3 a,b,c,dNew;
+    	Line[] tempLines;
+    	Vector3 a,b,c,dNew,eNew,fNew;
     	
     	TetrahedronBuilder TetraBuild;
-    	Tetrahedron[] TetraList = new Tetrahedron[allTri.length];
+    	Tetrahedron[] TetraList = new Tetrahedron[triNumBorder * 3];
     	
     	int offset = 0;
+    	Vector3 lineA,lineB,lineC;
     	
     	
-    	
-    	for(int i = 0; i < allTri.length; i++)	{
+    	for(int i = 0; i < triNumBorder; i++)	{
+    		
+    		//System.out.println("Number: " + i + "\t" + allTri[i]);
     		
     		temp = allTri[i].getVertices();
+    		tempLines = allTri[i].getLine();
 			a = temp[0];
 			b = temp[1];
 			c = temp[2];
     		
-    		if(i % 2 == 0)	{
-    			//if even => point with smaller distance to origin is b
-        		//There we need to create another point slightly below
-
-    			//Now get the right point
-    			if(a.dst(b) < a.dst(c))	{
-    				// We now know that we need to create a point under b to create the Tetrahedon
-    				dNew = new Vector3(b.x, (b.y - newPointDist) , b.z);
-    			}
-    			else	{
-    				dNew = new Vector3(c.x, (c.y - newPointDist) , c.z);
-    			}
-    		}
-    		else	{
-    			//if uneven => point with greater distance to origin is b
-        		//There we need to create another point slightly below
-
-    			//Now get the right point
-    			if(a.dst(b) > a.dst(c))	{
-    				// We now know that we need to create a point under b to create the Tetrahedon
-    				dNew = new Vector3(b.x, (b.y - newPointDist) , b.z);
-    			}
-    			else	{
-    				dNew = new Vector3(c.x, (c.y - newPointDist) , c.z);
-    			}
-    		}
-    		TetraBuild = new TetrahedronBuilder(new Vector3[]{a,b,c,dNew});
+			
+			lineA = tempLines[0].direction();
+			lineB = tempLines[1].direction();
+			lineC = tempLines[2].direction();
+			/*
+			System.out.println("Line1: \t" + lineA.x + "\t" + lineA.y + "\t" + lineA.z);
+			System.out.println("Line2: \t" + lineB.x + "\t" + lineB.y + "\t" + lineB.z);
+			System.out.println("Line3: \t" + lineC.x + "\t" + lineC.y + "\t" + lineC.z);
+			
+			System.out.println("Point1: \t" + a.x + "\t" + a.y + "\t" + a.z);
+			System.out.println("Point2: \t" + b.x + "\t" + b.y + "\t" + b.z);
+			System.out.println("Point3: \t" + c.x + "\t" + c.y + "\t" + c.z);
+			
+			System.out.println("");
+			
+			
+			
+			if(lineA.dot(lineB) == 0)	{
+				dNew = new Vector3(b.x, b.y - newPointDist, b.z);
+			}
+			else if(lineB.dot(lineC) == 0)	{
+				dNew = new Vector3(c.x, c.y - newPointDist, c.z);
+			}
+			else{
+				dNew = new Vector3(a.x, a.y - newPointDist, a.z);
+			}
+			*/
+			
+			dNew = new Vector3(a.x, a.y - newPointDist, a.z);
+			eNew = new Vector3(b.x, b.y - newPointDist, b.z);
+			fNew = new Vector3(c.x, c.y - newPointDist, c.z);
+			//First Tetraeder ABCD
+			//Second Tetraeder CBFD
+			//Third Tetraeder BEFD
+			
+			
+			
+			
+			
+			TetraBuild = new TetrahedronBuilder(new Vector3[]{a,b,c,dNew});
     		TetraList[offset] = TetraBuild.build();
-    		offset++;
+    		
+    		TetraBuild = new TetrahedronBuilder(new Vector3[]{c,b,fNew,dNew});
+    		TetraList[offset+1] = TetraBuild.build();
+    		
+    		TetraBuild = new TetrahedronBuilder(new Vector3[]{b,eNew,fNew,dNew});
+    		TetraList[offset+2] = TetraBuild.build();
+    		offset+=3;
     	}
-    	return TetraList;
+    	
+    	//return TetraList;
+    	
     	
     }
     
@@ -490,6 +517,7 @@ public class Terrain {
     	Vector3f start, middle, end;
     	Vector3 startTemp, middleTemp, endTemp;
     	Triangle tempTri;
+    	TriangleBuilder build;
     	Triangle[] list = new Triangle[indices.length / 3];
     	
     	Vector3[] tempVecAray;
@@ -497,7 +525,7 @@ public class Terrain {
     	Line[] tempLineArray;
     	
     	int offset = 0;
-    	for(int i = 0; i < indices.length - 3; i+=3)	{
+    	for(int i = 0; i < list.length; i+=3)	{
     		
     		start = leafs.get(indices[i]).getCoordinates();
     		startTemp = new Vector3(start.x, start.y, start.z);
@@ -513,9 +541,15 @@ public class Terrain {
     		line2 = new Line(middleTemp, endTemp);
     		line3 = new Line(endTemp, startTemp);
     		
-    		tempLineArray = new Line[]{line1, line2, line3};
-    		
-    		tempTri = new Triangle(tempVecAray, tempLineArray);
+    		//tempLineArray = new Line[]{line1, line2, line3};
+    		/*
+    		System.out.println("New Triangle constructed");
+    		System.out.println("Point1: \t" + startTemp.x + "\t" + startTemp.y + "\t" + startTemp.z);
+			System.out.println("Point2: \t" + middleTemp.x + "\t" + middleTemp.y + "\t" + middleTemp.z);
+			System.out.println("Point3: \t" + endTemp.x + "\t" + endTemp.y + "\t" + endTemp.z);
+    		*/
+    		build = new TriangleBuilder(tempVecAray);
+    		tempTri = build.build();
     		list[offset] = tempTri;
     		offset++;
     	}

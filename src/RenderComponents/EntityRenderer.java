@@ -3,7 +3,6 @@ package RenderComponents;
 import java.util.List;
 import java.util.Map;
 
-import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -16,6 +15,8 @@ import ModelBuildComponents.ModelTexture;
 import ModelBuildComponents.RawModel;
 import ModelBuildComponents.TexturedModel;
 import ShaderPackage.StaticShader;
+
+
 
 
 
@@ -32,6 +33,7 @@ public class EntityRenderer {
  
     public void render(Map<TexturedModel, List<gameEntity>> entities) {
         for (TexturedModel model : entities.keySet()) {
+        	
             preparetexturedModel(model);
             List<gameEntity> batch = entities.get(model);
             for (gameEntity gameEntity : batch) {
@@ -44,6 +46,7 @@ public class EntityRenderer {
     }
  
     private void preparetexturedModel(TexturedModel model) {
+    	
         RawModel rawModel = model.getRawModel();
         GL30.glBindVertexArray(rawModel.getID());
         GL20.glEnableVertexAttribArray(0);

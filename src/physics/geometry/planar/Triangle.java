@@ -13,7 +13,9 @@ public class Triangle extends Shape
     /**  number of vertices of triangle */
     public static final int VERTICES = 3;
 
-   
+    private Line[] lines;
+    private Vector3[] vertices;
+
     /**
      * parametric constructor
      * @param vertices vertices of triangle
@@ -22,6 +24,21 @@ public class Triangle extends Shape
     public Triangle (Vector3[] vertices, Line[] border)
     {
         super (vertices, border);
+        lines = border;
+        this.vertices = vertices;
+    }
+    
+    /*Robin Edit
+     * Just going to place this here because it would be convenient to read out the lines for the terrain Tetraeder
+     * Let me know of thats going to be a problem
+     */
+    
+    public Line[] getLine()	{
+    	return lines;
+    }
+    
+    public Vector3[] getVertices()	{
+    	return vertices;
     }
     
     

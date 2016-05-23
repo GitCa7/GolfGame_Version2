@@ -25,6 +25,7 @@ import de.matthiasmann.twl.utils.PNGDecoder;
 import de.matthiasmann.twl.utils.PNGDecoder.Format;
 
 
+
 public class Loader {
 	
 	private List<Integer> vaos = new ArrayList<Integer>();
@@ -63,7 +64,7 @@ public class Loader {
 		
 		
 		for(int i = 0; i < textureFiles.length; i++)	{
-			TextureData data = decodeTextureFile("res//SkyBox1/" + textureFiles[i] + ".png");
+			TextureData data = decodeTextureFile("res/SkyBox1/" + textureFiles[i] + ".png");
 			GL11.glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL11.GL_RGBA, data.getWidth(), data.getHeight(), 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, data.getBuffer());
 		}
 		

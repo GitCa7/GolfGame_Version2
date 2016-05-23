@@ -1,34 +1,33 @@
 package GameRun;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import com.badlogic.gdx.math.Vector3;
-
-import Entities.FollowCamera;
 import Entities.FollowCamera;
 import Entities.GolfBall;
 import Entities.Light;
-import Entities.Obstacle;
-import Entities.crate;
 import Entities.gameEntity;
+import GUIs.GUITexture;
 import LogicAndExtras.MousePicker;
 import ModelBuildComponents.ModelTexture;
 import ModelBuildComponents.RawModel;
 import ModelBuildComponents.TexturedModel;
 import RenderComponents.DisplayManager;
+import RenderComponents.GuiRenderer;
 import RenderComponents.Loader;
 import RenderComponents.MasterRenderer;
 import RenderComponents.OBJLoader;
 import TerrainComponents.Terrain;
 
-public class SurfaceTest {
+public class TestWithGUI {
 	
-	//For rendering and displaying the Scene
-			MasterRenderer renderer;
+	MasterRenderer renderer;
+	GuiRenderer guiRenderer;
 			
 			//For loading Object Data
 			Loader loader;
@@ -37,6 +36,7 @@ public class SurfaceTest {
 			ArrayList<GolfBall> golfBalls;
 			ArrayList<gameEntity> entities;
 			ArrayList<gameEntity> surrondings;
+			List<GUITexture> GuiElements;
 			Terrain[][] terrains;
 			FollowCamera cam;
 			Light light;
@@ -44,19 +44,21 @@ public class SurfaceTest {
 			
 			
 			
-			public SurfaceTest()	{
+			public TestWithGUI()	{
 				DisplayManager.createDisplay();
 				loader = new Loader();
 				renderer = new MasterRenderer(loader);
+				guiRenderer = new GuiRenderer(loader);
 				golfBalls = new ArrayList<GolfBall>();
 				entities = new ArrayList<gameEntity>();
 				surrondings = new ArrayList<gameEntity>();
 				terrains = new Terrain[2][2];
-				
+				GuiElements = new ArrayList<GUITexture>();
 				
 				setUpEntities();
 				setUpTerrain();
 				setUpScene();
+				setUpGuis();
 				createSurrondings();
 				
 				
@@ -101,6 +103,15 @@ public class SurfaceTest {
 				//System.out.println("ID: " + entities.get(0));
 			}
 			
+			public void setUpGuis()	{
+				
+				GUITexture forceBar = new GUITexture(loader.loadTexture("golf-club"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
+				//cam.setPosition(new Vector3f(4,20,-422));
+				//System.out.println("ID: " + golfball.getModel().getRawModel().getID());
+				GuiElements.add(forceBar);
+				//System.out.println("ID: " + entities.get(0));
+			}
+			
 			public void displayAllEntites()	{
 				System.out.println("Size Entities:" + entities.size());
 				System.out.println("Size Surronding:" + surrondings.size());
@@ -136,7 +147,7 @@ public class SurfaceTest {
 		    	//terrains[0][0].leafs.get(0).printCoord();
 		    	//terrains[0][0].leafs.get(128).printCoord();
 		    	//terrains[0][0].leafs.get(1).printCoord();
-		    	terrains[0][0].getAllTetrahedons();
+		    	//terrains[0][0].getAllTetrahedons();
 		    }
 		    
 		   public void setUpScene()	{
@@ -175,20 +186,10 @@ public class SurfaceTest {
 			    	}
 		           
 		           
-		           //mousePick.update();
-		           //mousePick2.update();
+		        	guiRenderer.render(GuiElements);
 		           
-		           //Vector3f Vec = mousePick.getCurrentTerrainPoint();
-		           //Vector3f Vec2 = mousePick2.getCurrentTerrainPoint();
-		           /*
-		           if(mousePick.getCurrentTerrainPoint() != null)	{
-		        	   //System.out.println(Vec.x + "\t|\t" + Vec.y + "\t|\t" + Vec.z);
-		           }
 		           
-		           if(mousePick2.getCurrentTerrainPoint() != null)	{
-		        	   System.out.println(Vec2.x + "\t|\t" + Vec2.y + "\t|\t" + Vec2.z);
-		           }
-		           */
+		           
 		           renderer.render(light, cam);
 		           DisplayManager.updateDisplay();
 		       }
@@ -200,7 +201,7 @@ public class SurfaceTest {
 		    
 		   
 		   public static void main(String[] args)	{
-			   SurfaceTest test = new SurfaceTest();
+			   TestWithGUI test = new TestWithGUI();
 		   }
 		   
 

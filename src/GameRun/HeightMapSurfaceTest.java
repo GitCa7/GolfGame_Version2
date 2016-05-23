@@ -66,7 +66,7 @@ public class HeightMapSurfaceTest {
 			createSurrondings();
 			setUpTerrain();
 			setUpScene();
-			setUpEntities();
+			//setUpEntities();
 			
 			mousePick = new MousePicker(cam, renderer.getProjectionMatrix(), terrains.get(0));
 			//mousePick2 = new MousePicker(cam, renderer.getProjectionMatrix(), terrains.get(1));
@@ -96,11 +96,12 @@ public class HeightMapSurfaceTest {
 	        Random ran = new Random();
 	        for(int i = 0; i< 100; i++)	{
 	        	
-	        	surrondings.add(new gameEntity(grassTextModel, new Vector3(ran.nextFloat() * 800 - 400, 3, ran.nextFloat() * -600), 180, 0, 0, 3));
-	        	surrondings.add(new gameEntity(fernTextModel, new Vector3(ran.nextFloat() * 800 - 400, 0, ran.nextFloat() * -600), 0, 0, 0, 3));
+	        	surrondings.add(new gameEntity(grassTextModel, new Vector3f(ran.nextFloat() * 800 - 400, 3, ran.nextFloat() * -600), 180, 0, 0, 3));
+	        	surrondings.add(new gameEntity(fernTextModel, new Vector3f(ran.nextFloat() * 800 - 400, 0, ran.nextFloat() * -600), 0, 0, 0, 3));
 	        }
 		}
 		
+		/*
 <<<<<<< HEAD
 		
 		public void setUpEntities()	{
@@ -111,7 +112,7 @@ public class HeightMapSurfaceTest {
 		}
 		
 =======
-
+*//*
 		public void setUpEntities ()
 		{
 			gameEntity golfBall = new Ball();
@@ -138,7 +139,7 @@ public class HeightMapSurfaceTest {
 			modelEngine.addSystem (fApplying);
 		}
 >>>>>>> origin/master
-	   
+	   */
 	    public void setUpTerrain(){
 	    	Terrain terrain = new Terrain(0,0);
 	        //Terrain terrain2 = new Terrain(1,0,"heightmap");
@@ -169,15 +170,13 @@ public class HeightMapSurfaceTest {
 	           for(Terrain terrain:terrains)	{
 	        	   renderer.processTerrain(terrain);
 	           }
-<<<<<<< HEAD
-	           
-=======
+
 
 			   modelEngine.update(1);
 	           
 	           //mousePick.update();
 	           //mousePick2.update();
->>>>>>> origin/master
+
 	           /*
 	           mousePick.update();
 	           //mousePick2.update();
