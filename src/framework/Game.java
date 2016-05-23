@@ -1,4 +1,4 @@
-package physics.logic;
+package framework;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.math.Vector3;
@@ -44,6 +44,14 @@ public class Game
 	 * @throws some exception
 	 */
 	public Ball getBall (Player p)
+	{
+
+	}
+
+	/**
+	 * @return the hole entity set for this game
+	 */
+	public Hole getHole()
 	{
 
 	}

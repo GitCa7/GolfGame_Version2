@@ -24,11 +24,12 @@ public class CollisionDetector
 	 *
 	 * @return a collider for each unordered pair of (active|passive) or (active/active) physics.entities
 	 */
-	public ArrayList<ColliderPair> getAnyColliding()
+	public ArrayList<ColliderPair<ColliderEntity>> getAnyColliding()
 	{
 		//clone sets
 		HashSet<BodyPair> currentBodies = (HashSet<BodyPair>) mAll.clone();
-		ArrayList<ColliderPair> colliding = new ArrayList<ColliderPair>();
+
+		ArrayList<ColliderPair<ColliderEntity>> colliding = new ArrayList<>();
 
 		//for every active|all pair check for physics.collision
 		for (BodyPair activeBody : mActive)
@@ -40,7 +41,13 @@ public class CollisionDetector
 				//@TODO store intersection detectors permanently
 				BodyIntersectionDetector checkBodies = new BodyIntersectionDetector (activeBody.mBody, passiveBody.mBody);
 				if (checkBodies.doIntersect())
-					colliding.add (checkBodies.intersection());
+					cPair = checkBodies.getBodyCollision();
+					ColliderBody cb1 = cPair.getFirst();
+					ColliderBody cb2 = cPair.getSecond();
+					ColliderEntity ec1 = new ColliderEntity (activeBody.mEntity,cb1);
+					ColliderEntity ec2 = new ColliderEntity (passiveBody.mEntity, cb2);
+					ColliderPair<ColliderEntity> ePair = new ColliderPair<> (ec1, ec2);
+					colliding.add (ePair);
 			}
 		}
 
@@ -76,4 +83,5 @@ public class CollisionDetector
 	}
 
 	private HashSet<BodyPair> mActive, mAll;
+	private ColliderPair<ColliderBody> cPair;
 }

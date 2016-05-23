@@ -1,7 +1,8 @@
 package physics.geometry.spatial;
 
-import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Vector3;
+import physics.collision.ColliderPair;
+import physics.collision.ColliderSolid;
 
 /**
  * class determining intersections between two solids
@@ -52,6 +53,7 @@ public class SolidIntersection
 	 */
 	public void checkForIntersection()
 	{
+		solidCollision=new ColliderPair<ColliderSolid>(cS1,cS2);
 		int cVertex = 0;
 		int cVertex1 = 0;
 		mHasIntersection = false;
@@ -63,18 +65,20 @@ public class SolidIntersection
 			{
 				mHasIntersection = true;
 				mIntersection = mS1.getVertices()[cVertex];
+				cS1 =new ColliderSolid(mIntersection,mS2);
+				solidCollision.setFirst(cS1);
 			}
 			//increment
 			++cVertex;
 		}
 
-		while (cVertex < mS2.getVertices().length && !mHasIntersection)
-		{
+		while (cVertex < mS2.getVertices().length && !mHasIntersection) {
 			//if vertex is within s2: set
-			if (mS1.isWithin (mS2.getVertices()[cVertex]))
-			{
+			if (mS1.isWithin(mS2.getVertices()[cVertex])) {
 				mHasIntersection = true;
 				mIntersection1 = mS2.getVertices()[cVertex];
+				cS2 = new ColliderSolid(mIntersection1, mS1);
+				solidCollision.setSecond(cS2);
 			}
 			//increment
 			++cVertex1;
@@ -94,8 +98,11 @@ public class SolidIntersection
 	public boolean ismHasIntersection(){return mHasIntersection;}
 	public Vector3 getMIntersection(){return mIntersection;}
 	public Vector3 getMIntersection1(){return mIntersection1;}
+	public ColliderPair<ColliderSolid> getSolidCollision(){return solidCollision;}
 
-
+	private ColliderPair<ColliderSolid> solidCollision;
+	private ColliderSolid cS1;
+	private ColliderSolid cS2;
 	private Solid mS1, mS2;
 	private Vector3 mIntersection;
 	private Vector3 mIntersection1;

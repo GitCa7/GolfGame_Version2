@@ -45,8 +45,10 @@ public class BodyIntersectionDetector
 
 	/**
 	 * searches all pairs of body physics.components for an intersection
+	 * pairs the respepective components if the do collider in the form of Colliders
+	 * @return
 	 */
-	public ColliderPair checkForIntersection() {
+	public void checkForIntersection() {
 		Iterator<Solid> iB1 = mB1.iterator();
 		while (iB1.hasNext()) {
 			Solid s1 = iB1.next();
@@ -57,21 +59,21 @@ public class BodyIntersectionDetector
 				intersection.checkForIntersection();
 				if (intersection.ismHasIntersection()) {
 					mHasIntersection=true;
-					ColliderSolid collidingPair = new ColliderSolid(intersection.getMIntersection(), s2);
-					ColliderSolid collidingPair1 = new ColliderSolid(intersection.getMIntersection1(), s1);
-					ColliderPair<ColliderPair> pair = new ColliderPair(collidingPair, collidingPair1);
-					ColliderBody bc1 = new ColliderBody(mB1, collidingPair);
-					ColliderBody bc2 = new ColliderBody(mB2, collidingPair1);
-
-					return new ColliderPair(collidingPair, collidingPair1);
-
+					sPair = intersection.getSolidCollision();
+					ColliderSolid cS1 = sPair.getFirst();
+					ColliderSolid cS2 = sPair.getSecond();
+					ColliderBody bc1 = new ColliderBody(mB1, cS1);
+					ColliderBody bc2 = new ColliderBody(mB2, cS2);
+					mIntersection=new ColliderPair(bc1, bc2);
 				}
 			}
 		}
-		return new ColliderPair(null, null);
 	}
 
+	public ColliderPair<ColliderBody> getBodyCollision(){return mIntersection;}
+
+	private ColliderPair<ColliderSolid> sPair;
 	private Body mB1, mB2;
 	private boolean mHasIntersection;
-	private ColliderPair mIntersection;
+	private ColliderPair <ColliderBody> mIntersection;
 }

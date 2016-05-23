@@ -1,4 +1,4 @@
-package physics.logic;
+package framework;
 
 import com.badlogic.ashley.core.Component;
 import physics.components.ComponentFactory;

@@ -20,6 +20,7 @@ public class ColliderBody extends ColliderSolid
 		mColliderSolid=solidCollider;
 	}
 
+
 	/**
 	 *
 	 *

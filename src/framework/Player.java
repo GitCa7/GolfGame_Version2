@@ -1,4 +1,4 @@
-package physics.logic;
+package framework;
 
 /**
  * Class storing a player's name and hit count during the game.
@@ -36,8 +36,7 @@ public class Player
 	 */
 	public boolean equals (Player comp)
 	{
-		//@TODO implement
-		return false;
+		return this.mName.equals (comp.mName);
 	}
 
 	/**

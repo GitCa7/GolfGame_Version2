@@ -1,4 +1,5 @@
 package physics.collision;
+import physics.geometry.spatial.Solid;
 
 /**
  * inner class storing two actors as colliders (i.e. physics.entities) involved in physics.collision
@@ -16,7 +17,11 @@ public class ColliderPair<E>
 		mFirst = first;
 		mSecond = second;
 	}
+	public E getFirst(){return mFirst;}
+	public E getSecond(){return mSecond;}
+
+	public void setFirst(E first){mFirst=first;}
+	public void setSecond(E second){mSecond=second;}
 
 	public E mFirst, mSecond;
 }
-//make this generic

@@ -1,20 +1,21 @@
 
 package physics.testing;
-import com.badlogic.ashley.core.Engine;
+
+import com.badlogic.gdx.math.Vector3;
+import framework.ComponentBundle;
+import framework.Game;
+import framework.GameConfigurator;
+import framework.Player;
 import physics.components.ComponentFactory;
 import physics.constants.CompoMappers;
 import physics.entities.Ball;
 import physics.entities.EntityFactory;
 import physics.entities.Hole;
-import physics.logic.ComponentBundle;
-import physics.logic.Game;
-import physics.logic.GameConfigurator;
-import physics.logic.Player;
 import physics.systems.EntitySystemFactory;
 
 /**
  * demonstration: how to use the game engine
- * @autor martin
+ * @author martin
  * created 19.05.2016
  */
 public class GameCreationDemo
@@ -60,7 +61,7 @@ public class GameCreationDemo
 		//hitting the ball of the current player
 		//will make the game busy, so no hit can be executed while the ball is still moving
 		//after it's the next player's turn
-		game.hit ();
+		game.hit (new Vector3(1, 1, 0));
 
 		//check whether the game is busy
 		game.isBusy();
