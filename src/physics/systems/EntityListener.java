@@ -3,34 +3,33 @@ package physics.systems;
 import java.util.HashSet;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.EntityListener;
 
 /**
  * listener updating the set of physics.entities of an EntitySystem
  * @author martin
  */
-public class NewEntitiesListener implements EntityListener 
+public class EntityListener implements com.badlogic.ashley.core.EntityListener
 {
 	/**
-	 * @param entitySet entity set to update
+	 * @param system entity set to update
 	 */
-	public NewEntitiesListener (HashSet<Entity> entitySet)
+	public EntityListener(EntitySystem system)
 	{
-		mEntitySet = entitySet;
+		mSystem = system;
 	}
 	
 	@Override
 	public void entityAdded(Entity added) 
 	{
-		mEntitySet.add (added);
+		mSystem.addEntity (added);
 	}
 
 	@Override
 	public void entityRemoved(Entity removed) 
 	{
-		mEntitySet.remove (removed);
+		mSystem.removeEntity (removed);
 	}
 	
 	
-	private HashSet<Entity> mEntitySet;
+	private EntitySystem mSystem;
 }

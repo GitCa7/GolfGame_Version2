@@ -4,9 +4,7 @@ package physics.systems;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import physics.collision.ColliderPair;
-import physics.collision.CollisionComputer;
-import physics.collision.CollisionDetector;
+import physics.collision.*;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 
@@ -47,6 +45,10 @@ public class CollisionDetectionSystem extends EntitySystem
 		}
 	}
 
+	public void setRepository(CollisionRepository repository){
+		mRepository=repository;
+	}
+
 	/**
 	 * computes impact of collisions on physics.entities affected
 	 * @param dTime time delta to previous state
@@ -54,40 +56,28 @@ public class CollisionDetectionSystem extends EntitySystem
 	public void update (float dTime)
 	{
 		//detect collisions
-		ArrayList<ColliderPair> colliding = mDetect.getAnyColliding();
-		//for each physics.collision detected
-		for (ColliderPair collPair : colliding)
-		{
-			//if entity 1 is active
-			if (collPair.mFirst.isActive())
-			{
-				//compute force excerted
-				Entity active = collPair.mFirst.getColliding();
-				CollisionComputer computeImpact = new CollisionComputer (active, collPair.mSecond.getColliding());
-				Vector3 impact = computeImpact.collisionForce();
-
-				assert (CompoMappers.FORCE.has (active));
-				Force driving = CompoMappers.FORCE.get (active);
-				driving.add (impact);
-			}
-			//if entity 2 is active
-			if (collPair.mSecond.isActive())
-			{
-				//copute force excerted
-				Entity active = collPair.mSecond.getColliding();
-				CollisionComputer computeImpact = new CollisionComputer (active, collPair.mFirst.getColliding());
-				Vector3 impact = computeImpact.collisionForce();
-
-				assert (CompoMappers.FORCE.has (active));
-				Force driving = CompoMappers.FORCE.get (active);
-				driving.add (impact);
-			}
+		mRepository.clear();
+		ArrayList<ColliderPair<ColliderEntity>> colliding = mDetect.getAnyColliding();
+		for(ColliderPair<ColliderEntity> pair:colliding){
+			mRepository.addColliderPair(pair);
 		}
+		//@TODO Use Repository
+	}
+
+
+	@Override
+	public void addEntity(Entity e) {
 
 	}
 
+	@Override
+	public void removeEntity(Entity e) {
+
+	}
 	/** store impacted by collisions */
 	private HashSet<Entity> mActive;
 	/** detects collisions within the set of physics.entities */
 	private CollisionDetector mDetect;
+	private CollisionRepository mRepository;
+
 }

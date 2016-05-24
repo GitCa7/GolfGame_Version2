@@ -12,12 +12,14 @@ public class BodyFactory implements ComponentFactory {
 
     public BodyFactory(){}
 
+    //@TODO store list
     public void setParameter(Solid x, Solid y, Solid z){
         this.x=x;
         this.y=y;
         this.z=z;
     }
 
+    //@TODO clone
     public Body produce() {
         Body b1= new Body();
         b1.add(x);

@@ -2,6 +2,8 @@ package physics.collision;
 import physics.geometry.ClosestSideFinder;
 import physics.geometry.spatial.Solid;
 import physics.geometry.planar.Plane;
+import com.badlogic.gdx.math.*;
+
 
 
 /**
@@ -11,19 +13,20 @@ public class ColliderClosestSideFinder {
 
 
 
-    public ColliderClosestSideFinder (ColliderEntity active, ColliderEntity passive)
+    public ColliderClosestSideFinder () {}
+
+
+
+    public Plane find(ColliderEntity active, ColliderEntity passive)
     {
-        mActive=active;
-        mPassive=passive;
-    }
+        //Extract the Solid from the passive Entity
+        Solid passiveSolid = passive.getCollidingSolid();
+        ClosestSideFinder finder = new ClosestSideFinder(passiveSolid);
 
+        //Extract the vector from the active entity
+        Vector3 activeVector = active.getCollidingVector();
 
-
-    public Plane find()
-    {
-        /*Use ClosestSideFinder here*/
-
-        return null;
+        return finder.closestSide(activeVector);
     }
 
     ColliderEntity mActive;

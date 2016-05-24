@@ -36,4 +36,14 @@ public class Gravity extends EntitySystem
 			f.add (g.cpy().scl (mass));
 		}
 	}
+
+	@Override
+	public void addEntity(Entity e) {
+
+	}
+
+	@Override
+	public void removeEntity(Entity e) {
+
+	}
 }

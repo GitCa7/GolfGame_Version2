@@ -7,7 +7,7 @@ import physics.collision.*;
 public class NormalForceSystem
 {
     public void update (float time)
-    {
+    { //This will literally be the same as the collisionImpactSstem
         //get collider pairs
         //for each collider pair
         //f = compute

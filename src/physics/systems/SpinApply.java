@@ -41,4 +41,14 @@ public class SpinApply extends EntitySystem
 			sp.scl ((1 - PhysicsCoefficients.SPIN_FRICTION));
 		}
 	}
+
+	@Override
+	public void addEntity(Entity e) {
+
+	}
+
+	@Override
+	public void removeEntity(Entity e) {
+
+	}
 }

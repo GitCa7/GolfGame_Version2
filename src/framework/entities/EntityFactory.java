@@ -1,4 +1,4 @@
-package physics.entities;
+package framework.entities;
 
 import com.badlogic.ashley.core.Entity;
 import framework.ComponentBundle;

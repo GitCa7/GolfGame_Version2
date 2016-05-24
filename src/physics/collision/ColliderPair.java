@@ -5,7 +5,7 @@ import physics.geometry.spatial.Solid;
  * inner class storing two actors as colliders (i.e. physics.entities) involved in physics.collision
  * @author martin
  */
-public class ColliderPair<E>
+public class ColliderPair<E extends ColliderSolid>
 {
 	/**
 	 *
@@ -22,6 +22,7 @@ public class ColliderPair<E>
 
 	public void setFirst(E first){mFirst=first;}
 	public void setSecond(E second){mSecond=second;}
+
 
 	public E mFirst, mSecond;
 }

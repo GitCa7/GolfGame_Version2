@@ -9,7 +9,7 @@ import framework.Player;
 import physics.components.ComponentFactory;
 import physics.constants.CompoMappers;
 import physics.entities.Ball;
-import physics.entities.EntityFactory;
+import framework.entities.EntityFactory;
 import physics.entities.Hole;
 import physics.systems.EntitySystemFactory;
 
