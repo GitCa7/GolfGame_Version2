@@ -2,6 +2,7 @@ package physics.components;
 
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.math.Vector3;
 
 /**
  * Created by Alexander on 20.05.2016.
@@ -9,21 +10,20 @@ import com.badlogic.ashley.core.Component;
  */
 public class ForceFactory implements ComponentFactory {
 
-    public ForceFactory(){}
+    public ForceFactory()
+    {
+        mForce = new Vector3();
+    }
 
-    public void setParameter(float x, float y, float z){
-        this.x=x;
-        this.y=y;
-        this.z=z;
+    public void setVector(Vector3 force){
+        mForce = force;
     }
 
     public Force produce() {
         Force f1= new Force();
-        f1.set(x,y,z);
+        f1.set(mForce.cpy());
         return  f1;
     }
 
-    float x;
-    float y;
-    float z;
+    private Vector3 mForce;
 }

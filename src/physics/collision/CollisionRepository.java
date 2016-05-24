@@ -66,7 +66,7 @@ public class CollisionRepository
 	 * adds p to the list of entities stored, without further checks
 	 * @param p a given collider pair to add
 	 */
-	public void addColliderPair (ColliderPair p)
+	public void addColliderPair (ColliderPair<ColliderEntity> p)
 	{
 		mColliderPairs.add (p);
 	}
