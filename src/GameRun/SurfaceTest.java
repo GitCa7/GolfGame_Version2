@@ -3,11 +3,13 @@ package GameRun;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.badlogic.gdx.math.Vector3;
 
+import Entities.Camera;
 import Entities.FollowCamera;
 import Entities.FollowCamera;
 import Entities.GolfBall;
@@ -38,11 +40,12 @@ public class SurfaceTest {
 			ArrayList<gameEntity> entities;
 			ArrayList<gameEntity> surrondings;
 			Terrain[][] terrains;
-			FollowCamera cam;
+			FollowCamera followCam;
+			Camera cam;
 			Light light;
-			MousePicker mousePick, mousePick2;
 			
 			
+			private boolean useFollow;
 			
 			public SurfaceTest()	{
 				DisplayManager.createDisplay();
@@ -53,16 +56,13 @@ public class SurfaceTest {
 				surrondings = new ArrayList<gameEntity>();
 				terrains = new Terrain[2][2];
 				
-				
+				useFollow = false;
 				setUpEntities();
 				setUpTerrain();
 				setUpScene();
 				createSurrondings();
 				
 				
-				
-				//mousePick = new MousePicker(cam, renderer.getProjectionMatrix(), terrains.get(0));
-				//mousePick2 = new MousePicker(cam, renderer.getProjectionMatrix(), terrains.get(1));
 				
 				startGame();
 				
@@ -132,17 +132,14 @@ public class SurfaceTest {
 			    	}
 		    	}
 		    	
-		    	//terrains[0][0].printAllTris();
-		    	//terrains[0][0].leafs.get(0).printCoord();
-		    	//terrains[0][0].leafs.get(128).printCoord();
-		    	//terrains[0][0].leafs.get(1).printCoord();
+
 		    	terrains[0][0].getAllTetrahedons();
 		    }
 		    
 		   public void setUpScene()	{
-			   cam = new FollowCamera(golfBalls.get(0));
-			   //cam.setPosition(new Vector3f(4,20,-422));
-			   //cam.setPitch(25);
+			   cam = new Camera(new Vector3f(4,20,-422));
+			   followCam = new FollowCamera(golfBalls.get(0));
+			   
 			   
 			   light = new Light(new Vector3f(20000,20000,2000),new Vector3f(1,1,1));
 		   }
@@ -151,15 +148,20 @@ public class SurfaceTest {
 			   //displayAllEntites();
 			   
 			   while(!Display.isCloseRequested()){
-		           cam.move();
+				   
+				   if(useFollow == false)	{
+					   cam.move();
+				   }
+				   else	{
+					   followCam.move();
+				   }
+		           
 		           
 		           for(gameEntity plant:surrondings)	{
 		        	   renderer.processEntity(plant);
 		           }
 		           
 		           for(gameEntity gameEntity:entities)	{
-		        	   //gameEntity.increaseRotation(0, 1f, 0);
-		        	   //gameEntity.increasePosition(0.1f, 0, 0);
 		        	   renderer.processEntity(gameEntity);
 		           }
 		           
@@ -174,22 +176,20 @@ public class SurfaceTest {
 				    	}
 			    	}
 		           
-		           
-		           //mousePick.update();
-		           //mousePick2.update();
-		           
-		           //Vector3f Vec = mousePick.getCurrentTerrainPoint();
-		           //Vector3f Vec2 = mousePick2.getCurrentTerrainPoint();
-		           /*
-		           if(mousePick.getCurrentTerrainPoint() != null)	{
-		        	   //System.out.println(Vec.x + "\t|\t" + Vec.y + "\t|\t" + Vec.z);
+		           if(useFollow == false)	{
+		        	   renderer.render(light, cam);
+		           }
+		           else	{
+		        	   renderer.render(light, followCam);
 		           }
 		           
-		           if(mousePick2.getCurrentTerrainPoint() != null)	{
-		        	   System.out.println(Vec2.x + "\t|\t" + Vec2.y + "\t|\t" + Vec2.z);
+		           if(Keyboard.isKeyDown(Keyboard.KEY_TAB))	{
+		        	   if(useFollow == false)
+		        		   useFollow = true;
+		        	   else
+		        		   useFollow = false;
 		           }
-		           */
-		           renderer.render(light, cam);
+		           
 		           DisplayManager.updateDisplay();
 		       }
 

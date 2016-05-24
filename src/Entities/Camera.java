@@ -3,6 +3,11 @@ package Entities;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
+import RenderComponents.DisplayManager;
+
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.util.vector.Vector3f;
+
 public class Camera {
 	
 	private Vector3f position;

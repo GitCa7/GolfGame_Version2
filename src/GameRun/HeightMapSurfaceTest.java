@@ -157,7 +157,7 @@ public class HeightMapSurfaceTest {
 	   public void startGame()	{
 		   while(!Display.isCloseRequested()){
 	           cam.move();
-	           
+	           //Möglicherweise cam.checkInputs
 	           
 	           for(gameEntity plant:surrondings)	{
 	        	   renderer.processEntity(plant);
