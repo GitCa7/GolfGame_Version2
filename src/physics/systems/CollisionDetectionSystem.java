@@ -4,10 +4,7 @@ package physics.systems;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import physics.collision.ColliderEntity;
-import physics.collision.ColliderPair;
-import physics.collision.CollisionComputer;
-import physics.collision.CollisionDetector;
+import physics.collision.*;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 
@@ -48,6 +45,10 @@ public class CollisionDetectionSystem extends EntitySystem
 		}
 	}
 
+	public void setRepository(CollisionRepository repository){
+		mRepository=repository;
+	}
+
 	/**
 	 * computes impact of collisions on physics.entities affected
 	 * @param dTime time delta to previous state
@@ -55,14 +56,14 @@ public class CollisionDetectionSystem extends EntitySystem
 	public void update (float dTime)
 	{
 		//detect collisions
+		mRepository.clear();
 		ArrayList<ColliderPair<ColliderEntity>> colliding = mDetect.getAnyColliding();
+		for(ColliderPair<ColliderEntity> pair:colliding){
+			mRepository.addColliderPair(pair);
+		}
 		//@TODO Use Repository
 	}
 
-	/** store impacted by collisions */
-	private HashSet<Entity> mActive;
-	/** detects collisions within the set of physics.entities */
-	private CollisionDetector mDetect;
 
 	@Override
 	public void addEntity(Entity e) {
@@ -73,4 +74,10 @@ public class CollisionDetectionSystem extends EntitySystem
 	public void removeEntity(Entity e) {
 
 	}
+	/** store impacted by collisions */
+	private HashSet<Entity> mActive;
+	/** detects collisions within the set of physics.entities */
+	private CollisionDetector mDetect;
+	private CollisionRepository mRepository;
+
 }

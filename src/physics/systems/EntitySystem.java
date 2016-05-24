@@ -11,7 +11,7 @@ public abstract class EntitySystem extends com.badlogic.ashley.core.EntitySystem
 	 */
 	public EntityListener getNewEntitiesListener()
 	{
-		return new EntityListener(mEntities);
+		return new EntityListener(this);
 	}
 
 	/**

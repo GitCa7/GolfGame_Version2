@@ -23,5 +23,6 @@ public class ColliderPair<E extends ColliderSolid>
 	public void setFirst(E first){mFirst=first;}
 	public void setSecond(E second){mSecond=second;}
 
+
 	public E mFirst, mSecond;
 }

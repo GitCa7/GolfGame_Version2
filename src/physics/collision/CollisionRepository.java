@@ -34,17 +34,18 @@ public class CollisionRepository
 	 * @return a list of collider pairs where one element is e
 	 * @IllegalArgumentException if there are no collisions for e
 	 */
-	public ArrayList<ColliderPair> getCollisionsFor (Entity e)
+	public ArrayList<ColliderPair<ColliderEntity>> getCollisionsFor (Entity e)
 	{
-		ArrayList<ColliderPair> collisions = new ArrayList<>();
+		ArrayList<ColliderPair<ColliderEntity>> collisions = new ArrayList<>();
 
-		for (ColliderPair cp : mColliderPairs)
+		for (ColliderPair<ColliderEntity> cp : mColliderPairs)
 		{
-			if (cp.hasEntity(e))
+			if (cp.mFirst.getColliding().equals(e)||cp.mSecond.getColliding().equals(e) )
 				collisions.add (cp);
 		}
 		return collisions;
 	}
+
 
 	/**
 	 * @param e a given entity
@@ -52,9 +53,9 @@ public class CollisionRepository
 	 */
 	public boolean hasEntity (Entity e)
 	{
-		for (ColliderPair cp : mColliderPairs)
+		for (ColliderPair<ColliderEntity> cp : mColliderPairs)
 		{
-			if (cp.hasEntity(e))
+			if (cp.mFirst.getColliding().equals(e)||cp.mSecond.getColliding().equals(e))
 				return true;
 		}
 
@@ -68,6 +69,11 @@ public class CollisionRepository
 	public void addColliderPair (ColliderPair p)
 	{
 		mColliderPairs.add (p);
+	}
+
+	public void clear () {
+		mColliderPairs.clear();
+		mCache.forget();
 	}
 
 	/**
