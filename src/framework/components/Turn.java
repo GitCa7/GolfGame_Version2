@@ -14,6 +14,7 @@ public class Turn implements Component
     public Turn()
     {
         mTurn = false;
+        mDone = false;
     }
 
     @Override
@@ -26,4 +27,5 @@ public class Turn implements Component
 
 
     public boolean mTurn;
+    public boolean mDone;
 }
