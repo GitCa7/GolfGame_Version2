@@ -24,7 +24,7 @@ public class SetCollisionRepository extends CollisionRepository
 	 * @param e a given entity
 	 * @return all collisions in which e is involved. Hands out the internal list storing them. Do not modify.
 	 */
-	public ArrayList<ColliderPair> getCollisionsFor (Entity e)
+	public ArrayList<ColliderPair<> getCollisionsFor (Entity e)
 	{
 		return mEntityMap.get (e);
 	}
