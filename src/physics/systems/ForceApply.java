@@ -47,5 +47,14 @@ public class ForceApply extends EntitySystem
 			f.setZero();
 		}
 	}
-	
+
+	@Override
+	public void addEntity(Entity e) {
+
+	}
+
+	@Override
+	public void removeEntity(Entity e) {
+
+	}
 }

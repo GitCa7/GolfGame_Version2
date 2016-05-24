@@ -27,7 +27,7 @@ public class CollisionRepository
 	/**
 	 * @return the collider pairs stored in this repository
 	 */
-	public ArrayList<ColliderPair> getColliderPairs() { return mColliderPairs; }
+	public ArrayList<ColliderPair<ColliderEntity>> getColliderPairs() { return mColliderPairs; }
 
 	/**
 	 * @param e a given entity
@@ -94,7 +94,7 @@ public class CollisionRepository
 	}
 
 	/** stores list of colliding pairs */
-	private ArrayList<ColliderPair> mColliderPairs;
+	private ArrayList<ColliderPair<ColliderEntity>> mColliderPairs;
 	/** stores previous query */
 	private Cacher<EntityQuery> mCache;
 }

@@ -26,42 +26,49 @@ import java.util.HashSet;
 
 public class CollisionImpactSystem
 {
+    /*
+    In general: How does this system interact with the collisionImpactSystem and the CollisionComputer, what does the Collisions Computer do?
+    Probably will have to change all of this but nevermind, cuz' I'll know and understand why and how
+     */
 
     public CollisionImpactSystem(){
         mActive = new HashSet<>();
+    }
+
+    public void setRepository(CollisionRepository repository){
+        mRepository=repository;
     }
 
     public void update (float dTime)
     {
 
         //detect collisions
-        ArrayList<ColliderPair<ColliderEntity>> colliding = mDetect.getAnyColliding();
+        ArrayList<ColliderPair<ColliderEntity>> colliding = mRepository.getColliderPairs();
         //for each physics.collision detected
         for (ColliderPair collPair : colliding)
         {
             //if entity 1 is active
             if (((ColliderEntity)collPair.mFirst).isActive())
             {
-                //compute force excerted
-                Entity active = ((ColliderEntity)collPair.mFirst).getColliding();
-                CollisionComputer computeImpact = new CollisionComputer (active, ((ColliderEntity)collPair.mSecond).getColliding());
-                Vector3 impact = computeImpact.collisionForce();
+                //Compute new Force
+                ColliderEntity active = (ColliderEntity)collPair.mFirst;
+                ColliderEntity passive= (ColliderEntity)collPair.mSecond;
+                Vector3 forceToBeApplied = compute(active,passive,dTime);
+                //Update Force
+                Vector3 currentForce= CompoMappers.VELOCITY.get(active.getColliding());
+                currentForce.add(forceToBeApplied);
 
-                assert (CompoMappers.FORCE.has (active));
-                Force driving = CompoMappers.FORCE.get (active);
-                driving.add (impact);
             }
             //if entity 2 is active
             if (((ColliderEntity)collPair.mSecond).isActive())
             {
-                //copute force excerted
-                Entity active =((ColliderEntity)collPair.mSecond).getColliding();
-                CollisionComputer computeImpact = new CollisionComputer (active, ((ColliderEntity)collPair.mFirst).getColliding());
-                Vector3 impact = computeImpact.collisionForce();
-
-                assert (CompoMappers.FORCE.has (active));
-                Force driving = CompoMappers.FORCE.get (active);
-                driving.add (impact);
+                //Compute Force
+                ColliderEntity active = (ColliderEntity)collPair.mSecond;
+                ColliderEntity passive= (ColliderEntity)collPair.mFirst;
+                Vector3 forceToBeApplied = compute(active,passive,dTime);
+                //Update Force
+                Vector3 currentForce= CompoMappers.VELOCITY.get(active.getColliding());
+                currentForce.add(forceToBeApplied);
             }
         }
 
@@ -99,5 +106,7 @@ public class CollisionImpactSystem
 
     private HashSet<Entity> mActive;
     private ColliderClosestSideFinder mClosestSideFinder;
+    private CollisionRepository mRepository;
+
 }
 

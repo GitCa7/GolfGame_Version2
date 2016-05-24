@@ -61,4 +61,14 @@ public class Movement extends EntitySystem
 			p.mulAdd (v, dTime);
 		}
 	}
+
+	@Override
+	public void addEntity(Entity e) {
+
+	}
+
+	@Override
+	public void removeEntity(Entity e) {
+
+	}
 }
