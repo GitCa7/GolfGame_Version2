@@ -25,16 +25,22 @@ public class NormalForceSystem
         ArrayList<ColliderPair<ColliderEntity>> collisions = mRepo.getColliderPairs();
 
         //get collider pairs
-        for (ColliderPair p : collisions) {
+        for (ColliderPair<ColliderEntity> p : collisions) {
             //for each collider pair
             if (p.getFirst().isActive()) {
                 //compute
-                Vector3 newV = compute(p.setFirst(), p.setSecond());
-                Force f = CompoMappers.FORCE.get(p.getFirst().getColliding());
+                Vector3 newV = compute(p.getFirst(), p.getSecond());
+                Force f = CompoMappers.FORCE.get(p.getFirst().getEntity());
                 f.add(newV);
 
             }
-            //apply f on active entity
+            if (p.getSecond().isActive()) {
+                //compute
+                Vector3 newV = compute(p.getSecond(), p.getFirst());
+                Force f = CompoMappers.FORCE.get(p.getSecond().getEntity());
+                f.add(newV);
+                //apply f on active entity
+            }
         }
     }
 
@@ -45,8 +51,8 @@ public class NormalForceSystem
         Plane p = closestSide.find(active, passive);
 
         // Fg = gravity * mass
-        Mass activeMass = CompoMappers.MASS.get(active.getColliding());
-        Vector3 Fg = CompoMappers.GRAVITY_FORCE.get(active.getColliding()).cpy().scl(activeMass.mMass);
+        Mass activeMass = CompoMappers.MASS.get(active.getEntity());
+        Vector3 Fg = CompoMappers.GRAVITY_FORCE.get(active.getEntity()).cpy().scl(activeMass.mMass);
 
         // Vector Projection of Fg onto normal Vector of P to get Fn
         VectorProjector vp = new VectorProjector(Fg);
