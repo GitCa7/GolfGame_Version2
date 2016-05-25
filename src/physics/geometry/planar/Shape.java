@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector3;
  * Class modeling a shape in 3 dimensional space. 
  * Objects inheriting from this class implement basic features to access the properties
  * of the respective shape.
+ * Every shape shall be immutable.
  * @author martin
  */
 public abstract class Shape 
