@@ -27,7 +27,7 @@ public class Terrain {
 	private ModelTexture modelTex = new ModelTexture(loader.loadTexture("grass_surf"));
 	private RawModel model;
 
-	private static final float SIZE = 1000;
+	private float SIZE = 1000;
     private static final int triNumBorder = 43520;
     private static final float MAX_HEIGHT = 80;
     private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
@@ -60,7 +60,8 @@ public class Terrain {
         generateTerrain(loader, heightMapPath);
 	}
 	
-	public Terrain(int gridX, int gridZ){
+	public Terrain(int gridX, int gridZ, float size){
+		SIZE = size;
 		this.x = gridX * SIZE;
 	    this.z = gridZ * SIZE;
 	    heightMapUse = false;
@@ -165,24 +166,54 @@ public class Terrain {
     		vertices[offset+2] = leaf.getCoordinates().z;
     	}
     }
-    
 
-    /*
-    public void changeHeight(float xStart, float xLim, float zStart, float zLim, float amount)	{
-    	int number = 0;
-    	for(int i = 0; i < vertices.length; i+=3)	{
-    		if(-vertices[i] > xStart && -vertices[i] > xLim && -vertices[i+2] > zStart && -vertices[i+2] > zLim)	{
-    			if(vertices[i+1] < 30)
-    				vertices[i+1] += amount;
-    			
-    		}
-    	}
-    	
-    	model = loader.loadToVAO(vertices, textureCoords, normals, indices);
-    }
- 	*/
-    
-    
+
+	public void changeHeight(float xStart, float xLim, float zStart, float zLim, float amount)	{
+		//int number = 0;
+		for(int i = 0; i < vertices.length; i+=3)	{
+			if(vertices[i] < xStart && vertices[i] > xLim && vertices[i+2] < zStart && vertices[i+2] > zLim)	{
+				if(vertices[i+1] < 30&&vertices[i+1]>-30)
+					vertices[i+1] += amount;
+
+			}
+		}
+
+		model = loader.loadToVAO(vertices, textureCoords, normals, indices);
+	}
+
+	public void changeHeightNB(float xStart, float xLim, float zStart, float zLim, float amount)	{
+		//int number = 0;
+		for(int i = 0; i < vertices.length; i+=3)	{
+			if(vertices[i] < xStart && vertices[i] > xLim && vertices[i+2] < zStart && vertices[i+2] > zLim)	{
+				if(vertices[i+1] < 80)
+					vertices[i+1] += amount;
+
+			}
+		}
+
+		model = loader.loadToVAO(vertices, textureCoords, normals, indices);
+	}
+
+	public float getHeightDif(float x, float z)	{
+		Vector3 real = new Vector3(x,0,z);
+		Vector3 res = new Vector3(vertices[0],0,vertices[2]);
+		for(int i = 3; i < vertices.length; i+= 3){
+			Vector3 tmp = new Vector3(vertices[i],0,vertices[i+2]);
+			if(tmp.dst2(real)<res.dst2(real)){
+				res = tmp;
+			}
+		}
+
+		for(int i = 0; i < vertices.length; i+= 3)	{
+			if(vertices[i] == res.x && vertices[i+2] == res.z){
+				return vertices[i+1];
+			}
+		}
+		return 0;
+
+	}
+
+
     public void printVert()		{
 		if(vertices != null)	{
 			//for(int i = 0; i < vertices.length - 3; i += 3)	{

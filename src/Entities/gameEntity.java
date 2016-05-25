@@ -1,5 +1,6 @@
 package Entities;
 
+import com.badlogic.gdx.math.collision.BoundingBox;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.badlogic.ashley.core.Entity;
@@ -10,9 +11,9 @@ import ModelBuildComponents.TexturedModel;
 public class gameEntity {
 
 	private TexturedModel model;
-	private Vector3f position;
+	public Vector3f position;
 	private float rotX, rotY, rotZ;
-	private float scale;
+	public float scale;
 
 	public gameEntity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ,
 			float scale) {
@@ -82,6 +83,10 @@ public class gameEntity {
 
 	public void setScale(float scale) {
 		this.scale = scale;
+	}
+
+	public BoundingBox boundingBox(){
+		return null;
 	}
 
 }
