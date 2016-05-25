@@ -11,7 +11,8 @@ public class Mass implements Component
 
 	public Mass clone()
 	{
-		return new Mass (mMass);
+		float newMass=mMass;
+		return new Mass (newMass);
 	}
 
 	public float mMass;

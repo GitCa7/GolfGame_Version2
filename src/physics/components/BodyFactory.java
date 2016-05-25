@@ -16,6 +16,7 @@ public class BodyFactory implements ComponentFactory {
     }
 
     //@TODO store list
+    //check this with Martin
 
     public void addSolid(Solid x){
         mSolidList.add(x);

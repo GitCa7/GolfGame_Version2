@@ -18,8 +18,17 @@ public class FrictionFactory implements ComponentFactory {
         mDynamicSpin = dynamicSpin;
     }
 
+    /**
+     * I decided to create new float, because I did not know how to copy those.
+     * @return
+     */
+
     public Friction produce() {
-        Friction F1= new Friction(mStaticMove,mDynamicMove,mStaticSpin,mDynamicSpin);
+        float staticMove=mStaticMove;
+        float dynamicMove=mDynamicMove;
+        float staticSpin=mStaticSpin;
+        float dynamicSpin=mDynamicSpin;
+        Friction F1= new Friction(staticMove,dynamicMove,staticSpin,dynamicSpin);
         return  F1;
     }
 
