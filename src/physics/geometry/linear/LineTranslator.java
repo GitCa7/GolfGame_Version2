@@ -14,8 +14,9 @@ public class LineTranslator extends Line {
      * @param line vector to start point
      * @param position  vector to end point
      */
-    public LineTranslator(Line line, Position position) {
-        super(line.getStart().cpy().add(position), line.getStart().cpy().add(position));
+    public LineTranslator(Line line, Position position) 
+    {
+        super(new VertexTranslator(line.getStart(), position), new VertexTranslator LineTranslator(line.getEnd(), position));
 
     }
 }

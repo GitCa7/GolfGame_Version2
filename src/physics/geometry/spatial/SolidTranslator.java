@@ -15,7 +15,10 @@ public class SolidTranslator extends Solid {
      * @param sides
      */
     public SolidTranslator(Solid solid, Position position) {
-        super (solid.getVertices(),solid.getSides());
+        super (
+        		new ForAll<Vector3, VertexTranslator>(new VertexTranslateOperation(position)).operate(),
+        		new ForAll<Vector3, ShapeTranslator>(new ShapeTranslateOperation(position)).operate()
+        		);
 
         mPosition = position;
     }
