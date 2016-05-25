@@ -27,7 +27,7 @@ public class Terrain {
 	private ModelTexture modelTex = new ModelTexture(loader.loadTexture("grass_surf"));
 	private RawModel model;
 
-	private static final float SIZE = 1000;
+	private float SIZE;
     private static final int triNumBorder = 43520;
     private static final float MAX_HEIGHT = 80;
     private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
@@ -35,7 +35,6 @@ public class Terrain {
     private float x;
     private float z;
     
-    private float xStart, zStart, xEnd, zEnd;
     
     private boolean heightMapUse;
     private int VERTEX_COUNT;
@@ -48,17 +47,48 @@ public class Terrain {
     
     public ArrayList<PointNode> leafs;
     
+    public float x_start, x_end, z_start, z_end;
+    
 	
 	public Terrain(int gridX, int gridZ, String heightMapPath) {
+		SIZE = 1000;
 		this.x = gridX * SIZE;
-        this.z = gridZ * SIZE;
-        xStart = gridX;
-        zStart = gridZ;
-        
+        this.z = gridZ * SIZE;        
         heightMapUse = true;
         leafs = new ArrayList<PointNode>();
         generateTerrain(loader, heightMapPath);
+        
+        x_start = leafs.get(0).getCoordinates().x;
+        z_start = leafs.get(0).getCoordinates().z;
+        
+        x_end = leafs.get(leafs.size()-1).getCoordinates().x;
+        z_end = leafs.get(leafs.size()-1).getCoordinates().z;
 	}
+	
+	
+	public Terrain(int gridX, int gridZ, String heightMapPath, float size) {
+		SIZE = size;
+		this.x = gridX * SIZE;
+        this.z = gridZ * SIZE;        
+        heightMapUse = true;
+        leafs = new ArrayList<PointNode>();
+        generateTerrain(loader, heightMapPath);
+        
+        x_start = leafs.get(0).getCoordinates().x;
+        z_start = leafs.get(0).getCoordinates().z;
+        
+        x_end = leafs.get(leafs.size()-1).getCoordinates().x;
+        z_end = leafs.get(leafs.size()-1).getCoordinates().z;
+	}
+	
+	public boolean isOnTerrain(float x, float z)	{
+		if(x_start <= x && x <= x_end)	{
+			return true;
+		}
+		else 
+			return false;
+	}
+	
 	
 	public Terrain(int gridX, int gridZ){
 		this.x = gridX * SIZE;
@@ -98,6 +128,11 @@ public class Terrain {
     	Vector3f normal = new Vector3f(heightL-heightR, 2f, heightD - heightU);
     	normal.normalise();
     	return normal;
+    }
+    
+    //
+    public void displayPointNode()	{
+    	leafs.get(leafs.size()-1).printCoord();
     }
     
     
@@ -267,9 +302,7 @@ public class Terrain {
                 vertices[vertexPointer*3+2] = -(float)i/((float)VERTEX_COUNT - 1) * SIZE;
                 
                 
-                if(i == VERTEX_COUNT - 1)	{
-                	xEnd = -(float)j/((float)VERTEX_COUNT - 1) * SIZE;
-                }
+               
                 
                 addNode(vertices[vertexPointer*3], vertices[vertexPointer*3+1], vertices[vertexPointer*3+2]);
                 

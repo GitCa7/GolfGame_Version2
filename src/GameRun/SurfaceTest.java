@@ -44,6 +44,8 @@ public class SurfaceTest {
 			Camera cam;
 			Light light;
 			
+			MousePicker2 mousePick;
+			
 			
 			private boolean useFollow;
 			
@@ -56,13 +58,14 @@ public class SurfaceTest {
 				surrondings = new ArrayList<gameEntity>();
 				terrains = new Terrain[2][2];
 				
+				
 				useFollow = false;
 				setUpEntities();
 				setUpTerrain();
 				setUpScene();
 				createSurrondings();
 				
-				
+				mousePick = new MousePicker2(cam, renderer.getProjectionMatrix(), terrains);
 				
 				startGame();
 				
@@ -84,10 +87,21 @@ public class SurfaceTest {
 		        TexturedModel fernTextModel = new TexturedModel(fernModel, fernModelText);
 		        
 		        Random ran = new Random();
-		        for(int i = 0; i< 100; i++)	{
-		        	
-		        	surrondings.add(new gameEntity(grassTextModel, new Vector3f(ran.nextFloat() * 800 - 400, 3, ran.nextFloat() * -600), 180, 0, 0, 3));
-		        	surrondings.add(new gameEntity(fernTextModel, new Vector3f(ran.nextFloat() * 800 - 400, 0, ran.nextFloat() * -600), 0, 0, 0, 3));
+		        float x,z;
+		        for(int i = 0; i < terrains.length;i++)	{
+		        	for(int j = 0; j < terrains[0].length;j++)	{
+		        		System.out.println("For Terrai: " + terrains[i][j]);
+		        		System.out.println("Infos: X\t" + terrains[i][j].x_start + "\t " + terrains[i][j].x_end + "\n\t\t: " + terrains[i][j].z_start + "\t " + terrains[i][j].z_end + "\n");
+		        		
+				        for(int k = 0; k < 50; k++)	{
+				        	x = terrains[i][j].x_start + ran.nextFloat() * (terrains[i][j].x_end - terrains[i][j].x_start);
+				        	z = terrains[i][j].z_start + ran.nextFloat() * (terrains[i][j].z_end - terrains[i][j].z_start);
+				        	surrondings.add(new gameEntity(grassTextModel, new Vector3f(x, terrains[i][j].getHeightSimple(x, z) + 3, z), 180, 0, 0, 3));
+				        	x = terrains[i][j].x_start + ran.nextFloat() * (terrains[i][j].x_end - terrains[i][j].x_start);
+				        	z = terrains[i][j].z_start + ran.nextFloat() * (terrains[i][j].z_end - terrains[i][j].z_start);
+				        	surrondings.add(new gameEntity(fernTextModel, new Vector3f(x, terrains[i][j].getHeightSimple(x, z), z), 0, 0, 0, 3));
+				        } 
+			        }
 		        }
 			}
 			
@@ -99,6 +113,14 @@ public class SurfaceTest {
 				//System.out.println("ID: " + golfball.getModel().getRawModel().getID());
 				golfBalls.add(golfball);
 				//System.out.println("ID: " + entities.get(0));
+				
+				gameEntity crate = new crate(new Vector3f(4,20,-490), 2);
+				gameEntity crate2 = new crate(new Vector3f(4,20,-500), 20);
+				gameEntity crate3 = new crate(new Vector3f(4,20,-510), 20);
+				
+				entities.add(crate);
+				entities.add(crate2);
+				entities.add(crate3);
 			}
 			
 			public void displayAllEntites()	{
@@ -134,6 +156,7 @@ public class SurfaceTest {
 		    	
 
 		    	terrains[0][0].getAllTetrahedons();
+		    	terrains[0][0].displayPointNode();
 		    }
 		    
 		   public void setUpScene()	{
@@ -146,6 +169,8 @@ public class SurfaceTest {
 		    
 		   public void startGame()	{
 			   //displayAllEntites();
+			   
+			   Vector3f direction, intersect;
 			   
 			   while(!Display.isCloseRequested()){
 				   
@@ -166,7 +191,6 @@ public class SurfaceTest {
 		           }
 		           
 		           for(GolfBall ball:golfBalls)	{
-		        	   
 		        	   renderer.processEntity(ball);
 		           }
 		           
@@ -189,6 +213,13 @@ public class SurfaceTest {
 		        	   else
 		        		   useFollow = false;
 		           }
+		           mousePick.update();
+		           if(mousePick.getCurrentTerrainPoint() != null)	{
+		        	   intersect = mousePick.getCurrentTerrainPoint();
+		        	   //System.out.println("Intersection: " + intersect.x + "\t|\t" + intersect.y + "\t|\t" + intersect.z);
+		           }
+		           direction = mousePick.getCurrentRay();
+		           //System.out.println("direction: " + direction.x + "\t|\t" + direction.y + "\t|\t" + direction.z);
 		           
 		           DisplayManager.updateDisplay();
 		       }
