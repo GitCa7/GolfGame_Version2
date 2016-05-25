@@ -44,11 +44,17 @@ public class SpinApply extends EntitySystem
 
 	@Override
 	public void addEntity(Entity e) {
+		if (Families.SPINNING.matches((e))) {
+			entities().add(e);
+		}
 
 	}
 
 	@Override
 	public void removeEntity(Entity e) {
+		if (Families.SPINNING.matches((e))) {
+			entities().remove(e);
+		}
 
 	}
 }

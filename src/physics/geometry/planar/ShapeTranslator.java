@@ -15,10 +15,11 @@ public class ShapeTranslator extends Shape {
      * @param position
      */
     public ShapeTranslator(Shape shape, Position position) {
-        super(shape.getVertices(),shape.getBorder());
+        super(shape.getVertices(), shape.getBorder());
+    }
 
 
-        for(Vector3 v1: vertices)
+        /*for(Vector3 v1: vertices)
             v1.add(position);
         for (Line b1: border) {
             b1.getEnd().add(position);

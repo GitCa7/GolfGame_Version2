@@ -20,23 +20,22 @@ public class NormalForceSystem
         //mDetect = new CollisionDetector();
         mRepo = new CollisionRepository();
     }
-    public void update (float dtime)
-    {
+    public void update (float dtime) {
         //creates a list with collisions
         ArrayList<ColliderPair<ColliderEntity>> collisions = mRepo.getColliderPairs();
 
-            //get collider pairs
-            for (ColliderPair p : collisions)
-            {
-                //for each collider pair
-                if(p.getFirst().isActive()){
+        //get collider pairs
+        for (ColliderPair p : collisions) {
+            //for each collider pair
+            if (p.getFirst().isActive()) {
                 //compute
-                    Vector3 newV = compute(p.setFirst(), p.setSecond());
-                    Force f = CompoMappers.FORCE.get(p.getFirst().getColliding());
-                    f.add(newV);
+                Vector3 newV = compute(p.setFirst(), p.setSecond());
+                Force f = CompoMappers.FORCE.get(p.getFirst().getColliding());
+                f.add(newV);
 
-                }
-        //apply f on active entity
+            }
+            //apply f on active entity
+        }
     }
 
     private Vector3 compute (ColliderEntity active, ColliderEntity passive)

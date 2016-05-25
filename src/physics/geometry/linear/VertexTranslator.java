@@ -13,7 +13,5 @@ public class VertexTranslator extends Vector3 {
         super(vector);
         this.add(position);
     }
-    public static VertexTranslator[] (Vector3[] vector3s){
 
-    }
 }
