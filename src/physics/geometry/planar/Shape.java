@@ -1,6 +1,7 @@
 package physics.geometry.planar;
 
 import com.badlogic.gdx.math.Vector3;
+import physics.geometry.linear.Line;
 
 /**
  * Class modeling a shape in 3 dimensional space. 
@@ -42,4 +43,6 @@ public abstract class Shape
 	
 	private Vector3[] mVertices;
 	private Line[] mBorder;
+
+
 }

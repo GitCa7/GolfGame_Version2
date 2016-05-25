@@ -108,9 +108,4 @@ public class SolidIntersection
 	private Vector3 mIntersection1;
 	private boolean mHasIntersection;
 
-	/**
-     * Created by Alexander on 24.05.2016.
-     */
-    public static class TetrahedronParameter {
-    }
 }

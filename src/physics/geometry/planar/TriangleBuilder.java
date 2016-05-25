@@ -1,6 +1,7 @@
 package physics.geometry.planar;
 
 import com.badlogic.gdx.math.Vector3;
+import physics.geometry.linear.Line;
 
 /**
  * class building triangle objects
