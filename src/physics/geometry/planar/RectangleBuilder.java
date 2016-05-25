@@ -2,6 +2,7 @@ package physics.geometry.planar;
 
 import com.badlogic.gdx.math.Vector3;
 import physics.geometry.VertexGenerator;
+import physics.geometry.linear.Line;
 
 /**
  * @autor martin

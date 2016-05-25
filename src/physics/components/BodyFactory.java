@@ -15,7 +15,6 @@ public class BodyFactory implements ComponentFactory {
         mSolidList=new ArrayList<Solid>();
     }
 
-    //@TODO store list
 
     public void addSolid(Solid x){
         mSolidList.add(x);
@@ -25,7 +24,6 @@ public class BodyFactory implements ComponentFactory {
         mSolidList.clear();
     }
 
-    //@TODO clone
     public Body produce() {
         Body b1= new Body();
         for (Solid s: mSolidList) {

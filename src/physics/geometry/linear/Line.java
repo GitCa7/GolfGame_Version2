@@ -1,4 +1,4 @@
-package physics.geometry.planar;
+package physics.geometry.linear;
 
 import com.badlogic.gdx.math.Vector3;
 

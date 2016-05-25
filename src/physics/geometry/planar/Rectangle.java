@@ -1,6 +1,7 @@
 package physics.geometry.planar;
 
 import com.badlogic.gdx.math.Vector3;
+import physics.geometry.linear.Line;
 
 /**
  * class modeling a rectangle in 3 dimensional space
