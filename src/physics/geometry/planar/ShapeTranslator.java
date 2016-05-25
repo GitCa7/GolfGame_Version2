@@ -25,14 +25,6 @@ public class ShapeTranslator extends Shape {
         		new ForAll<Vector3, VertexTranslator>(new VertexTranslateOperation(position)).operate(), 
         		new ForAll<Vector3, LineTranslator>(new LineTranslateOperation(position)).operate()
         		);
-
-
-        for(Vector3 v1: vertices)
-            v1.add(position);
-        for (Line b1: border) {
-            b1.getEnd().add(position);
-            b1.getStart().add(position);
-        }
     }
 
     Position mPosition;
