@@ -1,5 +1,10 @@
 package physics.geometry.linear;
 
+import physics.generic.Operation;
+import com.badlogic.gdx.math.*;
+
+
+
 public class LineTranslateOperation implements Operation<Line, LineTranslator>
 {
 	

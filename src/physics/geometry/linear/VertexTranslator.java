@@ -9,7 +9,7 @@ import physics.components.Position;
  */
 public class VertexTranslator extends Vector3 {
 
-    public VertexTranslator(Vector3 vector, Position position){
+    public VertexTranslator(Vector3 vector, Vector3 position){
         super(vector);
         this.add(position);
     }
