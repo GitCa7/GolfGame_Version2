@@ -38,7 +38,7 @@ public class DisplayManager {
 		}
 		
 		GL11.glViewport(0, 0, WIDTH, HEIGHT);
-		//lastFrameTIme
+		lastFrameTime = getCurrentTime();
 	
 	}
 	
@@ -47,11 +47,11 @@ public class DisplayManager {
 		Display.sync(FPS_CAP);
 		Display.update();
 		long currentTime = getCurrentTime();
-		delta = (currentTime -lastFrameTime)/1000;
-		
+		delta = (currentTime -lastFrameTime)/1000f;
+		lastFrameTime = currentTime;
 	}
 	
-	private static float getTimeDelat(){
+	public static float getTimeDelat(){
 		return delta;
 	}
 	

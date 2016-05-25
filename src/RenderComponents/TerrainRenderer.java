@@ -29,6 +29,7 @@ public class TerrainRenderer {
     }
  
     public void render(List<Terrain> terrains) {
+    	//System.out.println("Amount of Terrains: " + terrains.size());
         for (Terrain terrain : terrains) {
             prepareTerrain(terrain);
             loadModelMatrix(terrain);

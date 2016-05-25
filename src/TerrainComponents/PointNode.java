@@ -43,6 +43,8 @@ public class PointNode {
 	public void printCoord()	{
 		System.out.println("X: " + x + "\tY: " + y + "\tZ: " + z);
 	}
+	
+
 
 	
 	

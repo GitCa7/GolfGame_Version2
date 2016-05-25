@@ -18,7 +18,7 @@ public class TetrahedronBuilder
 	 *
 	 * @param vertices vertices from which to build tetrahedra
 	 */
-	public TetrahedronBuilder (Vector3[] vertices)
+	public TetrahedronBuilder(Vector3[] vertices)
 	{
 		if (vertices.length < 4)
 			throw new Solid.SolidException (vertices.length + " vertices is not enough to build a tetrahedron");
@@ -35,7 +35,7 @@ public class TetrahedronBuilder
 	public Triangle[] sides()
 	{
 		//get all elements of the power set of 3 elements
-		PowersetGenerator<Vector3> genSidePoints = new PowersetGenerator<> (Arrays.asList (mVertices));
+		PowersetGenerator<Vector3> genSidePoints = new PowersetGenerator(Arrays.asList (mVertices));
 
 		ArrayList<ArrayList<Vector3>> sidesVertices = genSidePoints.generate (Triangle.VERTICES, Triangle.VERTICES);
 		Triangle[] sides = new Triangle[sidesVertices.size()];
