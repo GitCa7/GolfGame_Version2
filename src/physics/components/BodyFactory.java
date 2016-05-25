@@ -3,6 +3,7 @@ import java.util.HashSet;
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.core.Component;
 import physics.geometry.spatial.Solid;
+import java.util.ArrayList;
 
 /**
  * Created by Alexander on 20.05.2016.
@@ -10,27 +11,29 @@ import physics.geometry.spatial.Solid;
  */
 public class BodyFactory implements ComponentFactory {
 
-    public BodyFactory(){}
-
-    //@TODO store list
-    public void setParameter(Solid x, Solid y, Solid z){
-        this.x=x;
-        this.y=y;
-        this.z=z;
+    public BodyFactory(){
+        mSolidList=new ArrayList<Solid>();
     }
 
-    //@TODO clone
+
+    public void addSolid(Solid x){
+        mSolidList.add(x);
+
+    }
+    public void clear(){
+        mSolidList.clear();
+    }
+
     public Body produce() {
         Body b1= new Body();
-        b1.add(x);
-        b1.add(y);
-        b1.add(z);
+        for (Solid s: mSolidList) {
+            b1.add(s);
+        }
         return  b1;
     }
 
-    Solid x;
-    Solid y;
-    Solid z;
+    ArrayList<Solid> mSolidList;
+
 }
 
 

@@ -65,14 +65,27 @@ public class CollisionDetectionSystem extends EntitySystem
 	}
 
 
-	@Override
-	public void addEntity(Entity e) {
 
+
+
+	public void addEntity(Entity e) {
+		if (Families.COLLIDING.matches((e))) {
+			entities().add(e);
+			mDetect.add(e);
+			if (Families.ACCELERABLE.matches(e))
+				mActive.add(e);
+		}
 	}
 
-	@Override
-	public void removeEntity(Entity e) {
 
+	public void removeEntity(Entity e)
+	{
+		if (Families.COLLIDING.matches((e))) {
+			entities().remove (e);
+			mDetect.remove (e);
+			if (Families.ACCELERABLE.matches (e))
+				mActive.remove (e);
+		}
 	}
 	/** store impacted by collisions */
 	private HashSet<Entity> mActive;

@@ -14,7 +14,7 @@ import com.badlogic.gdx.math.Vector3;
 import ModelBuildComponents.ModelTexture;
 import ModelBuildComponents.RawModel;
 import RenderComponents.Loader;
-import physics.geometry.planar.Line;
+import physics.geometry.linear.Line;
 import physics.geometry.planar.Triangle;
 import physics.geometry.planar.TriangleBuilder;
 import physics.geometry.spatial.Tetrahedron;
@@ -419,7 +419,7 @@ public class Terrain {
     
     
     //What seems to be necessary is to convert all the triangles of the terrain into Tetrahedons
-    //For that we´re gonna need to get all the trainagles that  the terrains composed of
+    //For that weï¿½re gonna need to get all the trainagles that  the terrains composed of
     
     public void printAllTris()	{
     	

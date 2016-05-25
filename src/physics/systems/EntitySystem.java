@@ -2,6 +2,8 @@ package physics.systems;
 
 import com.badlogic.ashley.core.Entity;
 
+import framework.systems.EntityListener;
+
 import java.util.HashSet;
 
 public abstract class EntitySystem extends com.badlogic.ashley.core.EntitySystem

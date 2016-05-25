@@ -41,14 +41,14 @@ public class BoxBuilder
 
     /**
      * parametric constructor
-     * @param offset offset vector
      * @param directions direction vectors, given such that every point of the box can be obtained by
      *                   a non-scaled linear combination of the direction vectors
      */
-    public BoxBuilder (Vector3 offset, Vector3[] directions)
+    public BoxBuilder ( Vector3[] directions)
     {
-        mOffset = offset;
+
         mDirections = directions;
+        mOffset=new Vector3();
 
         if (mDirections.length != Box.DEFINING_POINTS - 1)
         {
@@ -115,6 +115,7 @@ public class BoxBuilder
         return true;
     }
 
-    private Vector3 mOffset;
+
     private Vector3[] mDirections;
+    private Vector3 mOffset;
 }

@@ -50,11 +50,16 @@ public class ForceApply extends EntitySystem
 
 	@Override
 	public void addEntity(Entity e) {
-
+		if (Families.ACCELERABLE.matches((e))) {
+			entities().add(e);
+		}
 	}
 
 	@Override
 	public void removeEntity(Entity e) {
-
+		if (Families.ACCELERABLE.matches((e))) {
+			entities().remove(e);
+		}
 	}
+
 }

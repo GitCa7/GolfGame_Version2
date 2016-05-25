@@ -17,7 +17,8 @@ public class MassFactory implements ComponentFactory {
     }
 
     public Mass produce() {
-        Mass m1= new Mass(x);
+        float mass=x;
+        Mass m1= new Mass(mass);
         return  m1;
     }
 

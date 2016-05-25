@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import com.badlogic.gdx.math.Vector3;
 
+import physics.geometry.linear.Line;
 import physics.geometry.planar.*;
 import physics.testing.ArrayUtil;
 

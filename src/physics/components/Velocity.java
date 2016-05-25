@@ -19,6 +19,8 @@ public class Velocity extends Vector3 implements Component
 	 * @param y y velcoity
 	 * @param z z velocity
 	 */
+
+
 	public Velocity (float x, float y, float z)
 	{
 		super (x, y, z);
