@@ -2,9 +2,18 @@ package framework;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.math.Vector3;
+
+import framework.components.Turn;
+import framework.constants.CompoMappers;
+import framework.constants.Families;
+import framework.entities.Player;
+import framework.internal.components.*;
+import framework.internal.systems.*;
+import framework.systems.EntityListener;
 import physics.entities.Ball;
 import physics.entities.Hole;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -24,7 +33,10 @@ public class Game
 	 */
 	public Game (Engine e, HashMap<Player, Ball> ballMap, Hole h)
 	{
-
+		mEngine = e;
+		mBallMap = ballMap;
+		mHole = h;
+		mGlobalState = new Entity();
 	}
 
 	/**
@@ -32,9 +44,16 @@ public class Game
 	 * @return the player whose turn it currently is. This comprises also the period during which the simulation is running following
 	 * a hit.
 	 */
-	public Player getCurrentPlayer()
+	public ArrayList<Player> getCurrentPlayers()
 	{
-
+		ArrayList<Player> turnPlayers = new ArrayList<>();
+		for (Player p : mBallMap.keySet())
+		{
+			Turn turn = CompoMappers.TURN.get (p);
+			if (turn.mTurn)
+				turnPlayers.add (p);
+		}
+		return turnPlayers;
 	}
 
 	/**
@@ -45,7 +64,9 @@ public class Game
 	 */
 	public Ball getBall (Player p)
 	{
-
+		if (!mBallMap.containsKey(p))
+			throw new IllegalArgumentException ("player is not contained and is not mapped to ball.");
+		mBallMap.get(p);
 	}
 
 	/**
@@ -53,7 +74,7 @@ public class Game
 	 */
 	public Hole getHole()
 	{
-
+		return mHole;
 	}
 
 	/**
@@ -62,7 +83,7 @@ public class Game
 	 */
 	public boolean isBusy()
 	{
-
+		return CompoMappers.BUSY.get(mGlobalState);
 	}
 
 	/**
@@ -70,9 +91,11 @@ public class Game
 	 * Precondition: the game is not busy
 	 * @param force directed force to excert on ball
 	 */
-	public void hit (Vector3 force)
+	public void hit (Player p, Vector3 force)
 	{
-
+		Ball ballHit = getBall (p);
+		Force forceComp = physics.constants.CompoMappers.FORCE.get(ballHit);
+		forceComp.add (force);
 	}
 
 	/**
@@ -81,10 +104,34 @@ public class Game
 	 */
 	public void tick (float ticks)
 	{
-
+		mEngine.update (ticks);
+	}
+	
+	/**
+	 * initializes internal systems
+	 */
+	private void init()
+	{
+		//internal systems
+		ActiveSystem activeSystem = new ActiveSystem();
+		BusySystem busySystem = new BusySystem();
+		mEngine.addSystem (activeSystem);
+		mEngine.addSystem (busySystem);
+		//add entity listeners for systems added
+		mEngine.addEntityListener (new EntityListener (activeSystem));
+		mEngine.addEntityListener (new EntityListener (busySystem));
+		
+		//internal components of global state
+		Active active = new Active();
+		Busy busy = new Busy();
+		mGlobalState.addComponent (active);
+		mGlobalState.addComponent (busy);
+		
+		
 	}
 
 	private Engine mEngine;
 	private HashMap<Player, Ball> mBallMap;
 	private Hole mHole;
+	private Entity mGlobalState;
 }

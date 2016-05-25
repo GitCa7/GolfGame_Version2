@@ -3,8 +3,37 @@ package framework.components;
 import physics.components.ComponentFactory;
 
 /**
- * Created by martin on 24.05.16.
+ * Factory producing next player components to handle player transitions.
+ * Note that the player held in components cannot be copied, so all components produced
+ * without setNextPlayer call will hold a transition to the same player.
+ * @author martin
  */
-public class NextPlayerFactory extends ComponentFactory
+public class NextPlayerFactory implements ComponentFactory
 {
+	/**
+	 * default constructor initializes map
+	 */
+	public NextPlayerFactory()
+	{
+		mNextPlayer = null;
+	}
+	
+	
+	public NextPlayer produce()
+	{
+		return new NextPlayer(mNextPlayer);
+	}
+	
+	/**
+	 * adds to to the list of players following from.
+	 * @param transition player to transition to
+	 */
+	public void setNextPlayer (Player transition)
+	{
+		mNextPlayer = transition;
+	}
+	
+	
+	
+	private Player mNextPlayer;
 }
