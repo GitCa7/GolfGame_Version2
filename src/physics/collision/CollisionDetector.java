@@ -28,6 +28,7 @@ public class CollisionDetector
 	{
 		//clone sets
 		HashSet<BodyPair> currentBodies = (HashSet<BodyPair>) mAll.clone();
+
 		ArrayList<ColliderPair<ColliderEntity>> colliding = new ArrayList<>();
 
 		//for every active|all pair check for physics.collision

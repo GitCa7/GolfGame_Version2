@@ -6,6 +6,13 @@ import java.util.TreeSet;
 import com.badlogic.gdx.math.Vector3;
 import physics.geometry.planar.Shape;
 
+/**
+ * class modeling a solid in 3d space.
+ * Every solid needs to pass a list of vertices and a list of sides.
+ * A solid shall be immutable.
+ * @author martin
+ *
+ */
 public abstract class Solid
 {
 	/** number of independent vectors spanning solid */

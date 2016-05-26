@@ -24,7 +24,7 @@ public class SetCollisionRepository extends CollisionRepository
 	 * @param e a given entity
 	 * @return all collisions in which e is involved. Hands out the internal list storing them. Do not modify.
 	 */
-	public ArrayList<ColliderPair> getCollisionsFor (Entity e)
+	public ArrayList<ColliderPair<ColliderEntity>> getCollisionsFor (Entity e)
 	{
 		return mEntityMap.get (e);
 	}
@@ -44,10 +44,13 @@ public class SetCollisionRepository extends CollisionRepository
 	 * adds cPair to the repository
 	 * @param cPair a given collider pair
 	 */
-	public void addColliderPair (ColliderPair cPair)
+
+
+	//here cpair used to be cpar.getFirst() and second for the second one(error), change seems to make sense, dont know if its correct tho
+	public void addColliderPair (ColliderPair<ColliderEntity> cPair)
 	{
-		addEntity (cPair.getFirst());
-		addEntity (cPair.getSecond());
+		addEntity (cPair.getFirst().getEntity(),cPair);
+		addEntity (cPair.getSecond().getEntity(),cPair);
 	}
 
 
@@ -56,17 +59,17 @@ public class SetCollisionRepository extends CollisionRepository
 	 * @param e
 	 * @param p
 	 */
-	private void addEntity (Entity e, ColliderPair p)
+	private void addEntity (Entity e, ColliderPair<ColliderEntity> p)
 	{
 		if (hasEntity (e))
 			mEntityMap.get (e).add (p);
 		else
 		{
-			ArrayList<ColliderPair> newColliderList = new ArrayList<>();
+			ArrayList<ColliderPair<ColliderEntity>> newColliderList = new ArrayList<>();
 			newColliderList.add (p);
 			mEntityMap.put (e, newColliderList);
 		}
 	}
 
-	private HashMap<Entity, ArrayList<ColliderPair>> mEntityMap;
+	private HashMap<Entity, ArrayList<ColliderPair<ColliderEntity>>> mEntityMap;
 }

@@ -17,7 +17,7 @@ public class GravityForceFactory implements ComponentFactory {
     }
 
     public GravityForce produce() {
-        GravityForce g1= new GravityForce(mVector);
+        GravityForce g1= new GravityForce(mVector.cpy());
         return g1;
     }
 

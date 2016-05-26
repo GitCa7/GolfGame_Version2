@@ -36,4 +36,20 @@ public class Gravity extends EntitySystem
 			f.add (g.cpy().scl (mass));
 		}
 	}
+
+	@Override
+	public void addEntity(Entity e) {
+		if (Families.GRAVITY_ATTRACTED.matches((e))) {
+			entities().add(e);
+		}
+	}
+
+
+	@Override
+	public void removeEntity(Entity e) {
+		if (Families.GRAVITY_ATTRACTED.matches((e))) {
+			entities().remove(e);
+		}
+
+	}
 }

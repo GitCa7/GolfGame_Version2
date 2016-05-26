@@ -14,8 +14,8 @@ import TerrainComponents.Terrain;
 
 public class MousePicker {
 
-	private static final int RECURSION_COUNT = 200;
-	private static final float RAY_RANGE = 600;
+	private static final int RECURSION_COUNT = 600;
+	private static final float RAY_RANGE = 10000;
 
 	private Vector3f currentRay = new Vector3f();
 
@@ -34,6 +34,7 @@ public class MousePicker {
 	}
 	
 	public Vector3f getCurrentTerrainPoint() {
+		
 		return currentTerrainPoint;
 	}
 
@@ -58,6 +59,7 @@ public class MousePicker {
 		Vector4f clipCoords = new Vector4f(normalizedCoords.x, normalizedCoords.y, -1.0f, 1.0f);
 		Vector4f eyeCoords = toEyeCoords(clipCoords);
 		Vector3f worldRay = toWorldCoords(eyeCoords);
+		//System.out.println(worldRay.x + " | " + worldRay.y + " | " + worldRay.z + "\n");
 		return worldRay;
 	}
 
@@ -134,5 +136,7 @@ public class MousePicker {
 	private Terrain getTerrain(float worldX, float worldZ) {
 		return terrain;
 	}
+	
+	
 
 }

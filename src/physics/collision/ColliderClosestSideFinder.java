@@ -20,11 +20,11 @@ public class ColliderClosestSideFinder {
     public Plane find(ColliderEntity active, ColliderEntity passive)
     {
         //Extract the Solid from the passive Entity
-        Solid passiveSolid = mPassive.getCollidingSolid();
+        Solid passiveSolid = passive.getCollidingSolid();
         ClosestSideFinder finder = new ClosestSideFinder(passiveSolid);
 
         //Extract the vector from the active entity
-        Vector3 activeVector = mActive.getCollidingVector();
+        Vector3 activeVector = active.getCollidingVector();
 
         return finder.closestSide(activeVector);
     }

@@ -34,6 +34,8 @@ public class CollisionComputer
 	/**
 	 *
 	 * @return the force excerted on the active object during physics.collision
+	 * Yo I need Martin for this. Does this even do anything?
+	 *
 	 */
 	public Vector3 collisionForce()
 	{

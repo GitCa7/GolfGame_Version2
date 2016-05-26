@@ -1,11 +1,13 @@
 package physics.geometry.planar;
 
 import com.badlogic.gdx.math.Vector3;
+import physics.geometry.linear.Line;
 
 /**
  * Class modeling a shape in 3 dimensional space. 
  * Objects inheriting from this class implement basic features to access the properties
  * of the respective shape.
+ * Every shape shall be immutable.
  * @author martin
  */
 public abstract class Shape 
@@ -41,4 +43,6 @@ public abstract class Shape
 	
 	private Vector3[] mVertices;
 	private Line[] mBorder;
+
+
 }

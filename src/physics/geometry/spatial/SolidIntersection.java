@@ -107,4 +107,5 @@ public class SolidIntersection
 	private Vector3 mIntersection;
 	private Vector3 mIntersection1;
 	private boolean mHasIntersection;
+
 }

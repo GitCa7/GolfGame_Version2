@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.util.vector.Vector3f;
 
-
+//np
 
 public class PointNode {
 	
@@ -43,6 +43,8 @@ public class PointNode {
 	public void printCoord()	{
 		System.out.println("X: " + x + "\tY: " + y + "\tZ: " + z);
 	}
+	
+
 
 	
 	
