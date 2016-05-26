@@ -67,7 +67,7 @@ public class GameVisual {
 		setUpEntities();
 		createSurrondings();
 		setUpScene();
-		startGame();
+		//startGame();
 	}
 	
 	public void setUpEntities()	{
