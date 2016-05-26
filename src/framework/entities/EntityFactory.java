@@ -1,5 +1,6 @@
 package framework.entities;
 
+import Entities.entity;
 import com.badlogic.ashley.core.Entity;
 import framework.ComponentBundle;
 import physics.systems.SystemsTracker;
