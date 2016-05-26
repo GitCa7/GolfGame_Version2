@@ -162,5 +162,9 @@ public class Editor implements ApplicationListener {
         renderer.cleanUp();
         loader.cleanUp(); //To change body of generated methods, choose Tools | Templates.
     }
+
+    public void save(boolean first){
+        
+    }
 }
 

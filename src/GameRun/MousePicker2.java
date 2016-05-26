@@ -133,7 +133,7 @@ public class MousePicker2 {
 	}
 
 	private Terrain getTerrain(float worldX, float worldZ) {
-		return terrain;
+		return terrain[0][0];
 	}
 	
 	

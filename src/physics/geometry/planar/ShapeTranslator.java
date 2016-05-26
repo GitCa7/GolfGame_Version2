@@ -20,7 +20,7 @@ public class ShapeTranslator extends Shape {
     {
         super(
         		new ForEach<Vector3, VertexTranslator>(new VertexTranslateOperation(position)).operate(shape.getVertices()),
-        		new ForEach<Vector3, LineTranslator>(new LineTranslateOperation(position)).operate());
+        		new ForEach<Vector3, LineTranslator>(new LineTranslateOperation(position)).operate(shape.getBorder()));
     }
 
     private Vector3 mPosition;

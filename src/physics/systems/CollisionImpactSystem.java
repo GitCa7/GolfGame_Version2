@@ -55,7 +55,7 @@ public class CollisionImpactSystem
                 ColliderEntity passive= (ColliderEntity)collPair.mSecond;
                 Vector3 forceToBeApplied = compute(active,passive,dTime);
                 //Update Force
-                Vector3 currentForce= CompoMappers.VELOCITY.get(active.getColliding());
+                Vector3 currentForce= CompoMappers.VELOCITY.get(active.getEntity());
                 currentForce.add(forceToBeApplied);
 
             }
@@ -67,7 +67,7 @@ public class CollisionImpactSystem
                 ColliderEntity passive= (ColliderEntity)collPair.mFirst;
                 Vector3 forceToBeApplied = compute(active,passive,dTime);
                 //Update Force
-                Vector3 currentForce= CompoMappers.VELOCITY.get(active.getColliding());
+                Vector3 currentForce= CompoMappers.VELOCITY.get(active.getEntity());
                 currentForce.add(forceToBeApplied);
             }
         }
@@ -85,7 +85,7 @@ public class CollisionImpactSystem
         //decompose v into u orthogonal to the plane and u parallel to the plane
         ColliderClosestSideFinder mFinder = new ColliderClosestSideFinder();
         Plane closestPlane = mFinder.find(active, passive);
-        Vector3 currentDirection = CompoMappers.VELOCITY.get(active.getColliding()).cpy();//Get the force and copy it to avoid changes
+        Vector3 currentDirection = CompoMappers.VELOCITY.get(active.getEntity()).cpy();//Get the force and copy it to avoid changes
 
         //Constructing the triangle
         VectorProjector mProjector = new VectorProjector(closestPlane.getNormal());
@@ -93,8 +93,8 @@ public class CollisionImpactSystem
         Vector3 orthoVec = currentDirection.sub(parPlane);   //w = v -u
 
         //get Stuff
-        float activeMass = CompoMappers.MASS.get(active.getColliding()).mMass;
-        float friction = CompoMappers.FRICTION.get(active.getColliding()).get(Friction.State.DYNAMIC, Friction.Type.MOVE);
+        float activeMass = CompoMappers.MASS.get(active.getEntity()).mMass;
+        float friction = CompoMappers.FRICTION.get(active.getEntity()).get(Friction.State.DYNAMIC, Friction.Type.MOVE);
         float restitution = PhysicsCoefficients.RESTITUTION_COEFFICIENT;
 
         //New force
