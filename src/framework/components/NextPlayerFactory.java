@@ -1,5 +1,6 @@
 package framework.components;
 
+import framework.entities.Player;
 import physics.components.ComponentFactory;
 
 /**

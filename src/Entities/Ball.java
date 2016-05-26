@@ -8,7 +8,7 @@ import ModelBuildComponents.TexturedModel;
 import RenderComponents.Loader;
 import RenderComponents.OBJLoader;
 import physics.components.GravityForce;
-
+import physics.components.Mass;
 
 
 public class Ball extends gameEntity	{
@@ -37,7 +37,7 @@ public class Ball extends gameEntity	{
 		
 		
 		float mass = mass (radius, density);
-		add (new Mass (mass));
+		add (new Mass(mass));
 		add (new Velocity());
 		add (new Spin());
 		add (new Force());
