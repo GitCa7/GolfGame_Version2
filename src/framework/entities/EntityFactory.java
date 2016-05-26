@@ -40,7 +40,7 @@ public class EntityFactory
 
 	/**
 	 *
-	 * @param c a given component bundle
+	 * @param cs a given component bundle
 	 * @return true if this factory stores a bundle with the same identifier
 	 */
 	public boolean hasComponent (ComponentBundle ... cs)
@@ -74,7 +74,7 @@ public class EntityFactory
 	/**
 	 * removes c from the set of component bundles stored
 	 * Precondition: c exists within the set of component bundles
-	 * @param c the component bundle to remove
+	 * @param cs the component bundle to remove
 	 */
 	public void removeComponents (ComponentBundle ... cs)
 	{

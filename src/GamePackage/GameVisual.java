@@ -7,7 +7,6 @@ import Entities.FollowCamera;
 import Entities.GolfBall;
 import Entities.Light;
 import Entities.gameEntity;
-import GameRun.MousePicker2;
 import RenderComponents.DisplayManager;
 import RenderComponents.Loader;
 import RenderComponents.MasterRenderer;

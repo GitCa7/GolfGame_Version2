@@ -9,6 +9,8 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 import framework.ComponentBundle;
 import framework.GameConfigurator;
+import framework.components.NextPlayerFactory;
+import framework.components.TurnFactory;
 import framework.entities.EntityFactory;
 import framework.entities.Player;
 import org.lwjgl.util.vector.Vector3f;
@@ -27,20 +29,16 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class GameLoader {
-	ArrayList<gameEntity> entities;
-	TerrainData tdata;
-	Vector3f ballPos;
-	Vector3f holePos;
 	
 
 	
-	private GameConfigurator loadConfig()	{
+	private static GameConfigurator loadConfig()	{
 		String name = JOptionPane.showInputDialog("Course Name?");
 		Course toPlay = CourseLoader.loadCourse(name);
-		 entities = toPlay.getEntities();
-		tdata = toPlay.getTerrain();
-		ballPos = toPlay.getBallPos();
-		holePos = toPlay.getHolePos();
+		ArrayList<gameEntity> entities = toPlay.getEntities();
+		TerrainData tdata = toPlay.getTerrain();
+		Vector3f ballPos = toPlay.getBallPos();
+		Vector3f holePos = toPlay.getHolePos();
 
 		Vector3[][] params = new Vector3[entities.size()-1][3];
 		Box[] boxes = new Box[entities.size()-1];
@@ -88,7 +86,13 @@ public class GameLoader {
 		entityMaker.removeComponents(bodyBundle, positionBundle);
 		bodyMaker.clear();
 
-
+		NextPlayerFactory nextplayerMaker = new NextPlayerFactory();
+		TurnFactory turnMaker = new TurnFactory();
+		ComponentBundle playerBundle = new ComponentBundle(nextplayerMaker,null);
+		ComponentBundle turnBundle = new ComponentBundle(turnMaker,null);
+		entityMaker.addComponent(playerBundle,turnBundle);
+		Player player = new Player(entityMaker.produce());
+		entityMaker.removeComponents(bodyBundle, positionBundle);
 
 		config.addBall(player,ball);
 
@@ -101,10 +105,6 @@ public class GameLoader {
 		return config;
 	}
 	
-	public static void main(String[] args)	{
-		GameLoader gameLoad = new GameLoader();
-	}
-
 
 
 }

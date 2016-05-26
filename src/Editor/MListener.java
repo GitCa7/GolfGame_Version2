@@ -63,6 +63,10 @@ public class MListener extends InputAdapter {
                 selected.setRotY(selected.getRotY()+20f);
             return true;
         }
+        else if (Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+            parent.save();
+            return true;
+        }
         else if (Gdx.input.isKeyPressed(Input.Keys.B)){
             if(picker.getCurrentTerrainPoint()!=null){
                 ball.setPosition(new Vector3f(picker.getCurrentTerrainPoint().x,terrain.getHeightDif(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z),picker.getCurrentTerrainPoint().z));
