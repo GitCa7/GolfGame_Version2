@@ -10,13 +10,17 @@ import com.badlogic.gdx.math.Vector3;
 import framework.ComponentBundle;
 import framework.GameConfigurator;
 import framework.entities.EntityFactory;
+import framework.entities.Player;
 import org.lwjgl.util.vector.Vector3f;
 import physics.components.BodyFactory;
 import physics.components.ComponentFactory;
 import physics.components.PositionFactory;
 import physics.entities.Ball;
+import physics.entities.Hole;
 import physics.geometry.spatial.BoxParameter;
 import physics.geometry.spatial.Box;
+import physics.geometry.spatial.SphereTetrahedrizer;
+import physics.geometry.spatial.Tetrahedron;
 import physics.systems.EntitySystemFactory;
 
 import javax.swing.*;
@@ -28,11 +32,9 @@ public class GameLoader {
 	Vector3f ballPos;
 	Vector3f holePos;
 	
-	public GameLoader()	{
-		setFakeTerrain();
-	}
+
 	
-	private void setFakeTerrain()	{
+	private GameConfigurator loadConfig()	{
 		String name = JOptionPane.showInputDialog("Course Name?");
 		Course toPlay = CourseLoader.loadCourse(name);
 		 entities = toPlay.getEntities();
@@ -72,9 +74,29 @@ public class GameLoader {
 			entityMaker.addComponent(bodyBundle, positionBundle);
 			config.addEntities(entityMaker, 1);
 			entityMaker.removeComponents(bodyBundle, positionBundle);
+			bodyMaker.clear();
 		}
-		Entity ball = new Entity();
+		Vector3f a =entities.get(0).getPosition();
+		SphereTetrahedrizer ballMaker = new SphereTetrahedrizer(new Vector3(a.x,a.y,a.z),entities.get(0).scale/2);
+		ArrayList<Tetrahedron> tmp = ballMaker.tetrahedrize(2,5);
+		for (Tetrahedron b:tmp){
+			bodyMaker.addSolid(b);
+		}
+		positionMaker.setVector(new Vector3(ballPos.x,ballPos.y,ballPos.z));
+		entityMaker.addComponent(bodyBundle, positionBundle);
+		Ball ball = new Ball(entityMaker.produce());
+		entityMaker.removeComponents(bodyBundle, positionBundle);
+		bodyMaker.clear();
+		Player player = new Player();
+		config.addBall(player,ball);
 
+		a = holePos;
+		positionMaker.setVector(new Vector3(a.x,a.y,a.z));
+		entityMaker.addComponent(bodyBundle, positionBundle);
+		Hole hole = new Hole(entityMaker.produce());
+		config.setHole(hole);
+
+		return config;
 	}
 	
 	public static void main(String[] args)	{
