@@ -96,6 +96,8 @@ public class GameCreationDemo
 		EntitySystemFactory entFax = null;
 		return new ComponentBundle (compFax, entFax);
 	}
+	
+	
 
 
 }

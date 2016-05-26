@@ -45,10 +45,12 @@ public class SetCollisionRepository extends CollisionRepository
 	 * @param cPair a given collider pair
 	 */
 
+
+	//here cpair used to be cpar.getFirst() and second for the second one(error), change seems to make sense, dont know if its correct tho
 	public void addColliderPair (ColliderPair<ColliderEntity> cPair)
 	{
-		addEntity (cPair.getFirst().getColliding(),cPair.getFirst());
-		addEntity (cPair.getSecond().getColliding(),cPair.getSecond());
+		addEntity (cPair.getFirst().getEntity(),cPair);
+		addEntity (cPair.getSecond().getEntity(),cPair);
 	}
 
 

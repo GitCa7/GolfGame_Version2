@@ -1,6 +1,8 @@
 package framework;
 
+import Entities.entity;
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 
 import framework.components.Turn;
@@ -10,6 +12,7 @@ import framework.entities.Player;
 import framework.internal.components.*;
 import framework.internal.systems.*;
 import framework.systems.EntityListener;
+import physics.components.Force;
 import physics.entities.Ball;
 import physics.entities.Hole;
 

@@ -141,7 +141,7 @@ public class HeightMapSurfaceTest {
 >>>>>>> origin/master
 	   */
 	    public void setUpTerrain(){
-	    	Terrain terrain = new Terrain(0,0);
+	    	Terrain terrain = new Terrain(0,0,800);
 	        //Terrain terrain2 = new Terrain(1,0,"heightmap");
 	        terrains.add(terrain);
 	        //terrains.add(terrain2);
@@ -157,7 +157,7 @@ public class HeightMapSurfaceTest {
 	   public void startGame()	{
 		   while(!Display.isCloseRequested()){
 	           cam.move();
-	           //Möglicherweise cam.checkInputs
+	           //Mï¿½glicherweise cam.checkInputs
 	           
 	           for(gameEntity plant:surrondings)	{
 	        	   renderer.processEntity(plant);

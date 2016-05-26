@@ -1,10 +1,12 @@
 package physics.geometry.linear;
 
 import physics.generic.Operation;
-import physics.geometry.planar.Shape;
-import physics.geometry.planar.ShapeTranslator;
+//import physics.geometry.planar.Shape;
+//import physics.geometry.planar.ShapeTranslator;
+import com.badlogic.gdx.math.*;
 
-public class VertexTranslateOperation implements Operation<Shape, ShapeTranslator>
+
+public class VertexTranslateOperation implements Operation<Vector3, VertexTranslator>
 {
 	
 	public VertexTranslateOperation (Vector3 translate)
@@ -13,9 +15,9 @@ public class VertexTranslateOperation implements Operation<Shape, ShapeTranslato
 	}
 	
 	@Override
-	public VertexTranslator operate(Shape s) 
+	public VertexTranslator operate(Vector3 v)
 	{
-		return new VertexTranslator(s, mTranslate);
+		return new VertexTranslator(v, mTranslate);
 	}
 	
 	private Vector3 mTranslate;

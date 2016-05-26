@@ -82,7 +82,7 @@ public class MousePicker2 {
 		return new Vector2f(x, y);
 	}
 	
-	//**********************************************************
+	
 	
 	private Vector3f getPointOnRay(Vector3f ray, float distance) {
 		Vector3f camPos = camera.getPosition();
@@ -133,7 +133,19 @@ public class MousePicker2 {
 	}
 
 	private Terrain getTerrain(float worldX, float worldZ) {
-		return terrain;
+<<<<<<< HEAD
+		
+		for(int i = 0; i < terrain.length; i++)	{
+			for(int j = 0; j < terrain[0].length; j++)	{
+				if(terrain[i][j].isOnTerrain(worldX, worldZ))	{
+					return terrain[i][j];
+				}
+			}
+		}
+		return null;
+=======
+		return terrain[0][0];
+>>>>>>> 31dd2bf2d6c4b2a4e78e23e369e20961b35c40d0
 	}
 	
 	

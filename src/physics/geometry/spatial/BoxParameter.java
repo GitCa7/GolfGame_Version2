@@ -8,26 +8,32 @@ import java.util.Arrays;
 /**
  * Created by Alexander on 24.05.2016.
  */
-public class BoxParameter implements Parameter<Box>  {
+public class BoxParameter implements Parameter<Box>
+{
 
-
-    public BoxParameter(Vector3[] defining){
-        mDefining=defining;
-
+    /**
+     *
+     * @param directions array of 3 direction vectors
+     */
+    public BoxParameter(Vector3 ... directions)
+    {
+        mBuilder = new BoxBuilder(directions);
+        mDirections = directions;
     }
     public Box instantiate() {
-        BoxBuilder builder = new BoxBuilder(mDefining);
-        return builder.build() ;
+        return mBuilder.build() ;
     }
 
-    public Vector3[] getDefining(){return mDefining;}
+    public Vector3[] getmDirections(){return mDirections;}
 
-    public boolean equals(BoxParameter para) {
-        HashSet<Vector3> set1= new HashSet<>(Arrays.asList(mDefining));
-        HashSet<Vector3> set2= new HashSet<>(Arrays.asList(para.mDefining));
-        return false;
+    public boolean equals(BoxParameter para)
+    {
+        HashSet<Vector3> set1= new HashSet<>(Arrays.asList(this.mBuilder.vertices()));
+        return set1.containsAll(Arrays.asList(para.mBuilder.vertices()));
     }
 
-    private Vector3[] mDefining;
+
+    private BoxBuilder mBuilder;
+    private Vector3[] mDirections;
 
 }
