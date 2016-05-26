@@ -1,4 +1,4 @@
-package physics.systems;
+/* package physics.systems;
 
 import com.badlogic.ashley.core.Entity;
 
@@ -7,6 +7,8 @@ import java.util.HashSet;
 /**
  * Created by marcel on 21.05.2016.
  */
+//Creates NewEntitiesListenerFactory
+/*
 public class NewEntitiesListenerFactory {
 
     public NewEntitiesListenerFactory(){
@@ -24,3 +26,4 @@ public class NewEntitiesListenerFactory {
 
     private HashSet<Entity> mEntitySet;
 }
+*/

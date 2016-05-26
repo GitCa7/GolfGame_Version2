@@ -2,9 +2,10 @@ package physics.systems;
 import com.badlogic.ashley.core.Entity;
 
 
-/**
+/** Creates FrictionComputerFactory
  * Created by marcel on 21.05.2016.
  */
+
 public class FrictionComputerFactory {
 
     public FrictionComputerFactory(){
