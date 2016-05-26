@@ -1,10 +1,12 @@
 package GameRun;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.badlogic.gdx.math.Vector3;
@@ -18,11 +20,13 @@ import Entities.Light;
 import Entities.Obstacle;
 import Entities.crate;
 import Entities.gameEntity;
+import GUIs.GUITexture;
 import LogicAndExtras.MousePicker;
 import ModelBuildComponents.ModelTexture;
 import ModelBuildComponents.RawModel;
 import ModelBuildComponents.TexturedModel;
 import RenderComponents.DisplayManager;
+import RenderComponents.GuiRenderer;
 import RenderComponents.Loader;
 import RenderComponents.MasterRenderer;
 import RenderComponents.OBJLoader;
@@ -32,6 +36,7 @@ public class SurfaceTest {
 	
 	//For rendering and displaying the Scene
 			MasterRenderer renderer;
+			GuiRenderer guiRender;
 			
 			//For loading Object Data
 			Loader loader;
@@ -40,6 +45,9 @@ public class SurfaceTest {
 			ArrayList<GolfBall> golfBalls;
 			ArrayList<gameEntity> entities;
 			ArrayList<gameEntity> surrondings;
+			
+			ArrayList<GUITexture> guis;
+			
 			Terrain[][] terrains;
 			FollowCamera followCam;
 			Camera cam;
@@ -54,17 +62,22 @@ public class SurfaceTest {
 				DisplayManager.createDisplay();
 				loader = new Loader();
 				renderer = new MasterRenderer(loader);
+				guiRender = new GuiRenderer(loader);
+				
 				golfBalls = new ArrayList<GolfBall>();
 				entities = new ArrayList<gameEntity>();
 				surrondings = new ArrayList<gameEntity>();
 				terrains = new Terrain[2][2];
-				
+				guis = new ArrayList<GUITexture>();
 				
 				useFollow = false;
 				setUpEntities();
 				setUpTerrain();
+				setUpGuis();
 				setUpScene();
+				
 				createSurrondings();
+				
 				
 				//mousePick = new MousePicker2(cam, renderer.getProjectionMatrix(), terrains);
 				
@@ -72,6 +85,13 @@ public class SurfaceTest {
 				
 				
 			}
+			
+			
+			public void setUpGuis()	{
+				GUITexture forceBar = new GUITexture(loader.loadTexture("socuwan"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
+				guis.add(forceBar);
+			}
+			
 			
 			public void createSurrondings()	{
 				RawModel grassModel = OBJLoader.loadObjModel("grassModel", loader);
@@ -197,6 +217,11 @@ public class SurfaceTest {
 		        	   renderer.processEntity(ball);
 		           }
 		           
+		           
+		           guiRender.render(guis);
+		           
+		           
+		           
 		           for(int i = 0; i < terrains.length; i++)	{
 			    		for(int j = 0; j < terrains[0].length; j++)	{
 			    			renderer.processTerrain(terrains[i][j]);
@@ -219,7 +244,7 @@ public class SurfaceTest {
 		           
 		           DisplayManager.updateDisplay();
 		       }
-
+			   guiRender.cleanUp();
 		       renderer.cleanUp();
 		       loader.cleanUp();
 		       DisplayManager.closeDisplay();
