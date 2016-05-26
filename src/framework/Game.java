@@ -60,6 +60,13 @@ public class Game
 	}
 
 	/**
+	 * 
+	 * @return all ball entities stored
+	 */
+	public ArrayList<Ball> getBalls() 
+	{ return new ArrayList<Ball> (mBallMap.values()); }
+	
+	/**
 	 *
 	 * @param p a player participating in this game
 	 * @return the ball associated with p

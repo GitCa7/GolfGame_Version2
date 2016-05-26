@@ -8,10 +8,16 @@ import com.badlogic.ashley.core.Entity;
  */
 public class Hole
 {
-	public Hole (Entity holeEntity)
+	
+	public Hole(Entity holeEntity)
 	{
 		mEntity = holeEntity;
 	}
-
+	
+	public boolean equals(Hole comp)
+	{
+		return (comp.mEntity == this.mEntity);
+	}
+	
 	public Entity mEntity;
 }
