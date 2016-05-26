@@ -80,6 +80,41 @@ public class Terrain {
         return new TerrainData(vertices,normals,textureCoords,indices,leafs);
     }
 
+    private void calculateNormal2()	{
+        Vector3f p1,p2,p3,v1,v2,normal;
+        Vector3f tmpCoords;
+
+        for(int i = 0; i < indices.length - 3; i += 3)	{
+            tmpCoords = leafs.get(indices[i]).getCoordinates();
+            p1 = new Vector3f(tmpCoords.x, tmpCoords.y, tmpCoords.z);
+
+            tmpCoords = leafs.get(indices[i+1]).getCoordinates();
+            p2 = new Vector3f(tmpCoords.x, tmpCoords.y, tmpCoords.z);
+
+            tmpCoords = leafs.get(indices[i+2]).getCoordinates();
+            p3 = new Vector3f(tmpCoords.x, tmpCoords.y, tmpCoords.z);
+
+            //(p2.X - p1.X, p2.Y - p1.Y, p2.Z - p1.Z)
+            v1 = new Vector3f(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);
+            v2 = new Vector3f(p3.x - p1.x, p3.y - p1.y, p3.z - p1.z);
+
+            normal = new Vector3f();
+            //normal = v1.crs(v2);
+            Vector3f.cross(v1, v2, normal);
+            normal.normalise();
+
+            //for vertice 0
+            leafs.get(indices[i]).setNormal(normal);
+            leafs.get(indices[i+1]).setNormal(normal);
+            leafs.get(indices[i]+2).setNormal(normal);
+
+            normals[i] = normal.x;
+            normals[i+1] = normal.y;
+            normals[i+2] = normal.z;
+
+        }
+    }
+
     private Vector3f calculateNormal(int x, int z, BufferedImage image) {
 
         if (x < 0 || x > image.getHeight() || z < 0 || z > image.getHeight()) {
@@ -119,12 +154,15 @@ public class Terrain {
         //int number = 0;
         for(int i = 0; i < vertices.length; i+=3)	{
             if(vertices[i] < xStart && vertices[i] > xLim && vertices[i+2] < zStart && vertices[i+2] > zLim)	{
-                if(vertices[i+1] < 30&&vertices[i+1]>-30)
-                    vertices[i+1] += amount;
+                if(vertices[i+1] < 30&&vertices[i+1]>-30) {
+                    vertices[i + 1] += amount;
+
+                }
 
             }
         }
-
+        updatePointNode();
+        calculateNormal2();
         model = loader.loadToVAO(vertices, textureCoords, normals, indices);
     }
 
@@ -137,7 +175,8 @@ public class Terrain {
 
             }
         }
-
+        updatePointNode();
+        calculateNormal2();
         model = loader.loadToVAO(vertices, textureCoords, normals, indices);
     }
 
@@ -168,6 +207,15 @@ public class Terrain {
         }
     }
 
+    public void updatePointNode()	{
+        int offset = 0;
+        PointNode tmp;
+        for(int i = 0; i < vertices.length-3; i += 3)	{
+            tmp = new PointNode(vertices[i], vertices[i+1], vertices[i+2]);
+            leafs.set(offset, tmp);
+            offset++;
+        }
+    }
 
 
     public void generateTerrain(Loader loader, String heightMap) {
