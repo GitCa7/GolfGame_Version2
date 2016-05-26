@@ -10,5 +10,10 @@ import com.badlogic.ashley.core.Entity;
  */
 public class Player extends Entity
 {
+    public Player (Entity playerEntity)
+    {
+        mEntity = playerEntity;
+    }
 
+    public Entity mEntity;
 }

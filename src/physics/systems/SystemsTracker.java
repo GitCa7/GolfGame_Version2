@@ -31,15 +31,28 @@ public class SystemsTracker
 			using.add (cb.system());
 		return using;
 	}
+	
+	/**
+	 * @param es a given entity system
+	 * @return true if another system of the same tyepe 
+	 * or the same entity system is already tracked
+	 */
+	public boolean hasSystem (EntitySystem es)
+	{
+		return mSystemsInUse.contains(es);
+	}
+	
 
 	/**
 	 * adds b to the set of component bundles, representing the systems in use or does not do anything if such a system
 	 * was added previously.
+	 * If a component bundle contains a 'null' system, nothing happens
 	 * @param b component bundle to track
 	 */
 	public void track (ComponentBundle b)
 	{
-		mSystemsInUse.add (b);
+		if (b.system() != null)
+			mSystemsInUse.add (b);
 	}
 
 
