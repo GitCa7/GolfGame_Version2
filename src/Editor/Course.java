@@ -23,5 +23,8 @@ public class Course {
         holePos=b;
     }
 
+    public String getName(){
+        return name;
+    }
 
 }
