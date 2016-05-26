@@ -1,8 +1,8 @@
 package physics.geometry.linear;
 
 import physics.generic.Operation;
-import physics.geometry.planar.Shape;
-import physics.geometry.planar.ShapeTranslator;
+//import physics.geometry.planar.Shape;
+//import physics.geometry.planar.ShapeTranslator;
 import com.badlogic.gdx.math.*;
 
 

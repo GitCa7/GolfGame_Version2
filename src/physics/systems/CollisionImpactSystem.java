@@ -1,10 +1,11 @@
 package physics.systems;
-import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.*;
 import com.badlogic.gdx.math.*;
 import physics.collision.*;
 import physics.components.Force;
 import physics.components.Friction;
 import physics.constants.CompoMappers;
+import physics.constants.Families;
 import physics.constants.PhysicsCoefficients;
 
 import physics.geometry.VectorProjector;
@@ -24,7 +25,7 @@ import java.util.HashSet;
         repository => normal force system
         */
 
-public class CollisionImpactSystem
+public class CollisionImpactSystem extends EntitySystem
 {
     /*
     In general: How does this system interact with the collisionImpactSystem and the CollisionComputer, what does the Collisions Computer do?
@@ -102,11 +103,42 @@ public class CollisionImpactSystem
         Vector3 needToApply = newDirection.sub(currentDirection).scl(activeMass).scl(1/dTime);
         return needToApply;
     }
+    @Override
+    public void addedToEngine (Engine e)
+    {
+        for (Entity add : e.getEntitiesFor (Families.COLLIDING))
+        {
+            entities().add (add);
+            mActive.add (add);
+            if (Families.ACCELERABLE.matches (add))
+                mActive.add (add);
+        }
+    }
+    public void addEntity(Entity e) {
+        if (Families.COLLIDING.matches((e))) {
+            entities().add(e);
+            mActive.add(e);
+            if (Families.ACCELERABLE.matches(e))
+                mActive.add(e);
+        }
+    }
+
+
+    public void removeEntity(Entity e)
+    {
+        if (Families.COLLIDING.matches((e))) {
+            entities().remove (e);
+            mActive.remove (e);
+            if (Families.ACCELERABLE.matches (e))
+                mActive.remove (e);
+        }
+    }
 
 
     private HashSet<Entity> mActive;
     private ColliderClosestSideFinder mClosestSideFinder;
     private CollisionRepository mRepository;
+
 
 }
 

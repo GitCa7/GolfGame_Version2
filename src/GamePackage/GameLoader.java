@@ -1,27 +1,31 @@
 package GamePackage;
 
+import Editor.Course;
+import Editor.CourseLoader;
 import TerrainComponents.Terrain;
-import TerrainComponents.proxyTerrain;
+
+import javax.swing.*;
 
 public class GameLoader {
 	
-	proxyTerrain[][] TerrainGrid;
+	proxyTerrain fakeTerrain;
 	
 	public GameLoader()	{
-		setTerrainGrid();
+		setFakeTerrain();
 	}
 	
-	private void setTerrainGrid()	{
-		int xAmount = 4;
-		int yAmount = 4;
+	private void setFakeTerrain()	{
+
+
+		String name = JOptionPane.showInputDialog("Course Name?");
+		Course toPlay = CourseLoader.loadCourse(name);
+		Terrain playTerrain = toPlay.getTerrain();
+
+		fakeTerrain = new proxyTerrain(playTerrain.ge);
 		
-		TerrainGrid = new proxyTerrain[xAmount][yAmount];
-		
-		for(int i = 0; i < TerrainGrid.length; i++)	{
-			for(int j = 0; j < TerrainGrid[0].length; j++)	{
-				TerrainGrid[i][j] = new proxyTerrain(i,j,"heightmap");
-			}
-		}
+
+
+
 	}
 	
 	public static void main(String[] args)	{

@@ -1,8 +1,9 @@
 package physics.systems;
 
-/**
+/** Creates CollisionDetectionSystemFactory
  * Created by marcel on 21.05.2016.
  */
+
 public class CollisionDetectionSystemFactory implements EntitySystemFactory {
 
     @Override

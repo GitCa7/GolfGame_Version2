@@ -11,7 +11,9 @@ import physics.geometry.VectorProjector;
 import java.util.ArrayList;
 
 import static physics.constants.PhysicsCoefficients.GRAVITY_EARTH;
-
+/** Creates NormalForce System to impelemnt Gravity
+ * Created by marcel on 21.05.2016.
+ */
 
 public class NormalForceSystem
 {
