@@ -186,7 +186,7 @@ public class Editor implements ApplicationListener {
     public void save() {
 
         String nameInput = JOptionPane.showInputDialog("Course Name?");
-        Course toSave = new Course(terrain, mouse.entities(), mouse.entities().get(0).getPosition(), new Vector3f(-50, 0, -50));
+        Course toSave = new Course(terrain.toData(), mouse.entities(), mouse.entities().get(0).getPosition(), new Vector3f(-50, 0, -50));
         ObjectInputStream inputStream = null;
         ObjectOutputStream outputStream = null;
         try {
