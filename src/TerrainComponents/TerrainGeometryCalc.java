@@ -11,6 +11,8 @@ import org.lwjgl.util.vector.Vector3f;
 
 import com.badlogic.gdx.math.Vector3;
 
+import ModelBuildComponents.RawModel;
+import RenderComponents.Loader;
 import physics.geometry.linear.Line;
 import physics.geometry.planar.Triangle;
 import physics.geometry.planar.TriangleBuilder;
@@ -19,12 +21,24 @@ import physics.geometry.spatial.TetrahedronBuilder;
 
 public class TerrainGeometryCalc {
 	
+	private static final Loader loader = new Loader();
 	private static final int triNumBorder = 43520;
 	private static final float MAX_HEIGHT = 80;
     private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
 	
 	public TerrainGeometryCalc()	{
 		
+	}
+	
+	public RawModel getTerrainFromData(TerrainData data)	{
+		
+		float[] vertices = data.getVertices();
+		float[] normals = data.getNormals();
+		int[] indices = data.getIndices();
+		float[] textureCoords = data.getTextureCoords();
+		
+		RawModel model = loader.loadToVAO(vertices, textureCoords, normals, indices);
+		return model;
 	}
 	
 	

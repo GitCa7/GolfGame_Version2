@@ -3,38 +3,30 @@ package GamePackage;
 import Editor.Course;
 import Editor.CourseLoader;
 import TerrainComponents.Terrain;
+import TerrainComponents.TerrainData;
 
 import javax.swing.*;
 
 public class GameLoader {
 	
-<<<<<<< HEAD
-	Terrain terra;
-=======
-	proxyTerrain fakeTerrain;
->>>>>>> origin/master
+	private TerrainData terraObject;
 	
-	public GameLoader()	{
-		setFakeTerrain();
+	public GameLoader(TerrainData terraObject)	{
+		this.terraObject = terraObject;
 	}
 	
 
-	private void setTerrainGrid()	{
-		int xAmount = 4;
-		int yAmount = 4;
-		
-		terra = new Terrain(0, 0);
-		
-	}
+	
 	private void setFakeTerrain()	{
 
 
 		String name = JOptionPane.showInputDialog("Course Name?");
 		Course toPlay = CourseLoader.loadCourse(name);
-		Terrain playTerrain = toPlay.getTerrain();
-
-		fakeTerrain = new proxyTerrain(playTerrain.ge);
-
+		
+	}
+	
+	private void sentToVisualsConfig()	{
+		GameVisualConfig visConf = new GameVisualConfig(terraObject);
 	}
 	
 	public static void main(String[] args)	{
