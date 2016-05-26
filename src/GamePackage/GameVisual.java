@@ -10,13 +10,9 @@ import Entities.FollowCamera;
 import Entities.GolfBall;
 import Entities.Light;
 import Entities.gameEntity;
-<<<<<<< HEAD
-=======
-import GameRun.MousePicker2;
 import ModelBuildComponents.ModelTexture;
 import ModelBuildComponents.RawModel;
 import ModelBuildComponents.TexturedModel;
->>>>>>> e9fc1d01ee3e81c9a5a4613d4ff7fa03b508ca12
 import RenderComponents.DisplayManager;
 import RenderComponents.Loader;
 import RenderComponents.MasterRenderer;

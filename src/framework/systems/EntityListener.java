@@ -10,7 +10,7 @@ import physics.systems.EntitySystem;
  * listener updating the set of physics.entities of an EntitySystem
  * @author martin
  */
-public class EntityListener implements framework.systems.badlogic.ashley.core.EntityListener
+public class EntityListener implements com.badlogic.ashley.core.EntityListener
 {
 	/**
 	 * @param system entity set to update

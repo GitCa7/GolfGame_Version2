@@ -3,6 +3,9 @@ package GamePackage;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.math.Vector3;
+import framework.Game;
+import framework.constants.CompoMappers;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.badlogic.ashley.core.Entity;
@@ -14,22 +17,32 @@ public class PhysicsTranslator {
 	
 	List<GolfBall> golfBalls = new ArrayList<GolfBall>();
 	Entity tmpEntity;
+	Vector3 vec;
 	Vector3f tmpVector;
+	Game parent;
 	
-	public PhysicsTranslator(ArrayList<gameEntity> golfBalls){
+	public PhysicsTranslator(ArrayList<gameEntity> golfBalls, Game paerent){
 		golfBalls = golfBalls;
+		this.parent = parent;
 	}
 	
 	public void update()	{
-		for(GolfBall gBall : golfBalls)	{
-			tmpEntity = /*YOUR METHOD FOR READING OUT THE BALL OORDINATES*/;
-			
-			//Read into Vector3f
-			tmpVector = new Vector3f();
-			
-			gBall.setPosition(tmpVector);
+		//if(golfBalls.size() != parent.getBalls().size()) {
 
-		}
+		//}
+		//else	{
+		int offset = 0;
+			for (GolfBall gBall : golfBalls) {
+				tmpEntity = parent.getBalls().get(offset).mEntity;
+				vec = physics.constants.CompoMappers.POSITION.get(tmpEntity);
+
+				//Read into Vector3f
+				tmpVector = new Vector3f(vec.x,vec.y,vec.z);
+
+				gBall.setPosition(tmpVector);
+
+			}
+		//}
 	}
 
 }
