@@ -18,6 +18,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import org.lwjgl.util.vector.Vector3f;
 
 import javax.swing.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -33,8 +34,9 @@ public class Editor implements ApplicationListener {
     ArrayList<gameEntity> renderEntities = new ArrayList();
     Terrain terrain;
     private float size;
+    private final boolean first = true;
 
-    public static void main (String[] arg) {
+    public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         new LwjglApplication(new Editor(), config);
     }
@@ -44,27 +46,46 @@ public class Editor implements ApplicationListener {
         loader = new Loader();
         String sizeInput = JOptionPane.showInputDialog("Terrain Size?");
         size = (float) Integer.parseInt(sizeInput);
-        terrain = new Terrain(0,0,size);
-        camera = new Camera(new Vector3f(-size/2,size/2,size/2));
+        terrain = new Terrain(0, 0, size);
+        camera = new Camera(new Vector3f(-size / 2, size / 2, size / 2));
         renderer = new MasterRenderer(loader);
         picker = new MousePicker(camera, renderer.getProjectionMatrix(), terrain);
-        mouse = new MListener(loader,camera,terrain,picker,this);
+        mouse = new MListener(loader, camera, terrain, picker, this);
         Gdx.input.setInputProcessor(mouse);
 
-        terrain.changeHeightNB(20,-size-20,20,-20,80);
-        terrain.changeHeightNB(20,-size-20,-size+20,-size-20,80);
-        terrain.changeHeightNB(20,-20,20,-size-20,80);
-        terrain.changeHeightNB(-size+20,-size-20,20,-size-20,80);
+        terrain.changeHeightNB(20, -size - 20, 20, -20, 80);
+        terrain.changeHeightNB(20, -size - 20, -size + 20, -size - 20, 80);
+        terrain.changeHeightNB(20, -20, 20, -size - 20, 80);
+        terrain.changeHeightNB(-size + 20, -size - 20, 20, -size - 20, 80);
 
         model = OBJLoader.loadObjModel("dragon", loader);
 
-        staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("red")));
+        staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("red")));
 
-
-
-        gameEntity dragon = new gameEntity(staticModel, new Vector3f(-50,0,-50),0,0,0,5);
+        gameEntity dragon = new gameEntity(staticModel, new Vector3f(-50, 0, -50), 0, 0, 0, 5);
         dragon.setRotY(-40);
         renderEntities.add(dragon);
+
+        if (first) {
+            ObjectOutputStream outputStream = null;
+            try {
+                ArrayList<Course> courses = new ArrayList<Course>();
+                System.out.println("yt");
+                outputStream = new ObjectOutputStream(new FileOutputStream("courses.dat"));
+                outputStream.writeObject((ArrayList<Course>) courses);
+            } catch (IOException ex) {
+                System.out.println("[Laad] IO Error11: " + ex.getMessage());
+            } finally {
+                try {
+                    if (outputStream != null) {
+                        outputStream.flush();
+                        outputStream.close();
+                    }
+                } catch (IOException e2) {
+                    System.out.println("[Update] Error12: " + e2.getMessage());
+                }
+            }
+        }
 
 
         RawModel grassModel = OBJLoader.loadObjModel("grassModel", loader);
@@ -81,21 +102,20 @@ public class Editor implements ApplicationListener {
         TexturedModel fernTextModel = new TexturedModel(fernModel, fernModelText);
 
 
-
-        light = new Light(new Vector3f(20000,20000,2000),new Vector3f(1,1,1));
+        light = new Light(new Vector3f(20000, 20000, 2000), new Vector3f(1, 1, 1));
 
 
         //mouse.entities().add(new Entity())
 
 
         Random ran = new Random();
-        float x,z;
-        for(int i = 0; i< size/9; i++)	{
-            x = ran.nextFloat() * (size-50) - (size);
+        float x, z;
+        for (int i = 0; i < size / 9; i++) {
+            x = ran.nextFloat() * (size - 50) - (size);
             z = ran.nextFloat() * -size;
             renderEntities.add(new gameEntity(grassTextModel, new Vector3f(x, mouse.terrain().getHeightSimple(x, z), z), 180, 0, 0, 3));
 
-            x = ran.nextFloat() * (size-50) - (size);
+            x = ran.nextFloat() * (size - 50) - (size);
             z = ran.nextFloat() * -size;
             renderEntities.add(new gameEntity(fernTextModel, new Vector3f(x, mouse.terrain().getHeightSimple(x, z), z), 0, 0, 0, 3));
         }
@@ -121,11 +141,11 @@ public class Editor implements ApplicationListener {
 
         renderer.processTerrain(mouse.terrain());
 
-        for(gameEntity entity:renderEntities){
+        for (gameEntity entity : renderEntities) {
             renderer.processEntity(entity);
 
         }
-        for(gameEntity entity:mouse.entities()){
+        for (gameEntity entity : mouse.entities()) {
             renderer.processEntity(entity);
 
         }
@@ -134,15 +154,15 @@ public class Editor implements ApplicationListener {
 
     }
 
-    public void updateEntities(){
-        for(gameEntity entity:renderEntities){
-            if(entity.getPosition().y!=mouse.terrain().getHeightDif(entity.getPosition().x, entity.getPosition().z)){
-                entity.setPosition(new Vector3f(entity.getPosition().x,mouse.terrain().getHeightDif(entity.getPosition().x, entity.getPosition().z),entity.getPosition().z));
+    public void updateEntities() {
+        for (gameEntity entity : renderEntities) {
+            if (entity.getPosition().y != mouse.terrain().getHeightDif(entity.getPosition().x, entity.getPosition().z)) {
+                entity.setPosition(new Vector3f(entity.getPosition().x, mouse.terrain().getHeightDif(entity.getPosition().x, entity.getPosition().z), entity.getPosition().z));
             }
         }
-        for(gameEntity entity:mouse.entities()){
-            if(entity.getPosition().y<mouse.terrain().getHeightDif(entity.getPosition().x, entity.getPosition().z)){
-                entity.setPosition(new Vector3f(entity.getPosition().x,mouse.terrain().getHeightDif(entity.getPosition().x, entity.getPosition().z),entity.getPosition().z));
+        for (gameEntity entity : mouse.entities()) {
+            if (entity.getPosition().y < mouse.terrain().getHeightDif(entity.getPosition().x, entity.getPosition().z)) {
+                entity.setPosition(new Vector3f(entity.getPosition().x, mouse.terrain().getHeightDif(entity.getPosition().x, entity.getPosition().z), entity.getPosition().z));
             }
         }
     }
@@ -163,8 +183,34 @@ public class Editor implements ApplicationListener {
         loader.cleanUp(); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void save(boolean first){
-        
+    public void save() {
+
+        String nameInput = JOptionPane.showInputDialog("Course Name?");
+        Course toSave = new Course(terrain, mouse.entities(), mouse.entities().get(0).getPosition(), new Vector3f(-50, 0, -50));
+        ObjectInputStream inputStream = null;
+        ObjectOutputStream outputStream = null;
+        try {
+            inputStream = new ObjectInputStream(new FileInputStream("courses.dat"));
+            System.out.println("g");
+            ArrayList<Course> courses = (ArrayList<Course>) inputStream.readObject();
+            courses.add(toSave);
+            outputStream = new ObjectOutputStream(new FileOutputStream("courses.dat"));
+            outputStream.writeObject((ArrayList<Course>) courses);
+        } catch (IOException ex) {
+            System.out.println("[Laad] IO Error: " + ex.getMessage());
+        } catch (ClassNotFoundException ex) {
+            System.out.println("error");
+        } finally {
+            try {
+                if (outputStream != null) {
+                    outputStream.flush();
+                    outputStream.close();
+                    inputStream.close();
+                }
+            } catch (IOException e2) {
+                System.out.println("[Update] Error: " + e2.getMessage());
+            }
+        }
     }
 }
 

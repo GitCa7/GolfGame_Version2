@@ -22,7 +22,7 @@ import java.util.List;
 public class MListener extends InputAdapter {
     Terrain terrain;
     Loader loader;
-    List<gameEntity> instances;
+    ArrayList<gameEntity> instances;
     MousePicker picker;
     Camera camera;
     Editor parent;
@@ -44,7 +44,7 @@ public class MListener extends InputAdapter {
     public Terrain terrain(){
         return terrain;
     }
-    public List<gameEntity> entities(){
+    public ArrayList<gameEntity> entities(){
         return instances;
     }
     @Override
