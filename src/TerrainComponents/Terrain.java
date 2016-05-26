@@ -52,7 +52,7 @@ public class Terrain {
         normals = data.getNormals();
         textureCoords = data.getTextureCoords();
         indices = data.getIndices();
-        
+        leafs = data.getLeafs();
     }
 
     public Terrain(int gridX, int gridZ, String heightMapPath) {
@@ -76,7 +76,9 @@ public class Terrain {
         leafs.add(newNode);
     }
 
-
+    public TerrainData toData(){
+        return new TerrainData(vertices,normals,textureCoords,indices,leafs);
+    }
 
     private Vector3f calculateNormal(int x, int z, BufferedImage image) {
 
