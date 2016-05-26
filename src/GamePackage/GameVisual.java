@@ -26,6 +26,7 @@ import RenderComponents.MasterRenderer;
 import RenderComponents.OBJLoader;
 import TerrainComponents.PointNode;
 import TerrainComponents.Terrain;
+import TerrainComponents.TerrainData;
 
 public class GameVisual {
 	MasterRenderer renderer;
@@ -62,12 +63,13 @@ public class GameVisual {
 	}
 
 	
-	public void setTerrain(Terrain terra)	{
-		terrains.add(terra);
+	public void setTerrain(TerrainData terra)	{
+		Terrain terraNew = new Terrain(terra);
+		terrains.add(terraNew);
 		setUpEntities();
 		createSurrondings();
 		setUpScene();
-		startGame();
+		//startGame();
 	}
 	
 	public void setUpEntities()	{
