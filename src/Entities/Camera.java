@@ -49,13 +49,7 @@ public class Camera {
 			this.currentSpeed = 0;
 		}
 
-		if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-			this.currentTurnSpeed = -RUN_SPEED;
-		} else if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-			this.currentTurnSpeed = RUN_SPEED;
-		} else {
-			this.currentTurnSpeed = 0;
-		}
+		
 
 		
 		
@@ -72,12 +66,17 @@ public class Camera {
 	public void move()	{
 		checkInputs();
 		float distance = currentSpeed * DisplayManager.getTimeDelat();
+		
+		
 		float dx = (float) (distance * Math.sin(Math.toRadians(-yaw)));
 		float dz = (float) (distance * Math.cos(Math.toRadians(-yaw)));
 		//upwardsSpeed += 0.2f * DisplayManager.getTimeDelat();
 		//setPosition(new Vector3f(dx, upwardsSpeed, dz));
+
 		position.x -= dx;
 		position.z -= dz;
+		
+		
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
 			yaw += YAW_CHANGE;

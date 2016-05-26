@@ -65,7 +65,7 @@ public class SurfaceTest {
 				setUpScene();
 				createSurrondings();
 				
-				mousePick = new MousePicker2(cam, renderer.getProjectionMatrix(), terrains);
+				//mousePick = new MousePicker2(cam, renderer.getProjectionMatrix(), terrains);
 				
 				startGame();
 				
@@ -90,15 +90,15 @@ public class SurfaceTest {
 		        float x,z;
 		        for(int i = 0; i < terrains.length;i++)	{
 		        	for(int j = 0; j < terrains[0].length;j++)	{
-		        		System.out.println("For Terrai: " + terrains[i][j]);
+		        		System.out.println("For Terrain: " + terrains[i][j]);
 		        		System.out.println("Infos: X\t" + terrains[i][j].x_start + "\t " + terrains[i][j].x_end + "\n\t\t: " + terrains[i][j].z_start + "\t " + terrains[i][j].z_end + "\n");
 		        		
 				        for(int k = 0; k < 50; k++)	{
-				        	x = terrains[i][j].x_start + ran.nextFloat() * (terrains[i][j].x_end - terrains[i][j].x_start);
-				        	z = terrains[i][j].z_start + ran.nextFloat() * (terrains[i][j].z_end - terrains[i][j].z_start);
+				        	x = ran.nextFloat() * ((terrains[i][j].x_end - terrains[i][j].x_start) * i);
+				        	z = ran.nextFloat() * ((terrains[i][j].z_end - terrains[i][j].z_start) * j);
 				        	surrondings.add(new gameEntity(grassTextModel, new Vector3f(x, terrains[i][j].getHeightSimple(x, z) + 3, z), 180, 0, 0, 3));
-				        	x = terrains[i][j].x_start + ran.nextFloat() * (terrains[i][j].x_end - terrains[i][j].x_start);
-				        	z = terrains[i][j].z_start + ran.nextFloat() * (terrains[i][j].z_end - terrains[i][j].z_start);
+				        	x = ran.nextFloat() * (terrains[i][j].x_end - terrains[i][j].x_start);
+				        	z = ran.nextFloat() * (terrains[i][j].z_end - terrains[i][j].z_start);
 				        	surrondings.add(new gameEntity(fernTextModel, new Vector3f(x, terrains[i][j].getHeightSimple(x, z), z), 0, 0, 0, 3));
 				        } 
 			        }
@@ -155,8 +155,7 @@ public class SurfaceTest {
 		    	}
 		    	
 
-		    	terrains[0][0].getAllTetrahedons();
-		    	terrains[0][0].displayPointNode();
+		    	
 		    }
 		    
 		   public void setUpScene()	{
@@ -213,12 +212,14 @@ public class SurfaceTest {
 		        	   else
 		        		   useFollow = false;
 		           }
+		           /*
 		           mousePick.update();
 		           if(mousePick.getCurrentTerrainPoint() != null)	{
 		        	   intersect = mousePick.getCurrentTerrainPoint();
 		        	   //System.out.println("Intersection: " + intersect.x + "\t|\t" + intersect.y + "\t|\t" + intersect.z);
 		           }
-		           direction = mousePick.getCurrentRay();
+		           */
+		           //direction = mousePick.getCurrentRay();
 		           //System.out.println("direction: " + direction.x + "\t|\t" + direction.y + "\t|\t" + direction.z);
 		           
 		           DisplayManager.updateDisplay();
