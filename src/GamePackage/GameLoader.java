@@ -87,7 +87,9 @@ public class GameLoader {
 		Ball ball = new Ball(entityMaker.produce());
 		entityMaker.removeComponents(bodyBundle, positionBundle);
 		bodyMaker.clear();
-		Player player = new Player();
+
+
+
 		config.addBall(player,ball);
 
 		a = holePos;
