@@ -5,6 +5,8 @@ import Editor.CourseLoader;
 import Entities.gameEntity;
 import TerrainComponents.Terrain;
 import TerrainComponents.TerrainData;
+<<<<<<< HEAD
+=======
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 import framework.ComponentBundle;
@@ -29,9 +31,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class GameLoader {
-	
 
-	
 	private static GameConfigurator loadConfig()	{
 		String name = JOptionPane.showInputDialog("Course Name?");
 		Course toPlay = CourseLoader.loadCourse(name);

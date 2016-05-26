@@ -2,19 +2,18 @@ package TerrainComponents;
 
 import java.util.ArrayList;
 
-/**
- * Created by Asus on 26-5-2016.
- */
+
 public class TerrainData {
     private float[] vertices;
     private float[] normals;
+    private float SIZE;
     float[] textureCoords;
     ArrayList<PointNode> leafs;
     int[] indices;
     private boolean hasHeightMap = false;
     String heightMapID;
 
-    public TerrainData(float[] vertices,float[] normals,float[] textureCoords,int[] indices,ArrayList<PointNode> leafs){
+    public TerrainData(float[] vertices,float[] normals,float[] textureCoords,int[] indices,ArrayList<PointNode> leafs, float SIZE){
         this.leafs = leafs;
         this.textureCoords =textureCoords;
         this.indices = indices;
@@ -25,8 +24,13 @@ public class TerrainData {
     public TerrainData(String heightMapID){
         hasHeightMap = true;
         this.heightMapID = heightMapID;
+        SIZE = 1000;
     }
 
+    public float[] getX() {
+        return vertices;
+    }
+    
     public float[] getVertices() {
         return vertices;
     }
