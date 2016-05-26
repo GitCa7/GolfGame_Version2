@@ -2,6 +2,12 @@ package TerrainComponents;
 
 import java.util.ArrayList;
 
+<<<<<<< HEAD
+=======
+/**
+ * Created by Asus on 26-5-2016.
+ */
+>>>>>>> origin/master
 public class TerrainData {
     private float[] vertices;
     private float[] normals;
@@ -51,4 +57,8 @@ public class TerrainData {
     public int[] getIndices() {
         return indices;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/master

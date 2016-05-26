@@ -27,4 +27,19 @@ public class Course {
         return name;
     }
 
+    public Terrain getTerrain(){
+        return terrain;
+    }
+
+    public ArrayList<gameEntity> getEntities(){
+        return entities;
+    }
+
+    public Vector3f getBallPos() {
+        return ballPos;
+    }
+
+    public Vector3f getHolePos() {
+        return holePos;
+    }
 }
