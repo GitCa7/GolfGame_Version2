@@ -1,13 +1,14 @@
 package GamePackage;
 
 import TerrainComponents.Terrain;
+import TerrainComponents.TerrainData;
 
 public class GameVisualConfig {
 	
-	Terrain[][] TerrainGrid;
+	Terrain terrain;
 	
-	public GameVisualConfig(Terrain[][] TerrainGrid)	{
-		this.TerrainGrid = TerrainGrid;
+	public GameVisualConfig(TerrainData data)	{
+		terrain = new Terrain(data);
 	}
 
 }

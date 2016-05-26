@@ -17,7 +17,7 @@ public class Course {
     Vector3f ballPos;
     Vector3f holePos;
 
-    public Course(TerrainData terrain, ArrayList<gameEntity> entities, Vector3f a, Vector3f b){
+    public Course(TerrainData terrain, ArrayList<gameEntity> entities, Vector3f a, Vector3f b, String name){
         this.terrain = terrain;
         this.entities = entities;
         ballPos =a;
