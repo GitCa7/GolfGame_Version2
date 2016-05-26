@@ -35,7 +35,7 @@ public class GameVisual {
 	Loader loader;
 	
 	//The Scene
-	ArrayList<gameEntity> golfBalls;
+	ArrayList<GolfBall> golfBalls;
 	ArrayList<gameEntity> entities;
 	ArrayList<gameEntity> surrondings;
 	ArrayList<Terrain> terrains;
@@ -54,7 +54,7 @@ public class GameVisual {
 		
 		
 		
-		golfBalls = new ArrayList<gameEntity>();
+		golfBalls = new ArrayList<GolfBall>();
 		entities = new ArrayList<gameEntity>();
 		surrondings = new ArrayList<gameEntity>();
 		terrains = new ArrayList<Terrain>();

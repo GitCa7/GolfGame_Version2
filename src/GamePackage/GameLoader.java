@@ -105,16 +105,15 @@ public class GameLoader {
 		Hole hole = new Hole(entityMaker.produce());
 		config.setHole(hole);
 
-		GameVisual visual = new GameVisual();
-		Terrain toPlayT = new Terrain(tdata);
-		visual.setTerrain(toPlayT);
+
 
 		return config;
 	}
 	
 	public GameVisual loadVisual(){
 		GameVisual visual  = new GameVisual();
-		visual.
+		visual.setTerrain(tdata);
+		return visual;
 	}
 
 }

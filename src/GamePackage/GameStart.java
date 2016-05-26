@@ -12,11 +12,12 @@ public class GameStart {
 	public static final int TICKS_PER_FRAME = 20;
 	
 	public GameStart()	{
-		GameConfigurator config = GameLoader.loadConfig();
+		GameLoader load = new GameLoader();
+		GameConfigurator config = load.loadConfig();
 		mGame = config.game();
 
 		//pass necessary resources to visual (i.e. terrain) in loader
-		mVisual = GameLoader.loadVisual();
+		mVisual = load.loadVisual();
 		mTranslate = mVisual.translate;
 		mTranslate.setGame(mGame);
 
