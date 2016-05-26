@@ -39,6 +39,8 @@ public class Camera {
 	public Camera(Vector3f position){
 		this.position = position;
 	}
+
+
 	
 	private void checkInputs() {
 		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {

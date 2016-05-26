@@ -34,14 +34,14 @@ public class ColliderEntity extends ColliderBody
 	 * @return entitiy stored7
 	 *
 	 */
-	public Entity getColliding() { return mColliding; }
+	public Entity getEntity() { return mColliding; }
 
 
 	/**
 	 *
 	 * @return true if entity stored is actively involved in collisions, i.e. belongs to accelerable family
 	 */
-	public boolean isActive() { return (Families.ACCELERABLE.matches (getColliding())); }
+	public boolean isActive() { return (Families.ACCELERABLE.matches (getEntity())); }
 
 
 	private Entity mColliding;

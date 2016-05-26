@@ -133,6 +133,7 @@ public class MousePicker2 {
 	}
 
 	private Terrain getTerrain(float worldX, float worldZ) {
+<<<<<<< HEAD
 		
 		for(int i = 0; i < terrain.length; i++)	{
 			for(int j = 0; j < terrain[0].length; j++)	{
@@ -142,6 +143,9 @@ public class MousePicker2 {
 			}
 		}
 		return null;
+=======
+		return terrain[0][0];
+>>>>>>> 31dd2bf2d6c4b2a4e78e23e369e20961b35c40d0
 	}
 	
 	
