@@ -15,7 +15,7 @@ public class BoxParameter implements Parameter<Box>
      *
      * @param directions array of 3 direction vectors
      */
-    public BoxParameter(Vector3[] directions)
+    public BoxParameter(Vector3 ... directions)
     {
         mBuilder = new BoxBuilder(directions);
         mDirections = directions;

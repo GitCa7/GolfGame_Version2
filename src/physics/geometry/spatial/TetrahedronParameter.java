@@ -1,6 +1,7 @@
 package physics.geometry.spatial;
 
 import com.badlogic.gdx.math.Vector3;
+import physics.generic.Parameter;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -8,14 +9,14 @@ import java.util.HashSet;
 /**
  * Created by Alexander on 24.05.2016.
  */
-public class TetrahedronParameter
+public class TetrahedronParameter implements Parameter<Tetrahedron>
 {
 
     /**
      *
      * @param defining vectors to 4 vertices defining the tetrahedron
      */
-    public TetrahedronParameter(Vector3[] defining)
+    public TetrahedronParameter(Vector3 ... defining)
     {
         mDefining=defining;
         norm();

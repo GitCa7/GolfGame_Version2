@@ -1,6 +1,7 @@
 package physics.geometry.spatial;
 
 import com.badlogic.gdx.math.Vector3;
+import physics.generic.Parameter;
 
 import java.util.ArrayList;
 
@@ -57,6 +58,8 @@ public class SphereTetrahedrizer
             southPole = southEquator;
 
         }
+
+        return tetrahedra;
     }
 
 
@@ -83,7 +86,10 @@ public class SphereTetrahedrizer
                 pole = new Vector3 (mCenter.x, mCenter.y, mCenter.z + mRadius);
 
             for (int cPoints = 0; cPoints < equatorList.size(); ++cPoints)
-                indstantiate tetrahedron for mCenter, pole, equatorList.get(cPoints), equatorList.get ((cPoints + 1) % equatorList.size())
+            {
+                Parameter<Tetrahedron> tp = new TetrahedronParameter(mCenter, pole, equatorList.get(cPoints), equatorList.get ((cPoints + 1) % equatorList.size()));
+                tetrahedra.add (TetrahedronPool.getInstance().getInstance(tp));
+            }
 
         }
         else
@@ -96,10 +102,14 @@ public class SphereTetrahedrizer
                 nextEquator = equatorList.get ((cPoints + 1) % equatorList.size());
                 nextPole = poleList.get ((cPoints + 1) % poleList.size());
 
-                instantiate tetrahedron for mCenter, currEquator, nextEquator, currPole;
-                instantiate tetrahedron for mCenter, nextEquator, currPole, nextPole;
+                TetrahedronParameter tp1 = new TetrahedronParameter (mCenter, currEquator, nextEquator, currPole);
+                TetrahedronParameter tp2 = new TetrahedronParameter (mCenter, nextEquator, currPole, nextPole);
+                tetrahedra.add (TetrahedronPool.getInstance().getInstance(tp1));
+                tetrahedra.add (TetrahedronPool.getInstance().getInstance(tp2));
             }
         }
+
+        return tetrahedra;
     }
 
     /**

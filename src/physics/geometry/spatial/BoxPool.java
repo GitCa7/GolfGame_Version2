@@ -6,7 +6,7 @@ import physics.generic.Pool;
  * singleton class for box pool
  * @author martin
  */
-public class BoxPool extends Pool<BoxParameter>
+public class BoxPool extends Pool<Box>
 {
 
     static
