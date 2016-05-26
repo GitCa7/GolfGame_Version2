@@ -23,10 +23,9 @@ public class CourseLoader {
         } catch (ClassNotFoundException ex) {
             System.out.print(ex.toString());
         }
-        String courseName = JOptionPane.showInputDialog("Course Name?");
         Course play=null;
         for (int i=0;i<toPlay.size();i++){
-            if (courseName.equals(toPlay.get(i).getName())){
+            if (name.equals(toPlay.get(i).getName())){
                 play = toPlay.get(i);
             }
         }

@@ -46,7 +46,7 @@ public class Editor implements ApplicationListener {
         loader = new Loader();
         String sizeInput = JOptionPane.showInputDialog("Terrain Size?");
         size = (float) Integer.parseInt(sizeInput);
-        terrain = new Terrain(0, 0, size);
+        terrain = new Terrain( size);
         camera = new Camera(new Vector3f(-size / 2, size / 2, size / 2));
         renderer = new MasterRenderer(loader);
         picker = new MousePicker(camera, renderer.getProjectionMatrix(), terrain);

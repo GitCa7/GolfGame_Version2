@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 import physics.geometry.linear.Line;
 import physics.geometry.planar.Triangle;
 import physics.geometry.planar.TriangleBuilder;
+import physics.geometry.spatial.Tetrahedron;
 import physics.geometry.spatial.TetrahedronBuilder;
 
 public class TerrainGeometryCalc {
@@ -16,7 +17,7 @@ public class TerrainGeometryCalc {
 	public TerrainGeometryCalc()	{
 		
 	}
-	
+	int triNumBorder;
 	
 	public Triangle[] getAllTris(proxyTerrain prox)		{
 		Vector3f start, middle, end;
