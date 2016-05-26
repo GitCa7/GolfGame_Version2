@@ -33,7 +33,7 @@ public class ShapeTranslator extends Shape {
      * @param shape array of vertices of shape
      * @param position
      */
-    public ShapeTranslator(Shape shape, Position position) 
+    public ShapeTranslator(Shape shape, Vector3 position)
     {
     	super (translateVertices (shape.getVertices(),position), translateLines(shape.getBorder(),position));
     }

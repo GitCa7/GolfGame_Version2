@@ -10,7 +10,7 @@ package physics.generic;
 public class Cacher<T>
 {
 	/** custom exception class for cacher */
-	public class CacherException extends IllegalStateException
+	public static class CacherException extends IllegalStateException
 	{
 		public CacherException (String message) { super (message); }
 	}

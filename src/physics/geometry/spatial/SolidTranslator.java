@@ -26,7 +26,7 @@ public class SolidTranslator extends Solid {
 	public static Vector3[] translateVertices(Vector3[] vertices, Vector3 position)
 	{
 		VertexTranslateOperation operation = new VertexTranslateOperation(position);
-		ForEach<Vector3, Vector> fe = new ForEach<>(operation);
+		ForEach<Vector3, VertexTranslator> fe = new ForEach<>(operation);
 		return fe.operate (new VertexTranslator[vertices.length], vertices);
 	}
 	
@@ -35,11 +35,8 @@ public class SolidTranslator extends Solid {
      *
      *
      */
-    public SolidTranslator(Solid solid, Position position) {
-        super (
-        		new ForEach<Vector3, VertexTranslator>(new VertexTranslateOperation(position)).operate(),
-        		new ForEach<Vector3, ShapeTranslator>(new ShapeTranslatorOperation(position)).operate()
-        		);
+    public SolidTranslator(Solid solid, Vector3 position) {
+        super ( translateVertices(solid.getVertices(), position), translateShapes(solid.getSides(), position));
 
         mPosition = position;
     }
@@ -50,5 +47,5 @@ public class SolidTranslator extends Solid {
     }
 
 
-    Position mPosition;
+    private Vector3 mPosition;
 }

@@ -3,6 +3,7 @@ package GamePackage;
 import java.util.ArrayList;
 import java.util.Random;
 
+import framework.Game;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
@@ -12,8 +13,9 @@ import Entities.FollowCamera;
 import Entities.GolfBall;
 import Entities.Light;
 import Entities.gameEntity;
-
-import GameRun.MousePicker2;
+import ModelBuildComponents.ModelTexture;
+import ModelBuildComponents.RawModel;
+import ModelBuildComponents.TexturedModel;
 import ModelBuildComponents.ModelTexture;
 import ModelBuildComponents.RawModel;
 import ModelBuildComponents.TexturedModel;
@@ -33,7 +35,7 @@ public class GameVisual {
 	Loader loader;
 	
 	//The Scene
-	ArrayList<gameEntity> golfBalls;
+	ArrayList<GolfBall> golfBalls;
 	ArrayList<gameEntity> entities;
 	ArrayList<gameEntity> surrondings;
 	ArrayList<Terrain> terrains;
@@ -52,7 +54,7 @@ public class GameVisual {
 		
 		
 		
-		golfBalls = new ArrayList<gameEntity>();
+		golfBalls = new ArrayList<GolfBall>();
 		entities = new ArrayList<gameEntity>();
 		surrondings = new ArrayList<gameEntity>();
 		terrains = new ArrayList<Terrain>();
@@ -116,7 +118,7 @@ public class GameVisual {
 	
 	public void setUpScene()	{
 		cam = new Camera(new Vector3f(4,20,-422));
-		followCam = new FollowCamera(golfBalls.get(0));   
+		followCam = new FollowCamera(golfBalls.get(0));
 		light = new Light(new Vector3f(20000,20000,2000),new Vector3f(1,1,1));
 	}
 	

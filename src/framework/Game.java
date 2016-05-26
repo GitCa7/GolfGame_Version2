@@ -52,7 +52,7 @@ public class Game
 		ArrayList<Player> turnPlayers = new ArrayList<>();
 		for (Player p : mBallMap.keySet())
 		{
-			Turn turn = CompoMappers.TURN.get (p);
+			Turn turn = CompoMappers.TURN.get (p.mEntity);
 			if (turn.mTurn)
 				turnPlayers.add (p);
 		}
@@ -70,13 +70,12 @@ public class Game
 	 *
 	 * @param p a player participating in this game
 	 * @return the ball associated with p
-	 * @throws some exception
 	 */
 	public Ball getBall (Player p)
 	{
 		if (!mBallMap.containsKey(p))
 			throw new IllegalArgumentException ("player is not contained and is not mapped to ball.");
-		mBallMap.get(p);
+		return mBallMap.get(p);
 	}
 
 	/**
@@ -93,7 +92,7 @@ public class Game
 	 */
 	public boolean isBusy()
 	{
-		return CompoMappers.BUSY.get(mGlobalState);
+		return CompoMappers.BUSY.get(mGlobalState).mBusy;
 	}
 
 	/**
@@ -104,7 +103,7 @@ public class Game
 	public void hit (Player p, Vector3 force)
 	{
 		Ball ballHit = getBall (p);
-		Force forceComp = physics.constants.CompoMappers.FORCE.get(ballHit);
+		Force forceComp = physics.constants.CompoMappers.FORCE.get(ballHit.mEntity);
 		forceComp.add (force);
 	}
 
@@ -134,8 +133,8 @@ public class Game
 		//internal components of global state
 		Active active = new Active();
 		Busy busy = new Busy();
-		mGlobalState.addComponent (active);
-		mGlobalState.addComponent (busy);
+		mGlobalState.add(active);
+		mGlobalState.add (busy);
 		
 		
 	}

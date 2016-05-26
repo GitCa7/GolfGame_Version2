@@ -48,7 +48,7 @@ public class TurnSystem extends EntitySystem
             if (turn.mDone)
             {
                 NextPlayer nextPlayer = CompoMappers.NEXT_PLAYER.get(process);
-                Turn nextPlayerTurn = CompoMappers.TURN.get(nextPlayer.mNext);
+                Turn nextPlayerTurn = CompoMappers.TURN.get(nextPlayer.mNext.mEntity);
 
                 turn.mTurn = false;
                 nextPlayerTurn.mTurn = true;
