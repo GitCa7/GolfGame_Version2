@@ -9,7 +9,7 @@ import physics.constants.Families;
 
 import physics.components.*;
 
-public class ForceApply extends EntitySystem 
+public class  ForceApply extends EntitySystem
 {
 	public ForceApply()
 	{

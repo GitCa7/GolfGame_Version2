@@ -1,10 +1,11 @@
 package physics.systems;
-import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.*;
 import com.badlogic.gdx.math.*;
 import physics.collision.*;
 import physics.components.Force;
 import physics.components.Friction;
 import physics.constants.CompoMappers;
+import physics.constants.Families;
 import physics.constants.PhysicsCoefficients;
 
 import physics.geometry.VectorProjector;
@@ -24,7 +25,7 @@ import java.util.HashSet;
         repository => normal force system
         */
 
-public class CollisionImpactSystem
+public class CollisionImpactSystem extends EntitySystem
 {
     /*
     In general: How does this system interact with the collisionImpactSystem and the CollisionComputer, what does the Collisions Computer do?
@@ -55,7 +56,7 @@ public class CollisionImpactSystem
                 ColliderEntity passive= (ColliderEntity)collPair.mSecond;
                 Vector3 forceToBeApplied = compute(active,passive,dTime);
                 //Update Force
-                Vector3 currentForce= CompoMappers.VELOCITY.get(active.getColliding());
+                Vector3 currentForce= CompoMappers.VELOCITY.get(active.getEntity());
                 currentForce.add(forceToBeApplied);
 
             }
@@ -67,7 +68,7 @@ public class CollisionImpactSystem
                 ColliderEntity passive= (ColliderEntity)collPair.mFirst;
                 Vector3 forceToBeApplied = compute(active,passive,dTime);
                 //Update Force
-                Vector3 currentForce= CompoMappers.VELOCITY.get(active.getColliding());
+                Vector3 currentForce= CompoMappers.VELOCITY.get(active.getEntity());
                 currentForce.add(forceToBeApplied);
             }
         }
@@ -85,7 +86,7 @@ public class CollisionImpactSystem
         //decompose v into u orthogonal to the plane and u parallel to the plane
         ColliderClosestSideFinder mFinder = new ColliderClosestSideFinder();
         Plane closestPlane = mFinder.find(active, passive);
-        Vector3 currentDirection = CompoMappers.VELOCITY.get(active.getColliding()).cpy();//Get the force and copy it to avoid changes
+        Vector3 currentDirection = CompoMappers.VELOCITY.get(active.getEntity()).cpy();//Get the force and copy it to avoid changes
 
         //Constructing the triangle
         VectorProjector mProjector = new VectorProjector(closestPlane.getNormal());
@@ -93,8 +94,8 @@ public class CollisionImpactSystem
         Vector3 orthoVec = currentDirection.sub(parPlane);   //w = v -u
 
         //get Stuff
-        float activeMass = CompoMappers.MASS.get(active.getColliding()).mMass;
-        float friction = CompoMappers.FRICTION.get(active.getColliding()).get(Friction.State.DYNAMIC, Friction.Type.MOVE);
+        float activeMass = CompoMappers.MASS.get(active.getEntity()).mMass;
+        float friction = CompoMappers.FRICTION.get(active.getEntity()).get(Friction.State.DYNAMIC, Friction.Type.MOVE);
         float restitution = PhysicsCoefficients.RESTITUTION_COEFFICIENT;
 
         //New force
@@ -102,11 +103,42 @@ public class CollisionImpactSystem
         Vector3 needToApply = newDirection.sub(currentDirection).scl(activeMass).scl(1/dTime);
         return needToApply;
     }
+    @Override
+    public void addedToEngine (Engine e)
+    {
+        for (Entity add : e.getEntitiesFor (Families.COLLIDING))
+        {
+            entities().add (add);
+            mActive.add (add);
+            if (Families.ACCELERABLE.matches (add))
+                mActive.add (add);
+        }
+    }
+    public void addEntity(Entity e) {
+        if (Families.COLLIDING.matches((e))) {
+            entities().add(e);
+            mActive.add(e);
+            if (Families.ACCELERABLE.matches(e))
+                mActive.add(e);
+        }
+    }
+
+
+    public void removeEntity(Entity e)
+    {
+        if (Families.COLLIDING.matches((e))) {
+            entities().remove (e);
+            mActive.remove (e);
+            if (Families.ACCELERABLE.matches (e))
+                mActive.remove (e);
+        }
+    }
 
 
     private HashSet<Entity> mActive;
     private ColliderClosestSideFinder mClosestSideFinder;
     private CollisionRepository mRepository;
+
 
 }
 

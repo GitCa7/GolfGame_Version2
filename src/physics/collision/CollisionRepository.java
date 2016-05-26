@@ -40,7 +40,7 @@ public class CollisionRepository
 
 		for (ColliderPair<ColliderEntity> cp : mColliderPairs)
 		{
-			if (cp.mFirst.getColliding().equals(e)||cp.mSecond.getColliding().equals(e) )
+			if (cp.mFirst.getEntity().equals(e)||cp.mSecond.getEntity().equals(e) )
 				collisions.add (cp);
 		}
 		return collisions;
@@ -55,7 +55,7 @@ public class CollisionRepository
 	{
 		for (ColliderPair<ColliderEntity> cp : mColliderPairs)
 		{
-			if (cp.mFirst.getColliding().equals(e)||cp.mSecond.getColliding().equals(e))
+			if (cp.mFirst.getEntity().equals(e)||cp.mSecond.getEntity().equals(e))
 				return true;
 		}
 
