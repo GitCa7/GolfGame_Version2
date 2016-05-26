@@ -29,14 +29,19 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class GameLoader {
+	TerrainData tdata;
+	ArrayList<gameEntity> entities;
+	Course toPlay;
+	Vector3f ballPos;
+	Vector3f holePos;
 
-	private static GameConfigurator loadConfig()	{
+	public GameConfigurator loadConfig()	{
 		String name = JOptionPane.showInputDialog("Course Name?");
-		Course toPlay = CourseLoader.loadCourse(name);
-		ArrayList<gameEntity> entities = toPlay.getEntities();
-		TerrainData tdata = toPlay.getTerrain();
-		Vector3f ballPos = toPlay.getBallPos();
-		Vector3f holePos = toPlay.getHolePos();
+		toPlay = CourseLoader.loadCourse(name);
+		entities = toPlay.getEntities();
+		tdata = toPlay.getTerrain();
+		ballPos = toPlay.getBallPos();
+		holePos = toPlay.getHolePos();
 
 		Vector3[][] params = new Vector3[entities.size()-1][3];
 		Box[] boxes = new Box[entities.size()-1];
@@ -100,9 +105,16 @@ public class GameLoader {
 		Hole hole = new Hole(entityMaker.produce());
 		config.setHole(hole);
 
+		GameVisual visual = new GameVisual();
+		Terrain toPlayT = new Terrain(tdata);
+		visual.setTerrain(toPlayT);
+
 		return config;
 	}
 	
-
+	public GameVisual loadVisual(){
+		GameVisual visual  = new GameVisual();
+		visual.
+	}
 
 }

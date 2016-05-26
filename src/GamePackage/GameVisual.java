@@ -3,6 +3,9 @@ package GamePackage;
 import java.util.ArrayList;
 import java.util.Random;
 
+import framework.Game;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
 import Entities.Camera;
@@ -13,6 +16,10 @@ import Entities.gameEntity;
 import ModelBuildComponents.ModelTexture;
 import ModelBuildComponents.RawModel;
 import ModelBuildComponents.TexturedModel;
+import ModelBuildComponents.ModelTexture;
+import ModelBuildComponents.RawModel;
+import ModelBuildComponents.TexturedModel;
+
 import RenderComponents.DisplayManager;
 import RenderComponents.Loader;
 import RenderComponents.MasterRenderer;
@@ -27,7 +34,7 @@ public class GameVisual {
 	Loader loader;
 	
 	//The Scene
-	ArrayList<GolfBall> golfBalls;
+	ArrayList<gameEntity> golfBalls;
 	ArrayList<gameEntity> entities;
 	ArrayList<gameEntity> surrondings;
 	ArrayList<Terrain> terrains;
@@ -35,6 +42,8 @@ public class GameVisual {
 	Camera cam;
 	Light light;
 	
+	
+	protected PhysicsTranslator translate;
 	private boolean useFollow;
 	
 	public GameVisual()	{
@@ -42,10 +51,14 @@ public class GameVisual {
 		loader = new Loader();
 		renderer = new MasterRenderer(loader);
 		
-		golfBalls = new ArrayList<GolfBall>();
+		
+		
+		golfBalls = new ArrayList<gameEntity>();
 		entities = new ArrayList<gameEntity>();
 		surrondings = new ArrayList<gameEntity>();
 		terrains = new ArrayList<Terrain>();
+		
+		translate = new PhysicsTranslator(golfBalls);
 	}
 
 	
@@ -54,6 +67,7 @@ public class GameVisual {
 		setUpEntities();
 		createSurrondings();
 		setUpScene();
+		startGame();
 	}
 	
 	public void setUpEntities()	{
@@ -98,9 +112,57 @@ public class GameVisual {
 	}
 	
 	
+	
+	
 	public void setUpScene()	{
 		cam = new Camera(new Vector3f(4,20,-422));
-		followCam = new FollowCamera(golfBalls.get(0));   
+		followCam = new FollowCamera(golfBalls.get(0));
 		light = new Light(new Vector3f(20000,20000,2000),new Vector3f(1,1,1));
 	}
+	
+	public void startGame()	{
+		   //displayAllEntites();
+		   
+		   Vector3f direction, intersect;
+		   
+		   while(!Display.isCloseRequested()){
+			   
+			   translate.update();
+			   
+			   if(useFollow == false)	{
+				   cam.move();
+			   }
+			   else	{
+				   followCam.move();
+			   }
+
+	           for(gameEntity ball:golfBalls)	{
+	        	   renderer.processEntity(ball);
+	           }
+	           
+
+	           for(Terrain terrain:terrains)	{
+	        	   renderer.processTerrain(terrain);
+	           }
+	           
+	           if(useFollow == false)	{
+	        	   renderer.render(light, cam);
+	           }
+	           else	{
+	        	   renderer.render(light, followCam);
+	           }
+	           
+	           if(Keyboard.isKeyDown(Keyboard.KEY_TAB))	{
+	        	   if(useFollow == false)
+	        		   useFollow = true;
+	        	   else
+	        		   useFollow = false;
+	           }
+	           
+	           DisplayManager.updateDisplay();
+	       }
+	       renderer.cleanUp();
+	       loader.cleanUp();
+	       DisplayManager.closeDisplay();
+	   }
 }

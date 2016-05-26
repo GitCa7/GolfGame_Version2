@@ -21,11 +21,14 @@ public class PhysicsTranslator {
 	Vector3f tmpVector;
 	Game parent;
 	
-	public PhysicsTranslator(ArrayList<gameEntity> golfBalls, Game paerent){
+	public PhysicsTranslator(ArrayList<gameEntity> golfBallst){
 		golfBalls = golfBalls;
 		this.parent = parent;
 	}
-	
+	public void setGame(Game game){
+		parent = game;
+	}
+
 	public void update()	{
 		//if(golfBalls.size() != parent.getBalls().size()) {
 
