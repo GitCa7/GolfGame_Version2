@@ -24,6 +24,15 @@ public abstract class EntitySystem extends com.badlogic.ashley.core.EntitySystem
 	{
 		this.priority = priority;
 	}
+	
+	/**
+	 * @param comp entity system to compare with
+	 * @return true if comp and this are of the same class type
+	 */
+	public boolean equals(EntitySystem comp)
+	{
+		return (this.getClass().equals (comp.getClass()));
+	}
 
     /**
      * checks whether e belongs to the system and adds e if on successful check

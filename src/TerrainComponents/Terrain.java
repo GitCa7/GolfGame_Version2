@@ -33,7 +33,7 @@ public class Terrain {
     private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
 
 
-    private float xStart, zStart, xEnd, zEnd;
+    public float x_start, z_start, x_end, z_end;
 
     private boolean heightMapUse;
     private int VERTEX_COUNT;
@@ -43,25 +43,45 @@ public class Terrain {
     private float[] normals;
     float[] textureCoords;
     int[] indices;
+    
+    private static final TerrainGeometryCalc terraCalc = new TerrainGeometryCalc();
 
     public ArrayList<PointNode> leafs;
+    
+    public float x,z;
 
 
     public Terrain (TerrainData data){
+    	x = 0;
+    	z = 0;
         vertices = data.getVertices();
         normals = data.getNormals();
         textureCoords = data.getTextureCoords();
         indices = data.getIndices();
         leafs = data.getLeafs();
+        model = terraCalc.getTerrainFromData(data);
     }
 
     public Terrain(int gridX, int gridZ, String heightMapPath) {
-        xStart = gridX;
-        zStart = gridZ;
+    	x = 0;
+    	z = 0;
+    	
         SIZE = 1000;
-        heightMapUse = true;
-        leafs = new ArrayList<PointNode>();
-        generateTerrain(loader, heightMapPath);
+        heightMapUse = false;
+        BufferedImage image = null;
+        if(heightMapPath != null)	{
+    		
+	    	try {
+				image = ImageIO.read(new File("res/" + heightMapPath +".png"));
+				heightMapUse = true;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+	    leafs = new ArrayList<PointNode>();
+	    generateTerrain(loader, heightMapPath);
+        
     }
 
     public Terrain(float size) {
@@ -77,7 +97,42 @@ public class Terrain {
     }
 
     public TerrainData toData(){
-        return new TerrainData(vertices,normals,textureCoords,indices,leafs);
+        return new TerrainData(vertices,normals,textureCoords,indices,leafs, 1000);
+    }
+
+    private void calculateNormal2()	{
+        Vector3f p1,p2,p3,v1,v2,normal;
+        Vector3f tmpCoords;
+
+        for(int i = 0; i < indices.length - 3; i += 3)	{
+            tmpCoords = leafs.get(indices[i]).getCoordinates();
+            p1 = new Vector3f(tmpCoords.x, tmpCoords.y, tmpCoords.z);
+
+            tmpCoords = leafs.get(indices[i+1]).getCoordinates();
+            p2 = new Vector3f(tmpCoords.x, tmpCoords.y, tmpCoords.z);
+
+            tmpCoords = leafs.get(indices[i+2]).getCoordinates();
+            p3 = new Vector3f(tmpCoords.x, tmpCoords.y, tmpCoords.z);
+
+            //(p2.X - p1.X, p2.Y - p1.Y, p2.Z - p1.Z)
+            v1 = new Vector3f(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);
+            v2 = new Vector3f(p3.x - p1.x, p3.y - p1.y, p3.z - p1.z);
+
+            normal = new Vector3f();
+            //normal = v1.crs(v2);
+            Vector3f.cross(v1, v2, normal);
+            normal.normalise();
+
+            //for vertice 0
+            leafs.get(indices[i]).setNormal(normal);
+            leafs.get(indices[i+1]).setNormal(normal);
+            leafs.get(indices[i]+2).setNormal(normal);
+
+            normals[i] = normal.x;
+            normals[i+1] = normal.y;
+            normals[i+2] = normal.z;
+
+        }
     }
 
     private Vector3f calculateNormal(int x, int z, BufferedImage image) {
@@ -114,30 +169,39 @@ public class Terrain {
         return 0;
 
     }
+    
+    
+    
 
-    public void changeHeight(float xStart, float xLim, float zStart, float zLim, float amount)	{
+    public void changeHeight(float x_start, float xLim, float z_start, float zLim, float amount)	{
         //int number = 0;
         for(int i = 0; i < vertices.length; i+=3)	{
-            if(vertices[i] < xStart && vertices[i] > xLim && vertices[i+2] < zStart && vertices[i+2] > zLim)	{
-                if(vertices[i+1] < 30&&vertices[i+1]>-30)
-                    vertices[i+1] += amount;
+            if(vertices[i] < x_start && vertices[i] > xLim && vertices[i+2] < z_start && vertices[i+2] > zLim)	{
+                if(vertices[i+1] < 30&&vertices[i+1]>-30) {
+                    vertices[i + 1] += amount;
+
+                }
 
             }
         }
-
+        updatePointNode();
+        calculateNormal2();
         model = loader.loadToVAO(vertices, textureCoords, normals, indices);
     }
+    
+    
 
-    public void changeHeightNB(float xStart, float xLim, float zStart, float zLim, float amount)	{
+    public void changeHeightNB(float x_start, float xLim, float z_start, float zLim, float amount)	{
         //int number = 0;
         for(int i = 0; i < vertices.length; i+=3)	{
-            if(vertices[i] < xStart && vertices[i] > xLim && vertices[i+2] < zStart && vertices[i+2] > zLim)	{
+            if(vertices[i] < x_start && vertices[i] > xLim && vertices[i+2] < z_start && vertices[i+2] > zLim)	{
                 if(vertices[i+1] < 80)
                     vertices[i+1] += amount;
 
             }
         }
-
+        updatePointNode();
+        calculateNormal2();
         model = loader.loadToVAO(vertices, textureCoords, normals, indices);
     }
 
@@ -168,6 +232,15 @@ public class Terrain {
         }
     }
 
+    public void updatePointNode()	{
+        int offset = 0;
+        PointNode tmp;
+        for(int i = 0; i < vertices.length-3; i += 3)	{
+            tmp = new PointNode(vertices[i], vertices[i+1], vertices[i+2]);
+            leafs.set(offset, tmp);
+            offset++;
+        }
+    }
 
 
     public void generateTerrain(Loader loader, String heightMap) {
@@ -213,7 +286,7 @@ public class Terrain {
 
 
                 if (i == VERTEX_COUNT - 1) {
-                    xEnd = -(float) j / ((float) VERTEX_COUNT - 1) * SIZE;
+                    x_end = -(float) j / ((float) VERTEX_COUNT - 1) * SIZE;
                 }
 
                 addNode(vertices[vertexPointer * 3], vertices[vertexPointer * 3 + 1], vertices[vertexPointer * 3 + 2]);
@@ -255,9 +328,21 @@ public class Terrain {
             }
         }
 
+        x_start = leafs.get(0).getCoordinates().x;
+        z_start = leafs.get(0).getCoordinates().z;
+        
+        x_end = leafs.get(leafs.size()-1).getCoordinates().x;
+        z_end = leafs.get(leafs.size()-1).getCoordinates().z;
+        
         model = loader.loadToVAO(vertices, textureCoords, normals, indices);
     }
 
+    
+    public void setModel(RawModel model)	{
+    	this.model = model;
+    }
+    
+    
     public void displayBoundaries() {
         PointNode lowerLeft, UpperLeft, lowerRight, UpperRight;
 
@@ -489,5 +574,13 @@ public class Terrain {
             offset++;
         }
         return list;
+    }
+    
+    public float getX()	{
+    	return x;
+    }
+    
+    public float getZ()	{
+    	return z;
     }
 }

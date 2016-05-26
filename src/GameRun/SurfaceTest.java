@@ -13,6 +13,7 @@ import Entities.Camera;
 import Entities.FollowCamera;
 import Entities.FollowCamera;
 import Entities.GolfBall;
+import Entities.Hole;
 import Entities.Light;
 import Entities.Obstacle;
 import Entities.crate;
@@ -108,7 +109,7 @@ public class SurfaceTest {
 			
 			public void setUpEntities()	{
 				
-				GolfBall golfball = new GolfBall(new Vector3f(4,20,-475), 2);
+				GolfBall golfball = new GolfBall(new Vector3f(4,5,-475), 1);
 				//cam.setPosition(new Vector3f(4,20,-422));
 				//System.out.println("ID: " + golfball.getModel().getRawModel().getID());
 				golfBalls.add(golfball);
@@ -121,6 +122,9 @@ public class SurfaceTest {
 				entities.add(crate);
 				entities.add(crate2);
 				entities.add(crate3);
+				
+				gameEntity hole = new Hole(new Vector3f(4,1,-475), 5);
+				entities.add(hole);
 			}
 			
 			public void displayAllEntites()	{
@@ -212,15 +216,6 @@ public class SurfaceTest {
 		        	   else
 		        		   useFollow = false;
 		           }
-		           /*
-		           mousePick.update();
-		           if(mousePick.getCurrentTerrainPoint() != null)	{
-		        	   intersect = mousePick.getCurrentTerrainPoint();
-		        	   //System.out.println("Intersection: " + intersect.x + "\t|\t" + intersect.y + "\t|\t" + intersect.z);
-		           }
-		           */
-		           //direction = mousePick.getCurrentRay();
-		           //System.out.println("direction: " + direction.x + "\t|\t" + direction.y + "\t|\t" + direction.z);
 		           
 		           DisplayManager.updateDisplay();
 		       }

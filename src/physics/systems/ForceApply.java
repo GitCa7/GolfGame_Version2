@@ -40,9 +40,9 @@ public class  ForceApply extends EntitySystem
 			Vector3 a = f.cpy();
 			a.scl (1 / m.mMass);
 			
-			//dv = 1/2 * a^2
-			a.scl (a);
-			v.add (a.scl (0.5f));
+			//dv = a * t
+			a.scl (dTime);
+			v.add (a);
 			
 			f.setZero();
 		}

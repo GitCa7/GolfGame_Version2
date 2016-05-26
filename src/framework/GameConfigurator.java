@@ -1,6 +1,7 @@
 package framework;
 
 import com.badlogic.ashley.core.Engine;
+import framework.entities.Player;
 import physics.entities.Ball;
 import framework.entities.EntityFactory;
 import physics.entities.Hole;
