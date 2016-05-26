@@ -1,6 +1,11 @@
 package TerrainComponents;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import org.lwjgl.util.vector.Vector3f;
 
@@ -9,22 +14,155 @@ import com.badlogic.gdx.math.Vector3;
 import physics.geometry.linear.Line;
 import physics.geometry.planar.Triangle;
 import physics.geometry.planar.TriangleBuilder;
+import physics.geometry.spatial.Tetrahedron;
 import physics.geometry.spatial.TetrahedronBuilder;
 
 public class TerrainGeometryCalc {
+	
+	private static final int triNumBorder = 43520;
+	private static final float MAX_HEIGHT = 80;
+    private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
 	
 	public TerrainGeometryCalc()	{
 		
 	}
 	
 	
-	public Triangle[] getAllTris(proxyTerrain prox)		{
+	public void generateTerrain(float[] vertices,float[] normals,float[] textureCoords,int[] indices, ArrayList<PointNode> leafs, float SIZE, String heightMapPath)	{
+		int VERTEX_COUNT = 0;
+    	boolean heightMapUse = false;
+    	BufferedImage image = null;
+    	if(heightMapPath != null)	{
+    		
+	    	try {
+				image = ImageIO.read(new File("res/" + heightMapPath +".png"));
+				heightMapUse = true;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	VERTEX_COUNT = image.getHeight();
+    	}
+    	
+    	
+    	if(VERTEX_COUNT == 0)	{
+    		VERTEX_COUNT = 128;
+    	}
+    		
+    	int count = VERTEX_COUNT * VERTEX_COUNT;
+        vertices = new float[count * 3];
+        normals = new float[count * 3];
+        textureCoords = new float[count*2];
+        indices = new int[6*(VERTEX_COUNT-1)*(VERTEX_COUNT*1)];
+        int vertexPointer = 0;
+        int leafCount = 0;
+        Vector3f normal;
+        for(int i=0;i<VERTEX_COUNT;i++){
+            for(int j=0;j<VERTEX_COUNT;j++){
+                vertices[vertexPointer*3] = -((float)j)/((float)VERTEX_COUNT - 1) * SIZE;
+                
+                if(heightMapUse == true)	{
+                	vertices[vertexPointer*3+1] = getHeight(j, i, image);
+                }
+                else	{
+                	vertices[vertexPointer*3+1] = 1;
+                }
+                
+                vertices[vertexPointer*3+2] = -(float)i/((float)VERTEX_COUNT - 1) * SIZE;
+                
+                
+                PointNode tmp = new PointNode(vertices[vertexPointer*3], vertices[vertexPointer*3+1], vertices[vertexPointer*3+2]);
+                
+                leafs.add(tmp);
+                
+                
+                
+                
+                normal = new Vector3f();
+                if(heightMapUse)	{
+	                normal = calculateNormal(j,i,image);
+	
+	                normals[vertexPointer*3] = normal.x;
+	                normals[vertexPointer*3+1] = normal.y;
+	                normals[vertexPointer*3+2] = normal.z;
+                }
+                else	{
+                	normal = new Vector3f(0,1,0);
+                	normals[vertexPointer*3] = 0;
+	                normals[vertexPointer*3+1] = 1;
+	                normals[vertexPointer*3+2] = 0;
+                }
+                leafs.get(leafCount).setNormal(normal);
+                
+                textureCoords[vertexPointer*2] = (float)j/((float)VERTEX_COUNT - 1);
+                textureCoords[vertexPointer*2+1] = (float)i/((float)VERTEX_COUNT - 1);
+                vertexPointer++;
+            }
+        }
+        int pointer = 0;
+        for(int gz=0;gz<VERTEX_COUNT-1;gz++){
+            for(int gx=0;gx<VERTEX_COUNT-1;gx++){
+                int topLeft = (gz*VERTEX_COUNT)+gx;
+                int topRight = topLeft + 1;
+                int bottomLeft = ((gz+1)*VERTEX_COUNT)+gx;
+                int bottomRight = bottomLeft + 1;
+                indices[pointer++] = topLeft;
+                indices[pointer++] = bottomLeft;
+                indices[pointer++] = topRight;
+                indices[pointer++] = topRight;
+                indices[pointer++] = bottomLeft;
+                indices[pointer++] = bottomRight;
+            }
+        }
+	}
+	
+	private Vector3f calculateNormal(int x, int z, BufferedImage image)		{
+    	
+    	if(x < 0 || x > image.getHeight() || z < 0 || z > image.getHeight())	{
+    		return null;
+    	}
+    	
+    	float heightL = getHeight(x-1, z, image);
+    	float heightR = getHeight(x+1, z, image);
+    	float heightD = getHeight(x, z-1, image);
+    	float heightU = getHeight(x, z+1, image);
+
+    	Vector3f normal = new Vector3f(heightL-heightR, 2f, heightD - heightU);
+    	normal.normalise();
+    	return normal;
+    }
+	
+	
+    
+	private float getHeight(int x, int z, BufferedImage image)	{
+    	if(x < 0 || x > image.getHeight() || z < 0 || z > image.getHeight())	{
+    		return 0;
+    	}
+    	
+    	//System.out.println("X: " + x + " | Z: " + z);
+    	if(x >= 256)
+    		x = 255;
+    	
+    	if(z >= 256)
+    		z = 255;
+    	
+    	float height = image.getRGB(x, z);
+    	height += MAX_PIXEL_COLOR/2f;
+    	height /= MAX_PIXEL_COLOR/2f;
+    	
+    	height *= MAX_HEIGHT;
+    	return height;
+    	
+    	
+    }
+	
+	public Triangle[] getAllTris(TerrainData terraData)		{
 		Vector3f start, middle, end;
     	Vector3 startTemp, middleTemp, endTemp;
     	Triangle tempTri;
     	TriangleBuilder build;
-    	int[] indices = prox.getIndices();
-    	ArrayList<PointNode> leafs = prox.getLeafs();
+    	int[] indices = terraData.getIndices();
+    	ArrayList<PointNode> leafs = terraData.getLeafs();
     	Triangle[] list = new Triangle[indices.length / 3];
     	
     	Vector3[] tempVecAray;
@@ -32,7 +170,7 @@ public class TerrainGeometryCalc {
     	Line[] tempLineArray;
     	
     	int offset = 0;
-    	for(int i = 0; i < list.length; i+=3)	{
+    	for(int i = 0; i < list.length - 3; i+=3)	{
     		
     		start = leafs.get(indices[i]).getCoordinates();
     		startTemp = new Vector3(start.x, start.y, start.z);
@@ -57,12 +195,12 @@ public class TerrainGeometryCalc {
     	return list;
 	}
 	
-	 public void getAllTetrahedons(proxyTerrain prox)	{
+	 public Tetrahedron[] getAllTetrahedons(TerrainData terraData)	{
 	    	
 	    	float newPointDist = 5f;
 	    	
 	    	//need to go thoruhall triangles of the terrain
-	    	Triangle[] allTri = getAllTris(prox);
+	    	Triangle[] allTri = getAllTris(terraData);
 	    	
 	    	Vector3[] temp;
 	    	Line[] tempLines;
@@ -109,7 +247,7 @@ public class TerrainGeometryCalc {
 	    		offset+=3;
 	    	}
 	    	
-	    	//return TetraList;
+	    	return TetraList;
 	    	
 	    	
 	    }
