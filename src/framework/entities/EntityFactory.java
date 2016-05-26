@@ -34,7 +34,7 @@ public class EntityFactory
 	{
 		Entity newEntity = new Entity();
 		for (ComponentBundle cb : mComponentProducers)
-			newEntity.addComponent (cb.component());
+			newEntity.add (cb.component());
 		return newEntity;
 	}
 
