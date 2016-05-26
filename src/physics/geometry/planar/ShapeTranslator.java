@@ -10,9 +10,6 @@ import physics.generic.ForEach;
  * Created by Alexander on 25.05.2016.
  */
 public class ShapeTranslator extends Shape {
-    
-	
-	
 	/**
      * parametric constructor
      *

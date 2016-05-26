@@ -6,17 +6,18 @@ import physics.geometry.spatial.Solid;
  * Created by Alexander on 20.05.2016.
  * stores collidingVector together with a collidingSolid
  */
-public class ColliderSolid extends ColliderPair{
+public class ColliderSolid{
 
     /**
-      * @param CollidingSolid Solid involved in collision
-      * @param CollidingVector Vector3 that is part of CollidingSolid that causes the collision.
+      * @param collidingSolid Solid involved in collision
+      * @param collidingVector Vector3 that is part of CollidingSolid that causes the collision.
      *
      */
 
 
-    public ColliderSolid(Vector3 CollidingVector, Solid CollidingSolid){
-        super(CollidingVector, CollidingSolid);
+    public ColliderSolid(Vector3 collidingVector, Solid collidingSolid){
+        mCollidingSolid=collidingSolid;
+        mCollidingVector=collidingVector;
 
     }
 
