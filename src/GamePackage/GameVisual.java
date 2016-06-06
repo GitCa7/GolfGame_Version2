@@ -4,15 +4,30 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import framework.Game;
+import physics.components.Body;
+import physics.components.Force;
+import physics.components.Friction;
+import physics.components.Mass;
+import physics.components.Position;
+import physics.constants.CompoMappers;
+import physics.constants.Families;
+import physics.geometry.spatial.Box;
+import physics.geometry.spatial.BoxBuilder;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
+
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.math.Vector3;
 
 import Entities.Camera;
 import Entities.FollowCamera;
 import Entities.GolfBall;
 import Entities.Light;
 import Entities.gameEntity;
+import GamePackage.PhysicsTranslator;
 import ModelBuildComponents.ModelTexture;
 import ModelBuildComponents.RawModel;
 import ModelBuildComponents.TexturedModel;
@@ -43,6 +58,9 @@ public class GameVisual {
 	Camera cam;
 	Light light;
 	
+	//The Physics
+	private Engine gameEngine;
+	
 	
 	protected PhysicsTranslator translate;
 	private boolean useFollow;
@@ -69,7 +87,7 @@ public class GameVisual {
 		setUpEntities();
 		createSurrondings();
 		setUpScene();
-		//startGame();
+		
 	}
 	
 	public void setUpEntities()	{
@@ -113,7 +131,40 @@ public class GameVisual {
         }
 	}
 	
+	public void setEngine(Engine newEngine)	{
+		gameEngine = newEngine; 
+		checkGolfBallAmount();
+		startGame();
+	}
 	
+	public void updateObjects()	{
+		
+		gameEngine.update(1);
+		int pos = 0;
+		for(Entity ent : gameEngine.getEntitiesFor(Families.MOVING))	{
+			Vector3 position = CompoMappers.POSITION.get(ent);
+			Vector3f fPos = new Vector3f(position.x, position.y, position.z);
+			golfBalls.get(pos).setPosition(fPos);
+			pos++;
+		}
+		
+	}
+	
+	public void checkGolfBallAmount()	{
+		if(golfBalls.size() != gameEngine.getEntities().size())	{
+			GolfBall tmpBall;
+			int pos = 0;
+			for(Entity ent : gameEngine.getEntitiesFor(Families.MOVING))	{
+				if(golfBalls.get(pos) == null)	{
+					Vector3 position = CompoMappers.POSITION.get(ent);
+					Vector3f fPos = new Vector3f(position.x, position.y, position.z);
+					golfBalls.add(new GolfBall(fPos, 2));
+				}
+				pos++;
+			}
+			
+		}
+	}
 	
 	
 	public void setUpScene()	{
@@ -128,8 +179,8 @@ public class GameVisual {
 		   Vector3f direction, intersect;
 		   
 		   while(!Display.isCloseRequested()){
+			   updateObjects();
 			   
-			   translate.update();
 			   
 			   if(useFollow == false)	{
 				   cam.move();
@@ -167,4 +218,6 @@ public class GameVisual {
 	       loader.cleanUp();
 	       DisplayManager.closeDisplay();
 	   }
+	
+	
 }
