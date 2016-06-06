@@ -9,6 +9,14 @@ import java.util.HashSet;
 public abstract class EntitySystem extends com.badlogic.ashley.core.EntitySystem
 {
 	/**
+	 * default constructor
+	 */
+	public EntitySystem()
+	{
+		mEntities = new HashSet<>();
+	}
+	
+	/**
 	 * @return a listener updating the physics.entities of this entity system
 	 */
 	public EntityListener getNewEntitiesListener()

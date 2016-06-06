@@ -45,13 +45,6 @@ public class Movement extends EntitySystem
 		{	
 			Velocity v = CompoMappers.VELOCITY.get (move);
 			
-			//apply friction
-			if (Families.FRICTION.matches (move))
-			{
-				FrictionComputer compFric = new FrictionComputer (move);
-				v.sub (compFric.getMovingFriction());
-			}
-			
 			//set velocity to 0 if magnitude is below arithmetic precision
 			if (GlobalObjects.ROUND.epsilonEquals (0f, v.len()))
 				v.setZero();

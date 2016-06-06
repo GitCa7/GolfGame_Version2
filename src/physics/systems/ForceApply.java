@@ -26,7 +26,7 @@ public class  ForceApply extends EntitySystem
 	 * alters velocity of physics.entities\n
 	 * uses accumulated force in force component, 
 	 * computes resulting acceleration given by a = F / m and 
-	 * adds 0.5 * a^2 to the velocity vector
+	 * adds t*a to the velocity vector
 	 */
 	public void update (float dTime)
 	{
