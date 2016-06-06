@@ -4,6 +4,9 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 
+import GamePackage.GameVisual;
+import TerrainComponents.Terrain;
+import TerrainComponents.TerrainData;
 import physics.components.*;
 import physics.constants.CompoMappers;
 import physics.constants.Families;
@@ -17,8 +20,9 @@ public class MovementTest
 	{
 		Vector3 initBallPos = new Vector3 (0, 0, 0);
 		MovementTest test = new MovementTest (initBallPos);
+		test.display();
 		
-		Vector3 hitForce = new Vector3 (1, 0, 0);
+		Vector3 hitForce = new Vector3 (100, 0, 0);
 		test.hitBall(hitForce);
 		
 		int iterations = 10;
@@ -27,10 +31,23 @@ public class MovementTest
 		{
 			test.updateEngine();
 			test.printBallPosition();
+			try
+			{
+				Thread.sleep(1000);
+			}
+			catch (Exception e) { System.out.println ("oh no"); }
 		}
 	}
 	
 	public static final float DT = 1;
+	
+	public class VisualsRunner implements Runnable
+	{
+		public void run()
+		{
+			mVisualizer.setEngine(mEngine);
+		}
+	}
 	
 	public MovementTest(Vector3 ballPos)
 	{
@@ -61,6 +78,9 @@ public class MovementTest
 		mEngine.addSystem (new Movement());
 		mEngine.addSystem (new ForceApply());
 		mEngine.addSystem (new FrictionSystem());
+		
+		mVisualizer = new GameVisual();
+		mVisualizer.setTerrain(new TerrainData());
 	}
 	
 	public void hitBall (Vector3 force)
@@ -77,13 +97,19 @@ public class MovementTest
 	public void printBallPosition()
 	{
 		Position ballPos = CompoMappers.POSITION.get (mBall.mEntity);
-		System.out.println ("ball position " + ballPos);
+		Velocity ballV = CompoMappers.VELOCITY.get(mBall.mEntity);
+		System.out.println ("ball position " + ballPos + " velocity " + ballV);
+	}
+
+	public void display()
+	{
+		Thread t = new Thread (new VisualsRunner());
+		t.setDaemon(true);
+		t.run();
 	}
 	
 	
-	
-	
+	private GameVisual mVisualizer;
 	private Ball mBall;
-	
 	private Engine mEngine;
 }
