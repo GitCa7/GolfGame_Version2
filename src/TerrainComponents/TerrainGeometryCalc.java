@@ -42,6 +42,8 @@ public class TerrainGeometryCalc {
 	}
 	
 	
+	
+	
 	public void generateTerrain(float[] vertices,float[] normals,float[] textureCoords,int[] indices, ArrayList<PointNode> leafs, float SIZE, String heightMapPath)	{
 		int VERTEX_COUNT = 0;
     	boolean heightMapUse = false;

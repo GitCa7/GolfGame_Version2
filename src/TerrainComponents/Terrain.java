@@ -403,7 +403,7 @@ public class Terrain {
 
     public float getHeightSimple(float x, float z) {
 
-        for (int i = 0; i < vertices.length; i += 3) {
+        for (int i = 0; i < vertices.length - 3; i += 3) {
             if (vertices[i] == x && vertices[i + 2] == z) {
                 return vertices[i + 1];
             }
