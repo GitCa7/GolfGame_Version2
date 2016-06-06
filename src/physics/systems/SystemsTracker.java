@@ -3,6 +3,7 @@ package physics.systems;
 import framework.ComponentBundle;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 
 /**
@@ -28,7 +29,7 @@ public class SystemsTracker
 	{
 		ArrayList<EntitySystem> using = new ArrayList<>();
 		for (ComponentBundle cb : mSystemsInUse)
-			using.add (cb.system());
+			using.addAll (Arrays.asList(cb.systems()));
 		return using;
 	}
 	
@@ -51,7 +52,7 @@ public class SystemsTracker
 	 */
 	public void track (ComponentBundle b)
 	{
-		if (b.system() != null)
+		if (b.systems() != null)
 			mSystemsInUse.add (b);
 	}
 

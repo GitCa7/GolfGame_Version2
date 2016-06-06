@@ -1,6 +1,7 @@
 package framework;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Entity;
 import physics.components.ComponentFactory;
 import physics.systems.EntitySystem;
 import physics.systems.EntitySystemFactory;
@@ -13,15 +14,27 @@ import physics.systems.EntitySystemFactory;
  */
 public class ComponentBundle
 {
+
+    /**
+     * constructor for components not associated with a certain system. On construction of the game no system will be
+     * added for a component of this type
+     * @param c a component factory
+     */
+    public ComponentBundle (ComponentFactory c)
+    {
+
+    }
+
 	/**
-	 *
+	 * constructor for components associated with a certain system. When the game is constructed, an instance of each of
+     * the stored systems will be added.
 	 * @param c a component factory
 	 * @param s a system factory
 	 */
-	public ComponentBundle (ComponentFactory c, EntitySystemFactory s)
+	public ComponentBundle (ComponentFactory c, EntitySystemFactory ... s)
 	{
 		mComponentProducer = c;
-		mSystemProducer = s;
+		mSystemProducers = s;
 	}
 
 	/**
@@ -35,11 +48,18 @@ public class ComponentBundle
 
 	/**
 	 *
-	 * @return an entity system as returned by system factory stored
+	 * @return an array of entity systems as returned by system factory stored or null if the component stored is not
+     * associated with any system.
 	 */
-	public EntitySystem system()
+	public EntitySystem[] systems()
 	{
-		return mSystemProducer.produce();
+		if (mSystemProducers == null)
+            return null;
+
+        EntitySystem[] systems = new EntitySystem[mSystemProducers.length];
+        for (int cSys = 0; cSys < systems.length; ++cSys)
+            systems[cSys] = mSystemProducers[cSys].produce();
+		return systems;
 	}
 
 	/**
@@ -49,10 +69,25 @@ public class ComponentBundle
 	 */
 	public boolean equals (ComponentBundle comp)
 	{
-		return (mComponentProducer.getClass().equals (comp.mComponentProducer.getClass()) &&
-				mSystemProducer.getClass().equals (comp.mSystemProducer.getClass()));
+        if (mComponentProducer.getClass().equals (comp.mComponentProducer.getClass()))
+            return false;
+        for (EntitySystemFactory ownEsf : mSystemProducers)
+        {
+            int cComp = 0;
+            boolean found = false;
+            while (cComp < comp.mSystemProducers.length && !found)
+            {
+                if (ownEsf.getClass().equals(comp.mSystemProducers[cComp]))
+                    found = true;
+                ++cComp;
+            }
+
+            if (!found)
+                return false;
+        }
+        return true;
 	}
 
 	private ComponentFactory mComponentProducer;
-	private EntitySystemFactory mSystemProducer;
+	private EntitySystemFactory[] mSystemProducers;
 }
