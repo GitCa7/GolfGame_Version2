@@ -2,6 +2,7 @@ package physics.constants;
 
 import com.badlogic.ashley.core.Family;
 import physics.components.*;
+import physics.systems.Gravity;
 
 /**
  * class storing family objects for categorization
@@ -18,7 +19,7 @@ public class Families
 	/**family object for objects attracted by gravity, having a mass, force and gravity component**/
 	public static Family GRAVITY_ATTRACTED = Family.all (Mass.class, Force.class, GravityForce.class).get();
 	/**family object for objects affected by friction, having a mass, velocity and gravity component**/
-	public static Family FRICTION = Family.all (Friction.class, Mass.class, Velocity.class).get();
+	public static Family FRICTION = Family.all (Friction.class, Mass.class, GravityForce.class, Velocity.class).get();
 	/** family object for objects involved in collisions */
 	public static Family COLLIDING = Family.all (Position.class, Mass.class, Body.class).get();
 

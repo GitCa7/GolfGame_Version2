@@ -1,0 +1,20 @@
+
+DEADLINES
+
+
+running program implementing ball movement in a plane (08.06.)
+running program implementing collisions with boxes in a plane (10.06)
+
+
+TO DO ITEMS
+write test class for ball movement
+write test class for collisions
+redo special entities
+write test class for player transition
+adapt game to changed special entities
+
+write adapter for game configurator abstracting entities
+write adapter for game abstracting entities
+
+write main class
+integrate movement with main

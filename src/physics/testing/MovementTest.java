@@ -51,8 +51,16 @@ public class MovementTest
 		mEngine.addEntity (mBall.mEntity);
 		assert (mEngine.getEntitiesFor(Families.ACCELERABLE).size() > 1);
 		
+		Movement move = new Movement();
+		ForceApply applyForce = new ForceApply();
+		FrictionSystem applyFriction = new FrictionSystem();
+		applyFriction.setPriority(1);
+		applyForce.setPriority(2);
+		move.setPriority(3);
+		
 		mEngine.addSystem (new Movement());
 		mEngine.addSystem (new ForceApply());
+		mEngine.addSystem (new FrictionSystem());
 	}
 	
 	public void hitBall (Vector3 force)
