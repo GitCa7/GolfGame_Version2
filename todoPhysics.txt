@@ -1,20 +1,47 @@
 
 DEADLINES
 
-
 running program implementing ball movement in a plane (08.06.)
 running program implementing collisions with boxes in a plane (10.06)
 
 
 TO DO ITEMS
-write test class for ball movement
-write test class for collisions
-redo special entities
-write test class for player transition
-adapt game to changed special entities
+ORDERED
+write test class for ball movement (x)
 
 write adapter for game configurator abstracting entities
-write adapter for game abstracting entities
-
 write main class
-integrate movement with main
+
+integrate movement with main (~06.06.)
+
+determine components needed for hole
+implement hole components
+implement system checking whether ball is in hole (target zone) and removing the ball and the player if this is the case.
+
+write test class for collisions using solids consisting of a single solid
+redo special entities
+adapt game to changed special entities
+integrate single-solid collisions with main (~08.06.)
+
+write test class for player transition
+integrate players & transition with main
+
+add proper extrinsic state to flyweight solids
+adapt code relying on solids (solid/body/entity intersection detector)
+test sphere tetrahedrizer
+use sphere tetrahedrizer in game configurator
+write test for multi-solid obstacles
+integrate multi-solid obstacles (~10.06.)
+
+write test for gravity/normal force interaction on plane
+write test for grativy/normal force interaction on slope
+integrate gravity/normal force with main
+
+choose method for differential equations
+do generic implementation of differential equation solver
+adapt existing systems to work with DE solver
+re run tests
+
+UNORDERED
+write adapter for game abstracting entities
+separate game state (entities+components) from game logic (systems)
