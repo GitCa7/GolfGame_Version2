@@ -2,7 +2,11 @@ package physics.geometry.planar;
 
 import com.badlogic.gdx.math.Vector3;
 import physics.generic.ForEach;
-import physics.geometry.linear.*;
+import physics.geometry.linear.Line;
+import physics.geometry.linear.VertexTranslateOperation;
+import physics.geometry.linear.LineTranslateOperation;
+import physics.geometry.linear.VertexTranslator;
+import physics.geometry.linear.LineTranslator;
 import physics.components.Position;
 
 

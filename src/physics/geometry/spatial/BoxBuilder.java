@@ -34,6 +34,7 @@ public class BoxBuilder
             //construct rectangle
             Vector3[] rectDirs = elem.toArray (new Vector3[elem.size()]);
             rects[cnt] = new RectangleBuilder (vertex, rectDirs).build();
+            ++cnt;
         }
 
         return rects;
@@ -44,7 +45,7 @@ public class BoxBuilder
      * @param directions direction vectors, given such that every point of the box can be obtained by
      *                   a non-scaled linear combination of the direction vectors
      */
-    public BoxBuilder ( Vector3[] directions)
+    public BoxBuilder (Vector3[] directions)
     {
 
         mDirections = directions;
