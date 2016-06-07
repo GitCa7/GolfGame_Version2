@@ -10,6 +10,8 @@ import physics.geometry.planar.ShapeTranslator;
 import physics.geometry.planar.ShapeTranslatorOperation;
 
 /**
+ * Class translating a solid (relative to the origin).
+ * This class is meant to be immutable, just as a solid is.
  * Created by Alexander on 25.05.2016.
  */
 public class SolidTranslator extends Solid {
@@ -41,11 +43,15 @@ public class SolidTranslator extends Solid {
         mPosition = position;
     }
 
+    /**
+     * @return the offset position by which the solid is translated
+     */
+	public Vector3 getPosition() { return mPosition; }
+
     @Override
     public boolean isWithin(Vector3 p) {
         return false;
     }
-
 
     private Vector3 mPosition;
 }
