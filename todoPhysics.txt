@@ -9,8 +9,8 @@ TO DO ITEMS
 ORDERED
 write test class for ball movement (x)
 
-write adapter for game configurator abstracting entities
-write main class
+write adapter for game configurator abstracting entities (x)
+write main class(x)
 
 integrate movement with main (~06.06.)
 
