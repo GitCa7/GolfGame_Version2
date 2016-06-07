@@ -69,7 +69,7 @@ public class ComponentBundle
 	 */
 	public boolean equals (ComponentBundle comp)
 	{
-        if (mComponentProducer.getClass().equals (comp.mComponentProducer.getClass()))
+        if (!mComponentProducer.getClass().equals (comp.mComponentProducer.getClass()))
             return false;
         for (EntitySystemFactory ownEsf : mSystemProducers)
         {

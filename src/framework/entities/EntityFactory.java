@@ -62,7 +62,7 @@ public class EntityFactory
 	 */
 	public void addComponent (ComponentBundle ... cs)
 	{
-		if (!hasComponent (cs))
+		if (hasComponent (cs))
 			throw new IllegalArgumentException("there is a component bundle that was already added. Duplication is not allowed.");
 		
 		for (ComponentBundle cb : cs)
