@@ -26,5 +26,5 @@ public class Ownership implements Component
     }
 
 
-    private Entity mOwner;
+    public Entity mOwner;
 }

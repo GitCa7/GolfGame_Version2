@@ -224,7 +224,11 @@ public class GameConfigurator
 	private void addAllSystems()
 	{
 		for (EntitySystem es : mSystemsTracker.systemsInUse())
-			mEngine.addSystem (es);
+        {
+            mEngine.addSystem (es);
+            //@TODO add listeners
+        }
+
 	}
 
 	/** mapping of players to their balls */

@@ -1,21 +1,26 @@
 package physics.components;
 
 
+import physics.geometry.spatial.Solid;
+
 import java.util.HashSet;
 
 /**
  * @autor martin
  * created 12.05.2016
  */
-public class Body<T> extends HashSet<T> implements Component
+public class Body extends HashSet<Solid> implements Component
 {
-	//@TODO use immutable geometric objects
-	//@TODO implement clone
-	public Body<T> clone()
+	//@TODO use translator
+
+	/**
+	 * @return a new body containing shallowly copied solids (they are immutable).
+     */
+	public Body clone()
 	{
-		return null;
+		Body newBody = new Body();
+		newBody.addAll(this);
+		return newBody;
 	}
 
-
-	//@TODO flyweight
 }

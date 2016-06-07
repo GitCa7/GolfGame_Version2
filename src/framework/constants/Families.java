@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Family;
 
 import framework.components.*;
 import framework.internal.components.*;
+import physics.components.Body;
 import physics.components.Position;
 import physics.components.Velocity;
 
@@ -21,5 +22,5 @@ public class Families
     /** family of entities owned by another entity*/
     public static Family OWNED = Family.all(Ownership.class).get();
     /** family of entities set to reach a goal */
-    public static Family GOAL_SEEKING = Family.all(Goal.class, Position.class, Velocity.class).get()
+    public static Family GOAL_SEEKING = Family.all(Goal.class, Body.class, Position.class, Velocity.class).get();
 }
