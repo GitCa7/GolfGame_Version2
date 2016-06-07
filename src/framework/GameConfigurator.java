@@ -9,6 +9,7 @@ import framework.components.Turn;
 import framework.components.TurnFactory;
 import framework.entities.Player;
 import framework.internal.components.Active;
+import framework.systems.EntityListener;
 import physics.components.*;
 import physics.constants.CompoMappers;
 import physics.constants.PhysicsCoefficients;
@@ -226,7 +227,8 @@ public class GameConfigurator
 		for (EntitySystem es : mSystemsTracker.systemsInUse())
         {
             mEngine.addSystem (es);
-            //@TODO add listeners
+            EntityListener listenEntityChanges = new EntityListener(es);
+            mEngine.addEntityListener(listenEntityChanges);
         }
 
 	}
