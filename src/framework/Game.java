@@ -40,6 +40,7 @@ public class Game
 		mBallMap = ballMap;
 		mHole = h;
 		mGlobalState = new Entity();
+        init();
 	}
 
 	/**
@@ -96,6 +97,14 @@ public class Game
 	}
 
 	/**
+	 * @return true if there is at least one player whose ball is not in the hole.
+     */
+	public boolean isActive()
+	{
+		return CompoMappers.ACTIVE.get(mGlobalState).mActive;
+	}
+
+	/**
 	 * makes the current player hit the ball with force
 	 * Precondition: the game is not busy
 	 * @param force directed force to excert on ball
@@ -133,6 +142,10 @@ public class Game
 		//internal components of global state
 		Active active = new Active();
 		Busy busy = new Busy();
+		//set default
+		active.mActive = true;
+		busy.mBusy = false;
+
 		mGlobalState.add(active);
 		mGlobalState.add (busy);
 		

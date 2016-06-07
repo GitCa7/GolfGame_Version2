@@ -23,6 +23,7 @@ public class EntityFactory
 	 */
 	public EntityFactory (SystemsTracker tracker)
 	{
+		mComponentProducers = new ArrayList<>();
 		mTrackSystems = tracker;
 	}
 

@@ -46,6 +46,8 @@ public class GameConfigurator
         mBallBodyFactory = new BodyFactory();
 
         mPlayerNameFactory = new NameFactory();
+
+        initFactories();
 	}
 
 	/**
@@ -65,9 +67,12 @@ public class GameConfigurator
 	{
 		if (mBallMap.size() < 1)
 			throw new IllegalStateException ("there are no players/balls");
-		if (mHole == null)
-			throw new IllegalStateException ("the hole is not set");
 
+        //@TODO use
+        /*
+        if (mHole == null)
+			throw new IllegalStateException ("the hole is not set");
+        */
 		addAllSystems();
 		return new Game (mEngine, mBallMap, mHole);
 	}
@@ -124,19 +129,6 @@ public class GameConfigurator
         //@TODO implement terrain setting
         throw new UnsupportedOperationException("the terrain is not yet relevant and thus not implemented");
     }
-
-	/**
-	 * adds a new ball b for player p.
-	 * Precondition: there are no balls associated with p yet.
-	 * @param p a player object
-	 * @param b a ball object
-	 */
-	public void addBall (Player p, Ball b)
-	{
-		if (mBallMap.containsKey (p))
-			throw new IllegalArgumentException ("player " + p + " maps to a ball already");
-		mBallMap.put (p, b);
-	}
 
     /**
      * constructs ball of given radius, mass and sets the initial position of it
