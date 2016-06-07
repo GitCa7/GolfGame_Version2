@@ -22,7 +22,7 @@ public class ComponentBundle
      */
     public ComponentBundle (ComponentFactory c)
     {
-
+		mComponentProducer = c;
     }
 
 	/**

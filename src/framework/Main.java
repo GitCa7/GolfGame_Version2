@@ -82,11 +82,12 @@ public class Main
     {
         Vector3 defaultHit = new Vector3(50, 25, 0);
 
+        Player active = mGame.getCurrentPlayers().get(0);
+        mGame.hit(active, defaultHit);
+
         while (mGame.isActive())
         {
-            System.out.println ("into loop");
-            Player active = mGame.getCurrentPlayers().get(0);
-            mGame.hit(active, defaultHit);
+
             do
             {
                 mGame.tick(DELTA_TIME);

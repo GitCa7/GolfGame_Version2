@@ -1,12 +1,16 @@
 package framework;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 import framework.components.NameFactory;
 import framework.components.NextPlayerFactory;
+import framework.components.Turn;
 import framework.components.TurnFactory;
 import framework.entities.Player;
+import framework.internal.components.Active;
 import physics.components.*;
+import physics.constants.CompoMappers;
 import physics.constants.PhysicsCoefficients;
 import physics.entities.Ball;
 import framework.entities.EntityFactory;
@@ -91,6 +95,15 @@ public class GameConfigurator
     {
         Ball b = constructBall(ballRadius, ballMass, initBallPos);
         Player p = constructPlayer(name);
+        //set the first player as active player
+        if (mBallMap.isEmpty())
+        {
+            assert(framework.constants.CompoMappers.TURN.has(p.mEntity));
+            Turn playerTurn = framework.constants.CompoMappers.TURN.get(p.mEntity);
+            playerTurn.mTurn = true;
+            playerTurn.mDone = false;
+        }
+
         mBallMap.put(p, b);
         mEngine.addEntity(b.mEntity);
         mEngine.addEntity(p.mEntity);
@@ -180,6 +193,7 @@ public class GameConfigurator
         ballForceFactory.setVector(new Vector3());
         ballGravityFactory.setParameter(new Vector3());
         ballFrictionFactory.setParameter(PhysicsCoefficients.STATIC_FRICTION, PhysicsCoefficients.DYNAMIC_FRICTION, 0, 0);
+        ballGravityFactory.setParameter(new Vector3 (0, 0, -PhysicsCoefficients.GRAVITY_EARTH));
         //construct ball component bundles
         ComponentBundle ballPosition = new ComponentBundle(mBallPositionFactory);
         ComponentBundle ballVelocity = new ComponentBundle(ballVelocityFactory, new MovementFactory());
@@ -187,8 +201,9 @@ public class GameConfigurator
         ComponentBundle ballFriction = new ComponentBundle(ballFrictionFactory, new FrictionSystemFactory());
         ComponentBundle ballMass = new ComponentBundle(mBallMassFactory);
         ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory);
+        ComponentBundle ballGravity = new ComponentBundle(ballGravityFactory);
         //add bundles to ball factory
-        mBallFactory.addComponent(ballPosition, ballVelocity, ballForce, ballFriction, ballMass, ballBody);
+        mBallFactory.addComponent(ballPosition, ballVelocity, ballForce, ballFriction, ballMass, ballBody, ballGravity);
 
         //additional component factories for players
         TurnFactory playerTurnFactory = new TurnFactory();
