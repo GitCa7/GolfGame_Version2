@@ -42,9 +42,10 @@ public class FrictionSystem extends EntitySystem
 	}
 	
 	/**
+	 * the friction force is proportional to the magnitude of the normal force
+	 * in the direction opposing the entity's movement. If the friction would arithmetically result in the ball
+	 * moving the other direction, the velocity is set to zero.
 	 * @param dTime time difference between this update and the last update
-	 * the friction force is proportional to the magnitude of the normal force 
-	 * in the direction opposing the entity's movement
 	 */
 	public void update (float dTime)
 	{
@@ -66,10 +67,16 @@ public class FrictionSystem extends EntitySystem
 			else
 				fricCoeff = fric.get(Friction.State.STATIC, Friction.Type.MOVE);
 			
-			float fricMagnitude = grav.len() * m.mMass * fricCoeff; 
-			Vector3 fForce = v.cpy().setLength(fricMagnitude);
-			fForce.scl(-1);
-			force.add(fForce);
+			float fricAccMagnitude = grav.len() * fricCoeff;
+            if (fricAccMagnitude > v.len())
+                v.setZero();
+            else
+            {
+                Vector3 fricAcc = v.cpy().setLength(fricAccMagnitude);
+                v.add(fricAcc.scl (-1 *dTime));
+            }
+
+
 		}
 	}
 

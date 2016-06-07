@@ -37,7 +37,8 @@ public class Movement extends EntitySystem
 	
 	/**
 	 * action happening on update of engine
-	 * moves all physics.entities proportionally to the time elapsed
+	 * moves all physics.entities proportionally to the time elapsed. If the velocity of an entity is below the
+	 * arithmetic precision set, the velocity will be set to zero.
 	 */
 	public void update (float dTime)
 	{
