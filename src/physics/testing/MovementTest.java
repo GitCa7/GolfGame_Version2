@@ -38,9 +38,11 @@ public class MovementTest
 			catch (Exception e) { System.out.println ("oh no"); }
 		}
 	}
-	
+
+	/** default time delta*/
 	public static final float DT = 1;
-	
+
+	/** Runner for graphics */
 	public class VisualsRunner implements Runnable
 	{
 		public void run()
@@ -48,11 +50,16 @@ public class MovementTest
 			mVisualizer.setEngine(mEngine);
 		}
 	}
-	
+
+	/**
+	 * instantiates a test for ball dynamics and initializes the ball position.
+	 * Uses movement, force apply and friction systems.
+	 * @param ballPos initial ball position.
+     */
 	public MovementTest(Vector3 ballPos)
 	{
 		mBall = new Ball (new Entity());
-		
+		//set and add components to ball
 		Position initPos = new Position();
 		initPos.set(ballPos);
 		mBall.mEntity.add(initPos);
@@ -64,10 +71,10 @@ public class MovementTest
 		assert (Families.ACCELERABLE.matches(mBall.mEntity));
 		
 		mEngine = new Engine();
-		
+		//add ball to engine
 		mEngine.addEntity (mBall.mEntity);
 		assert (mEngine.getEntitiesFor(Families.ACCELERABLE).size() > 1);
-		
+		//construct, set and add systems to engine
 		Movement move = new Movement();
 		ForceApply applyForce = new ForceApply();
 		FrictionSystem applyFriction = new FrictionSystem();
@@ -82,18 +89,28 @@ public class MovementTest
 		mVisualizer = new GameVisual();
 		mVisualizer.setTerrain(new TerrainData());
 	}
-	
+
+	/**
+	 * applies force to the ball
+	 * @param force a given directed force
+     */
 	public void hitBall (Vector3 force)
 	{
 		Force f = CompoMappers.FORCE.get(mBall.mEntity);
 		f.add (force);
 	}
-	
+
+	/**
+	 * advances the state of the engine
+	 */
 	public void updateEngine()
 	{
 		mEngine.update (DT);
 	}
-	
+
+	/**
+	 * prints the ball position and velocity to the console
+	 */
 	public void printBallPosition()
 	{
 		Position ballPos = CompoMappers.POSITION.get (mBall.mEntity);
@@ -101,6 +118,9 @@ public class MovementTest
 		System.out.println ("ball position " + ballPos + " velocity " + ballV);
 	}
 
+	/**
+	 * starts a new thread for the graphics and runs it.
+	 */
 	public void display()
 	{
 		Thread t = new Thread (new VisualsRunner());
