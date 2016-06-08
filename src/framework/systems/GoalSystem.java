@@ -10,6 +10,7 @@ import framework.constants.Families;
 import physics.components.Body;
 import physics.components.Velocity;
 import physics.geometry.spatial.Solid;
+import physics.geometry.spatial.SolidTranslator;
 import physics.systems.EntitySystem;
 
 /**
@@ -88,7 +89,7 @@ public class GoalSystem extends EntitySystem
      */
     private boolean isBodyInGoal(Body b, Goal g)
     {
-        for (Solid s : b)
+        for (SolidTranslator s : b)
         {
             for (Vector3 vertex : s.getVertices())
             {
