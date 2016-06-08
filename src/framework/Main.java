@@ -1,7 +1,9 @@
 package framework;
 
 import Editor.Course;
+import Editor.CourseLoader;
 import Editor.Editor;
+import GamePackage.GameLoader;
 import GamePackage.GameVisual;
 import com.badlogic.gdx.math.Vector3;
 import framework.constants.CompoMappers;
@@ -11,6 +13,8 @@ import framework.testing.MockMainMenu;
 import physics.components.Position;
 import physics.components.Velocity;
 import physics.entities.Ball;
+
+import java.io.IOException;
 
 /**
  * Class running the game.
@@ -22,23 +26,23 @@ public class Main
     public static void main(String[] args)
     {
         Main main = new Main();
-        new MockMainMenu(main);
+        try {
+            new MockMainMenu(main);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static final float DELTA_TIME = 1;
 
 
-    public Main()
-    {
-        mCourse = null;
-    }
 
     /**
      * launches the editor, permitting to create a course file
      */
     public void launchEditor()
     {
-        //Editor edit = new Editor();
+        Editor edit = new Editor();
         //show the editor
         //do more editor stuff
     }
@@ -48,21 +52,13 @@ public class Main
      * Postcondition: the course is set
      * @param fileName name of course to load from file
      */
-    public void loadCourse(String fileName)
+    public void loadGame(String fileName)
     {
-        throw new UnsupportedOperationException("loading a course is not implemented");
+       GameLoader load = new GameLoader();
+        mGame = load.loadConfig(fileName);
     }
 
-    /**
-     * Initializes a game instance.
-     * Precondition: a course is set
-     * Postcondition: the game is initialized and set
-     */
-    public void initGame()
-    {
-        MockLoader loader = new MockLoader();
-        mGame = loader.load();
-    }
+
 
     /**
      * Initializes the visualization instance.
@@ -112,7 +108,6 @@ public class Main
         System.out.println ("current ball at " + p + " moving at " + v);
     }
 
-    private Course mCourse;
     private Game mGame;
     private GameVisual mVisual;
 }
