@@ -3,12 +3,15 @@ package physics.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Engine;
 
+import com.badlogic.gdx.math.Vector3;
+import physics.components.Body;
 import physics.constants.CompoMappers;
 import physics.constants.Families;
 import physics.constants.GlobalObjects;
 
 import physics.components.Position;
 import physics.components.Velocity;
+import physics.geometry.spatial.SolidTranslator;
 
 /**
  * entity system applying movement to every entity
@@ -51,8 +54,13 @@ public class Movement extends EntitySystem
 				v.setZero();
 			
 			//alter position
+			Vector3 change = v.cpy().scl(dTime);
+
 			Position p = CompoMappers.POSITION.get (move);
-			p.mulAdd (v, dTime);
+			p.add(change);
+
+			if (CompoMappers.BODY.has(move))
+				moveBody(CompoMappers.BODY.get(move), change);
 		}
 	}
 
@@ -70,5 +78,16 @@ public class Movement extends EntitySystem
 			entities().remove(e);
 		}
 
+	}
+
+	/**
+	 * translates every body by the vector change
+	 * @param b a given body
+	 * @param change translation vector
+     */
+	private void moveBody(Body b, Vector3 change)
+	{
+		for (SolidTranslator move : b)
+			move.addPosition(change);
 	}
 }
