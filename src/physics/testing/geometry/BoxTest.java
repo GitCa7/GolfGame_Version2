@@ -113,6 +113,36 @@ public class BoxTest
 		}
 		assertTrue (thrown);
 	}
+
+	@Test
+	public void pointInsideTest()
+	{
+		Vector3 d1, d2, d3;
+		d1 = new Vector3 (1, 1, 1);
+		d2 = new Vector3 (-2, 1, 1);
+		d3 = new Vector3 (0, -1, 1);
+
+		Box insideBox = new BoxBuilder(d1, d2, d3).build();
+
+		Vector3 inside = new Vector3().add(d1.cpy().scl(.5f)).add(d2.cpy().scl(.5f)).add(d3.cpy().scl(.5f));
+		assertTrue(insideBox.isWithin(inside));
+	}
+
+
+	@Test
+	public void pointOutsideTest()
+	{
+		Vector3 offset = new Vector3 (5, 7, 2);
+		Vector3 d1, d2, d3;
+		d1 = new Vector3 (1, 1, 1);
+		d2 = new Vector3 (-2, 1, 1);
+		d3 = new Vector3 (0, -1, 1);
+
+		Box insideBox = new BoxBuilder(d1, d2, d3).build();
+
+		Vector3 inside = new Vector3(-1.5f, 1.5f, 1.5f);
+		assertFalse(insideBox.isWithin(inside));
+	}
 	
 	@Test
 	/**
