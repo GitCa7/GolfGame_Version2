@@ -53,6 +53,11 @@ public class SolidTranslator
 		return allSides.operate(new ShapeTranslator[sides.length], sides);
 	}
 
+	/**
+	 * @return the solid being translated
+     */
+	public Solid getSolid() { return mTranslated; }
+
     /**
      * @return the offset position by which the solid is translated
      */
