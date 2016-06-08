@@ -16,16 +16,18 @@ public class TetrahedronBuilder
 {
 	/**
 	 *
-	 * @param vertices vertices from which to build tetrahedra
+	 * @param vertices 3 vertices from which to build tetrahedra, the 4th being the origin (0|0|0)
 	 */
 	public TetrahedronBuilder(Vector3[] vertices)
 	{
-		if (vertices.length < 4)
+		if (vertices.length < Tetrahedron.VERTICES - 1)
 			throw new Solid.SolidException (vertices.length + " vertices is not enough to build a tetrahedron");
-		if (vertices.length > 4)
+		if (vertices.length > Tetrahedron.VERTICES - 1)
 			throw new Solid.SolidException (vertices.length + " vertices are too many to build a tetrahedron");
 
-		mVertices = vertices;
+		mVertices = new Vector3[Tetrahedron.VERTICES];
+		System.arraycopy(vertices, 0, mVertices, 0, vertices.length);
+		mVertices[Tetrahedron.VERTICES - 1] = new Vector3();
 	}
 
 	/**
