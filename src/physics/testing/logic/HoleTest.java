@@ -31,7 +31,7 @@ public class HoleTest
 		HoleTest test = new HoleTest(initBallPos, holePos);
 	//	test.display();
 
-		Vector3 hitForce = new Vector3 (70, 0, 0);
+		Vector3 hitForce = new Vector3 (60, 0, 0);
 		test.hitBall(hitForce);
 
 		int iterations = 10;

@@ -9,6 +9,7 @@ import framework.constants.CompoMappers;
 import framework.constants.Families;
 import physics.components.Body;
 import physics.components.Velocity;
+import physics.constants.GlobalObjects;
 import physics.geometry.spatial.Solid;
 import physics.geometry.spatial.SolidTranslator;
 import physics.systems.EntitySystem;
@@ -74,7 +75,7 @@ public class GoalSystem extends EntitySystem
             Body body = physics.constants.CompoMappers.BODY.get(e);
             Velocity v = physics.constants.CompoMappers.VELOCITY.get(e);
 
-            if (isBodyInGoal(body, goal))
+            if (isBodyInGoal(body, goal) && GlobalObjects.ROUND.epsilonEquals(v.len(), 0))
             {
                 Ownership owner = CompoMappers.OWNERSHIP.get(e);
                 mEngine.removeEntity(owner.mOwner);
