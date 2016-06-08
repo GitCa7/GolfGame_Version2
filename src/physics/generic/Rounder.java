@@ -8,12 +8,14 @@ package physics.generic;
 public class Rounder
 {
 	/**
-	 * @param precision number of decimals relevant for rounding
+	 * @param precision number of digits relevant for rounding
+	 * @param tolerance number of digits relevant for comparing numbers
 	 */
-	public Rounder (int precision)
+	public Rounder (int precision, int tolerance)
 	{
 		assert (precision >= 0);
 		mPrecision = precision;
+		mTolerance = tolerance;
 		setEpsilon();
 		setShift();
 	}
@@ -56,6 +58,11 @@ public class Rounder
 	public int getPrecision() { return mPrecision; }
 
 	/**
+	 * @return tolerance used
+	 */
+	public int getTolerance() { return mTolerance; }
+
+	/**
 	 * @param n1 a number
 	 * @param n2 another number
 	 * @return true if n1 ~= n2 for the specified precision/number of digits
@@ -82,7 +89,7 @@ public class Rounder
 	 */
 	private void setEpsilon ()
 	{
-		mEpsilon = Math.pow(10, -mPrecision) - Math.pow (10, -mPrecision - 1);
+		mEpsilon = Math.pow(10, -mTolerance) - Math.pow (10, -mTolerance - 1);
 	}
 
 	/**
@@ -95,5 +102,5 @@ public class Rounder
 
 	private double mEpsilon;
 	private double mShift;
-	private int mPrecision;
+	private int mPrecision, mTolerance;
 }
