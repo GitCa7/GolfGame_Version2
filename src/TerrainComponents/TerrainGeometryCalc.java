@@ -220,7 +220,12 @@ public class TerrainGeometryCalc {
 	    	float newPointDist = 5f;
 	    	
 	    	//need to go thoruhall triangles of the terrain
-	    	Triangle[] allTri = (Triangle[]) getAllTris(terraData).toArray();
+		 	ArrayList<Triangle> tmp = getAllTris(terraData);
+		 	Triangle[] allTri = new Triangle[tmp.size()];
+		 	for (int i=0;i<tmp.size();i++){
+				allTri[i]=tmp.get(i);
+			}
+
 	    	
 	    	Vector3[] temp;
 	    	Line[] tempLines;

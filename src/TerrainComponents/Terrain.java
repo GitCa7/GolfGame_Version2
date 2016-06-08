@@ -24,7 +24,7 @@ import physics.geometry.spatial.TetrahedronBuilder;
 
 public class Terrain {
     private Loader loader = new Loader();
-    private ModelTexture modelTex = new ModelTexture(loader.loadTexture("grass_surf"));
+    private ModelTexture modelTex = new ModelTexture(loader.loadTexture("grassNew"));
     private RawModel model;
 
     private float SIZE;
@@ -104,7 +104,7 @@ public class Terrain {
         Vector3f p1,p2,p3,v1,v2,normal;
         Vector3f tmpCoords;
 
-        for(int i = 0; i < indices.length - 3; i += 3)	{
+        for(int i = 0; i < indices.length - 3 && i < leafs.size() - 3; i += 3)	{
             tmpCoords = leafs.get(indices[i]).getCoordinates();
             p1 = new Vector3f(tmpCoords.x, tmpCoords.y, tmpCoords.z);
 

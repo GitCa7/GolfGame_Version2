@@ -56,6 +56,7 @@ public class Main
     {
        GameLoader load = new GameLoader();
         mGame = load.loadConfig(fileName);
+        initGraphics();
     }
 
 

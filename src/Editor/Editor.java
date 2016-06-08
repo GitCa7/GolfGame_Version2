@@ -60,7 +60,7 @@ public class Editor implements ApplicationListener {
 
         model = OBJLoader.loadObjModel("dragon", loader);
 
-        staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("red")));
+        staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("sand")));
 
         gameEntity dragon = new gameEntity(staticModel, new Vector3f(-50, 0, -50), 0, 0, 0, 5);
         dragon.setRotY(-40);
