@@ -31,7 +31,6 @@ public class Obstacle extends gameEntity {
 	@Override
 	public BoundingBox boundingBox(){
 		BoundingBox tmp = new BoundingBox(new Vector3(position.x-scale,position.y-scale,position.z-scale),new Vector3(position.x+scale,position.y+scale,position.z+scale));
-		System.out.println(tmp.toString());
 		return tmp;
 	}
 	

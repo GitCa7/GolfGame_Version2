@@ -117,7 +117,7 @@ public class GameConfigurator
      * @param bodySolids a collection of solids. The vertex with the smallest euclidean distance to the origin is fixed as the
      *                   position of the obstacle.
      */
-    public void addObstacle(float mass, Collection<Solid> bodySolids)
+    public void addObstacle(float mass, Collection<SolidTranslator> bodySolids)
     {
         //@TODO implement extrinsic state of flyweight solids. Check this after implementing.
         throw new UnsupportedOperationException("obstacles are not yet supported and thus not implemented");
@@ -125,9 +125,9 @@ public class GameConfigurator
 
     /**
      * Constructs a new hole. This hole has all components associtated with the NAME_THEM_HERE! families.
-     * @param holeShape The shape of the hole, embedding the position where the hole is located.
+     * @param position The shape of the hole, embedding the position where the hole is located.
      */
-    public void setHole(Shape holeShape)
+    public void setHole(Vector3 position)
     {
         //@TODO implement hole
         throw new UnsupportedOperationException("the hole is not yet relevant and thus not implemented");

@@ -172,7 +172,7 @@ public class TerrainGeometryCalc {
     	
     }
 	
-	public Triangle[] getAllTris(TerrainData terraData)		{
+	public ArrayList<Triangle> getAllTris(TerrainData terraData)		{
 		Vector3f start, middle, end;
     	Vector3 startTemp, middleTemp, endTemp;
     	Triangle tempTri;
@@ -208,7 +208,11 @@ public class TerrainGeometryCalc {
     		list[offset] = tempTri;
     		offset++;
     	}
-    	return list;
+		ArrayList<Triangle> ret = new ArrayList<>();
+		for(int i = 0; i < list.length; i++){
+			ret.add(list[i]);
+		}
+    	return ret;
 	}
 	
 	 public Tetrahedron[] getAllTetrahedons(TerrainData terraData)	{
@@ -216,7 +220,12 @@ public class TerrainGeometryCalc {
 	    	float newPointDist = 5f;
 	    	
 	    	//need to go thoruhall triangles of the terrain
-	    	Triangle[] allTri = getAllTris(terraData);
+		 	ArrayList<Triangle> tmp = getAllTris(terraData);
+		 	Triangle[] allTri = new Triangle[tmp.size()];
+		 	for (int i=0;i<tmp.size();i++){
+				allTri[i]=tmp.get(i);
+			}
+
 	    	
 	    	Vector3[] temp;
 	    	Line[] tempLines;

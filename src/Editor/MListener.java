@@ -53,7 +53,7 @@ public class MListener extends InputAdapter {
         if(Gdx.input.isKeyPressed(Input.Keys.R)){
             gameEntity selected=null;
             BoundingBox out;
-            for (int i=0;i<instances.size();i++){
+            for (int i=1;i<instances.size();i++){
                 out = instances.get(i).boundingBox();
                 if(Intersector.intersectRayBoundsFast(ray,out)){
                     selected = instances.get(i);
@@ -75,7 +75,7 @@ public class MListener extends InputAdapter {
         else if (Gdx.input.isKeyPressed(Input.Keys.Z)){
             int selected=-1;
             BoundingBox out;
-            for (int i=0;i<instances.size();i++){
+            for (int i=1;i<instances.size();i++){
                 out = instances.get(i).boundingBox();
                 if(Intersector.intersectRayBoundsFast(ray,out)){
                     selected = i;
@@ -101,7 +101,7 @@ public class MListener extends InputAdapter {
             gameEntity selected=null;
             Vector3 out2=new Vector3();
             BoundingBox out;
-            for (int i=0;i<instances.size();i++){
+            for (int i=1;i<instances.size();i++){
                 out = instances.get(i).boundingBox();
                 if(Intersector.intersectRayBoundsFast(ray,out)){
                     selected = instances.get(i);
@@ -110,15 +110,14 @@ public class MListener extends InputAdapter {
             }
             if(selected!=null){
                 Vector3f position = new Vector3f(out2.x,out2.y+2.5f,out2.z);
-                crate tmp = new crate( position,25);
+                Obstacle tmp = new Obstacle( position,25);
                 instances.add(tmp);
             }else{
-                Vector3f position = new Vector3f(picker.getCurrentTerrainPoint().x,terrain.getHeightDif(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z),picker.getCurrentTerrainPoint().z);
+                Vector3f position = new Vector3f(picker.getCurrentTerrainPoint().x,terrain.getHeightDif(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z)+25f,picker.getCurrentTerrainPoint().z);
                 Obstacle tmp = new Obstacle( position,25);
                 instances.add(tmp);
             }
         }
-        System.out.println(picker.getCurrentTerrainPoint());
         return true;
     }
 
@@ -128,12 +127,10 @@ public class MListener extends InputAdapter {
 
         gameEntity selected=null;
         BoundingBox out;
-        for (int i=0;i<instances.size();i++){
-            System.out.println(ray.toString());
+        for (int i=1;i<instances.size();i++){
             out = instances.get(i).boundingBox();
             if(Intersector.intersectRayBoundsFast(ray,out)){
                 selected = instances.get(i);
-                System.out.println("sel");
             }
         }
         if(selected!=null){
@@ -163,7 +160,7 @@ public class MListener extends InputAdapter {
             return true;
         }else{
             BoundingBox out;
-            for (int i=0;i<instances.size();i++){
+            for (int i=1;i<instances.size();i++){
                 if(dragSelec!=null){
 
                 }else{
@@ -173,7 +170,7 @@ public class MListener extends InputAdapter {
                     }
                 }
             }
-            if(dragSelec!=null){
+            if(dragSelec!=null&&picker.getCurrentTerrainPoint()!=null){
 
                 Vector3f position= new Vector3f(picker.getCurrentTerrainPoint().x,terrain.getHeightDif(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z)+dragSelec.scale,picker.getCurrentTerrainPoint().z);
                 dragSelec.setPosition(position);

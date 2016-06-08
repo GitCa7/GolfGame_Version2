@@ -13,8 +13,7 @@ public class GameStart {
 	
 	public GameStart()	{
 		GameLoader load = new GameLoader();
-		GameConfigurator config = load.loadConfig();
-		mGame = config.game();
+		mGame = load.loadConfig("aahh");
 
 		//pass necessary resources to visual (i.e. terrain) in loader
 		mVisual = load.loadVisual();
