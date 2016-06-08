@@ -45,7 +45,7 @@ public class BoxBuilder
      * @param directions direction vectors, given such that every point of the box can be obtained by
      *                   a non-scaled linear combination of the direction vectors
      */
-    public BoxBuilder (Vector3[] directions)
+    public BoxBuilder (Vector3... directions)
     {
 
         mDirections = directions;
