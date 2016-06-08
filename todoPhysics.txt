@@ -12,11 +12,13 @@ write test class for ball movement (x)
 write adapter for game configurator abstracting entities (x)
 write main class(x)
 
-integrate movement with main (~06.06.)
+integrate movement with main (~06.06.) (x)
 
-determine components needed for hole
-implement hole components
-implement system checking whether ball is in hole (target zone) and removing the ball and the player if this is the case.
+determine components needed for hole (x)
+implement hole components (x)
+implement system checking whether ball is in hole (target zone) and removing the ball and the player if this is the case.(x)
+test hole mechanism
+integrate hole mechanism with main
 
 write test class for collisions using solids consisting of a single solid
 redo special entities
@@ -25,13 +27,16 @@ integrate single-solid collisions with main (~08.06.)
 
 write test class for player transition
 integrate players & transition with main
+implement update of next player element when removing players from the engine
 
-add proper extrinsic state to flyweight solids
-adapt code relying on solids (solid/body/entity intersection detector)
-test sphere tetrahedrizer
-use sphere tetrahedrizer in game configurator
+add proper extrinsic state to flyweight solids (x)
+adapt code relying on solids (solid/body/entity intersection detector) (x)
 write test for multi-solid obstacles
 integrate multi-solid obstacles (~10.06.)
+
+test tetrahedron intersection
+test sphere tetrahedrizer
+use sphere tetrahedrizer in game configurator
 
 write test for gravity/normal force interaction on plane
 write test for grativy/normal force interaction on slope
@@ -43,5 +48,6 @@ adapt existing systems to work with DE solver
 re run tests
 
 UNORDERED
+implement game listeners
 write adapter for game abstracting entities
 separate game state (entities+components) from game logic (systems)
