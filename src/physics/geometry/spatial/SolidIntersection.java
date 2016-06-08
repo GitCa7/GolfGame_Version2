@@ -55,7 +55,6 @@ public class SolidIntersection
 	{
 		solidCollision=new ColliderPair<ColliderSolid>(cS1,cS2);
 		int cVertex = 0;
-		int cVertex1 = 0;
 		mHasIntersection = false;
 		//iterate over vertices of s1
 		while (cVertex < mS1.getVertices().length && !mHasIntersection)
@@ -72,6 +71,7 @@ public class SolidIntersection
 			++cVertex;
 		}
 
+		cVertex = 0;
 		while (cVertex < mS2.getVertices().length && !mHasIntersection) {
 			//if vertex is within s2: set
 			if (mS1.isWithin(mS2.getVertices()[cVertex])) {
@@ -81,7 +81,7 @@ public class SolidIntersection
 				solidCollision.setSecond(cS2);
 			}
 			//increment
-			++cVertex1;
+			++cVertex;
 		}
 	}
 

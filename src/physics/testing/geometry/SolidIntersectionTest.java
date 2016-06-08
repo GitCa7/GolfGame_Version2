@@ -15,9 +15,10 @@ import static org.junit.Assert.assertTrue;
  */
 public class SolidIntersectionTest
 {
+	//@TODO fix tetrahedra issue
 	@Test
 	/**
-	 * tests wether intersection between two boxes is detected
+	 * tests whether intersection between two boxes is detected
 	 */
 	public void positiveBoxesTest()
 	{
@@ -26,10 +27,11 @@ public class SolidIntersectionTest
 		Vector3 d12 = new Vector3 (0, 0, 3);
 		Vector3 d13 = new Vector3 (-3, 6, 0);
 
-		Vector3 of2 = new Vector3 (6, 3, 4);
-		Vector3 d21 = new Vector3 (-5, 2, 1);
-		Vector3 d22 = new Vector3 (2, 5, 0);
-		Vector3 d23 = new Vector3 (5, -2, 29);
+		Vector3 of2 = new Vector3 (7, 5, 3.5f);//should be inside!
+		Vector3 d21 = new Vector3 (5, 0, 0);
+		Vector3 d22 = new Vector3 (0, 2, -3);
+		Vector3 d23 = new Vector3 (0, 3, 2);
+
 
 		Box b1 = new BoxBuilder (ArrayUtil.construct (d11, d12, d13)).build();
 		Box b2 = new BoxBuilder (ArrayUtil.construct (d21, d22, d23)).build();
