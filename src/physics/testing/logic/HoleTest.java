@@ -29,9 +29,9 @@ public class HoleTest
 		Vector3 initBallPos = new Vector3 (0, 0, 0);
         Vector3 holePos = new Vector3 (7.5f, -2.5f, -2.5f);
 		HoleTest test = new HoleTest(initBallPos, holePos);
-		test.display();
+	//	test.display();
 
-		Vector3 hitForce = new Vector3 (100, 0, 0);
+		Vector3 hitForce = new Vector3 (70, 0, 0);
 		test.hitBall(hitForce);
 
 		int iterations = 10;
@@ -132,8 +132,8 @@ public class HoleTest
             }
         });
 		
-		mVisualizer = new GameVisual();
-		mVisualizer.setTerrain(new TerrainData());
+/*		mVisualizer = new GameVisual();
+		mVisualizer.setTerrain(new TerrainData());  */
 	}
 
 	/**

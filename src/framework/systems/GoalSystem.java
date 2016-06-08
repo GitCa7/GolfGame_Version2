@@ -68,6 +68,7 @@ public class GoalSystem extends EntitySystem
     {
         for (Entity e : entities())
         {
+            System.out.println ("updating an entity for goal");
             Goal goal = CompoMappers.GOAL.get(e);
             Body body = physics.constants.CompoMappers.BODY.get(e);
             Velocity v = physics.constants.CompoMappers.VELOCITY.get(e);
@@ -88,6 +89,7 @@ public class GoalSystem extends EntitySystem
      */
     private boolean isBodyInGoal(Body b, Goal g)
     {
+    //    DOES NOT WORK, ADD EXTRINSIC STATE TO BODY SOLIDS
         for (Solid s : b)
         {
             for (Vector3 vertex : s.getVertices())
