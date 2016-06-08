@@ -1,6 +1,7 @@
 package physics.geometry.spatial;
 
 import com.badlogic.gdx.math.Vector3;
+import physics.geometry.VectorProjector;
 import physics.geometry.planar.Rectangle;
 
 /**
@@ -79,19 +80,19 @@ public class Box extends Solid
 	 */
 	public boolean isWithin (Vector3 point)
 	{
-		Vector3 diagonal = diagonalOffset();
-		
-		float minX, maxX, minY, maxY, minZ, maxZ;
-		minX = Math.min (getOffset().x, diagonal.x);
-		maxX = Math.max (getOffset().x, diagonal.x);
-		minY = Math.min (getOffset().y, diagonal.y);
-		maxY = Math.max (getOffset().y, diagonal.y);
-		minZ = Math.min (getOffset().z, diagonal.z);
-		maxZ = Math.max (getOffset().z, diagonal.z);
-		
-		return (point.x > minX && point.x < maxX && 
-				point.y > minY && point.y < maxY && 
-				point.z > minZ && point.z < maxZ);
+		//vector from offset ot point
+		Vector3 offsetPoint = point.cpy().sub(mOffset);
+		//projections of offsetPoint on direction vectors 1, 2
+		Vector3 proj1 = new VectorProjector(mDirections[0]).project(offsetPoint);
+		Vector3 proj2 = new VectorProjector(mDirections[1]).project(offsetPoint);
+		Vector3 proj3 = new VectorProjector(mDirections[2]).project(offsetPoint);
+		//check dot products to be between 0 and the square of length of direction vectors
+		float dot1 = proj1.dot(mDirections[0]);
+		float dot2 = proj2.dot(mDirections[1]);
+		float dot3 = proj3.dot(mDirections[2]);
+		return (0 <= dot1 && dot1 <= mDirections[0].dot(mDirections[0]) &&
+				0 <= dot2 && dot2 <= mDirections[0].dot(mDirections[0]) &&
+				0 <= dot3 && dot3 <= mDirections[0].dot(mDirections[0]));
 	}
 	
 	private Vector3 mOffset;

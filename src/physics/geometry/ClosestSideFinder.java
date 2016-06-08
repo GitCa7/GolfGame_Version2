@@ -3,9 +3,7 @@ import physics.geometry.spatial.Solid;
 import physics.geometry.planar.Plane;
 import physics.geometry.planar.Shape;
 import com.badlogic.gdx.math.Vector3;
-
-
-
+import physics.geometry.spatial.SolidTranslator;
 
 
 /**
@@ -19,8 +17,9 @@ public class ClosestSideFinder
      * @param sides Solid to which sides the distance is computed
      */
 
-    public ClosestSideFinder (Solid sides)
+    public ClosestSideFinder (SolidTranslator sides)
     {
+        mSides = sides;
     }
 
     /**
@@ -65,7 +64,7 @@ public class ClosestSideFinder
             distance=-1*distance;
         return distance;
     }
-    private Solid mSides;
+    private SolidTranslator mSides;
 }
 
 

@@ -16,7 +16,7 @@ public class SolidIntersection
 	 * @param s1 first solid
 	 * @param s2 second solid
 	 */
-	public SolidIntersection (Solid s1, Solid s2)
+	public SolidIntersection (SolidTranslator s1, SolidTranslator s2)
 	{
 		mS1 = s1;
 		mS2 = s2;
@@ -55,7 +55,6 @@ public class SolidIntersection
 	{
 		solidCollision=new ColliderPair<ColliderSolid>(cS1,cS2);
 		int cVertex = 0;
-		int cVertex1 = 0;
 		mHasIntersection = false;
 		//iterate over vertices of s1
 		while (cVertex < mS1.getVertices().length && !mHasIntersection)
@@ -72,6 +71,7 @@ public class SolidIntersection
 			++cVertex;
 		}
 
+		cVertex = 0;
 		while (cVertex < mS2.getVertices().length && !mHasIntersection) {
 			//if vertex is within s2: set
 			if (mS1.isWithin(mS2.getVertices()[cVertex])) {
@@ -81,7 +81,7 @@ public class SolidIntersection
 				solidCollision.setSecond(cS2);
 			}
 			//increment
-			++cVertex1;
+			++cVertex;
 		}
 	}
 
@@ -103,7 +103,7 @@ public class SolidIntersection
 	private ColliderPair<ColliderSolid> solidCollision;
 	private ColliderSolid cS1;
 	private ColliderSolid cS2;
-	private Solid mS1, mS2;
+	private SolidTranslator mS1, mS2;
 	private Vector3 mIntersection;
 	private Vector3 mIntersection1;
 	private boolean mHasIntersection;

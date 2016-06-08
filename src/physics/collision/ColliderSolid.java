@@ -1,6 +1,7 @@
 package physics.collision;
 import com.badlogic.gdx.math.Vector3;
 import physics.geometry.spatial.Solid;
+import physics.geometry.spatial.SolidTranslator;
 
 /**
  * Created by Alexander on 20.05.2016.
@@ -15,7 +16,7 @@ public class ColliderSolid{
      */
 
 
-    public ColliderSolid(Vector3 collidingVector, Solid collidingSolid){
+    public ColliderSolid(Vector3 collidingVector, SolidTranslator collidingSolid){
         mCollidingSolid=collidingSolid;
         mCollidingVector=collidingVector;
 
@@ -26,7 +27,7 @@ public class ColliderSolid{
      * @return Solid stored
      */
 
-    public Solid getCollidingSolid(){return mCollidingSolid;}
+    public SolidTranslator getCollidingSolid(){return mCollidingSolid;}
 
     /**
      *
@@ -39,5 +40,5 @@ public class ColliderSolid{
 
 
     private Vector3 mCollidingVector;
-    private Solid mCollidingSolid;
+    private SolidTranslator mCollidingSolid;
 }

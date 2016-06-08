@@ -4,10 +4,10 @@ import physics.generic.Operation;
 
 
 
-public class ShapeTranslatorOperation implements Operation<Shape, ShapeTranslator>
+public class ShapeTranslateOperation implements Operation<Shape, ShapeTranslator>
 {
 	
-	public ShapeTranslatorOperation (Vector3 translate)
+	public ShapeTranslateOperation(Vector3 translate)
 	{
 		mTranslate = translate;
 	}

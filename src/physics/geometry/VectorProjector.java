@@ -16,7 +16,7 @@ public class VectorProjector {
 
     public VectorProjector (Vector3 projectOn)
     {
-        mProjectOn = projectOn.nor();
+        mProjectOn = projectOn.cpy().nor();
     }
 
     /**
@@ -28,7 +28,7 @@ public class VectorProjector {
     public Vector3 project (Vector3 another)
     {
         float lengthProjected =another.dot(mProjectOn);
-        Vector3 projectedVector= mProjectOn.scl(lengthProjected);
+        Vector3 projectedVector= mProjectOn.cpy().scl(lengthProjected);
         return projectedVector;
     }
 

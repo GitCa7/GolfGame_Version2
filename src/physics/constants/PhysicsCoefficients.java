@@ -19,5 +19,6 @@ public class PhysicsCoefficients
 	public static final float GRAVITY_EARTH = 9.81f;
 	
 	public static final int ARITHMETIC_PRECISION = 7;
+	public static final int ARITHMETIC_TOLERANCE = 4;
 
 }

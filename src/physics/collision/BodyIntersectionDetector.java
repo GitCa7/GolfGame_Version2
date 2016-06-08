@@ -3,6 +3,7 @@ package physics.collision;
 import physics.components.Body;
 import physics.geometry.spatial.Solid;
 import physics.geometry.spatial.SolidIntersection;
+import physics.geometry.spatial.SolidTranslator;
 
 import java.util.Iterator;
 
@@ -49,12 +50,12 @@ public class BodyIntersectionDetector
 	 * @return
 	 */
 	public void checkForIntersection() {
-		Iterator<Solid> iB1 = mB1.iterator();
+		Iterator<SolidTranslator> iB1 = mB1.iterator();
 		while (iB1.hasNext()) {
-			Solid s1 = iB1.next();
-			Iterator<Solid> iB2 = mB2.iterator();
+			SolidTranslator s1 = iB1.next();
+			Iterator<SolidTranslator> iB2 = mB2.iterator();
 			while (iB2.hasNext()) {
-				Solid s2 = iB2.next();
+				SolidTranslator s2 = iB2.next();
 				SolidIntersection intersection = new SolidIntersection(s1, s2);
 				intersection.checkForIntersection();
 				if (intersection.ismHasIntersection()) {

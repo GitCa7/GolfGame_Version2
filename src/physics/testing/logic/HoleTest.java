@@ -87,7 +87,7 @@ public class HoleTest
         paraBox = new BoxParameter(new Vector3(1, 0, 0), new Vector3(0, 1, 0), new Vector3(0, 0, 1));
         Box ballBox = BoxPool.getInstance().getInstance(paraBox);
         Body ballBody = new Body();
-        ballBody.add(ballBox);
+        ballBody.add(new SolidTranslator(ballBox, ballPos));
         //add hole related components
         mBall.mEntity.add (goal);
         mBall.mEntity.add(ballBody);

@@ -95,7 +95,8 @@ public class PlaneTester
 		Vector3 normal = new Vector3 (10, 3, -28);
 
 		Plane plane = new Plane (ps);
-		assertTrue (plane.getNormal().epsilonEquals (normal, EPS) || plane.getNormal().epsilonEquals (normal.scl(-1f), EPS));
+
+		assertTrue (plane.getNormal().hasSameDirection(normal) || plane.getNormal().hasOppositeDirection(normal));
 	}
 
 	@Test

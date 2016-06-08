@@ -164,7 +164,7 @@ public class GameConfigurator
         Vector3 sphereHig = new Vector3 (0, 0, 2*radius);
         BoxParameter sphereBound = new BoxParameter(sphereDep, sphereWid, sphereHig);
         Box sphereBoundingBox = BoxPool.getInstance().getInstance(sphereBound);
-        mBallBodyFactory.addSolid(sphereBoundingBox);
+        mBallBodyFactory.addSolid(new SolidTranslator (sphereBoundingBox, initPos));
         return new Ball (mBallFactory.produce());
     }
 
