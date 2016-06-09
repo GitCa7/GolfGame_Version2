@@ -5,6 +5,8 @@ import Editor.CourseLoader;
 import Editor.Editor;
 import GamePackage.GameLoader;
 import GamePackage.GameVisual;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.math.Vector3;
 import framework.constants.CompoMappers;
 import framework.entities.Player;
@@ -42,9 +44,8 @@ public class Main
      */
     public void launchEditor()
     {
-        Editor edit = new Editor();
-        //show the editor
-        //do more editor stuff
+        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+        new LwjglApplication(new Editor(), config);
     }
 
     /**

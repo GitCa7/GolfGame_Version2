@@ -35,16 +35,22 @@ public class Editor implements ApplicationListener {
     Terrain terrain;
     private float size;
     private final boolean first = true;
+    String sizeInput;
+
+    public Editor(){
+        sizeInput = JOptionPane.showInputDialog("Terrain Size?");
+    }
 
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         new LwjglApplication(new Editor(), config);
+
     }
 
     @Override
     public void create() {
         loader = new Loader();
-        String sizeInput = JOptionPane.showInputDialog("Terrain Size?");
+
         size = (float) Integer.parseInt(sizeInput);
         terrain = new Terrain( size);
         camera = new Camera(new Vector3f(-size / 2, size / 2, size / 2));
@@ -184,8 +190,7 @@ public class Editor implements ApplicationListener {
     }
 
     public void save() {
-
-        String name = JOptionPane.showInputDialog("Course Name?");
+        String name = JOptionPane.showInputDialog(this,"Course Name?");
         Course toSave = new Course(terrain.toData(), mouse.entities(), mouse.entities().get(0).getPosition(), new Vector3f(-50, 0, -50),name);
         ObjectInputStream inputStream = null;
         ObjectOutputStream outputStream = null;

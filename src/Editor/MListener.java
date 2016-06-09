@@ -63,7 +63,7 @@ public class MListener extends InputAdapter {
                 selected.setRotY(selected.getRotY()+20f);
             return true;
         }
-        else if (Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+        else if (Gdx.input.isKeyPressed(Input.Keys.Q)){
             parent.save();
             return true;
         }
@@ -109,7 +109,7 @@ public class MListener extends InputAdapter {
                 }
             }
             if(selected!=null){
-                Vector3f position = new Vector3f(out2.x,out2.y+2.5f,out2.z);
+                Vector3f position = new Vector3f(out2.x,out2.y+25f,out2.z);
                 Obstacle tmp = new Obstacle( position,25);
                 instances.add(tmp);
             }else{

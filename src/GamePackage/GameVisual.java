@@ -62,7 +62,6 @@ public class GameVisual {
 	private Engine gameEngine;
 	
 	
-	protected PhysicsTranslator translate;
 	private boolean useFollow;
 	
 	public GameVisual()	{
@@ -77,17 +76,17 @@ public class GameVisual {
 		surrondings = new ArrayList<gameEntity>();
 		terrains = new ArrayList<Terrain>();
 		
-		translate = new PhysicsTranslator(golfBalls);
+		
 	}
 
 	
 	public void setTerrain(TerrainData terra)	{
 		Terrain terraNew = new Terrain(terra);
 		terrains.add(terraNew);
-		setUpEntities();
+		//setUpEntities();
 		createSurrondings();
 		setUpScene();
-		
+		startGame();
 	}
 	
 	public void setUpEntities()	{
@@ -99,7 +98,6 @@ public class GameVisual {
 		GolfBall golfball = new GolfBall(new Vector3f(4,5,-475), 1);
 		golfBalls.add(golfball);
 		
-
 	}
 	
 	public void createSurrondings()	{
@@ -134,7 +132,7 @@ public class GameVisual {
 	public void setEngine(Engine newEngine)	{
 		gameEngine = newEngine; 
 		checkGolfBallAmount();
-		startGame();
+		
 	}
 	
 	public void updateObjects()	{
@@ -155,7 +153,7 @@ public class GameVisual {
 			GolfBall tmpBall;
 			int pos = 0;
 			for(Entity ent : gameEngine.getEntitiesFor(Families.MOVING))	{
-				if(golfBalls.get(pos) == null)	{
+				if(golfBalls.size() == 0 || golfBalls.get(pos) == null)	{
 					Vector3 position = CompoMappers.POSITION.get(ent);
 					Vector3f fPos = new Vector3f(position.x, position.y, position.z);
 					golfBalls.add(new GolfBall(fPos, 2));
@@ -177,10 +175,12 @@ public class GameVisual {
 		   //displayAllEntites();
 		   
 		   Vector3f direction, intersect;
+		   useFollow = true;
 		   
+		   //Propose: Have external class that checks for Engine inputs and updates these, also ameloop should only run while game is not terminated AND Game is not over
 		   while(!Display.isCloseRequested()){
 			   updateObjects();
-			   
+			   gameEngine.update(DisplayManager.getTimeDelat());
 			   
 			   if(useFollow == false)	{
 				   cam.move();

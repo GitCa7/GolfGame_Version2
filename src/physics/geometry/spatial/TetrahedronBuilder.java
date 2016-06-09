@@ -20,9 +20,10 @@ public class TetrahedronBuilder
 	 */
 	public TetrahedronBuilder(Vector3[] vertices)
 	{
-		if (vertices.length < Tetrahedron.VERTICES - 1)
+		
+		if (vertices.length  < 4)	
 			throw new Solid.SolidException (vertices.length + " vertices is not enough to build a tetrahedron");
-		if (vertices.length > Tetrahedron.VERTICES - 1)
+		if (vertices.length > 4)
 			throw new Solid.SolidException (vertices.length + " vertices are too many to build a tetrahedron");
 
 		mVertices = new Vector3[Tetrahedron.VERTICES];
@@ -58,7 +59,7 @@ public class TetrahedronBuilder
 	 */
 	public Tetrahedron build()
 	{
-		return new Tetrahedron (mVertices, sides());
+		return new Tetrahedron(mVertices, sides());
 	}
 
 	private Vector3[] mVertices;

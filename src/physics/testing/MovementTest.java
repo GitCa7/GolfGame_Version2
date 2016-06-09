@@ -18,13 +18,14 @@ public class MovementTest
 	
 	public static void main (String[] args)
 	{
-		Vector3 initBallPos = new Vector3 (0, 0, 0);
+		Vector3 initBallPos = new Vector3 (-20, 5, -20);
 		MovementTest test = new MovementTest (initBallPos);
-		test.display();
-		
 		Vector3 hitForce = new Vector3 (100, 0, 0);
 		test.hitBall(hitForce);
+		test.display();
 		
+		
+		/*
 		int iterations = 10;
 		
 		for (int cnt = 0; cnt < iterations; ++cnt)
@@ -37,6 +38,7 @@ public class MovementTest
 			}
 			catch (Exception e) { System.out.println ("oh no"); }
 		}
+		*/
 	}
 
 	/** default time delta*/
@@ -87,7 +89,9 @@ public class MovementTest
 		mEngine.addSystem (new FrictionSystem());
 		
 		mVisualizer = new GameVisual();
+		mVisualizer.setEngine(mEngine);
 		mVisualizer.setTerrain(new TerrainData());
+		
 	}
 
 	/**

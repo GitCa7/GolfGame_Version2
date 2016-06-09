@@ -17,7 +17,7 @@ public class RoundTester
 	@Test
 	public void testRoundDigits()
 	{
-		Rounder r = new Rounder (5);
+		Rounder r = new Rounder (5,5);
 
 		double number = 5.4328276;
 		double expect = 5.43283;
@@ -28,7 +28,7 @@ public class RoundTester
 	@Test
 	public void testRoundSignificant()
 	{
-		Rounder r = new Rounder (5);
+		Rounder r = new Rounder (5,5);
 
 		double number = 70.0128462;
 		double expect = 70.013;
@@ -39,7 +39,7 @@ public class RoundTester
 	@Test
 	public void testEpsilonEquals()
 	{
-		Rounder r = new Rounder (5);
+		Rounder r = new Rounder (5,5);
 
 		double n1 = 0.016384134;
 		double n2 = 0.016378276;
@@ -52,7 +52,7 @@ public class RoundTester
 	@Test
 	public void testSignificantEquals()
 	{
-		Rounder r = new Rounder (5);
+		Rounder r = new Rounder (5,5);
 
 		double n1 = 400.23628273;
 		double n2 = 400.2362184;

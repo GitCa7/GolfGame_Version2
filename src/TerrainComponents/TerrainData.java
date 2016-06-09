@@ -34,7 +34,14 @@ public class TerrainData {
     public TerrainData(String heightMapID){
         hasHeightMap = true;
         this.heightMapID = heightMapID;
-        SIZE = 1000;
+        int VERTEX_COUNT = 128;
+    	SIZE = 1000;
+    	int count = VERTEX_COUNT * VERTEX_COUNT;
+    	this.vertices = new float[count * 3];
+    	this.normals = new float[count * 3];
+    	this.textureCoords = new float[count*2];
+    	this.indices = new int[6*(VERTEX_COUNT-1)*(VERTEX_COUNT*1)];
+        this.leafs = new ArrayList<PointNode>();
         terraCalc = new TerrainGeometryCalc();
         terraCalc.generateTerrain(vertices, normals, textureCoords, indices, leafs, 1000, heightMapID);
         tetrahedons = terraCalc.getAllTetrahedons(this);
@@ -55,7 +62,9 @@ public class TerrainData {
     	this.normals = new float[count * 3];
     	this.textureCoords = new float[count*2];
     	this.indices = new int[6*(VERTEX_COUNT-1)*(VERTEX_COUNT*1)];
-        terraCalc = new TerrainGeometryCalc();
+        this.leafs = new ArrayList<PointNode>();
+    	
+    	terraCalc = new TerrainGeometryCalc();
         terraCalc.generateTerrain(vertices, normals, textureCoords, indices, leafs, SIZE, null);
         tetrahedons = terraCalc.getAllTetrahedons(this);
     }
