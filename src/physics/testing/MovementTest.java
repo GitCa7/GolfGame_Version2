@@ -131,6 +131,7 @@ public class MovementTest
 	 */
 	public void init()
 	{
+		mVisualizer.setEngine(mEngine);
 		mVisualizer.startDisplay();
 	}
 
