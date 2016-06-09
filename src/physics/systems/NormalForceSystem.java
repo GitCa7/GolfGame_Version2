@@ -17,7 +17,11 @@ import static physics.constants.PhysicsCoefficients.GRAVITY_EARTH;
 
 public class NormalForceSystem
 {
-    public NormalForceSystem(){
+    //@TODO make extends EntitySystem, add methods for entity addition/removal, implement factory
+
+
+    public NormalForceSystem()
+    {
 
         //mDetect = new CollisionDetector();
         mRepo = new CollisionRepository();

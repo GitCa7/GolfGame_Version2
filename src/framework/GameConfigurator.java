@@ -2,6 +2,7 @@ package framework;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.math.FloatCounter;
 import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector3;
 import framework.components.*;
@@ -9,6 +10,7 @@ import framework.entities.Player;
 import framework.internal.components.Active;
 import framework.systems.EntityListener;
 import framework.systems.GoalSystemFactory;
+import physics.collision.CollisionRepository;
 import physics.components.*;
 import physics.constants.CompoMappers;
 import physics.constants.PhysicsCoefficients;
@@ -51,6 +53,9 @@ public class GameConfigurator
         mBallGoalFactory = new GoalFactory();
 
         mPlayerNameFactory = new NameFactory();
+
+        mObstacleBodyFactory = new BodyFactory();
+        mObstaclePositionFactory = new PositionFactory();
 
         mSetHole = false;
 
@@ -114,14 +119,31 @@ public class GameConfigurator
     /**
      * Constructs a new obstacle. Every obstacle added this way will contain all the entities associated with the colliding
      * family (see physics families).
-     * @param mass the mass of the obstacle
      * @param bodySolids a collection of solids. The vertex with the smallest euclidean distance to the origin is fixed as the
      *                   position of the obstacle.
      */
-    public void addObstacle(float mass, Collection<SolidTranslator> bodySolids)
+    public void addObstacle(Collection<SolidTranslator> bodySolids)
     {
-        //@TODO implement extrinsic state of flyweight solids. Check this after implementing.
-        throw new UnsupportedOperationException("obstacles are not yet supported and thus not implemented");
+        //find translation vector of smallest magnitude
+        SolidTranslator min = null;
+        float minLen = Float.MAX_VALUE;
+        for (SolidTranslator bodyPart : bodySolids)
+        {
+            float partLen = bodyPart.getPosition().len();
+            if (minLen > partLen)
+            {
+                minLen = partLen;
+                min = bodyPart;
+            }
+        }
+
+        //set as position
+        mObstaclePositionFactory.setVector(min.getPosition());
+        mObstacleBodyFactory.clear();
+        for (SolidTranslator bodyPart : bodySolids)
+                mObstacleBodyFactory.addSolid(bodyPart);
+
+
     }
 
     /**
@@ -201,6 +223,13 @@ public class GameConfigurator
         ForceFactory ballForceFactory = new ForceFactory();
         GravityForceFactory ballGravityFactory = new GravityForceFactory();
         FrictionFactory ballFrictionFactory = new FrictionFactory();
+        //construct system factories connected to collision repository
+        CollisionDetectionSystemFactory collisionDetectionFactory = new CollisionDetectionSystemFactory();
+        CollisionImpactSystemFactory collisionImpactFactory = new CollisionImpactSystemFactory();
+        //set repository
+        CollisionRepository collisionRepo = new CollisionRepository();
+        collisionDetectionFactory.setRepository(collisionRepo);
+        collisionImpactFactory.setRepository(collisionRepo);
         //set default parameters of component factories for balls we dont need to change
         ballVelocityFactory.setVector(new Vector3());
         ballForceFactory.setVector(new Vector3());
@@ -213,7 +242,7 @@ public class GameConfigurator
         ComponentBundle ballForce = new ComponentBundle(ballForceFactory, new ForceApplyFactory());
         ComponentBundle ballFriction = new ComponentBundle(ballFrictionFactory, new FrictionSystemFactory());
         ComponentBundle ballMass = new ComponentBundle(mBallMassFactory);
-        ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory);
+        ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory, collisionDetectionFactory, collisionImpactFactory);
         ComponentBundle ballGravity = new ComponentBundle(ballGravityFactory);
         ComponentBundle ballGoal = new ComponentBundle(mBallGoalFactory, new GoalSystemFactory());
         //add bundles to ball factory
@@ -232,6 +261,14 @@ public class GameConfigurator
         ComponentBundle playerName = new ComponentBundle(mPlayerNameFactory);
         //add bunldes to player factory
         mPlayerFactory.addComponent(playerTurn, playerNext, playerName);
+
+
+        //construct obstacle component bundles
+        ComponentBundle obsBody = new ComponentBundle(mObstacleBodyFactory);
+        ComponentBundle obsPosition = new ComponentBundle(mObstaclePositionFactory);
+
+        //add bunldes to obstacle factory
+        mObstacleFactory.addComponent(obsBody, obsPosition);
     }
 
 	/**
@@ -255,13 +292,18 @@ public class GameConfigurator
 	/** objects tracking physics.systems in use */
 	private SystemsTracker mSystemsTracker;
     /** entity factories used to instantiate certain kinds of entities */
-    private EntityFactory mBallFactory, mPlayerFactory;
+    private EntityFactory mBallFactory, mPlayerFactory, mObstacleFactory;
     /** handles for component factories used in entity factories */
+    /** ball */
     private PositionFactory mBallPositionFactory;
     private MassFactory mBallMassFactory;
     private BodyFactory mBallBodyFactory;
-    private NameFactory mPlayerNameFactory;
     private GoalFactory mBallGoalFactory;
+    /** player */
+    private NameFactory mPlayerNameFactory;
+    /** obstacles */
+    private BodyFactory mObstacleBodyFactory;
+    private PositionFactory mObstaclePositionFactory;
 
     //boolean flags for conditions fulfilled before start
     boolean mSetHole;
