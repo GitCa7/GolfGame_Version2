@@ -17,7 +17,6 @@ public class ColliderBody extends ColliderSolid
 		super((solidCollider.hasCollidingVertex() ? solidCollider.getCollidingVertex() : null),
 				solidCollider.getCollidingSolid());
 		mColliding = colliding;
-		mColliderSolid=solidCollider;
 	}
 
 	/**
@@ -25,13 +24,5 @@ public class ColliderBody extends ColliderSolid
 	 */
 	public Body getCollidingBody() { return mColliding; }
 
-	/**
-	 *
-	 * @return the solid physics.collision is occurring at
-	 */
-	public ColliderSolid getColliderSolid(){return mColliderSolid;}
-
 	private Body mColliding;
-	private ColliderSolid mColliderSolid;
-
 }

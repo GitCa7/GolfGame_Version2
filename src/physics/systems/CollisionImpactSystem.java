@@ -45,6 +45,10 @@ public class CollisionImpactSystem extends EntitySystem
 
         //detect collisions
         ArrayList<ColliderPair<ColliderEntity>> colliding = mRepository.getColliderPairs();
+
+        if (!colliding.isEmpty())
+            System.out.println ("received collision");
+
         //for each physics.collision detected
         for (ColliderPair collPair : colliding)
         {
@@ -103,6 +107,7 @@ public class CollisionImpactSystem extends EntitySystem
         Vector3 needToApply = newDirection.sub(currentDirection).scl(activeMass).scl(1/dTime);
         return needToApply;
     }
+
     @Override
     public void addedToEngine (Engine e)
     {
@@ -114,6 +119,7 @@ public class CollisionImpactSystem extends EntitySystem
                 mActive.add (add);
         }
     }
+
     public void addEntity(Entity e) {
         if (Families.COLLIDING.matches((e))) {
             entities().add(e);

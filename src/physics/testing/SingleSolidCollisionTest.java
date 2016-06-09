@@ -108,7 +108,7 @@ public class SingleSolidCollisionTest
 		impactCollision.setRepository(collisionRepo);
 
 		detectCollision.setPriority(1);
-		detectCollision.setPriority(2);
+		impactCollision.setPriority(2);
 		applyForce.setPriority(4);
 		move.setPriority(5);
 

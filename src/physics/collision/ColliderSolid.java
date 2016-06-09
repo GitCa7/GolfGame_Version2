@@ -41,7 +41,7 @@ public class ColliderSolid{
      */
     public boolean hasCollidingVertex()
     {
-        return (mCollidingVector == null);
+        return (mCollidingVector != null);
     }
 
 
