@@ -9,11 +9,11 @@ import org.lwjgl.util.vector.Vector3f;
 import com.badlogic.gdx.math.Vector3;
 
 import Entities.FollowCamera;
-import Entities.FollowCamera;
 import Entities.GolfBall;
 import Entities.Light;
 import Entities.Obstacle;
 import Entities.crate;
+import Entities.freeCamera;
 import Entities.gameEntity;
 import LogicAndExtras.MousePicker;
 import ModelBuildComponents.ModelTexture;
@@ -39,7 +39,7 @@ public class SurfaceTest {
 			ArrayList<gameEntity> entities;
 			ArrayList<gameEntity> surrondings;
 			ArrayList<Terrain>terrains;
-			FollowCamera cam;
+			freeCamera cam;
 			Light light;
 
 			
@@ -136,7 +136,7 @@ public class SurfaceTest {
 		    }
 		    
 		   public void setUpScene()	{
-			   cam = new FollowCamera(golfBalls.get(0));
+			   cam = new freeCamera();
 			   //cam.setPosition(new Vector3f(4,20,-422));
 			   //cam.setPitch(25);
 			   

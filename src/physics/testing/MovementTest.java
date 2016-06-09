@@ -26,9 +26,11 @@ public class MovementTest
 		
 		
 
-		int iterations = 10;
+		int iterations = 1000;
 		
-		for (int cnt = 0; cnt < iterations; ++cnt)
+		boolean truth = true;
+		
+		while(truth && mVisualizer.)
 		{
 			test.updateEngine();
 			test.printBallPosition();
@@ -121,7 +123,7 @@ public class MovementTest
 	{
 		Position ballPos = CompoMappers.POSITION.get (mBall.mEntity);
 		Velocity ballV = CompoMappers.VELOCITY.get(mBall.mEntity);
-		System.out.println ("ball position " + ballPos + " velocity " + ballV);
+		//System.out.println ("ball position " + ballPos + " velocity " + ballV);
 	}
 
 	/**
@@ -141,7 +143,7 @@ public class MovementTest
 	}
 	
 	
-	private GameVisual mVisualizer;
+	public GameVisual mVisualizer;
 	private Ball mBall;
 	private Engine mEngine;
 }
