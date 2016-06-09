@@ -25,6 +25,8 @@ redo special entities
 adapt game to changed special entities
 integrate single-solid collisions with main (~08.06.)
 
+physics report outline
+
 write test class for player transition
 integrate players & transition with main
 implement update of next player element when removing players from the engine
@@ -32,15 +34,19 @@ implement update of next player element when removing players from the engine
 add proper extrinsic state to flyweight solids (x)
 adapt code relying on solids (solid/body/entity intersection detector) (x)
 write test for multi-solid obstacles
-integrate multi-solid obstacles (~10.06.)
+integrate multi-solid obstacles (~12.06.)
 
 test tetrahedron intersection
 test sphere tetrahedrizer
-use sphere tetrahedrizer in game configurator
+use sphere tetrahedrizer in game configurator (~13.06)
 
 write test for gravity/normal force interaction on plane
 write test for grativy/normal force interaction on slope
-integrate gravity/normal force with main
+integrate gravity/normal force with main (~14.06)
+
+describe physics already implemented in report 
+isolate topics relevant for presentation
+make presentation (~15.06)
 
 choose method for differential equations
 do generic implementation of differential equation solver

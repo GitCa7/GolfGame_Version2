@@ -58,7 +58,7 @@ public class BodyIntersectionDetector
 				SolidTranslator s2 = iB2.next();
 				SolidIntersection intersection = new SolidIntersection(s1, s2);
 				intersection.checkForIntersection();
-				if (intersection.ismHasIntersection()) {
+				if (intersection.doIntersect()) {
 					mHasIntersection=true;
 					sPair = intersection.getSolidCollision();
 					ColliderSolid cS1 = sPair.getFirst();

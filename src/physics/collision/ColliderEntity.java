@@ -21,7 +21,7 @@ public class ColliderEntity extends ColliderBody
 	 */
 	public ColliderEntity(Entity collidingEntity, ColliderBody collidingBody)
 	{
-		super (collidingBody.getCollidingBody(), collidingBody.getColliderSolid());
+		super (collidingBody.getCollidingBody(), collidingBody);
 		mColliding = collidingEntity;
 
 

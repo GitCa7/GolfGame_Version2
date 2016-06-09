@@ -20,92 +20,72 @@ public class SolidIntersection
 	{
 		mS1 = s1;
 		mS2 = s2;
-		mIntersection = null;
-		mIntersection1 = null;
+		solidCollision = null;
 		mHasIntersection = false;
 	}
 
 	/**
-	 *
-	 * @return a vertex of the first solid within the second solid is returned.
-	 * @throws IllegalStateException if no intersection exists
-	 */
-	public Vector3 intersection() throws IllegalStateException
-	{
-		runInitialTest();
-		if (!mHasIntersection)
-			throw new IllegalStateException ("no intersection was found");
-		return mIntersection;
-	}
+	 * @throws IllegalStateException if there is no intersection
+	 * @return the collider pair storing information about intersection
+     */
+	public ColliderPair<ColliderSolid> getSolidCollision(){return solidCollision;}
+
+
 
 	/**
-	 *
+	 * Precondition: the method checkForIntersection was called once
 	 * @return true if the two solids stored intersect
 	 */
 	public boolean doIntersect()
 	{
-		runInitialTest();
 		return mHasIntersection;
 	}
 
 	/**
-	 * searches for intersection. If an intersection was found, the intersecting vertex is set.
+	 * searches for intersection. If an intersection was found, the solid collider is set.
+	 * Note: the colliding vertex of at most one element of the collider pair may be null.
 	 */
 	public void checkForIntersection()
 	{
-		solidCollision=new ColliderPair<ColliderSolid>(cS1,cS2);
+		Vector3[] vertices1 = mS1.getVertices();
+		Vector3[] vertices2 = mS2.getVertices();
+		ColliderSolid colliderS1 = null, colliderS2 = null;
 		int cVertex = 0;
 		mHasIntersection = false;
 		//iterate over vertices of s1
-		while (cVertex < mS1.getVertices().length && !mHasIntersection)
+		while (cVertex < vertices1.length && colliderS1 == null)
 		{
 			//if vertex is within s2: set
-			if (mS2.isWithin (mS1.getVertices()[cVertex]))
-			{
-				mHasIntersection = true;
-				mIntersection = mS1.getVertices()[cVertex];
-				cS1 =new ColliderSolid(mIntersection,mS2);
-				solidCollision.setFirst(cS1);
-			}
+			if (mS2.isWithin (vertices1[cVertex]))
+				colliderS1 = new ColliderSolid(vertices1[cVertex],mS1);
 			//increment
 			++cVertex;
 		}
+
 
 		cVertex = 0;
-		while (cVertex < mS2.getVertices().length && !mHasIntersection) {
+		while (cVertex < vertices2.length && colliderS2 == null)
+		{
 			//if vertex is within s2: set
-			if (mS1.isWithin(mS2.getVertices()[cVertex])) {
-				mHasIntersection = true;
-				mIntersection1 = mS2.getVertices()[cVertex];
-				cS2 = new ColliderSolid(mIntersection1, mS1);
-				solidCollision.setSecond(cS2);
-			}
+			if (mS1.isWithin(vertices2[cVertex]))
+				colliderS2 = new ColliderSolid(vertices2[cVertex], mS2);
 			//increment
 			++cVertex;
 		}
-	}
 
-	/**
-	 * tests whether initial test was executed. If it was not executed the method call will invoke checkForIntersection
-	 * to do so.
-	 */
-	private void runInitialTest()
-	{
-		if (mIntersection == null)
-			checkForIntersection();
+		//set collision
+		if (colliderS1 != null || colliderS2 != null)
+		{
+			if (colliderS1 == null)
+				colliderS1 = new ColliderSolid(null, mS1);
+			else if (colliderS2 == null)
+				colliderS2 = new ColliderSolid(null, mS2);
+			solidCollision = new ColliderPair<>(colliderS1, colliderS2);
+			mHasIntersection = true;
+		}
 	}
-
-	public boolean ismHasIntersection(){return mHasIntersection;}
-	public Vector3 getMIntersection(){return mIntersection;}
-	public Vector3 getMIntersection1(){return mIntersection1;}
-	public ColliderPair<ColliderSolid> getSolidCollision(){return solidCollision;}
 
 	private ColliderPair<ColliderSolid> solidCollision;
-	private ColliderSolid cS1;
-	private ColliderSolid cS2;
 	private SolidTranslator mS1, mS2;
-	private Vector3 mIntersection;
-	private Vector3 mIntersection1;
 	private boolean mHasIntersection;
-
 }

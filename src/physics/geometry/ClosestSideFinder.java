@@ -16,7 +16,6 @@ public class ClosestSideFinder
      *
      * @param sides Solid to which sides the distance is computed
      */
-
     public ClosestSideFinder (SolidTranslator sides)
     {
         mSides = sides;
