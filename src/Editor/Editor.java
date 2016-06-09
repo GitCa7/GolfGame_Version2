@@ -2,6 +2,7 @@ package Editor;
 
 import Entities.Camera;
 import Entities.Light;
+import Entities.freeCamera;
 import Entities.gameEntity;
 import LogicAndExtras.MousePicker;
 import ModelBuildComponents.ModelTexture;
@@ -25,7 +26,7 @@ import java.util.Random;
 public class Editor implements ApplicationListener {
     MListener mouse;
     Loader loader;
-    Camera camera;
+    freeCamera camera;
     MasterRenderer renderer;
     RawModel model;
     TexturedModel staticModel;
@@ -53,7 +54,7 @@ public class Editor implements ApplicationListener {
 
         size = (float) Integer.parseInt(sizeInput);
         terrain = new Terrain( size);
-        camera = new Camera(new Vector3f(-size / 2, size / 2, size / 2));
+        camera = new freeCamera(new Vector3f(-size / 2, size / 2, size / 2));
         renderer = new MasterRenderer(loader);
         picker = new MousePicker(camera, renderer.getProjectionMatrix(), terrain);
         mouse = new MListener(loader, camera, terrain, picker, this);
@@ -190,7 +191,7 @@ public class Editor implements ApplicationListener {
     }
 
     public void save() {
-        String name = JOptionPane.showInputDialog(this,"Course Name?");
+        String name = JOptionPane.showInputDialog("Course Name?");
         Course toSave = new Course(terrain.toData(), mouse.entities(), mouse.entities().get(0).getPosition(), new Vector3f(-50, 0, -50),name);
         ObjectInputStream inputStream = null;
         ObjectOutputStream outputStream = null;
@@ -202,7 +203,7 @@ public class Editor implements ApplicationListener {
             outputStream = new ObjectOutputStream(new FileOutputStream("courses.dat"));
             outputStream.writeObject((ArrayList<Course>) courses);
         } catch (IOException ex) {
-            System.out.println("[Laad] IO Error: " + ex.getMessage());
+            System.out.println("[Laad] IO Error: " + ex.getMessage()+ex.getCause());
         } catch (ClassNotFoundException ex) {
             System.out.println("error");
         } finally {
