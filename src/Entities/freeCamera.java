@@ -49,14 +49,7 @@ public class freeCamera extends Camera {
 
 		
 
-		
-		
-		if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-			this.upwardsSpeed = +TURN_SPEED;
-		} else if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
-			this.upwardsSpeed = -TURN_SPEED;
-		}
-
+	
 
 	}
 	
