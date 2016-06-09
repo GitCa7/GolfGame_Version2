@@ -1,7 +1,6 @@
-package physics.testing.logic;
+package physics.testing;
 
 import GamePackage.GameVisual;
-import TerrainComponents.TerrainData;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
@@ -21,7 +20,7 @@ public class SingleSolidCollisionTest
 
 	public static void main (String[] args)
 	{
-		Vector3 initBallPos = new Vector3 (0, 0, 0);
+		Vector3 initBallPos = new Vector3 (0, 0, 1);
 		SingleSolidCollisionTest test = new SingleSolidCollisionTest(initBallPos);
 		//test.display();
 
@@ -36,7 +35,7 @@ public class SingleSolidCollisionTest
 			test.printBallPosition();
 			try
 			{
-				Thread.sleep(1000);
+				Thread.sleep(50);
 			}
 			catch (Exception e) { System.out.println ("oh no"); }
 		}
@@ -83,7 +82,7 @@ public class SingleSolidCollisionTest
 		//set and add components to obstacle
 		Entity obstacle = new Entity();
 		Position obsPos = new Position();
-		obsPos.set(10, 10, 10);
+		obsPos.set(10, 10, 0);
 		Body obsBody = new Body();
 		Vector3 oD = new Vector3(2, 0, 0), oW = new Vector3(0, 5, 0), oH = new Vector3(0, 0, 3);
 		Box obsBodyBox = BoxPool.getInstance().getInstance(new BoxParameter(oD, oW, oH));
