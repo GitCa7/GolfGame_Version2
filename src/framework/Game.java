@@ -32,13 +32,11 @@ public class Game
 	 * parametric constructor
 	 * @param e engine to use
 	 * @param ballMap mapping of players to balls
-	 * @param h unique hole of the course
 	 */
-	public Game (Engine e, HashMap<Player, Ball> ballMap, Hole h)
+	public Game (Engine e, HashMap<Player, Ball> ballMap)
 	{
 		mEngine = e;
 		mBallMap = ballMap;
-		mHole = h;
 		mGlobalState = new Entity();
         init();
 	}
@@ -77,14 +75,6 @@ public class Game
 		if (!mBallMap.containsKey(p))
 			throw new IllegalArgumentException ("player is not contained and is not mapped to ball.");
 		return mBallMap.get(p);
-	}
-
-	/**
-	 * @return the hole entity set for this game
-	 */
-	public Hole getHole()
-	{
-		return mHole;
 	}
 
 	/**
@@ -154,6 +144,5 @@ public class Game
 
 	private Engine mEngine;
 	private HashMap<Player, Ball> mBallMap;
-	private Hole mHole;
 	private Entity mGlobalState;
 }

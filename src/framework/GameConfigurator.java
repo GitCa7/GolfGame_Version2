@@ -2,14 +2,13 @@ package framework;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector3;
-import framework.components.NameFactory;
-import framework.components.NextPlayerFactory;
-import framework.components.Turn;
-import framework.components.TurnFactory;
+import framework.components.*;
 import framework.entities.Player;
 import framework.internal.components.Active;
 import framework.systems.EntityListener;
+import framework.systems.GoalSystemFactory;
 import physics.components.*;
 import physics.constants.CompoMappers;
 import physics.constants.PhysicsCoefficients;
@@ -41,7 +40,6 @@ public class GameConfigurator
 		mSystemsTracker = new SystemsTracker();
 		mEngine = new Engine();
 		mBallMap = new HashMap<>();
-		mHole = null;
 
         mBallFactory = new EntityFactory(mSystemsTracker);
         mPlayerFactory = new EntityFactory(mSystemsTracker);
@@ -50,7 +48,11 @@ public class GameConfigurator
         mBallMassFactory = new MassFactory();
         mBallBodyFactory = new BodyFactory();
 
+        mBallGoalFactory = new GoalFactory();
+
         mPlayerNameFactory = new NameFactory();
+
+        mSetHole = false;
 
         initFactories();
 	}
@@ -73,13 +75,12 @@ public class GameConfigurator
 		if (mBallMap.size() < 1)
 			throw new IllegalStateException ("there are no players/balls");
 
-        //@TODO use
-        /*
-        if (mHole == null)
+
+        if (!mSetHole)
 			throw new IllegalStateException ("the hole is not set");
-        */
+
 		addAllSystems();
-		return new Game (mEngine, mBallMap, mHole);
+		return new Game (mEngine, mBallMap);
 	}
 
     /**
@@ -126,11 +127,22 @@ public class GameConfigurator
     /**
      * Constructs a new hole. This hole has all components associtated with the NAME_THEM_HERE! families.
      * @param position The shape of the hole, embedding the position where the hole is located.
+     * @param size length of a side of the cube delimiting the hole
      */
-    public void setHole(Vector3 position)
+    public void setHole(Vector3 position, float size)
     {
-        //@TODO implement hole
-        throw new UnsupportedOperationException("the hole is not yet relevant and thus not implemented");
+        Vector3 d = new Vector3(size, 0, 0);
+        Vector3 w = new Vector3(0, size, 0);
+        Vector3 h = new Vector3(0, 0, size);
+        Box holeBox = BoxPool.getInstance().getInstance(new BoxParameter(w,d,h));
+
+        mBallGoalFactory.setGoal(holeBox, position);
+        //replace previous goal component
+        for (Ball ballsAdded : mBallMap.values())
+        {
+            ballsAdded.mEntity.remove(Goal.class);
+            ballsAdded.mEntity.add(mBallGoalFactory.produce());
+        }
     }
 
     /**
@@ -203,8 +215,11 @@ public class GameConfigurator
         ComponentBundle ballMass = new ComponentBundle(mBallMassFactory);
         ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory);
         ComponentBundle ballGravity = new ComponentBundle(ballGravityFactory);
+        ComponentBundle ballGoal = new ComponentBundle(mBallGoalFactory, new GoalSystemFactory());
         //add bundles to ball factory
-        mBallFactory.addComponent(ballPosition, ballVelocity, ballForce, ballFriction, ballMass, ballBody, ballGravity);
+        mBallFactory.addComponent(ballPosition, ballVelocity, ballFriction);
+        mBallFactory.addComponent(ballForce, ballGravity);
+        mBallFactory.addComponent(ballMass, ballBody, ballGoal);
 
         //additional component factories for players
         TurnFactory playerTurnFactory = new TurnFactory();
@@ -235,8 +250,6 @@ public class GameConfigurator
 
 	/** mapping of players to their balls */
 	private HashMap<Player, Ball> mBallMap;
-	/** the hole entity to be used */
-	private Hole mHole;
 	/** engine to configure */
 	private Engine mEngine;
 	/** objects tracking physics.systems in use */
@@ -248,4 +261,8 @@ public class GameConfigurator
     private MassFactory mBallMassFactory;
     private BodyFactory mBallBodyFactory;
     private NameFactory mPlayerNameFactory;
+    private GoalFactory mBallGoalFactory;
+
+    //boolean flags for conditions fulfilled before start
+    boolean mSetHole;
 }
