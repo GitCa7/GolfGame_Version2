@@ -180,6 +180,7 @@ public class GameVisual {
 	}
 	
 	public void updateDisplay()	{
+		updateObjects();
 		
 		if(useFollow == false)	{
 			cam.move();
@@ -190,6 +191,7 @@ public class GameVisual {
 
         for(gameEntity ball:golfBalls)	{
      	   renderer.processEntity(ball);
+     	   System.out.println("Ball Position: " + ball.getPosition());
         }
 
         for(Terrain terrain:terrains)	{

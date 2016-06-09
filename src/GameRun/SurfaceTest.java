@@ -10,6 +10,12 @@ import org.lwjgl.util.vector.Vector3f;
 import com.badlogic.gdx.math.Vector3;
 
 import Entities.FollowCamera;
+import Entities.GolfBall;
+import Entities.Light;
+import Entities.Obstacle;
+import Entities.crate;
+import Entities.freeCamera;
+import Entities.gameEntity;
 import LogicAndExtras.MousePicker;
 import ModelBuildComponents.ModelTexture;
 import ModelBuildComponents.RawModel;
