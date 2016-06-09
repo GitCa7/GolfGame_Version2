@@ -23,6 +23,7 @@ public class TerrainGeometryCalc {
 	
 	private static final Loader loader = new Loader();
 	private static final int triNumBorder = 43520;
+	private static final int triNumBorder2 = 10837;
 	private static final float MAX_HEIGHT = 80;
     private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
 	
@@ -65,11 +66,7 @@ public class TerrainGeometryCalc {
     		VERTEX_COUNT = 128;
     	}
     		
-    	int count = VERTEX_COUNT * VERTEX_COUNT;
-        vertices = new float[count * 3];
-        normals = new float[count * 3];
-        textureCoords = new float[count*2];
-        indices = new int[6*(VERTEX_COUNT-1)*(VERTEX_COUNT*1)];
+    	
         int vertexPointer = 0;
         int leafCount = 0;
         Vector3f normal;
@@ -221,6 +218,7 @@ public class TerrainGeometryCalc {
 	    	
 	    	//need to go thoruhall triangles of the terrain
 		 	ArrayList<Triangle> tmp = getAllTris(terraData);
+		 	
 		 	Triangle[] allTri = new Triangle[tmp.size()];
 		 	for (int i=0;i<tmp.size();i++){
 				allTri[i]=tmp.get(i);
@@ -238,7 +236,7 @@ public class TerrainGeometryCalc {
 	    	Vector3 lineA,lineB,lineC;
 	    	
 	    	
-	    	for(int i = 0; i < 10837; i++)	{
+	    	for(int i = 0; i < triNumBorder2; i++)	{
 	    		
 	    		//System.out.println("Number: " + i + "\t" + allTri[i]);
 	    		
