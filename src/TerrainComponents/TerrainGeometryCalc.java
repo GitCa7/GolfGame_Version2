@@ -238,7 +238,7 @@ public class TerrainGeometryCalc {
 	    	Vector3 lineA,lineB,lineC;
 	    	
 	    	
-	    	for(int i = 0; i < triNumBorder; i++)	{
+	    	for(int i = 0; i < allTri.length; i++)	{
 	    		
 	    		//System.out.println("Number: " + i + "\t" + allTri[i]);
 	    		

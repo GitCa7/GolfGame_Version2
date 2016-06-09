@@ -72,7 +72,7 @@ public class GameLoader {
         }
 
 		Vector3 pos = new Vector3(holePos.x,holePos.y,holePos.z);
-		config.setHole(pos);
+		config.setHole(pos,20);
 
         String pName = JOptionPane.showInputDialog("Player 1 Name?");
         config.addPlayerAndBall(pName,entities.get(0).getScale(),1,new Vector3(ballPos.x,ballPos.y,ballPos.z));
