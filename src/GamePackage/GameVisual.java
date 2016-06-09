@@ -86,7 +86,6 @@ public class GameVisual {
 		//setUpEntities();
 		createSurrondings();
 		setUpScene();
-		startGame();
 	}
 	
 	public void setUpEntities()	{
@@ -137,10 +136,11 @@ public class GameVisual {
 	
 	public void updateObjects()	{
 		
-		gameEngine.update(1);
+		
 		int pos = 0;
 		for(Entity ent : gameEngine.getEntitiesFor(Families.MOVING))	{
 			Vector3 position = CompoMappers.POSITION.get(ent);
+			System.out.println("Delta: " + position);
 			Vector3f fPos = new Vector3f(position.x, position.y, position.z);
 			golfBalls.get(pos).setPosition(fPos);
 			pos++;
@@ -171,54 +171,57 @@ public class GameVisual {
 		light = new Light(new Vector3f(20000,20000,2000),new Vector3f(1,1,1));
 	}
 	
-	public void startGame()	{
-		   //displayAllEntites();
-		   
-		   Vector3f direction, intersect;
-		   useFollow = true;
-		   
-		   //Propose: Have external class that checks for Engine inputs and updates these, also ameloop should only run while game is not terminated AND Game is not over
-		   while(!Display.isCloseRequested()){
-			   updateObjects();
-			   gameEngine.update(DisplayManager.getTimeDelat());
-			   //System.out.println("Delta: " + DisplayManager.getTimeDelat());
-			   
-			   if(useFollow == false)	{
-				   cam.move();
-			   }
-			   else	{
-				   followCam.move();
-			   }
+	public boolean stillDispalyed()	{
+		return !Display.isCloseRequested();
+	}
+	
+	public void startDisplay()	{
+		Vector3f direction, intersect;
+		useFollow = true;
+	}
+	
+	public void updateDisplay()	{
+		
+		if(useFollow == false)	{
+			cam.move();
+		}
+		else	{
+			followCam.move();
+		}
 
-	           for(gameEntity ball:golfBalls)	{
-	        	   renderer.processEntity(ball);
-	           }
-	           
+        for(gameEntity ball:golfBalls)	{
+     	   renderer.processEntity(ball);
+        }
 
-	           for(Terrain terrain:terrains)	{
-	        	   renderer.processTerrain(terrain);
-	           }
-	           
-	           if(useFollow == false)	{
-	        	   renderer.render(light, cam);
-	           }
-	           else	{
-	        	   renderer.render(light, followCam);
-	           }
-	           
-	           if(Keyboard.isKeyDown(Keyboard.KEY_TAB))	{
-	        	   if(useFollow == false)
-	        		   useFollow = true;
-	        	   else
-	        		   useFollow = false;
-	           }
-	           
-	           DisplayManager.updateDisplay();
-	       }
-	       renderer.cleanUp();
-	       loader.cleanUp();
-	       DisplayManager.closeDisplay();
-	   }
+        for(Terrain terrain:terrains)	{
+     	   renderer.processTerrain(terrain);
+        }
+        
+        if(useFollow == false)	{
+     	   renderer.render(light, cam);
+        }
+        else	{
+     	   renderer.render(light, followCam);
+        }
+        
+        if(Keyboard.isKeyDown(Keyboard.KEY_TAB))	{
+     	   if(useFollow == false)
+     		   useFollow = true;
+     	   else
+     		   useFollow = false;
+        }
+        
+        DisplayManager.updateDisplay();
+	}
+	
+	public void endDisplay()	{
+		renderer.cleanUp();
+	    loader.cleanUp();
+	    DisplayManager.closeDisplay();
+	}
+	
+	
+	
 	
 	
 }
