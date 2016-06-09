@@ -17,7 +17,7 @@ public class GameStart {
 
 		//pass necessary resources to visual (i.e. terrain) in loader
 		mVisual = load.loadVisual();
-		//mTranslate = mVisual.translate;
+
 		mTranslate.setGame(mGame);
 
 	}
