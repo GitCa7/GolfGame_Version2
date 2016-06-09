@@ -140,7 +140,7 @@ public class GameVisual {
 		int pos = 0;
 		for(Entity ent : gameEngine.getEntitiesFor(Families.MOVING))	{
 			Vector3 position = CompoMappers.POSITION.get(ent);
-			System.out.println("Delta: " + position);
+			//System.out.println("Delta: " + position);
 			Vector3f fPos = new Vector3f(position.x, position.y, position.z);
 			golfBalls.get(pos).setPosition(fPos);
 			pos++;
@@ -176,7 +176,6 @@ public class GameVisual {
 	}
 	
 	public void startDisplay()	{
-		Vector3f direction, intersect;
 		useFollow = true;
 	}
 	
