@@ -20,16 +20,22 @@ implement system checking whether ball is in hole (target zone) and removing the
 test hole mechanism	 (X)
 integrate hole mechanism with main (x)
 
-write test class for collisions using solids consisting of a single solid
-redo special entities
-adapt game to changed special entities
+write test class for collisions using solids consisting of a single solid (x)
+redo special entities (x)
+adapt game to changed special entities (x) no longer relevant
 integrate single-solid collisions with main (~08.06.)
 
 physics report outline
+write down formulas used
 
 write test class for player transition
 integrate players & transition with main
 implement update of next player element when removing players from the engine
+find a way to get input from player and bot
+implement input methods
+
+integrate way to add listeners to engine in system factories (change interface to abstract class)
+require priority in system factories
 
 add proper extrinsic state to flyweight solids (x)
 adapt code relying on solids (solid/body/entity intersection detector) (x)
