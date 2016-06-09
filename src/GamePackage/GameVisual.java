@@ -181,6 +181,7 @@ public class GameVisual {
 		   while(!Display.isCloseRequested()){
 			   updateObjects();
 			   gameEngine.update(DisplayManager.getTimeDelat());
+			   //System.out.println("Delta: " + DisplayManager.getTimeDelat());
 			   
 			   if(useFollow == false)	{
 				   cam.move();

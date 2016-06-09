@@ -18,7 +18,7 @@ public class MovementTest
 	
 	public static void main (String[] args)
 	{
-		Vector3 initBallPos = new Vector3 (-20, 5, -20);
+		Vector3 initBallPos = new Vector3 (-100, 20, -100);
 		MovementTest test = new MovementTest (initBallPos);
 		Vector3 hitForce = new Vector3 (100, 0, 0);
 		test.hitBall(hitForce);
