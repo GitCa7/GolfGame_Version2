@@ -89,12 +89,12 @@ public class freeCamera extends Camera {
 			pitch += PITCH_CHANGE;
 		}
 
-		if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-			position.y = +upwardsSpeed;
-		} else if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
-			position.y = -upwardsSpeed;
+		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
+			position.y+= 0.2f;
 		}
-		
+		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
+			position.y-= 0.2f;;
+		}
 	}
 	
 	public Vector3f getPosition() {
