@@ -13,8 +13,7 @@ public class TetrahedronParameter implements Parameter<Tetrahedron>
 {
 
     /**
-     *
-     * @param defining vectors to 4 vertices defining the tetrahedron
+     * @param defining vectors to 3 vertices defining the tetrahedron, the 4th being the origin (0, 0, 0)
      */
     public TetrahedronParameter(Vector3 ... defining)
     {
@@ -30,7 +29,8 @@ public class TetrahedronParameter implements Parameter<Tetrahedron>
 
     public Vector3[] getDefining(){return mDefining;}
 
-    public boolean equals(TetrahedronParameter para) {
+    public boolean equals(TetrahedronParameter para)
+    {
         HashSet<Vector3> set1= new HashSet<>(Arrays.asList(mDefining));
         return set1.containsAll(Arrays.asList(para.mDefining));
     }

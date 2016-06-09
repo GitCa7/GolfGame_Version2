@@ -20,12 +20,12 @@ public class MovementTest
 	{
 		Vector3 initBallPos = new Vector3 (-100, 20, -100);
 		MovementTest test = new MovementTest (initBallPos);
-		Vector3 hitForce = new Vector3 (100, 0, 0);
+		Vector3 hitForce = new Vector3 (10000, 0, 0);
 		test.hitBall(hitForce);
-		test.display();
+		test.init();
 		
 		
-		/*
+
 		int iterations = 10;
 		
 		for (int cnt = 0; cnt < iterations; ++cnt)
@@ -38,7 +38,8 @@ public class MovementTest
 			}
 			catch (Exception e) { System.out.println ("oh no"); }
 		}
-		*/
+
+		test.close();
 	}
 
 	/** default time delta*/
@@ -110,6 +111,7 @@ public class MovementTest
 	public void updateEngine()
 	{
 		mEngine.update (DT);
+		mVisualizer.updateDisplay();
 	}
 
 	/**
@@ -123,13 +125,19 @@ public class MovementTest
 	}
 
 	/**
-	 * starts a new thread for the graphics and runs it.
+	 * starts up test
 	 */
-	public void display()
+	public void init()
 	{
-		Thread t = new Thread (new VisualsRunner());
-		t.setDaemon(true);
-		t.run();
+		mVisualizer.startDisplay();
+	}
+
+	/**
+	 * ends test
+	 */
+	public void close()
+	{
+		mVisualizer.endDisplay();
 	}
 	
 	

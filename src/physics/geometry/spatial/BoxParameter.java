@@ -10,7 +10,6 @@ import java.util.Arrays;
  */
 public class BoxParameter implements Parameter<Box>
 {
-
     /**
      *
      * @param directions array of 3 direction vectors
@@ -20,6 +19,7 @@ public class BoxParameter implements Parameter<Box>
         mBuilder = new BoxBuilder(directions);
         mDirections = directions;
     }
+
     public Box instantiate() {
         return mBuilder.build() ;
     }
