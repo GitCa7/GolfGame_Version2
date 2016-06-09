@@ -70,6 +70,8 @@ public class Main
     public void initGraphics()
     {
         throw new UnsupportedOperationException("graphics not supported yet");
+        //set resources for visual
+        mVisual.startDisplay();
     }
 
     /**
@@ -89,6 +91,7 @@ public class Main
             do
             {
                 mGame.tick(DELTA_TIME);
+                mVisual.updateDisplay();
                 printCurrentBall();
                 try
                 {
@@ -99,6 +102,8 @@ public class Main
             } while (mGame.isBusy());
 
         }
+
+        mVisual.endDisplay();
     }
 
 
