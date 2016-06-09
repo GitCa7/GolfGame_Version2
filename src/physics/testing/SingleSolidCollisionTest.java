@@ -20,11 +20,11 @@ public class SingleSolidCollisionTest
 
 	public static void main (String[] args)
 	{
-		Vector3 initBallPos = new Vector3 (0, 0, 1);
+		Vector3 initBallPos = new Vector3 (0, 0, 0);
 		SingleSolidCollisionTest test = new SingleSolidCollisionTest(initBallPos);
 		//test.display();
 
-		Vector3 hitForce = new Vector3 (2.75f, 3f, 0f);
+		Vector3 hitForce = new Vector3 (2.5f, 9.5f / 4, 0f);
 		test.hitBall(hitForce);
 
 		int iterations = 10;
@@ -66,7 +66,7 @@ public class SingleSolidCollisionTest
 		//set and add components to ball
 		Position initPos = new Position();
 		initPos.set(ballPos);
-		Vector3 bD =new Vector3(2, 0, 0), bW = new Vector3(0, 2, 0), bH = new Vector3(0, 0, 2);
+		Vector3 bD =new Vector3(1, 0, 0), bW = new Vector3(0, 1, 0), bH = new Vector3(0, 0, 1);
 		Box ballBodyBox = BoxPool.getInstance().getInstance(new BoxParameter(bD, bW, bH));
 		Body ballBody = new Body();
 		ballBody.add(new SolidTranslator(ballBodyBox, initPos.cpy()));
@@ -82,9 +82,9 @@ public class SingleSolidCollisionTest
 		//set and add components to obstacle
 		Entity obstacle = new Entity();
 		Position obsPos = new Position();
-		obsPos.set(10, 10, 0);
+		obsPos.set(11, 10, 0);
 		Body obsBody = new Body();
-		Vector3 oD = new Vector3(2, 0, 0), oW = new Vector3(0, 5, 0), oH = new Vector3(0, 0, 3);
+		Vector3 oD = new Vector3(2, -2, 0), oW = new Vector3(5, 5, 0), oH = new Vector3(0, 0, 3);
 		Box obsBodyBox = BoxPool.getInstance().getInstance(new BoxParameter(oD, oW, oH));
 		obsBody.add(new SolidTranslator(obsBodyBox, obsPos.cpy()));
 		obstacle.add(obsPos);
