@@ -18,7 +18,7 @@ public class MovementTest
 	
 	public static void main (String[] args)
 	{
-		Vector3 initBallPos = new Vector3 (-100, 20, -100);
+		Vector3 initBallPos = new Vector3(-100, 20, -100);
 		MovementTest test = new MovementTest (initBallPos);
 		Vector3 hitForce = new Vector3 (10000, 0, 0);
 		test.hitBall(hitForce);
@@ -30,22 +30,18 @@ public class MovementTest
 		
 		boolean truth = true;
 		
-		while(truth && mVisualizer.)
+		while(truth && test.mVisualizer.stillDispalyed())
 		{
 			test.updateEngine();
-			test.printBallPosition();
-			try
-			{
-				Thread.sleep(1000);
-			}
-			catch (Exception e) { System.out.println ("oh no"); }
+			//test.printBallPosition();
+			
 		}
 
 		test.close();
 	}
 
 	/** default time delta*/
-	public static final float DT = 1;
+	public static final float DT = 0.01f;
 
 	/** Runner for graphics */
 	public class VisualsRunner implements Runnable
@@ -123,7 +119,7 @@ public class MovementTest
 	{
 		Position ballPos = CompoMappers.POSITION.get (mBall.mEntity);
 		Velocity ballV = CompoMappers.VELOCITY.get(mBall.mEntity);
-		//System.out.println ("ball position " + ballPos + " velocity " + ballV);
+		System.out.println ("ball position " + ballPos + " velocity " + ballV);
 	}
 
 	/**
