@@ -7,18 +7,18 @@ running program implementing collisions with boxes in a plane (10.06)
 
 TO DO ITEMS
 ORDERED
-write test class for ball movement (x)
+write test class for ball movement 	(x)
 
 write adapter for game configurator abstracting entities (x)
-write main class(x)
+write main class	(x)
 
-integrate movement with main (~06.06.) (x)
+integrate movement with main (~06.06.) 	(x)
 
-determine components needed for hole (x)
-implement hole components (x)
-implement system checking whether ball is in hole (target zone) and removing the ball and the player if this is the case.(x)
-test hole mechanism
-integrate hole mechanism with main
+determine components needed for hole	 (x)
+implement hole components 	(x)
+implement system checking whether ball is in hole (target zone) and removing the ball and the player if this is the case. 	(x)
+test hole mechanism	 (X)
+integrate hole mechanism with main (x)
 
 write test class for collisions using solids consisting of a single solid
 redo special entities
