@@ -9,7 +9,7 @@ import framework.constants.Families;
 import physics.components.Velocity;
 import physics.constants.GlobalObjects;
 import physics.systems.EntitySystem;
-import sun.org.mozilla.javascript.tools.shell.Global;
+//import sun.org.mozilla.javascript.tools.shell.Global;
 
 import java.util.HashSet;
 
@@ -76,7 +76,7 @@ public class TurnSystem extends EntitySystem
 
 
             Turn turn = CompoMappers.TURN.get(process);
-            if (turn.mDone)
+            if (turn.mTurn)
             {
                 NextPlayer nextPlayer = CompoMappers.NEXT_PLAYER.get(process);
                 Turn nextPlayerTurn = CompoMappers.TURN.get(nextPlayer.mNext.mEntity);
