@@ -48,9 +48,6 @@ public class CollisionImpactSystem extends EntitySystem
         //detect collisions
         ArrayList<ColliderPair<ColliderEntity>> colliding = mRepository.getColliderPairs();
 
-        if (!colliding.isEmpty())
-            System.out.println ("received collision");
-
         //for each physics.collision detected
         for (ColliderPair collPair : colliding)
         {

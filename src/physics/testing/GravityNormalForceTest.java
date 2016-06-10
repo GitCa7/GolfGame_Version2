@@ -21,7 +21,7 @@ public class GravityNormalForceTest
 
 	public static void main (String[] args)
 	{
-		Vector3 initBallPos = new Vector3(0, 0, 100);
+		Vector3 initBallPos = new Vector3(0, 0, 0);
 		GravityNormalForceTest test = new GravityNormalForceTest(initBallPos);
 		Vector3 hitForce = new Vector3 (10000, 0, 0);
 	//	test.hitBall(hitForce);
@@ -66,10 +66,17 @@ public class GravityNormalForceTest
 		//set and add components to ball
 		Position initPos = new Position();
 		initPos.set(ballPos);
+		Vector3 bD =new Vector3(1, 0, 0), bW = new Vector3(0, 1, 0), bH = new Vector3(0, 0, 1);
+		Box ballBodyBox = BoxPool.getInstance().getInstance(new BoxParameter(bD, bW, bH));
+		Body ballBody = new Body();
+		ballBody.add(new SolidTranslator(ballBodyBox, initPos.cpy()));
 		mBall.mEntity.add(initPos);
 		mBall.mEntity.add(new Velocity());
+		mBall.mEntity.add(new Friction(.5f, .5f, 0, 0));
 		mBall.mEntity.add(new Mass (1));
 		mBall.mEntity.add(new Force());
+		mBall.mEntity.add(new GravityForce(new Vector3 (0, 0, -10)));
+		mBall.mEntity.add(ballBody);
 		mBall.mEntity.add(new GravityForce(new Vector3 (0, 0, -PhysicsCoefficients.GRAVITY_EARTH)));
 		assert (Families.ACCELERABLE.matches(mBall.mEntity));
 		assert (Families.COLLIDING.matches(mBall.mEntity));
@@ -101,16 +108,19 @@ public class GravityNormalForceTest
 		//set collision repository for collision systems
 		CollisionRepository collisionRepo = new CollisionRepository();
 		collisionDetection.setRepository(collisionRepo);
-		normalForceApply.set
+		normalForceApply.setRepository(collisionRepo);
 
 		gravity.setPriority(1);
-		applyForce.setPriority(2);
-		move.setPriority(3);
+		collisionDetection.setPriority(2);
+		normalForceApply.setPriority(3);
+		applyForce.setPriority(5);
+		move.setPriority(6);
 		
 		mEngine.addSystem (move);
 		mEngine.addSystem (applyForce);
 		mEngine.addSystem (gravity);
-		
+		mEngine.addSystem(collisionDetection);
+		mEngine.addSystem(normalForceApply);
 	/*	mVisualizer = new GameVisual();
 		mVisualizer.setEngine(mEngine);
 		mVisualizer.setTerrain(new TerrainData());

@@ -34,20 +34,17 @@ public class NormalForceSystem extends EntitySystem
 
     public void addEntity (Entity add)
     {
-        if(Families.GRAVITY_ATTRACTED.matches(add))
-            entities().add(add);
+
     }
 
     public void removeEntity(Entity rem)
     {
-        if(Families.GRAVITY_ATTRACTED.matches(rem))
-            entities().remove(rem);
+
     }
 
     public void addedToEngine(Engine e)
     {
-        for (Entity add : e.getEntitiesFor(Families.GRAVITY_ATTRACTED))
-            entities().add(add);
+
     }
 
     /**
@@ -71,6 +68,9 @@ public class NormalForceSystem extends EntitySystem
 
         //creates a list with collisions
         ArrayList<ColliderPair<ColliderEntity>> collisions = mRepo.getColliderPairs();
+
+        if (!collisions.isEmpty())
+            System.out.println ("received collision");
 
         //get collider pairs
         for (ColliderPair<ColliderEntity> p : collisions) {
@@ -100,14 +100,11 @@ public class NormalForceSystem extends EntitySystem
 
         // Fg = gravity * mass
         Mass activeMass = CompoMappers.MASS.get(active.getEntity());
-        Vector3 Fg = CompoMappers.GRAVITY_FORCE.get(active.getEntity()).cpy().scl(activeMass.mMass);
+        Vector3 invFg = CompoMappers.GRAVITY_FORCE.get(active.getEntity()).cpy().scl(-1 * activeMass.mMass);
 
         // Vector Projection of Fg onto normal Vector of P to get Fn
-        VectorProjector vp = new VectorProjector(Fg);
-        Vector3 newFg = vp.project(p.getNormal());
-        newFg = newFg.scl(-1.00f);
-
-         return newFg;
+        VectorProjector vp = new VectorProjector(p.getNormal());
+        return vp.project(invFg);
     }
 
     private CollisionRepository mRepo;

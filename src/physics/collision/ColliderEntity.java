@@ -26,7 +26,6 @@ public class ColliderEntity extends ColliderBody
 
 
 		assert (Families.COLLIDING.matches (mColliding));
-		assert (CompoMappers.BODY.get (mColliding).equals (collidingBody));
 	}
 
 	/**
