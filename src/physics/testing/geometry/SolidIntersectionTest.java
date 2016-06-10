@@ -27,7 +27,7 @@ public class SolidIntersectionTest
 		Vector3 d12 = new Vector3 (0, 0, 3);
 		Vector3 d13 = new Vector3 (-3, 6, 0);
 
-		Vector3 of2 = new Vector3 (7, 5, 3.5f);//should be inside!
+		Vector3 of2 = new Vector3 (7, 5, 3.5f);//should be inside!(2, 3, 1.5)
 		Vector3 d21 = new Vector3 (5, 0, 0);
 		Vector3 d22 = new Vector3 (0, 2, -3);
 		Vector3 d23 = new Vector3 (0, 3, 2);
@@ -40,6 +40,7 @@ public class SolidIntersectionTest
 		SolidTranslator tb2 = new SolidTranslator(b2, of2);
 
 		SolidIntersection siTest = new SolidIntersection (tb1, tb2);
+		siTest.checkForIntersection();
 		assertTrue (siTest.doIntersect());
 	}
 
@@ -67,6 +68,7 @@ public class SolidIntersectionTest
 		SolidTranslator tt2 = new SolidTranslator(t2, of2);
 
 		SolidIntersection siTest = new SolidIntersection (tt1, tt2);
+		siTest.checkForIntersection();
 		assertTrue (siTest.doIntersect());
 	}
 
@@ -94,6 +96,7 @@ public class SolidIntersectionTest
 		SolidTranslator tt2 = new SolidTranslator(t2, o2);
 
 		SolidIntersection siTest = new SolidIntersection (tb1, tt2);
+		siTest.checkForIntersection();
 		assertTrue (siTest.doIntersect());
 	}
 
@@ -120,6 +123,7 @@ public class SolidIntersectionTest
 		SolidTranslator tb2 = new SolidTranslator(b2, of2);
 
 		SolidIntersection siTest = new SolidIntersection (tb1, tb2);
+		siTest.checkForIntersection();
 		assertFalse (siTest.doIntersect());
 	}
 
@@ -146,6 +150,7 @@ public class SolidIntersectionTest
 		SolidTranslator tt2 = new SolidTranslator(t2, o2);
 
 		SolidIntersection siTest = new SolidIntersection (tt1, tt2);
+		siTest.checkForIntersection();
 		assertFalse (siTest.doIntersect());
 	}
 
@@ -172,6 +177,7 @@ public class SolidIntersectionTest
 		SolidTranslator tb2 = new SolidTranslator(b2, o2);
 
 		SolidIntersection siTest = new SolidIntersection (tt1, tb2);
+		siTest.checkForIntersection();
 		assertFalse (siTest.doIntersect());
 	}
 }

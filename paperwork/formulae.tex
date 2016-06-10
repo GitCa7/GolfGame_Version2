@@ -1,0 +1,40 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+
+%opening
+\title{Formulae}
+\author{}
+
+\begin{document}
+
+\maketitle
+
+  \begin{flushleft}
+  
+    \section{movement}
+    Given a velocity $v$ and a position vector $s$\linebreak
+    We currently $s_{n+1} = s_{n} + v*t$ \linebreak
+    We want to use a solver for the DE $v = \frac{\partial s}{\partial t}$	\linebreak
+    \section{acceleration}	
+    We currently use $v_{n+1} = v_n + a*t$ \linebreak
+    We want to use a solver for the DE $v = \frac{\partial^{2} s}{\partial t}$	\linebreak
+    \section{force}
+    $a = \frac{F}{m}$
+    \section{collisions}
+    collision on a plane with normalized normal $n_{u}$	\linebreak
+    decompose $v$ into vector $u$ orthogonal to the plane and $w$ parallel to the plane	\linebreak
+    $u = v * n_u * n_u$	\linebreak
+    $w = v - u$	\linebreak
+    compute the outgoing velocity $v'$, considering the coefficient of restitution $c_{r}$
+    and the coefficient of friction $c_{f}$ \linebreak
+    $v' = w*c_{f} - u*c_r$ \linebreak
+    computing the force $F{c}$ needed to transform $v$ into $v'$ \linebreak
+    $F_c = m * \frac{\partial v}{\partial t} = m * frac{v' - v}{\partial t}$ \linebreak
+    \section{normal force}
+    Computing the normal force $F_{n}$, being the projection of $F_{g}$ onto the normalized normal vector $n_{u}$ of
+    the plane supporting an object\linebreak
+    $F_{n} = F_{g} * n_{u} * n_{u}$ \linebreak
+
+  \end{flushleft}
+
+\end{document}

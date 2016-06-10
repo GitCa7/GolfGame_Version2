@@ -91,8 +91,8 @@ public class Box extends Solid
 		float dot2 = proj2.dot(mDirections[1]);
 		float dot3 = proj3.dot(mDirections[2]);
 		return (0 <= dot1 && dot1 <= mDirections[0].dot(mDirections[0]) &&
-				0 <= dot2 && dot2 <= mDirections[0].dot(mDirections[0]) &&
-				0 <= dot3 && dot3 <= mDirections[0].dot(mDirections[0]));
+				0 <= dot2 && dot2 <= mDirections[1].dot(mDirections[1]) &&
+				0 <= dot3 && dot3 <= mDirections[2].dot(mDirections[2]));
 	}
 	
 	private Vector3 mOffset;
