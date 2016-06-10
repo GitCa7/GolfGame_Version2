@@ -108,7 +108,6 @@ public class GameConfigurator
             assert(framework.constants.CompoMappers.TURN.has(p.mEntity));
             Turn playerTurn = framework.constants.CompoMappers.TURN.get(p.mEntity);
             playerTurn.mTurn = true;
-            playerTurn.mDone = false;
         }
 
         mBallMap.put(p, b);
