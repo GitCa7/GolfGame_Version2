@@ -23,10 +23,10 @@ integrate hole mechanism with main (x)
 write test class for collisions using solids consisting of a single solid (x)
 redo special entities (x)
 adapt game to changed special entities (x) no longer relevant
-integrate single-solid collisions with main (~08.06.)
+integrate single-solid collisions with main (~08.06.)(x)
 
-physics report outline
-write down formulas used
+physics report outline 
+write down formulas used (x)
 
 write test class for player transition
 integrate players & transition with main
