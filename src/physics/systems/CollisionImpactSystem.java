@@ -59,7 +59,7 @@ public class CollisionImpactSystem extends EntitySystem
                 ColliderEntity passive= (ColliderEntity)collPair.mSecond;
                 Vector3 forceToBeApplied = compute(active,passive,dTime);
                 //Update Force
-                Vector3 currentForce= CompoMappers.VELOCITY.get(active.getEntity());
+                Vector3 currentForce= CompoMappers.FORCE.get(active.getEntity());
                 currentForce.add(forceToBeApplied);
 
             }
@@ -71,7 +71,7 @@ public class CollisionImpactSystem extends EntitySystem
                 ColliderEntity passive= (ColliderEntity)collPair.mFirst;
                 Vector3 forceToBeApplied = compute(active,passive,dTime);
                 //Update Force
-                Vector3 currentForce= CompoMappers.VELOCITY.get(active.getEntity());
+                Vector3 currentForce= CompoMappers.FORCE.get(active.getEntity());
                 currentForce.add(forceToBeApplied);
             }
         }

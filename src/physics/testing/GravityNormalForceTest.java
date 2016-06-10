@@ -21,7 +21,7 @@ public class GravityNormalForceTest
 
 	public static void main (String[] args)
 	{
-		Vector3 initBallPos = new Vector3(0, 0, 0);
+		Vector3 initBallPos = new Vector3(0, 0, 1);
 		GravityNormalForceTest test = new GravityNormalForceTest(initBallPos);
 		Vector3 hitForce = new Vector3 (10000, 0, 0);
 	//	test.hitBall(hitForce);
@@ -44,7 +44,7 @@ public class GravityNormalForceTest
 	}
 
 	/** default time delta*/
-	public static final float DT = 1f;
+	public static final float DT = .1f;
 
 	/** Runner for graphics */
 	public class VisualsRunner implements Runnable
@@ -105,14 +105,17 @@ public class GravityNormalForceTest
 		GravitySystem gravity = new GravitySystem();
 		CollisionDetectionSystem collisionDetection = new CollisionDetectionSystem();
 		NormalForceSystem normalForceApply = new NormalForceSystem();
+		CollisionImpactSystem collisionImpact = new CollisionImpactSystem();
 		//set collision repository for collision systems
 		CollisionRepository collisionRepo = new CollisionRepository();
 		collisionDetection.setRepository(collisionRepo);
 		normalForceApply.setRepository(collisionRepo);
+		collisionImpact.setRepository(collisionRepo);
 
 		gravity.setPriority(1);
 		collisionDetection.setPriority(2);
 		normalForceApply.setPriority(3);
+		collisionImpact.setPriority(4);
 		applyForce.setPriority(5);
 		move.setPriority(6);
 		
@@ -121,6 +124,7 @@ public class GravityNormalForceTest
 		mEngine.addSystem (gravity);
 		mEngine.addSystem(collisionDetection);
 		mEngine.addSystem(normalForceApply);
+		mEngine.addSystem(collisionImpact);
 	/*	mVisualizer = new GameVisual();
 		mVisualizer.setEngine(mEngine);
 		mVisualizer.setTerrain(new TerrainData());
