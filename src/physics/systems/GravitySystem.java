@@ -8,9 +8,9 @@ import physics.constants.Families;
 import physics.components.Force;
 import physics.components.GravityForce;
 
-public class Gravity extends EntitySystem 
+public class GravitySystem extends EntitySystem
 {
-	public Gravity()
+	public GravitySystem()
 	{
 		
 	}
