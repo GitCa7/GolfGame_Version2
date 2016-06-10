@@ -14,6 +14,7 @@ import RenderComponents.OBJLoader;
 import TerrainComponents.Terrain;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import org.lwjgl.util.vector.Vector3f;
@@ -26,7 +27,7 @@ import java.util.Random;
 public class Editor implements ApplicationListener {
     MListener mouse;
     Loader loader;
-    freeCamera camera;
+    Camera camera;
     MasterRenderer renderer;
     RawModel model;
     TexturedModel staticModel;
@@ -54,7 +55,7 @@ public class Editor implements ApplicationListener {
 
         size = (float) Integer.parseInt(sizeInput);
         terrain = new Terrain( size);
-        camera = new freeCamera(new Vector3f(-size / 2, size / 2, size / 2));
+        camera = new Camera(new Vector3f(-size / 2, size / 2, size / 2));
         renderer = new MasterRenderer(loader);
         picker = new MousePicker(camera, renderer.getProjectionMatrix(), terrain);
         mouse = new MListener(loader, camera, terrain, picker, this);
@@ -76,10 +77,12 @@ public class Editor implements ApplicationListener {
         if (first) {
             ObjectOutputStream outputStream = null;
             try {
+                Course tmp = new Course(null,null,null,null,"null");
                 ArrayList<Course> courses = new ArrayList<Course>();
+                courses.add(tmp);
                 System.out.println("yt");
-                outputStream = new ObjectOutputStream(new FileOutputStream("courses.dat"));
-                outputStream.writeObject((ArrayList<Course>) courses);
+                outputStream = new ObjectOutputStream(new FileOutputStream("C:\\Users\\Asus\\Documents\\UNI\\GolfGame_Version2\\courses.dat"));
+                outputStream.writeObject(courses);
             } catch (IOException ex) {
                 System.out.println("[Laad] IO Error11: " + ex.getMessage());
             } finally {
@@ -196,14 +199,14 @@ public class Editor implements ApplicationListener {
         ObjectInputStream inputStream = null;
         ObjectOutputStream outputStream = null;
         try {
-            inputStream = new ObjectInputStream(new FileInputStream("courses.dat"));
+            inputStream = new ObjectInputStream(new FileInputStream("C:\\Users\\Asus\\Documents\\UNI\\GolfGame_Version2\\courses.dat"));
             System.out.println("g");
             ArrayList<Course> courses = (ArrayList<Course>) inputStream.readObject();
             courses.add(toSave);
-            outputStream = new ObjectOutputStream(new FileOutputStream("courses.dat"));
-            outputStream.writeObject((ArrayList<Course>) courses);
+            outputStream = new ObjectOutputStream(new FileOutputStream("C:\\Users\\Asus\\Documents\\UNI\\GolfGame_Version2\\courses.dat"));
+            outputStream.writeObject(courses);
         } catch (IOException ex) {
-            System.out.println("[Laad] IO Error: " + ex.getMessage()+ex.getCause());
+            System.out.println("[Laad] IO Error: " + ex.getMessage());
         } catch (ClassNotFoundException ex) {
             System.out.println("error");
         } finally {

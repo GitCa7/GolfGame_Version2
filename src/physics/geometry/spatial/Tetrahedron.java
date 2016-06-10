@@ -6,11 +6,13 @@ import physics.geometry.VertexSet;
 import physics.geometry.planar.Plane;
 import physics.geometry.planar.Triangle;
 
+import java.io.Serializable;
+
 /**
  * class modelling a tetrahedron
  * @author martin
  */
-public class Tetrahedron extends Solid
+public class Tetrahedron extends Solid implements Serializable
 {
 	/** number of vertices */
 	public static final int VERTICES = 4;

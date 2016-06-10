@@ -5,17 +5,18 @@ import TerrainComponents.Terrain;
 import TerrainComponents.TerrainData;
 import org.lwjgl.util.vector.Vector3f;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Asus on 26-5-2016.
  */
-public class Course {
+public class Course implements Serializable {
     TerrainData terrain;
     ArrayList<gameEntity> entities;
-    String name;
-    Vector3f ballPos;
-    Vector3f holePos;
+    transient String name;
+    transient Vector3f ballPos;
+    transient Vector3f holePos;
 
     public Course(TerrainData terrain, ArrayList<gameEntity> entities, Vector3f a, Vector3f b, String name){
         this.terrain = terrain;

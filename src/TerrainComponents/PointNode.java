@@ -1,12 +1,13 @@
 package TerrainComponents;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.lwjgl.util.vector.Vector3f;
 
 //np
 
-public class PointNode {
+public class PointNode implements Serializable {
 	
 	ArrayList<PointNode> connected;
 	int ID;

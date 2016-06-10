@@ -1,8 +1,9 @@
 package ModelBuildComponents;
 
 
+import java.io.Serializable;
 
-public class TexturedModel {
+public class TexturedModel implements Serializable {
 	
 	private RawModel rawModel;
 	private ModelTexture texture;
