@@ -28,6 +28,11 @@ integrate single-solid collisions with main (~08.06.)(x)
 physics report outline 
 write down formulas used (x)
 
+write test for gravity
+write test for gravity/normal force interaction on plane
+write test for grativy/normal force interaction on slope
+integrate gravity/normal force with main (~10.06.)
+
 write test class for player transition
 integrate players & transition with main
 implement update of next player element when removing players from the engine
@@ -35,20 +40,16 @@ find a way to get input from player and bot
 implement input methods
 
 integrate way to add listeners to engine in system factories (change interface to abstract class)
-require priority in system factories
+require priority in system factories (~12.06.)
 
 add proper extrinsic state to flyweight solids (x)
 adapt code relying on solids (solid/body/entity intersection detector) (x)
 write test for multi-solid obstacles
-integrate multi-solid obstacles (~12.06.)
+integrate multi-solid obstacles (~13.06.)
 
 test tetrahedron intersection
 test sphere tetrahedrizer
-use sphere tetrahedrizer in game configurator (~13.06)
-
-write test for gravity/normal force interaction on plane
-write test for grativy/normal force interaction on slope
-integrate gravity/normal force with main (~14.06)
+use sphere tetrahedrizer in game configurator (~14.06)
 
 describe physics already implemented in report 
 isolate topics relevant for presentation
