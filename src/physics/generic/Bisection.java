@@ -48,12 +48,11 @@ public abstract class Bisection<T> implements Runnable
     public abstract int compare(T point);
 
     /**
-     * @param subIntervalStart left endpoint of the current interval
-     * @param subIntervalEnd right endpoint of the current interval
+     * @param point point within the current interval
      * @return true if the interval is sufficiently small such that its middle is considered
      * the solution. The exact solution should always be accepted.
      */
-    public abstract boolean accept(T subIntervalStart, T subIntervalEnd);
+    public abstract boolean accept(T point);
 
     /**
      * @return if the solution is set
@@ -69,18 +68,23 @@ public abstract class Bisection<T> implements Runnable
         int leftValue = compare (mIntervalStart);
         int rightValue = compare (mIntervalEnd);
 
-        while (!accept(left, right))
+        T middle = pickMiddle(left, right);
+
+        while (!accept(middle))
         {
-            T middle = pickMiddle(left, right);
+
             int middleValue = compare(middle);
 
             if (middleValue == leftValue)
                 left = middle;
             else if (middleValue == rightValue)
                 right = middle;
+            //if solution is not exact
+            if (middleValue != 0)
+                middle = pickMiddle(left, right);
         }
 
-        mSolution = pickMiddle(left, right);
+        mSolution = middle;
     }
 
     private T mIntervalStart, mIntervalEnd;
