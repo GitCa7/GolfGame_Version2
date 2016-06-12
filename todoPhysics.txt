@@ -25,12 +25,16 @@ redo special entities (x)
 adapt game to changed special entities (x) no longer relevant
 integrate single-solid collisions with main (~08.06.)(x)
 
-physics report outline 
+physics report outline (x)
 write down formulas used (x)
 
-write test for gravity
-write test for gravity/normal force interaction on plane
-write test for grativy/normal force interaction on slope
+write test for gravity (x)
+write test for gravity/normal force interaction on plane (x)
+write test for grativy/normal force interaction on slope (x)
+consider edge collision in normal force system
+implement generic bisection (x)
+test bisection (x)
+implement non penetration system
 integrate gravity/normal force with main (~10.06.)
 
 write test class for player transition
@@ -41,6 +45,9 @@ implement input methods
 
 integrate way to add listeners to engine in system factories (change interface to abstract class)
 require priority in system factories (~12.06.)
+
+apply friction only when touching obstacle
+redo movement test
 
 add proper extrinsic state to flyweight solids (x)
 adapt code relying on solids (solid/body/entity intersection detector) (x)
@@ -64,3 +71,4 @@ UNORDERED
 implement game listeners
 write adapter for game abstracting entities
 separate game state (entities+components) from game logic (systems)
+write history components and systems
