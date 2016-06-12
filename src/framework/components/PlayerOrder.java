@@ -5,15 +5,17 @@ import framework.entities.Player;
 import physics.components.Component;
 
 /**
- * Created by martin on 23.05.16.
+ * created on 23.05.16.
+ * @author martin
  */
-public class NextPlayer implements Component
+public class PlayerOrder implements Component
 {
     /**
      * @param next initial next player
      */
-    public NextPlayer (Player next)
+    public PlayerOrder(Player previous, Player next)
     {
+        mPrevious = previous;
         mNext = next;
     }
 
@@ -24,5 +26,5 @@ public class NextPlayer implements Component
         return null;
     }
 
-    public Player mNext;
+    public Player mPrevious, mNext;
 }

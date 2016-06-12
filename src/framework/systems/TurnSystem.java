@@ -2,7 +2,6 @@ package framework.systems;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
-import framework.components.NextPlayer;
 import framework.components.Turn;
 import framework.constants.CompoMappers;
 import framework.constants.Families;
@@ -85,10 +84,10 @@ public class TurnSystem extends EntitySystem
     private void updateOwner(Entity owned)
     {
         Entity owner = CompoMappers.OWNERSHIP.get(owned).mOwner;
-        if (CompoMappers.TURN.has(owner) && CompoMappers.NEXT_PLAYER.has(owner))
+        if (CompoMappers.TURN.has(owner) && CompoMappers.PLAYER_ORDER.has(owner))
         {
             Turn ownerTurn = CompoMappers.TURN.get(owner);
-            Entity followingOwner = CompoMappers.NEXT_PLAYER.get(owner).mNext.mEntity;
+            Entity followingOwner = CompoMappers.PLAYER_ORDER.get(owner).mNext.mEntity;
             assert (CompoMappers.TURN.has(followingOwner));
 
             Turn followingTurn = CompoMappers.TURN.get(followingOwner);

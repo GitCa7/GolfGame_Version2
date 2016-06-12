@@ -16,7 +16,7 @@ import physics.components.Velocity;
 public class Families
 {
     /** family of all entities allowed to take turns */
-    public static Family TURN_TAKING = Family.all (Turn.class, NextPlayer.class).get();
+    public static Family TURN_TAKING = Family.all (Turn.class, PlayerOrder.class).get();
     /** family of global state objects */
     public static Family GLOBAL_STATE = Family.all (Busy.class, Active.class).get();
     /** family of entities owned by another entity*/

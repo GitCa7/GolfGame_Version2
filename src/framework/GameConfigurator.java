@@ -1,25 +1,17 @@
 package framework;
 
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.math.FloatCounter;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector3;
 import framework.components.*;
 import framework.entities.Player;
-import framework.internal.components.Active;
 import framework.systems.EntityListener;
 import framework.systems.GoalSystemFactory;
 import framework.systems.TurnSystemFactory;
 import physics.collision.CollisionRepository;
 import physics.components.*;
-import physics.constants.CompoMappers;
 import physics.constants.PhysicsCoefficients;
 import physics.entities.Ball;
 import framework.entities.EntityFactory;
-import physics.entities.Hole;
-import physics.geometry.planar.Rectangle;
-import physics.geometry.planar.Shape;
 import physics.geometry.planar.Triangle;
 import physics.geometry.spatial.*;
 import physics.systems.*;
@@ -260,7 +252,7 @@ public class GameConfigurator
 
         //additional component factories for players
         TurnFactory playerTurnFactory = new TurnFactory();
-        NextPlayerFactory playerNextFactory = new NextPlayerFactory();
+        PlayerOrderFactory playerNextFactory = new PlayerOrderFactory();
         //set default parameter of component facotires for players we dont need to change
         playerNextFactory.setNextPlayer(null);
         //construct player component bundles
@@ -300,8 +292,9 @@ public class GameConfigurator
 
         for (int cPlayer = 0; cPlayer < players.size(); ++cPlayer)
         {
+            Player previous = players.get((2 * players.size() - 1 + cPlayer) % players.size());
             Player next = players.get((cPlayer + 1) % players.size());
-            players.get(cPlayer).mEntity.add(new NextPlayer(next));
+            players.get(cPlayer).mEntity.add(new PlayerOrder(previous, next));
         }
     }
 

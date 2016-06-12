@@ -5,8 +5,6 @@ import com.badlogic.ashley.core.ComponentMapper;
 import framework.components.*;
 import framework.internal.components.*;
 
-import java.security.acl.Owner;
-
 /**
  * class grouping global component mappers for framework components
  * Created by martin on 23.05.16.
@@ -19,7 +17,7 @@ public class CompoMappers
     /** component mapper for turn components */
     public static final ComponentMapper<Turn> TURN = ComponentMapper.getFor(Turn.class);
     /** component mapper for next player component */
-    public static final ComponentMapper<NextPlayer> NEXT_PLAYER = ComponentMapper.getFor(NextPlayer.class);
+    public static final ComponentMapper<PlayerOrder> PLAYER_ORDER = ComponentMapper.getFor(PlayerOrder.class);
 
     //other mappers
     /** component mapper for goal componentns */

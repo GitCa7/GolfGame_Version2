@@ -1,12 +1,11 @@
 package framework.testing;
 
 import GamePackage.GameVisual;
-import TerrainComponents.TerrainData;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 import framework.components.Name;
-import framework.components.NextPlayer;
+import framework.components.PlayerOrder;
 import framework.components.Ownership;
 import framework.components.Turn;
 import framework.entities.Player;
@@ -85,10 +84,10 @@ public class PlayerTransitionTest
 		Turn player1Turn = new Turn();
 		player1Turn.mTurn = true;
 
-		mPlayer1.mEntity.add(new NextPlayer(mPlayer2));
+		mPlayer1.mEntity.add(new PlayerOrder(mPlayer2));
 		mPlayer1.mEntity.add(player1Turn);
 		mPlayer1.mEntity.add(new Name("p1"));
-		mPlayer2.mEntity.add(new NextPlayer(mPlayer1));
+		mPlayer2.mEntity.add(new PlayerOrder(mPlayer1));
 		mPlayer2.mEntity.add(new Turn());
 		mPlayer2.mEntity.add(new Name("p2"));
 		assert (framework.constants.Families.TURN_TAKING.matches(mPlayer1.mEntity));
