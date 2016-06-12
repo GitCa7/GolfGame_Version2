@@ -3,6 +3,7 @@ package GameRun;
 import java.util.ArrayList;
 import java.util.Random;
 
+import Entities.*;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 

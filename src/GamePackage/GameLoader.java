@@ -67,7 +67,7 @@ public class GameLoader {
             ArrayList<SolidTranslator> box = new ArrayList<>();
             SolidTranslator a = new SolidTranslator(boxes[i], positions[i]);
             box.add(a);
-            config.addObstacle(1, box);
+            config.addObstacle(box);
 
         }
 

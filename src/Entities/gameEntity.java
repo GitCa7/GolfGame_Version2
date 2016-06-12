@@ -7,13 +7,15 @@ import com.badlogic.ashley.core.Entity;
 
 import ModelBuildComponents.TexturedModel;
 
+import java.io.Serializable;
 
-public class gameEntity {
 
-	private TexturedModel model;
-	public Vector3f position;
-	private float rotX, rotY, rotZ;
-	public float scale;
+public class gameEntity implements Serializable {
+
+	private transient TexturedModel model;
+	public transient Vector3f position;
+	private transient float rotX, rotY, rotZ;
+	public transient float scale;
 
 	public gameEntity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ,
 			float scale) {

@@ -2,6 +2,7 @@ package Editor;
 
 import Entities.Camera;
 import Entities.Light;
+import Entities.freeCamera;
 import Entities.gameEntity;
 import LogicAndExtras.MousePicker;
 import ModelBuildComponents.ModelTexture;
@@ -13,6 +14,7 @@ import RenderComponents.OBJLoader;
 import TerrainComponents.Terrain;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import org.lwjgl.util.vector.Vector3f;
@@ -75,10 +77,12 @@ public class Editor implements ApplicationListener {
         if (first) {
             ObjectOutputStream outputStream = null;
             try {
+                Course tmp = new Course(null,null,null,null,"null");
                 ArrayList<Course> courses = new ArrayList<Course>();
+                courses.add(tmp);
                 System.out.println("yt");
-                outputStream = new ObjectOutputStream(new FileOutputStream("courses.dat"));
-                outputStream.writeObject((ArrayList<Course>) courses);
+                outputStream = new ObjectOutputStream(new FileOutputStream("C:\\Users\\Asus\\Documents\\UNI\\GolfGame_Version2\\courses.dat"));
+                outputStream.writeObject(courses);
             } catch (IOException ex) {
                 System.out.println("[Laad] IO Error11: " + ex.getMessage());
             } finally {
@@ -190,17 +194,17 @@ public class Editor implements ApplicationListener {
     }
 
     public void save() {
-        String name = JOptionPane.showInputDialog(this,"Course Name?");
+        String name = JOptionPane.showInputDialog("Course Name?");
         Course toSave = new Course(terrain.toData(), mouse.entities(), mouse.entities().get(0).getPosition(), new Vector3f(-50, 0, -50),name);
         ObjectInputStream inputStream = null;
         ObjectOutputStream outputStream = null;
         try {
-            inputStream = new ObjectInputStream(new FileInputStream("courses.dat"));
+            inputStream = new ObjectInputStream(new FileInputStream("C:\\Users\\Asus\\Documents\\UNI\\GolfGame_Version2\\courses.dat"));
             System.out.println("g");
             ArrayList<Course> courses = (ArrayList<Course>) inputStream.readObject();
             courses.add(toSave);
-            outputStream = new ObjectOutputStream(new FileOutputStream("courses.dat"));
-            outputStream.writeObject((ArrayList<Course>) courses);
+            outputStream = new ObjectOutputStream(new FileOutputStream("C:\\Users\\Asus\\Documents\\UNI\\GolfGame_Version2\\courses.dat"));
+            outputStream.writeObject(courses);
         } catch (IOException ex) {
             System.out.println("[Laad] IO Error: " + ex.getMessage());
         } catch (ClassNotFoundException ex) {

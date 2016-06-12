@@ -1,8 +1,9 @@
 package ModelBuildComponents;
 
+import java.io.Serializable;
 import java.nio.ByteBuffer;
 
-public class TextureData {
+public class TextureData implements Serializable {
     
     private int width;
     private int height;

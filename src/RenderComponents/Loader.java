@@ -4,6 +4,7 @@ package RenderComponents;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -26,11 +27,11 @@ import de.matthiasmann.twl.utils.PNGDecoder.Format;
 
 
 
-public class Loader {
+public class Loader implements Serializable {
 	
-	private List<Integer> vaos = new ArrayList<Integer>();
-	private List<Integer> vbos = new ArrayList<Integer>();
-	private List<Integer> textures = new ArrayList<Integer>();
+	private transient List<Integer> vaos = new ArrayList<Integer>();
+	private transient List<Integer> vbos = new ArrayList<Integer>();
+	private transient List<Integer> textures = new ArrayList<Integer>();
 	//YOU STOPPED HERE
 	
 	
