@@ -34,12 +34,12 @@ write test for grativy/normal force interaction on slope (x)
 consider edge collision in normal force system
 implement generic bisection (x)
 test bisection (x)
-implement non penetration system
-integrate gravity/normal force with main (~10.06.)
+implement non penetration system	(x)
+integrate gravity/normal force with main (~10.06.) (x)	
 
-write test class for player transition
-integrate players & transition with main
-implement update of next player element when removing players from the engine
+write test class for player transition (x)
+integrate players & transition with main (x)
+implement update of next player element when removing players from the engine (x)
 find a way to get input from player and bot
 implement input methods
 
@@ -68,7 +68,9 @@ adapt existing systems to work with DE solver
 re run tests
 
 UNORDERED
-implement game listeners
 write adapter for game abstracting entities
 separate game state (entities+components) from game logic (systems)
-write history components and systems
+think whether to represent sides as plane
+write history components and systems properly
+revise rounding in ALL systems
+implement game result class + exporter
