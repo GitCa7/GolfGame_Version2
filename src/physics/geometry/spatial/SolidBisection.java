@@ -22,7 +22,7 @@ public class SolidBisection extends Bisection<Vector3>
      * parametric constructor
      * @param leftEnd one end of line segment matching condition (=>doc)
      * @param rightEnd other end of line segment matching condition (=>doc)
-     * @param dynamicSolid the solid whose position to adjust
+     * @param dynamicSolid the solid whose position to adjust. THIS OBJECT WILL BE MODIFIED!
      * @param staticSolid the solid against which to check for collisions
      */
     public SolidBisection(Vector3 leftEnd, Vector3 rightEnd, SolidTranslator dynamicSolid, SolidTranslator staticSolid)
@@ -56,11 +56,15 @@ public class SolidBisection extends Bisection<Vector3>
      */
     public int compare(Vector3 point)
     {
+        mDynamic.setPosition(point);
+
         SolidIntersection test = new SolidIntersection(mDynamic, mStatic);
         test.checkForIntersection();
         if (test.doIntersect())
-            return -1;
-        return 1;
+            mLastComparison = -1;
+        else
+            mLastComparison = 1;
+        return mLastComparison;
     }
 
     @Override
