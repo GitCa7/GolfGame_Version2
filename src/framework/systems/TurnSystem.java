@@ -73,18 +73,6 @@ public class TurnSystem extends EntitySystem
             }
 
 
-
-
-            Turn turn = CompoMappers.TURN.get(process);
-            if (turn.mTurn)
-            {
-                NextPlayer nextPlayer = CompoMappers.NEXT_PLAYER.get(process);
-                Turn nextPlayerTurn = CompoMappers.TURN.get(nextPlayer.mNext.mEntity);
-
-                turn.mTurn = false;
-                nextPlayerTurn.mTurn = true;
-            }
-
         }
     }
 
@@ -104,6 +92,8 @@ public class TurnSystem extends EntitySystem
             assert (CompoMappers.TURN.has(followingOwner));
 
             Turn followingTurn = CompoMappers.TURN.get(followingOwner);
+
+            ownerTurn.mTurn = false;
             followingTurn.mTurn = true;
         }
     }
