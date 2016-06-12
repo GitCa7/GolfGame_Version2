@@ -10,6 +10,7 @@ import framework.entities.Player;
 import framework.internal.components.Active;
 import framework.systems.EntityListener;
 import framework.systems.GoalSystemFactory;
+import framework.systems.TurnSystemFactory;
 import physics.collision.CollisionRepository;
 import physics.components.*;
 import physics.constants.CompoMappers;
@@ -23,6 +24,7 @@ import physics.geometry.planar.Triangle;
 import physics.geometry.spatial.*;
 import physics.systems.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -84,6 +86,9 @@ public class GameConfigurator
         if (!mSetHole)
 			throw new IllegalStateException ("the hole is not set");
 
+        //set components indicating which player succeeds another
+        setNextPlayers();
+        //add entity systems processing components to the engine
 		addAllSystems();
 		return new Game (mEngine, mBallMap);
 	}
@@ -259,11 +264,10 @@ public class GameConfigurator
         //set default parameter of component facotires for players we dont need to change
         playerNextFactory.setNextPlayer(null);
         //construct player component bundles
-        ComponentBundle playerTurn = new ComponentBundle(playerTurnFactory);
-        ComponentBundle playerNext = new ComponentBundle(playerNextFactory);
+        ComponentBundle playerTurn = new ComponentBundle(playerTurnFactory, new TurnSystemFactory());
         ComponentBundle playerName = new ComponentBundle(mPlayerNameFactory);
         //add bunldes to player factory
-        mPlayerFactory.addComponent(playerTurn, playerNext, playerName);
+        mPlayerFactory.addComponent(playerTurn, playerName);
 
 
         //construct obstacle component bundles
@@ -285,8 +289,21 @@ public class GameConfigurator
             EntityListener listenEntityChanges = new EntityListener(es);
             mEngine.addEntityListener(listenEntityChanges);
         }
-
 	}
+
+    /**
+     * adds components indicating turn transitions between players
+     */
+    private void setNextPlayers()
+    {
+        ArrayList<Player> players = new ArrayList<>(mBallMap.keySet());
+
+        for (int cPlayer = 0; cPlayer < players.size(); ++cPlayer)
+        {
+            Player next = players.get((cPlayer + 1) % players.size());
+            players.get(cPlayer).mEntity.add(new NextPlayer(next));
+        }
+    }
 
 	/** mapping of players to their balls */
 	private HashMap<Player, Ball> mBallMap;
