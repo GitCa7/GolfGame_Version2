@@ -11,6 +11,7 @@ import physics.components.Body;
 import physics.components.Position;
 import physics.constants.CompoMappers;
 import physics.constants.Families;
+import physics.constants.GlobalObjects;
 import physics.geometry.spatial.SolidBisection;
 import physics.geometry.spatial.SolidTranslator;
 
@@ -95,6 +96,9 @@ public class NonPenetrationSystem extends EntitySystem
 
         System.out.println ("correcting position from " + p + " to " + newPosition);
 
+        GlobalObjects.ROUND.roundDigits(newPosition.x);
+        GlobalObjects.ROUND.roundDigits(newPosition.y);
+        GlobalObjects.ROUND.roundDigits(newPosition.z);
         p.set(newPosition);
         b.setPosition(newPosition);
     }

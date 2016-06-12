@@ -16,7 +16,7 @@ import physics.generic.Bisection;
 public class SolidBisection extends Bisection<Vector3>
 {
 
-    public static final double DEFAULT_EPSILON = Math.pow (10, -PhysicsCoefficients.ARITHMETIC_TOLERANCE);
+    public static final double DEFAULT_EPSILON = Math.pow (10, -PhysicsCoefficients.ARITHMETIC_PRECISION);
 
     /**
      * parametric constructor
