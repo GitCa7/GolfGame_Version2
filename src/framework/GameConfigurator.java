@@ -225,10 +225,14 @@ public class GameConfigurator
         //construct system factories connected to collision repository
         CollisionDetectionSystemFactory collisionDetectionFactory = new CollisionDetectionSystemFactory();
         CollisionImpactSystemFactory collisionImpactFactory = new CollisionImpactSystemFactory();
+        NormalForceSystemFactory normalForceFactory = new NormalForceSystemFactory();
+        NonPenetrationSystemFactory nonPenetrationFactory = new NonPenetrationSystemFactory();
         //set repository
         CollisionRepository collisionRepo = new CollisionRepository();
         collisionDetectionFactory.setRepository(collisionRepo);
         collisionImpactFactory.setRepository(collisionRepo);
+        normalForceFactory.setRepository(collisionRepo);
+        nonPenetrationFactory.setRepository(collisionRepo);
         //set default parameters of component factories for balls we dont need to change
         ballVelocityFactory.setVector(new Vector3());
         ballForceFactory.setVector(new Vector3());
@@ -241,8 +245,8 @@ public class GameConfigurator
         ComponentBundle ballForce = new ComponentBundle(ballForceFactory, new ForceApplyFactory());
         ComponentBundle ballFriction = new ComponentBundle(ballFrictionFactory, new FrictionSystemFactory());
         ComponentBundle ballMass = new ComponentBundle(mBallMassFactory);
-        ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory, collisionDetectionFactory, collisionImpactFactory);
-        ComponentBundle ballGravity = new ComponentBundle(ballGravityFactory);
+        ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory, collisionDetectionFactory, collisionImpactFactory, nonPenetrationFactory);
+        ComponentBundle ballGravity = new ComponentBundle(ballGravityFactory, new GravitySystemFactory(), normalForceFactory, nonPenetrationFactory);
         ComponentBundle ballGoal = new ComponentBundle(mBallGoalFactory, new GoalSystemFactory());
         //add bundles to ball factory
         mBallFactory.addComponent(ballPosition, ballVelocity, ballFriction);

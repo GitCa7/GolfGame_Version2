@@ -8,7 +8,7 @@ import physics.collision.CollisionRepository;
  *
  * @author martin
  */
-public class NonPenetrationSystemFactory
+public class NonPenetrationSystemFactory implements EntitySystemFactory
 {
 
     public NonPenetrationSystemFactory()
