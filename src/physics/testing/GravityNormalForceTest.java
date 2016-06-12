@@ -29,7 +29,7 @@ public class GravityNormalForceTest
 
 
 
-		int iterations = 10;
+		int iterations = 25;
 
 		boolean truth = true;
 
@@ -106,25 +106,29 @@ public class GravityNormalForceTest
 		CollisionDetectionSystem collisionDetection = new CollisionDetectionSystem();
 		NormalForceSystem normalForceApply = new NormalForceSystem();
 		CollisionImpactSystem collisionImpact = new CollisionImpactSystem();
+		NonPenetrationSystem notPenetrate = new NonPenetrationSystem();
 		//set collision repository for collision systems
 		CollisionRepository collisionRepo = new CollisionRepository();
 		collisionDetection.setRepository(collisionRepo);
 		normalForceApply.setRepository(collisionRepo);
 		collisionImpact.setRepository(collisionRepo);
+		notPenetrate.setRepository(collisionRepo);
 
 		gravity.setPriority(1);
 		collisionDetection.setPriority(2);
 		normalForceApply.setPriority(3);
 		collisionImpact.setPriority(4);
-		applyForce.setPriority(5);
-		move.setPriority(6);
+		notPenetrate.setPriority(5);
+		applyForce.setPriority(9);
+		move.setPriority(10);
 		
 		mEngine.addSystem (move);
 		mEngine.addSystem (applyForce);
 		mEngine.addSystem (gravity);
-		mEngine.addSystem(collisionDetection);
-		mEngine.addSystem(normalForceApply);
-		mEngine.addSystem(collisionImpact);
+		mEngine.addSystem (collisionDetection);
+		mEngine.addSystem (normalForceApply);
+		mEngine.addSystem (collisionImpact);
+		mEngine.addSystem (notPenetrate);
 	/*	mVisualizer = new GameVisual();
 		mVisualizer.setEngine(mEngine);
 		mVisualizer.setTerrain(new TerrainData());

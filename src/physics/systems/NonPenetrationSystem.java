@@ -92,6 +92,9 @@ public class NonPenetrationSystem extends EntitySystem
         Position p = CompoMappers.POSITION.get(e);
         Body b = CompoMappers.BODY.get(e);
 
+
+        System.out.println ("correcting position from " + p + " to " + newPosition);
+
         p.set(newPosition);
         b.setPosition(newPosition);
     }
