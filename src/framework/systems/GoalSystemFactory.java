@@ -1,13 +1,18 @@
 package framework.systems;
 
-import physics.systems.EntitySystemFactory;
+import framework.EntitySystemFactory;
 
 /**
  * Factory class producing goal systems.
  * @author martin
  */
-public class GoalSystemFactory implements EntitySystemFactory
+public class GoalSystemFactory extends EntitySystemFactory
 {
 
-    public GoalSystem produce() { return new GoalSystem(); }
+    public GoalSystem produce()
+    {
+        GoalSystem g =  new GoalSystem();
+        attachListener(g);
+        return g;
+    }
 }

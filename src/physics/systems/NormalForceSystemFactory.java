@@ -1,12 +1,13 @@
 package physics.systems;
 
+import framework.EntitySystemFactory;
 import physics.collision.CollisionRepository;
 
 /**
  * Class producing normal force systems.
  * @author martin
  */
-public class NormalForceSystemFactory implements EntitySystemFactory
+public class NormalForceSystemFactory extends EntitySystemFactory
 {
 
 

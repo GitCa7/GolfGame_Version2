@@ -1,12 +1,12 @@
 package physics.systems;
+import framework.EntitySystemFactory;
 import physics.collision.CollisionRepository;
-import physics.systems.CollisionImpactSystem;
 
 /** Creates a CollisionImpactSystemFactory
  * Created by marcel on 21.05.2016.
  */
 
-public class CollisionImpactSystemFactory implements EntitySystemFactory
+public class CollisionImpactSystemFactory extends EntitySystemFactory
 {
 
 

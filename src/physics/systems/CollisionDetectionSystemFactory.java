@@ -1,12 +1,13 @@
 package physics.systems;
 
+import framework.EntitySystemFactory;
 import physics.collision.CollisionRepository;
 
 /** Creates CollisionDetectionSystemFactory
  * Created by marcel on 21.05.2016.
  */
 
-public class CollisionDetectionSystemFactory implements EntitySystemFactory
+public class CollisionDetectionSystemFactory extends EntitySystemFactory
 {
 
     public CollisionDetectionSystemFactory()
@@ -22,6 +23,7 @@ public class CollisionDetectionSystemFactory implements EntitySystemFactory
 
         CollisionDetectionSystem newSystem = new CollisionDetectionSystem();
         newSystem.setRepository(mRepoUsed);
+        attachListener(newSystem);
         return newSystem;
     }
 

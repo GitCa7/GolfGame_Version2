@@ -2,7 +2,6 @@ package physics.systems;
 import com.badlogic.ashley.core.*;
 import com.badlogic.gdx.math.*;
 import physics.collision.*;
-import physics.components.Force;
 import physics.components.Friction;
 import physics.components.Velocity;
 import physics.constants.CompoMappers;
@@ -11,9 +10,8 @@ import physics.constants.PhysicsCoefficients;
 
 import physics.geometry.ClosestSideFinder;
 import physics.geometry.VectorProjector;
-import physics.geometry.spatial.Solid;
 import physics.geometry.planar.Plane;
-import physics.constants.CompoMappers;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -27,7 +25,7 @@ import java.util.HashSet;
         repository => normal force system
         */
 
-public class CollisionImpactSystem extends EntitySystem
+public class CollisionImpactSystem extends framework.EntitySystem
 {
     /*
     In general: How does this system interact with the collisionImpactSystem and the CollisionComputer, what does the Collisions Computer do?

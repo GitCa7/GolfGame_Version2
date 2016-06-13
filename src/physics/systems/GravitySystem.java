@@ -3,6 +3,7 @@ package physics.systems;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 
+import framework.EntitySystem;
 import physics.constants.CompoMappers;
 import physics.constants.Families;
 import physics.components.Force;

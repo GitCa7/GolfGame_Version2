@@ -2,18 +2,15 @@ package physics.systems;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.*;
+import framework.EntitySystem;
 import physics.collision.*;
 import physics.components.Force;
 import physics.constants.CompoMappers;
 import physics.components.*;
-import physics.constants.Families;
-import physics.constants.PhysicsCoefficients;
 import physics.geometry.planar.Plane;
 import physics.geometry.VectorProjector;
 
 import java.util.ArrayList;
-
-import static physics.constants.PhysicsCoefficients.GRAVITY_EARTH;
 
 /**
  * System applying the normal force to all gravity attracted entities.

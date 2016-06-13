@@ -1,23 +1,19 @@
 package physics.systems;
 
-import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
+import framework.EntitySystem;
 import physics.collision.ColliderEntity;
 import physics.collision.ColliderPair;
-import physics.collision.CollisionDetector;
 import physics.collision.CollisionRepository;
 import physics.components.Body;
 import physics.components.Position;
 import physics.constants.CompoMappers;
-import physics.constants.Families;
 import physics.constants.GlobalObjects;
 import physics.geometry.spatial.SolidBisection;
 import physics.geometry.spatial.SolidTranslator;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * System ensuring no moving entity penetrates any other entity

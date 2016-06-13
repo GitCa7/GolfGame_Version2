@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Engine;
 
 import com.badlogic.gdx.math.Vector3;
+import framework.EntitySystem;
 import physics.components.Body;
 import physics.constants.CompoMappers;
 import physics.constants.Families;

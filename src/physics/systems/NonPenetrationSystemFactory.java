@@ -1,5 +1,6 @@
 package physics.systems;
 
+import framework.EntitySystemFactory;
 import physics.collision.CollisionRepository;
 
 /**
@@ -8,7 +9,7 @@ import physics.collision.CollisionRepository;
  *
  * @author martin
  */
-public class NonPenetrationSystemFactory implements EntitySystemFactory
+public class NonPenetrationSystemFactory extends EntitySystemFactory
 {
 
     public NonPenetrationSystemFactory()

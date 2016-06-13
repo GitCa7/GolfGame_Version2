@@ -6,7 +6,7 @@ import framework.constants.Families;
 import framework.internal.components.Busy;
 import physics.components.Velocity;
 import physics.constants.CompoMappers;
-import physics.systems.EntitySystem;
+import framework.EntitySystem;
 
 import java.util.HashSet;
 import java.util.Iterator;

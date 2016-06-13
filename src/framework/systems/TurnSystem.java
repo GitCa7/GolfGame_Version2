@@ -7,7 +7,7 @@ import framework.constants.CompoMappers;
 import framework.constants.Families;
 import physics.components.Velocity;
 import physics.constants.GlobalObjects;
-import physics.systems.EntitySystem;
+import framework.EntitySystem;
 //import sun.org.mozilla.javascript.tools.shell.Global;
 
 import java.util.HashSet;

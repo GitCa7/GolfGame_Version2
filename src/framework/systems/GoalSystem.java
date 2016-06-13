@@ -12,7 +12,7 @@ import physics.components.Body;
 import physics.components.Velocity;
 import physics.constants.GlobalObjects;
 import physics.geometry.spatial.SolidTranslator;
-import physics.systems.EntitySystem;
+import framework.EntitySystem;
 
 /**
  * Entity system class operating on entities seeking a goal and owned by another entity.

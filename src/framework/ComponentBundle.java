@@ -1,10 +1,7 @@
 package framework;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.ashley.core.Entity;
 import physics.components.ComponentFactory;
-import physics.systems.EntitySystem;
-import physics.systems.EntitySystemFactory;
 
 /**
  * Class pairing a component and the respective system. The class is uniquely identified by the class types of
