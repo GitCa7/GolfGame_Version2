@@ -65,7 +65,7 @@ public class FrictionSystem extends EntitySystem
 					Families.FRICTION.matches(pairs.getFirst().getEntity()) &&
 					hasFriction(pairs.getFirst(), pairs.getSecond()))
 			{
-				Vector3 friction = computeFriction(pairs.getFirst(), pairs.getSecond());
+				Vector3 friction = computeFriction(pairs.getFirst(), pairs.getSecond(), dTime);
 				Force activeForce = CompoMappers.FORCE.get(pairs.getFirst().getEntity());
 				activeForce.add(friction);
 			}
@@ -74,7 +74,7 @@ public class FrictionSystem extends EntitySystem
 					Families.FRICTION.matches(pairs.getSecond().getEntity()) &&
 					hasFriction(pairs.getSecond(), pairs.getFirst()))
 			{
-				Vector3 friction = computeFriction(pairs.getSecond(), pairs.getFirst());
+				Vector3 friction = computeFriction(pairs.getSecond(), pairs.getFirst(), dTime);
 				Force activeForce = CompoMappers.FORCE.get(pairs.getSecond().getEntity());
 				activeForce.add(friction);
 			}
@@ -109,7 +109,7 @@ public class FrictionSystem extends EntitySystem
 	 * @param passive the entity considered static
      * @return the force of friction excerted on the active entity
      */
-	private Vector3 computeFriction (ColliderEntity active, ColliderEntity passive)
+	private Vector3 computeFriction (ColliderEntity active, ColliderEntity passive, float dTime)
 	{
 		Friction fric = CompoMappers.FRICTION.get(active.getEntity());
 		GravityForce grav = CompoMappers.GRAVITY_FORCE.get(active.getEntity());
@@ -126,7 +126,14 @@ public class FrictionSystem extends EntitySystem
 		Plane collisionPlane = new ColliderClosestSideFinder(active, passive).find();
 
 		float magFriction = new VectorProjector(collisionPlane.getNormal()).project(grav).len();
-		return v.cpy().scl(-magFriction);
+
+		if (magFriction *dTime / m.mMass > v.len())
+		{
+			System.out.println ("set zero");
+			return v.cpy().scl(-1 * m.mMass / dTime);
+		}
+
+		return v.cpy().scl(-1).setLength(magFriction);
 	}
 	
 	

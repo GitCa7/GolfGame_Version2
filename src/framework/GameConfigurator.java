@@ -246,6 +246,7 @@ public class GameConfigurator
         collisionImpactFactory.setRepository(collisionRepo);
         normalForceFactory.setRepository(collisionRepo);
         nonPenetrationFactory.setRepository(collisionRepo);
+        frictionSystemFactory.setRepository(collisionRepo);
 
         //additional component factories for balls
         VelocityFactory ballVelocityFactory = new VelocityFactory();

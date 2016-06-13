@@ -7,10 +7,15 @@ import com.badlogic.gdx.math.Vector3;
 import GamePackage.GameVisual;
 import TerrainComponents.Terrain;
 import TerrainComponents.TerrainData;
+import physics.collision.CollisionRepository;
 import physics.components.*;
 import physics.constants.CompoMappers;
 import physics.constants.Families;
 import physics.entities.Ball;
+import physics.geometry.spatial.Box;
+import physics.geometry.spatial.BoxParameter;
+import physics.geometry.spatial.BoxPool;
+import physics.geometry.spatial.SolidTranslator;
 import physics.systems.*;
 
 public class MovementTest 
@@ -20,20 +25,26 @@ public class MovementTest
 	{
 		Vector3 initBallPos = new Vector3(-100, 20, -100);
 		MovementTest test = new MovementTest (initBallPos);
-		Vector3 hitForce = new Vector3 (10000, 0, 0);
+		Vector3 hitForce = new Vector3 (96, 0, 0);
 		test.hitBall(hitForce);
 		test.init();
 		
 		
 
-		int iterations = 1000;
+		int iterations = 20;
 		
 		boolean truth = true;
 		
-		while(truth && test.mVisualizer.stillDispalyed())
+		for (int cnt = 0; cnt < iterations; ++cnt)
 		{
 			test.updateEngine();
-			//test.printBallPosition();
+
+			try
+			{
+				Thread.sleep(100);
+			}
+			catch(Exception e) { System.out.println ("oh no"); }
+			test.printBallPosition();
 			
 		}
 
@@ -41,7 +52,7 @@ public class MovementTest
 	}
 
 	/** default time delta*/
-	public static final float DT = 0.01f;
+	public static final float DT = 1f;
 
 	/** Runner for graphics */
 	public class VisualsRunner implements Runnable
@@ -63,29 +74,59 @@ public class MovementTest
 		//set and add components to ball
 		Position initPos = new Position();
 		initPos.set(ballPos);
+		Vector3 bD = new Vector3(1, 0, 0), bW = new Vector3(0, 1, 0), bH = new Vector3(0, 0, 1);
+		Box ballBodyBox = BoxPool.getInstance().getInstance(new BoxParameter(bD, bW, bH));
+		Body ballBody = new Body();
+		ballBody.add(new SolidTranslator(ballBodyBox, initPos.cpy()));
+
 		mBall.mEntity.add(initPos);
 		mBall.mEntity.add(new Velocity());
 		mBall.mEntity.add(new Friction(.5f, .5f, 0, 0));
 		mBall.mEntity.add(new Mass (5));
 		mBall.mEntity.add(new Force());
 		mBall.mEntity.add(new GravityForce(new Vector3 (0, 0, -10)));
+		mBall.mEntity.add(ballBody);
 		assert (Families.ACCELERABLE.matches(mBall.mEntity));
-		
+
+
+		Entity ground = new Entity();
+		//set components of ground
+		Position groundPosition = new Position(-500, -500, -100);
+		Body groundBody = new Body();
+		BoxParameter groundBoxParam = new BoxParameter(new Vector3(1000, 0, 0), new Vector3(0, 1000, 0), new Vector3(0, 0, -100));
+		Box groundBox  = BoxPool.getInstance().getInstance(groundBoxParam);
+		groundBody.add(new SolidTranslator(groundBox, groundPosition));
+		//add components to ground
+		ground.add(groundPosition);
+		ground.add(groundBody);
+		assert (Families.COLLIDING.matches(ground));
+
 		mEngine = new Engine();
 		//add ball to engine
 		mEngine.addEntity (mBall.mEntity);
-		assert (mEngine.getEntitiesFor(Families.ACCELERABLE).size() > 1);
+		assert (mEngine.getEntitiesFor(Families.ACCELERABLE).size() >= 1);
+		//add ground
+		mEngine.addEntity(ground);
+		assert (mEngine.getEntitiesFor(Families.COLLIDING).size() >= 2);
 		//construct, set and add systems to engine
 		Movement move = new Movement();
 		ForceApply applyForce = new ForceApply();
 		FrictionSystem applyFriction = new FrictionSystem();
+		CollisionDetectionSystem detectCollisions = new CollisionDetectionSystem();
+
+		CollisionRepository repo = new CollisionRepository();
+		applyFriction.setRepository(repo);
+		detectCollisions.setRepository(repo);
+
+		detectCollisions.setPriority(0);
 		applyFriction.setPriority(1);
 		applyForce.setPriority(2);
 		move.setPriority(3);
 		
-		mEngine.addSystem (new Movement());
-		mEngine.addSystem (new ForceApply());
-		mEngine.addSystem (new FrictionSystem());
+		mEngine.addSystem (move);
+		mEngine.addSystem (applyForce);
+		mEngine.addSystem (applyFriction);
+		mEngine.addSystem (detectCollisions);
 		
 		mVisualizer = new GameVisual();
 		mVisualizer.setEngine(mEngine);
