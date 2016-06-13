@@ -40,8 +40,11 @@ integrate gravity/normal force with main (~10.06.) (x)
 write test class for player transition (x)
 integrate players & transition with main (x)
 implement update of next player element when removing players from the engine (x)
-find a way to get input from player and bot
-implement input methods
+
+implement observer pattern in game (x)
+
+find a way to get input from player and bot (x)
+implement input methods (x)
 
 integrate way to add listeners to engine in system factories (change interface to abstract class)
 require priority in system factories (~12.06.)

@@ -18,6 +18,7 @@ import physics.entities.Hole;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Class owning an engine establishing the rules of the game, a mapping of player to balls and a unique hole.
@@ -38,6 +39,8 @@ public class Game
 		mEngine = e;
 		mBallMap = ballMap;
 		mGlobalState = new Entity();
+		mObservers = new HashSet<>();
+
         init();
 	}
 
@@ -113,8 +116,43 @@ public class Game
 	public void tick (float ticks)
 	{
 		mEngine.update (ticks);
+		updateObservers();
 	}
-	
+
+	/**
+	 * Attaches obs as an observer. This will make obs receive update calls whenever
+	 * an event triggers.
+	 * @param obs game observer to attach
+	 * @throws IllegalArgumentException if obs is already attached and will not be attached again
+     */
+	public void attachObserver(GameObserver obs)
+	{
+		if (mObservers.contains(obs))
+			throw new IllegalArgumentException("cannot attach this observer to the game, is already attached.");
+		mObservers.add(obs);
+	}
+
+	/**
+	 * Detaches obs as an observer.
+	 * @param obs game observer to detach
+	 * @throws IllegalArgumentException if obs was not attached previously
+     */
+	public void detachObserver(GameObserver obs)
+	{
+		if (!mObservers.contains(obs))
+			throw new IllegalArgumentException("cannot detach this observer from game, was never attached before");
+		mObservers.remove(obs);
+	}
+
+	/**
+	 * updates all observers attached
+	 */
+	public void updateObservers()
+	{
+		for (GameObserver obsUpdate : mObservers)
+			obsUpdate.update(this);
+	}
+
 	/**
 	 * initializes internal systems
 	 */
@@ -145,4 +183,5 @@ public class Game
 	private Engine mEngine;
 	private HashMap<Player, Ball> mBallMap;
 	private Entity mGlobalState;
+	private HashSet<GameObserver> mObservers;
 }
