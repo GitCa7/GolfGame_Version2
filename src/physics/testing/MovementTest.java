@@ -20,17 +20,14 @@ public class MovementTest
 	{
 		Vector3 initBallPos = new Vector3(-100, 20, -100);
 		MovementTest test = new MovementTest (initBallPos);
-		Vector3 hitForce = new Vector3 (10000, 0, 0);
+		Vector3 hitForce = new Vector3(10000, 0, -30000);
 		test.hitBall(hitForce);
 		test.init();
 		
 		
-
-		int iterations = 1000;
 		
-		boolean truth = true;
 		
-		while(truth && test.mVisualizer.stillDispalyed())
+		while(test.mVisualizer.stillDispalyed())
 		{
 			test.updateEngine();
 			//test.printBallPosition();
@@ -68,7 +65,7 @@ public class MovementTest
 		mBall.mEntity.add(new Friction(.5f, .5f, 0, 0));
 		mBall.mEntity.add(new Mass (5));
 		mBall.mEntity.add(new Force());
-		mBall.mEntity.add(new GravityForce(new Vector3 (0, 0, -10)));
+		mBall.mEntity.add(new GravityForce(new Vector3 (0, -9, -10)));
 		assert (Families.ACCELERABLE.matches(mBall.mEntity));
 		
 		mEngine = new Engine();

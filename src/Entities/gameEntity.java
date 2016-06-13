@@ -1,6 +1,8 @@
 package Entities;
 
 import com.badlogic.gdx.math.collision.BoundingBox;
+
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.badlogic.ashley.core.Entity;
@@ -52,6 +54,8 @@ public class gameEntity {
 	public void setPosition(Vector3f position) {
 		this.position = position;
 	}
+	
+	
 
 	public float getRotX() {
 		return rotX;

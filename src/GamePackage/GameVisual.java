@@ -22,12 +22,14 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 
+import Entities.Arrow;
 import Entities.Camera;
 import Entities.FollowCamera;
 import Entities.GolfBall;
 import Entities.Light;
 import Entities.gameEntity;
 import GamePackage.PhysicsTranslator;
+import LogicAndExtras.MousePicker;
 import ModelBuildComponents.ModelTexture;
 import ModelBuildComponents.RawModel;
 import ModelBuildComponents.TexturedModel;
@@ -55,8 +57,11 @@ public class GameVisual {
 	ArrayList<gameEntity> surrondings;
 	ArrayList<Terrain> terrains;
 	FollowCamera followCam;
+	Arrow targetDestination;
 	Camera cam;
 	Light light;
+	
+	MousePicker mousePick;
 	
 	//The Physics
 	private Engine gameEngine;
@@ -83,6 +88,7 @@ public class GameVisual {
 	public void setTerrain(TerrainData terra)	{
 		Terrain terraNew = new Terrain(terra);
 		terrains.add(terraNew);
+		
 		//setUpEntities();
 		createSurrondings();
 		setUpScene();
@@ -96,6 +102,7 @@ public class GameVisual {
 		
 		GolfBall golfball = new GolfBall(new Vector3f(4,5,-475), 1);
 		golfBalls.add(golfball);
+		
 		
 	}
 	
@@ -131,7 +138,7 @@ public class GameVisual {
 	public void setEngine(Engine newEngine)	{
 		gameEngine = newEngine; 
 		checkGolfBallAmount();
-		
+		targetDestination = new Arrow(golfBalls.get(0));
 	}
 	
 	public void updateObjects()	{
@@ -165,6 +172,19 @@ public class GameVisual {
 	}
 	
 	
+	private void updateArrow()	{
+		
+		mousePick.update();
+		if(useFollow == true)	{
+			if(mousePick.getCurrentTerrainPoint() != null)	{
+				targetDestination.setAsTarget(mousePick.getCurrentTerrainPoint(), golfBalls.get(0));
+			}
+			else	{
+				targetDestination.setPosition(golfBalls.get(0));
+			}
+		}
+	}
+	
 	public void setUpScene()	{
 		cam = new Camera(new Vector3f(4,20,-422));
 		followCam = new FollowCamera(golfBalls.get(0));
@@ -176,6 +196,7 @@ public class GameVisual {
 	}
 	
 	public void startDisplay()	{
+		mousePick = new MousePicker(followCam, renderer.getProjectionMatrix(), terrains.get(0));
 		useFollow = true;
 	}
 	
