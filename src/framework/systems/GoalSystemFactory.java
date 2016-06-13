@@ -11,6 +11,7 @@ public class GoalSystemFactory extends EntitySystemFactory
 
     public GoalSystem produce()
     {
+        checkAndThrowPriorityException();
         GoalSystem g =  new GoalSystem();
         attachListener(g);
         return g;

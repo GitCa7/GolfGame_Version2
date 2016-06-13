@@ -14,6 +14,7 @@ public class GravitySystemFactory extends EntitySystemFactory {
     @Override
     public GravitySystem produce()
     {
+        checkAndThrowPriorityException();
         GravitySystem g = new GravitySystem();
         attachListener(g);
         return g;

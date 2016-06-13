@@ -46,8 +46,8 @@ implement observer pattern in game (x)
 find a way to get input from player and bot (x)
 implement input methods (x)
 
-integrate way to add listeners to engine in system factories (change interface to abstract class)
-require priority in system factories (~12.06.)
+integrate way to add listeners to engine in system factories (change interface to abstract class)	(x)
+require priority in system factories (~12.06.) 	(x)
 
 apply friction only when touching obstacle
 redo movement test

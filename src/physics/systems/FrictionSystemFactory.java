@@ -13,6 +13,7 @@ public class FrictionSystemFactory extends EntitySystemFactory
     @Override
     public EntitySystem produce()
     {
+        checkAndThrowPriorityException();
         FrictionSystem f = new FrictionSystem();
         attachListener(f);
         return f;

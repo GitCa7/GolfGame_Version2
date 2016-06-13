@@ -14,6 +14,7 @@ public class MovementFactory extends EntitySystemFactory {
     @Override
     public Movement produce()
     {
+        checkAndThrowPriorityException();
         Movement m = new Movement();
         attachListener(m);
         return m;

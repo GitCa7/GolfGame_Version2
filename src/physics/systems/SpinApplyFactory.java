@@ -13,6 +13,7 @@ public class SpinApplyFactory extends EntitySystemFactory {
 
     @Override
     public SpinApply produce() {
+        checkAndThrowPriorityException();
         SpinApply sa = new SpinApply();
         return sa;
     }

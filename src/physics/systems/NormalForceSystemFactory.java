@@ -24,6 +24,7 @@ public class NormalForceSystemFactory extends EntitySystemFactory
      */
     public NormalForceSystem produce()
     {
+        checkAndThrowPriorityException();
         if (mRepo == null)
             throw new IllegalStateException("no collision repository set, cannot produce a normal force system relying on it");
         NormalForceSystem newSystem = new NormalForceSystem();
