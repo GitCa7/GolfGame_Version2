@@ -1,9 +1,11 @@
 package ModelBuildComponents;
 
-public class RawModel {
+import java.io.Serializable;
+
+public class RawModel implements Serializable{
 	
-	private int ID;
-	private int vertexCount;
+	private transient int ID;
+	private transient int vertexCount;
 	
 	public RawModel(int ID, int vertexCount)	{
 		this.ID = ID;

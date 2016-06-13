@@ -3,32 +3,17 @@ package GamePackage;
 import Editor.Course;
 import Editor.CourseLoader;
 import Entities.gameEntity;
-import TerrainComponents.Terrain;
 import TerrainComponents.TerrainData;
 import TerrainComponents.TerrainGeometryCalc;
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
-import framework.ComponentBundle;
 import framework.Game;
 import framework.GameConfigurator;
-import framework.components.NextPlayerFactory;
-import framework.components.TurnFactory;
-import framework.entities.EntityFactory;
-import framework.entities.Player;
 import org.lwjgl.util.vector.Vector3f;
-import physics.components.BodyFactory;
-import physics.components.ComponentFactory;
-import physics.components.PositionFactory;
-import physics.entities.Ball;
-import physics.entities.Hole;
-import physics.geometry.planar.Triangle;
 import physics.geometry.spatial.*;
 import physics.geometry.spatial.Box;
-import physics.systems.EntitySystemFactory;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class GameLoader {
 	TerrainData tdata;
@@ -67,7 +52,7 @@ public class GameLoader {
             ArrayList<SolidTranslator> box = new ArrayList<>();
             SolidTranslator a = new SolidTranslator(boxes[i], positions[i]);
             box.add(a);
-            config.addObstacle(1, box);
+            config.addObstacle(box);
 
         }
 

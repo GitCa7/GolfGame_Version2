@@ -17,7 +17,8 @@ public class CollisionDetector
 
 	public CollisionDetector ()
 	{
-
+		mActive = new HashSet<>();
+		mAll = new HashSet<>();
 	}
 
 	/**
@@ -40,14 +41,17 @@ public class CollisionDetector
 				//if colliding: add as collider pair
 				//@TODO store intersection detectors permanently
 				BodyIntersectionDetector checkBodies = new BodyIntersectionDetector (activeBody.mBody, passiveBody.mBody);
+				checkBodies.checkForIntersection();
 				if (checkBodies.doIntersect())
-					cPair = checkBodies.getBodyCollision();
+				{
+					ColliderPair<ColliderBody> cPair = checkBodies.getBodyCollision();
 					ColliderBody cb1 = cPair.getFirst();
 					ColliderBody cb2 = cPair.getSecond();
-					ColliderEntity ec1 = new ColliderEntity (activeBody.mEntity,cb1);
-					ColliderEntity ec2 = new ColliderEntity (passiveBody.mEntity, cb2);
-					ColliderPair<ColliderEntity> ePair = new ColliderPair<> (ec1, ec2);
-					colliding.add (ePair);
+					ColliderEntity ec1 = new ColliderEntity(activeBody.mEntity, cb1);
+					ColliderEntity ec2 = new ColliderEntity(passiveBody.mEntity, cb2);
+					ColliderPair<ColliderEntity> ePair = new ColliderPair<>(ec1, ec2);
+					colliding.add(ePair);
+				}
 			}
 		}
 
@@ -83,5 +87,4 @@ public class CollisionDetector
 	}
 
 	private HashSet<BodyPair> mActive, mAll;
-	private ColliderPair<ColliderBody> cPair;
 }

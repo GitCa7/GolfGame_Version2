@@ -3,6 +3,7 @@ package TerrainComponents;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -19,7 +20,7 @@ import physics.geometry.planar.TriangleBuilder;
 import physics.geometry.spatial.Tetrahedron;
 import physics.geometry.spatial.TetrahedronBuilder;
 
-public class TerrainGeometryCalc {
+public class TerrainGeometryCalc implements Serializable {
 	
 	private static final Loader loader = new Loader();
 	private static final int triNumBorder = 43520;

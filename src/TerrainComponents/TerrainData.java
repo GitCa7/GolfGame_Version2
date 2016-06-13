@@ -1,11 +1,12 @@
 package TerrainComponents;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import physics.geometry.spatial.Tetrahedron;
 
 
-public class TerrainData {
+public class TerrainData implements Serializable {
     private float[] vertices;
     private float[] normals;
     private float SIZE;

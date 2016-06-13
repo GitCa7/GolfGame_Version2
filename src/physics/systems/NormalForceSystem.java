@@ -1,30 +1,73 @@
 package physics.systems;
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.*;
+import framework.EntitySystem;
 import physics.collision.*;
 import physics.components.Force;
 import physics.constants.CompoMappers;
 import physics.components.*;
-import physics.constants.PhysicsCoefficients;
 import physics.geometry.planar.Plane;
 import physics.geometry.VectorProjector;
 
 import java.util.ArrayList;
 
-import static physics.constants.PhysicsCoefficients.GRAVITY_EARTH;
-/** Creates NormalForce System to impelemnt Gravity
+/**
+ * System applying the normal force to all gravity attracted entities.
+ * This will cancel out the part of the gravitational force, which would
+ * make the entity move through the entity supporting it.
  * Created by marcel on 21.05.2016.
+ * @author marcel
+ * @author martin
  */
 
-public class NormalForceSystem
+public class NormalForceSystem extends EntitySystem
 {
-    public NormalForceSystem(){
-
-        //mDetect = new CollisionDetector();
-        mRepo = new CollisionRepository();
+    public NormalForceSystem()
+    {
+        mRepo = null;
     }
-    public void update (float dtime) {
+
+
+    public void addEntity (Entity add)
+    {
+
+    }
+
+    public void removeEntity(Entity rem)
+    {
+
+    }
+
+    public void addedToEngine(Engine e)
+    {
+
+    }
+
+    /**
+     * Sets the collision repository used to retrieve information about ongoing collisions.
+     * This is necessary for the working of the system. This system will only work if there is
+     * another client of the repository modifying the information in the repository according to the
+     * current state of the game.
+     * @param repo the collision repository shared
+     */
+    public void setRepository(CollisionRepository repo) { mRepo = repo; }
+
+    /**
+     * for every entity on which a force can be excerted, the normal force will be added to this entity.
+     * This is the vector projection of the opposite gravity onto the normal vector supporting the entity.
+     * @param dtime time elapsed between this and the last update
+     */
+    public void update (float dtime)
+    {
+        if (mRepo == null)
+            throw new IllegalStateException("collision repository was not set, system is not operable yet");
+
         //creates a list with collisions
         ArrayList<ColliderPair<ColliderEntity>> collisions = mRepo.getColliderPairs();
+
+        if (!collisions.isEmpty())
+            System.out.println ("received collision");
 
         //get collider pairs
         for (ColliderPair<ColliderEntity> p : collisions) {
@@ -54,14 +97,11 @@ public class NormalForceSystem
 
         // Fg = gravity * mass
         Mass activeMass = CompoMappers.MASS.get(active.getEntity());
-        Vector3 Fg = CompoMappers.GRAVITY_FORCE.get(active.getEntity()).cpy().scl(activeMass.mMass);
+        Vector3 invFg = CompoMappers.GRAVITY_FORCE.get(active.getEntity()).cpy().scl(-1 * activeMass.mMass);
 
         // Vector Projection of Fg onto normal Vector of P to get Fn
-        VectorProjector vp = new VectorProjector(Fg);
-        Vector3 newFg = vp.project(p.getNormal());
-        newFg = newFg.scl(-1.00f);
-
-         return newFg;
+        VectorProjector vp = new VectorProjector(p.getNormal());
+        return vp.project(invFg);
     }
 
     private CollisionRepository mRepo;

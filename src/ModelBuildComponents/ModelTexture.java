@@ -1,15 +1,17 @@
 package ModelBuildComponents;
 
-public class ModelTexture {
+import java.io.Serializable;
 
-	private int textureID;
+public class ModelTexture implements Serializable {
+
+	private transient int textureID;
 	
-	private float shineDamper = 1;
-	private float reflectivity;
+	private transient float shineDamper = 1;
+	private transient float reflectivity;
 	
 	
-	private boolean hasTranspercy = false;
-	private boolean useFakeLighting = false;
+	private transient boolean hasTranspercy = false;
+	private transient boolean useFakeLighting = false;
 	
 	
 

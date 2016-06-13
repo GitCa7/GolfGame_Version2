@@ -4,14 +4,12 @@ package physics.systems;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import framework.EntitySystem;
 import physics.collision.*;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 
 
-import com.badlogic.gdx.math.Vector3;
-import physics.components.Force;
-import physics.constants.CompoMappers;
 import physics.constants.Families;
 
 /**
@@ -58,10 +56,11 @@ public class CollisionDetectionSystem extends EntitySystem
 		//detect collisions
 		mRepository.clear();
 		ArrayList<ColliderPair<ColliderEntity>> colliding = mDetect.getAnyColliding();
+		if (!colliding.isEmpty())
+			System.out.println ("detected a collision!");
 		for(ColliderPair<ColliderEntity> pair:colliding){
 			mRepository.addColliderPair(pair);
 		}
-		//@TODO Use Repository
 	}
 
 

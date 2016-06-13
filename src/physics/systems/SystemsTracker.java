@@ -1,6 +1,7 @@
 package physics.systems;
 
 import framework.ComponentBundle;
+import framework.EntitySystem;
 
 import java.util.ArrayList;
 import java.util.Arrays;

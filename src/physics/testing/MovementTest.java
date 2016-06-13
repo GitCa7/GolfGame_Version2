@@ -5,13 +5,19 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 
 import GamePackage.GameVisual;
-import TerrainComponents.Terrain;
 import TerrainComponents.TerrainData;
-import physics.components.*;
+import physics.components.Force;
+import physics.components.Friction;
+import physics.components.GravityForce;
+import physics.components.Mass;
+import physics.components.Position;
+import physics.components.Velocity;
 import physics.constants.CompoMappers;
 import physics.constants.Families;
 import physics.entities.Ball;
-import physics.systems.*;
+import physics.systems.ForceApply;
+import physics.systems.FrictionSystem;
+import physics.systems.Movement;
 
 public class MovementTest 
 {

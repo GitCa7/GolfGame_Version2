@@ -5,7 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import framework.constants.CompoMappers;
 import framework.constants.Families;
 import framework.internal.components.Active;
-import physics.systems.EntitySystem;
+import framework.EntitySystem;
 
 import java.util.HashSet;
 

@@ -1,0 +1,26 @@
+FORMULAE
+movement for velocity v and position vector s
+s(n+1) = s(n) + v*t
+change to: solver for DE v = ds / dt
+
+acceleration a
+v(n+1) = v(n) + a*t
+change to: solver for DE a = dv/dt
+
+force F
+a = F / m
+assuming F, m are constant and F is exerted only once, we don't need a DE here
+
+collision on a plane with normalized normal n_u
+decompose v into vector u orthogonal to the plane and w parallel to the plane
+u = v * n_u * n_u
+w = v - u
+compute the outgoing velocity v', considering the coefficient of restitution c_r
+and the coefficient of friction c_f
+v' = w*c_f - u*c_r
+computing the force F_c needed to transform v into v'
+F_c = m * dv/dt = m * (v' - v)/dt
+
+computing the normal force F_n, being the projection of F_g onto the normalized normal vector n_u of
+the plane supporting an object
+F_n = F_g * n_u * n_u

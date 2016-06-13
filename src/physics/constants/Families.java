@@ -2,7 +2,6 @@ package physics.constants;
 
 import com.badlogic.ashley.core.Family;
 import physics.components.*;
-import physics.systems.Gravity;
 
 /**
  * class storing family objects for categorization

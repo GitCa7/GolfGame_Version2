@@ -1,26 +1,22 @@
 package framework;
 
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector3;
 import framework.components.*;
 import framework.entities.Player;
-import framework.internal.components.Active;
 import framework.systems.EntityListener;
 import framework.systems.GoalSystemFactory;
+import framework.systems.TurnSystemFactory;
+import physics.collision.CollisionRepository;
 import physics.components.*;
-import physics.constants.CompoMappers;
 import physics.constants.PhysicsCoefficients;
 import physics.entities.Ball;
 import framework.entities.EntityFactory;
-import physics.entities.Hole;
-import physics.geometry.planar.Rectangle;
-import physics.geometry.planar.Shape;
 import physics.geometry.planar.Triangle;
 import physics.geometry.spatial.*;
 import physics.systems.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -52,6 +48,9 @@ public class GameConfigurator
 
         mPlayerNameFactory = new NameFactory();
 
+        mObstacleBodyFactory = new BodyFactory();
+        mObstaclePositionFactory = new PositionFactory();
+
         mSetHole = false;
 
         initFactories();
@@ -79,6 +78,9 @@ public class GameConfigurator
         if (!mSetHole)
 			throw new IllegalStateException ("the hole is not set");
 
+        //set components indicating which player succeeds another
+        setNextPlayers();
+        //add entity systems processing components to the engine
 		addAllSystems();
 		return new Game (mEngine, mBallMap);
 	}
@@ -103,7 +105,6 @@ public class GameConfigurator
             assert(framework.constants.CompoMappers.TURN.has(p.mEntity));
             Turn playerTurn = framework.constants.CompoMappers.TURN.get(p.mEntity);
             playerTurn.mTurn = true;
-            playerTurn.mDone = false;
         }
 
         mBallMap.put(p, b);
@@ -114,14 +115,31 @@ public class GameConfigurator
     /**
      * Constructs a new obstacle. Every obstacle added this way will contain all the entities associated with the colliding
      * family (see physics families).
-     * @param mass the mass of the obstacle
      * @param bodySolids a collection of solids. The vertex with the smallest euclidean distance to the origin is fixed as the
      *                   position of the obstacle.
      */
-    public void addObstacle(float mass, Collection<SolidTranslator> bodySolids)
+    public void addObstacle(Collection<SolidTranslator> bodySolids)
     {
-        //@TODO implement extrinsic state of flyweight solids. Check this after implementing.
-        throw new UnsupportedOperationException("obstacles are not yet supported and thus not implemented");
+        //find translation vector of smallest magnitude
+        SolidTranslator min = null;
+        float minLen = Float.MAX_VALUE;
+        for (SolidTranslator bodyPart : bodySolids)
+        {
+            float partLen = bodyPart.getPosition().len();
+            if (minLen > partLen)
+            {
+                minLen = partLen;
+                min = bodyPart;
+            }
+        }
+
+        //set as position
+        mObstaclePositionFactory.setVector(min.getPosition());
+        mObstacleBodyFactory.clear();
+        for (SolidTranslator bodyPart : bodySolids)
+                mObstacleBodyFactory.addSolid(bodyPart);
+
+
     }
 
     /**
@@ -196,11 +214,46 @@ public class GameConfigurator
      */
     private void initFactories()
     {
+        //dynamics system factories
+        MovementFactory movementFactory = new MovementFactory();
+        ForceApplyFactory forceApplyFactory = new ForceApplyFactory();
+        FrictionSystemFactory frictionSystemFactory = new FrictionSystemFactory();
+        GravitySystemFactory gravitySystemFactory = new GravitySystemFactory();
+        GoalSystemFactory goalSystemFactory = new GoalSystemFactory();
+        //collision system factories
+        CollisionDetectionSystemFactory collisionDetectionFactory = new CollisionDetectionSystemFactory();
+        CollisionImpactSystemFactory collisionImpactFactory = new CollisionImpactSystemFactory();
+        NormalForceSystemFactory normalForceFactory = new NormalForceSystemFactory();
+        NonPenetrationSystemFactory nonPenetrationFactory = new NonPenetrationSystemFactory();
+        //player system factories
+        TurnSystemFactory turnSystemFactory = new TurnSystemFactory();
+
+        //set system's priorities
+        collisionDetectionFactory.setSystemPriority(1);
+        collisionImpactFactory.setSystemPriority(2);
+        normalForceFactory.setSystemPriority(3);
+        gravitySystemFactory.setSystemPriority(6);
+        frictionSystemFactory.setSystemPriority(8);
+        forceApplyFactory.setSystemPriority(10);
+        movementFactory.setSystemPriority(12);
+        nonPenetrationFactory.setSystemPriority(14);
+        goalSystemFactory.setSystemPriority(16);
+        turnSystemFactory.setSystemPriority(20);
+
+        //set repository
+        CollisionRepository collisionRepo = new CollisionRepository();
+        collisionDetectionFactory.setRepository(collisionRepo);
+        collisionImpactFactory.setRepository(collisionRepo);
+        normalForceFactory.setRepository(collisionRepo);
+        nonPenetrationFactory.setRepository(collisionRepo);
+
         //additional component factories for balls
         VelocityFactory ballVelocityFactory = new VelocityFactory();
         ForceFactory ballForceFactory = new ForceFactory();
         GravityForceFactory ballGravityFactory = new GravityForceFactory();
         FrictionFactory ballFrictionFactory = new FrictionFactory();
+
+
         //set default parameters of component factories for balls we dont need to change
         ballVelocityFactory.setVector(new Vector3());
         ballForceFactory.setVector(new Vector3());
@@ -209,13 +262,13 @@ public class GameConfigurator
         ballGravityFactory.setParameter(new Vector3 (0, 0, -PhysicsCoefficients.GRAVITY_EARTH));
         //construct ball component bundles
         ComponentBundle ballPosition = new ComponentBundle(mBallPositionFactory);
-        ComponentBundle ballVelocity = new ComponentBundle(ballVelocityFactory, new MovementFactory());
-        ComponentBundle ballForce = new ComponentBundle(ballForceFactory, new ForceApplyFactory());
-        ComponentBundle ballFriction = new ComponentBundle(ballFrictionFactory, new FrictionSystemFactory());
+        ComponentBundle ballVelocity = new ComponentBundle(ballVelocityFactory, movementFactory);
+        ComponentBundle ballForce = new ComponentBundle(ballForceFactory, forceApplyFactory);
+        ComponentBundle ballFriction = new ComponentBundle(ballFrictionFactory, frictionSystemFactory);
         ComponentBundle ballMass = new ComponentBundle(mBallMassFactory);
-        ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory);
-        ComponentBundle ballGravity = new ComponentBundle(ballGravityFactory);
-        ComponentBundle ballGoal = new ComponentBundle(mBallGoalFactory, new GoalSystemFactory());
+        ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory, collisionDetectionFactory, collisionImpactFactory, nonPenetrationFactory);
+        ComponentBundle ballGravity = new ComponentBundle(ballGravityFactory, gravitySystemFactory, normalForceFactory, nonPenetrationFactory);
+        ComponentBundle ballGoal = new ComponentBundle(mBallGoalFactory, goalSystemFactory);
         //add bundles to ball factory
         mBallFactory.addComponent(ballPosition, ballVelocity, ballFriction);
         mBallFactory.addComponent(ballForce, ballGravity);
@@ -223,15 +276,22 @@ public class GameConfigurator
 
         //additional component factories for players
         TurnFactory playerTurnFactory = new TurnFactory();
-        NextPlayerFactory playerNextFactory = new NextPlayerFactory();
+        PlayerOrderFactory playerNextFactory = new PlayerOrderFactory();
         //set default parameter of component facotires for players we dont need to change
         playerNextFactory.setNextPlayer(null);
         //construct player component bundles
-        ComponentBundle playerTurn = new ComponentBundle(playerTurnFactory);
-        ComponentBundle playerNext = new ComponentBundle(playerNextFactory);
+        ComponentBundle playerTurn = new ComponentBundle(playerTurnFactory, turnSystemFactory);
         ComponentBundle playerName = new ComponentBundle(mPlayerNameFactory);
         //add bunldes to player factory
-        mPlayerFactory.addComponent(playerTurn, playerNext, playerName);
+        mPlayerFactory.addComponent(playerTurn, playerName);
+
+
+        //construct obstacle component bundles
+        ComponentBundle obsBody = new ComponentBundle(mObstacleBodyFactory);
+        ComponentBundle obsPosition = new ComponentBundle(mObstaclePositionFactory);
+
+        //add bunldes to obstacle factory
+        mObstacleFactory.addComponent(obsBody, obsPosition);
     }
 
 	/**
@@ -245,8 +305,22 @@ public class GameConfigurator
             EntityListener listenEntityChanges = new EntityListener(es);
             mEngine.addEntityListener(listenEntityChanges);
         }
-
 	}
+
+    /**
+     * adds components indicating turn transitions between players
+     */
+    private void setNextPlayers()
+    {
+        ArrayList<Player> players = new ArrayList<>(mBallMap.keySet());
+
+        for (int cPlayer = 0; cPlayer < players.size(); ++cPlayer)
+        {
+            Player previous = players.get((2 * players.size() - 1 + cPlayer) % players.size());
+            Player next = players.get((cPlayer + 1) % players.size());
+            players.get(cPlayer).mEntity.add(new PlayerOrder(previous, next));
+        }
+    }
 
 	/** mapping of players to their balls */
 	private HashMap<Player, Ball> mBallMap;
@@ -255,13 +329,18 @@ public class GameConfigurator
 	/** objects tracking physics.systems in use */
 	private SystemsTracker mSystemsTracker;
     /** entity factories used to instantiate certain kinds of entities */
-    private EntityFactory mBallFactory, mPlayerFactory;
+    private EntityFactory mBallFactory, mPlayerFactory, mObstacleFactory;
     /** handles for component factories used in entity factories */
+    /** ball */
     private PositionFactory mBallPositionFactory;
     private MassFactory mBallMassFactory;
     private BodyFactory mBallBodyFactory;
-    private NameFactory mPlayerNameFactory;
     private GoalFactory mBallGoalFactory;
+    /** player */
+    private NameFactory mPlayerNameFactory;
+    /** obstacles */
+    private BodyFactory mObstacleBodyFactory;
+    private PositionFactory mObstaclePositionFactory;
 
     //boolean flags for conditions fulfilled before start
     boolean mSetHole;

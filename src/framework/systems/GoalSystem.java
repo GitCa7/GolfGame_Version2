@@ -5,14 +5,14 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 import framework.components.Goal;
 import framework.components.Ownership;
+import framework.components.PlayerOrder;
 import framework.constants.CompoMappers;
 import framework.constants.Families;
 import physics.components.Body;
 import physics.components.Velocity;
 import physics.constants.GlobalObjects;
-import physics.geometry.spatial.Solid;
 import physics.geometry.spatial.SolidTranslator;
-import physics.systems.EntitySystem;
+import framework.EntitySystem;
 
 /**
  * Entity system class operating on entities seeking a goal and owned by another entity.
@@ -31,14 +31,14 @@ public class GoalSystem extends EntitySystem
     @Override
     public void addEntity(Entity e)
     {
-        if (Families.GOAL_SEEKING.matches(e) && Families.OWNED.matches(e))
+        if (Families.GOAL_SEEKING.matches(e))
             entities().add(e);
     }
 
     @Override
     public void removeEntity(Entity e)
     {
-        if (Families.GOAL_SEEKING.matches(e) && Families.OWNED.matches(e))
+        if (Families.GOAL_SEEKING.matches(e))
             entities().remove(e);
     }
 
@@ -50,8 +50,7 @@ public class GoalSystem extends EntitySystem
 
         for (Entity add : e.getEntitiesFor(Families.GOAL_SEEKING))
         {
-            if (Families.OWNED.matches(add))
-                entities().add(add);
+            entities().add(add);
         }
     }
 
@@ -77,8 +76,19 @@ public class GoalSystem extends EntitySystem
 
             if (isBodyInGoal(body, goal) && GlobalObjects.ROUND.epsilonEquals(v.len(), 0))
             {
-                Ownership owner = CompoMappers.OWNERSHIP.get(e);
-                mEngine.removeEntity(owner.mOwner);
+                if (CompoMappers.OWNERSHIP.has(e))
+                {
+                    Ownership owner = CompoMappers.OWNERSHIP.get(e);
+                    if (CompoMappers.PLAYER_ORDER.has(owner.mOwner))
+                    {
+                        PlayerOrder order = CompoMappers.PLAYER_ORDER.get(owner.mOwner);
+                        if (CompoMappers.PLAYER_ORDER.has(order.mPrevious.mEntity))
+                            CompoMappers.PLAYER_ORDER.get(order.mPrevious.mEntity).mNext = order.mNext;
+                        if (CompoMappers.PLAYER_ORDER.has(order.mNext.mEntity))
+                            CompoMappers.PLAYER_ORDER.get(order.mNext.mEntity).mPrevious = order.mPrevious;
+                    }
+                    mEngine.removeEntity(owner.mOwner);
+                }
                 mEngine.removeEntity(e);
             }
         }

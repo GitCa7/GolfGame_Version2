@@ -69,7 +69,6 @@ public class Main
      */
     public void initGraphics()
     {
-        throw new UnsupportedOperationException("graphics not supported yet");
         //set resources for visual
         mVisual.startDisplay();
     }

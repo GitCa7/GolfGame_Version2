@@ -138,10 +138,10 @@ public class BoxTest
 		d2 = new Vector3 (-2, 1, 1);
 		d3 = new Vector3 (0, -1, 1);
 
-		Box insideBox = new BoxBuilder(d1, d2, d3).build();
+		Box outsideBox = new BoxBuilder(d1, d2, d3).build();
 
-		Vector3 inside = new Vector3(-1.5f, 1.5f, 1.5f);
-		assertFalse(insideBox.isWithin(inside));
+		Vector3 outside = new Vector3(-2.5f, 1.5f, 1.5f);
+		assertFalse(outsideBox.isWithin(outside));
 	}
 	
 	@Test

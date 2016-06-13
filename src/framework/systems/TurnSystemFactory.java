@@ -1,13 +1,19 @@
 package framework.systems;
 
-import physics.systems.EntitySystemFactory;
+import framework.EntitySystemFactory;
 
 /**
  * Factory class producing turn systems.
  * @author martin
  */
-public class TurnSystemFactory implements EntitySystemFactory
+public class TurnSystemFactory extends EntitySystemFactory
 {
 
-    public TurnSystem produce()  { return new TurnSystem(); }
+    public TurnSystem produce()
+    {
+        checkAndThrowPriorityException();
+        TurnSystem t = new TurnSystem();
+        attachListener(t);
+        return t;
+    }
 }

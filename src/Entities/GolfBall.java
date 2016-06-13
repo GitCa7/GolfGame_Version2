@@ -8,12 +8,14 @@ import ModelBuildComponents.TexturedModel;
 import RenderComponents.Loader;
 import RenderComponents.OBJLoader;
 
-public class GolfBall extends gameEntity {
+import java.io.Serializable;
+
+public class GolfBall extends gameEntity implements Serializable {
 	
-	private static final Loader loader = new Loader();
-	private static final RawModel model = OBJLoader.loadObjModel("golfBallblend", loader);
-	private static final TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("golfBallTexNew")));
-	
+	private static  final Loader loader = new Loader();
+	private static  final RawModel model = OBJLoader.loadObjModel("golfBallblend", loader);
+	private static  final TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("golfBallTexNew")));
+
 	public GolfBall(Vector3f position, float scale)	{
 		super(staticModel, position, 0, 0, 0, scale);
 	}

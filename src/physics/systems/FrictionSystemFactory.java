@@ -1,15 +1,21 @@
 package physics.systems;
 
+import framework.EntitySystem;
+import framework.EntitySystemFactory;
+
 /**
  * class producing friction systems
  * @author martin
  */
-public class FrictionSystemFactory implements EntitySystemFactory
+public class FrictionSystemFactory extends EntitySystemFactory
 {
 
     @Override
     public EntitySystem produce()
     {
-        return new FrictionSystem();
+        checkAndThrowPriorityException();
+        FrictionSystem f = new FrictionSystem();
+        attachListener(f);
+        return f;
     }
 }

@@ -1,6 +1,5 @@
 package physics.collision;
 import physics.geometry.ClosestSideFinder;
-import physics.geometry.spatial.Solid;
 import physics.geometry.planar.Plane;
 import com.badlogic.gdx.math.*;
 import physics.geometry.spatial.SolidTranslator;
@@ -24,7 +23,7 @@ public class ColliderClosestSideFinder {
         ClosestSideFinder finder = new ClosestSideFinder(passiveSolid);
 
         //Extract the vector from the active entity
-        Vector3 activeVector = active.getCollidingVector();
+        Vector3 activeVector = active.getCollidingVertex();
 
         return finder.closestSide(activeVector);
     }

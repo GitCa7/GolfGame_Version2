@@ -2,37 +2,51 @@ package framework.systems;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
-import framework.components.NextPlayer;
 import framework.components.Turn;
 import framework.constants.CompoMappers;
 import framework.constants.Families;
-import physics.systems.EntitySystem;
+import physics.components.Velocity;
+import physics.constants.GlobalObjects;
+import framework.EntitySystem;
+//import sun.org.mozilla.javascript.tools.shell.Global;
+
+import java.util.HashSet;
 
 /**
- * system handling turn transitions
+ * System handling turn transitions.
+ * Detects moving and owned objects. Whenever such an object stops moving,
+ * the system advances the turn pointer of the owner (if possible).
  * @author martin
  */
 public class TurnSystem extends EntitySystem
 {
 
 
+    public TurnSystem()
+    {
+        mMoving = new HashSet<>();
+    }
+
     public void addedToEngine (Engine e)
     {
-        for (Entity add : e.getEntitiesFor (Families.TURN_TAKING))
-            entities().add (add);
+        for (Entity add : e.getEntitiesFor(Families.OWNED))
+        {
+            if (physics.constants.Families.MOVING.matches(add))
+                entities().add(add);
+        }
     }
 
 
     public void addEntity(Entity e)
     {
-        if (Families.TURN_TAKING.matches(e))
+        if (Families.OWNED.matches(e) && physics.constants.Families.MOVING.matches(e))
             entities().add(e);
     }
 
 
     public void removeEntity(Entity e)
     {
-        if (Families.TURN_TAKING.matches(e))
+        if (Families.OWNED.matches(e) && physics.constants.Families.MOVING.matches(e))
             entities().remove(e);
     }
 
@@ -44,18 +58,45 @@ public class TurnSystem extends EntitySystem
     {
         for (Entity process : entities())
         {
-            Turn turn = CompoMappers.TURN.get(process);
-            if (turn.mDone)
+            Velocity v = physics.constants.CompoMappers.VELOCITY.get(process);
+            //if entity is not moving
+            if (GlobalObjects.ROUND.epsilonEquals(v.len(), 0f))
             {
-                NextPlayer nextPlayer = CompoMappers.NEXT_PLAYER.get(process);
-                Turn nextPlayerTurn = CompoMappers.TURN.get(nextPlayer.mNext.mEntity);
-
-                turn.mTurn = false;
-                nextPlayerTurn.mTurn = true;
+                //if entity was moving previously, try setting turn flags
+                if (mMoving.contains(process))
+                    updateOwner(process);
             }
+            else
+            {
+                mMoving.add(process);
+            }
+
 
         }
     }
 
+    /**
+     * Extracts the owner of owned. If the owner has a turn and a next player component,
+     * this method will set the flag of the turn component to false and the flag of the
+     * turn component of the next player to true.
+     * @param owned
+     */
+    private void updateOwner(Entity owned)
+    {
+        Entity owner = CompoMappers.OWNERSHIP.get(owned).mOwner;
+        if (CompoMappers.TURN.has(owner) && CompoMappers.PLAYER_ORDER.has(owner))
+        {
+            Turn ownerTurn = CompoMappers.TURN.get(owner);
+            Entity followingOwner = CompoMappers.PLAYER_ORDER.get(owner).mNext.mEntity;
+            assert (CompoMappers.TURN.has(followingOwner));
+
+            Turn followingTurn = CompoMappers.TURN.get(followingOwner);
+
+            ownerTurn.mTurn = false;
+            followingTurn.mTurn = true;
+        }
+    }
+
+    private HashSet<Entity> mMoving;
 
 }

@@ -1,12 +1,18 @@
-package physics.testing.logic;
+package physics.testing;
 
-import GamePackage.GameVisual;
-import TerrainComponents.TerrainData;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
+
+import GamePackage.GameVisual;
 import physics.collision.CollisionRepository;
-import physics.components.*;
+import physics.components.Body;
+import physics.components.Force;
+import physics.components.Friction;
+import physics.components.GravityForce;
+import physics.components.Mass;
+import physics.components.Position;
+import physics.components.Velocity;
 import physics.constants.CompoMappers;
 import physics.constants.Families;
 import physics.entities.Ball;
@@ -14,7 +20,10 @@ import physics.geometry.spatial.Box;
 import physics.geometry.spatial.BoxParameter;
 import physics.geometry.spatial.BoxPool;
 import physics.geometry.spatial.SolidTranslator;
-import physics.systems.*;
+import physics.systems.CollisionDetectionSystem;
+import physics.systems.CollisionImpactSystem;
+import physics.systems.ForceApply;
+import physics.systems.Movement;
 
 public class SingleSolidCollisionTest
 {
@@ -25,7 +34,7 @@ public class SingleSolidCollisionTest
 		SingleSolidCollisionTest test = new SingleSolidCollisionTest(initBallPos);
 		//test.display();
 
-		Vector3 hitForce = new Vector3 (2.75f, 3f, 0f);
+		Vector3 hitForce = new Vector3 (2.5f, 9.5f / 4, 0f);
 		test.hitBall(hitForce);
 
 		int iterations = 10;
@@ -36,7 +45,7 @@ public class SingleSolidCollisionTest
 			test.printBallPosition();
 			try
 			{
-				Thread.sleep(1000);
+				Thread.sleep(50);
 			}
 			catch (Exception e) { System.out.println ("oh no"); }
 		}
@@ -67,7 +76,7 @@ public class SingleSolidCollisionTest
 		//set and add components to ball
 		Position initPos = new Position();
 		initPos.set(ballPos);
-		Vector3 bD =new Vector3(2, 0, 0), bW = new Vector3(0, 2, 0), bH = new Vector3(0, 0, 2);
+		Vector3 bD =new Vector3(1, 0, 0), bW = new Vector3(0, 1, 0), bH = new Vector3(0, 0, 1);
 		Box ballBodyBox = BoxPool.getInstance().getInstance(new BoxParameter(bD, bW, bH));
 		Body ballBody = new Body();
 		ballBody.add(new SolidTranslator(ballBodyBox, initPos.cpy()));
@@ -83,9 +92,9 @@ public class SingleSolidCollisionTest
 		//set and add components to obstacle
 		Entity obstacle = new Entity();
 		Position obsPos = new Position();
-		obsPos.set(10, 10, 10);
+		obsPos.set(11, 10, 0);
 		Body obsBody = new Body();
-		Vector3 oD = new Vector3(2, 0, 0), oW = new Vector3(0, 5, 0), oH = new Vector3(0, 0, 3);
+		Vector3 oD = new Vector3(2, -2, 0), oW = new Vector3(5, 5, 0), oH = new Vector3(0, 0, 3);
 		Box obsBodyBox = BoxPool.getInstance().getInstance(new BoxParameter(oD, oW, oH));
 		obsBody.add(new SolidTranslator(obsBodyBox, obsPos.cpy()));
 		obstacle.add(obsPos);
@@ -109,7 +118,7 @@ public class SingleSolidCollisionTest
 		impactCollision.setRepository(collisionRepo);
 
 		detectCollision.setPriority(1);
-		detectCollision.setPriority(2);
+		impactCollision.setPriority(2);
 		applyForce.setPriority(4);
 		move.setPriority(5);
 

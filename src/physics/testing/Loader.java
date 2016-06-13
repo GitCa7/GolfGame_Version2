@@ -1,6 +1,5 @@
 package physics.testing;
 
-import TerrainComponents.Terrain;
 import framework.ComponentBundle;
 import framework.GameConfigurator;
 import framework.components.*;
@@ -8,11 +7,8 @@ import physics.components.*;
 import physics.constants.PhysicsCoefficients;
 import physics.entities.Ball;
 import physics.geometry.spatial.SphereTetrahedrizer;
-import framework.systems.*;
-import physics.systems.*;
 import framework.entities.*;
 
-import physics.geometry.*;
 import physics.geometry.spatial.*;
 
 public class Loader 
@@ -108,7 +104,7 @@ public class Loader
 	{
 		mProduceNames = new NameFactory();
 		mProduceTurns = new TurnFactory();
-		mProduceNextPlayer = new NextPlayerFactory();
+		mProduceNextPlayer = new PlayerOrderFactory();
 		
 		mProducePosition = new PositionFactory();
 		mProduceVelocity = new VelocityFactory();
@@ -125,7 +121,7 @@ public class Loader
 	
 	private NameFactory mProduceNames;
 	private TurnFactory mProduceTurns;
-	private NextPlayerFactory mProduceNextPlayer;
+	private PlayerOrderFactory mProduceNextPlayer;
 	
 	private PositionFactory mProducePosition;
 	private VelocityFactory mProduceVelocity;

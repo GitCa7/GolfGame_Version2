@@ -3,21 +3,15 @@ package GameRun;
 import java.util.ArrayList;
 import java.util.Random;
 
+
 import org.lwjgl.input.Keyboard;
+
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.badlogic.gdx.math.Vector3;
 
-import Entities.Arrow;
-import Entities.Camera;
-import Entities.FollowCamera;
-import Entities.GolfBall;
-import Entities.Light;
-import Entities.Obstacle;
-import Entities.crate;
-import Entities.freeCamera;
-import Entities.gameEntity;
+import Entities.*;
 import LogicAndExtras.MousePicker;
 import ModelBuildComponents.ModelTexture;
 import ModelBuildComponents.RawModel;

@@ -1,10 +1,8 @@
 package framework.systems;
 
-import java.util.HashSet;
-
 import com.badlogic.ashley.core.Entity;
 
-import physics.systems.EntitySystem;
+import framework.EntitySystem;
 
 /**
  * listener updating the set of physics.entities of an EntitySystem

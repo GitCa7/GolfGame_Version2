@@ -44,6 +44,20 @@ public class Plane
 	}
 
 	/**
+	 * construct plane from a normal vector and an offset vector
+	 * @param normal normal vector
+	 * @param offset offset vector
+     */
+	public Plane (Vector3 normal, Vector3 offset)
+	{
+		mNormal = normal;
+		mOffset = offset;
+		distance = mOffset.dot(normal);
+	}
+
+	/**
+	 * construct plane from a set of at least 3 points.
+	 * Automatically computes the normal and offset.
 	 * @param points array of points being in the plane of 3 or more elements
 	 * @throws IllegalArgumentException if there is a point in plane which does not belong to the same plane as the others
 	 */
