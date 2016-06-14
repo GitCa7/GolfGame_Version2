@@ -133,12 +133,11 @@ public class TetrahedronTest
 	public void testInTet()
 	{
 		Vector3[] ps = new Vector3[4];
-		ps[0] = new Vector3 (-1, -4, 1.5f);
-		ps[1] = new Vector3 (1, 1, 1);
-		ps[2] = new Vector3 (-3, .5f, 2);
-		ps[3] = new Vector3 (-1, 0, 5);
+		ps[0] = new Vector3 (2, 0, 0);
+		ps[1] = new Vector3 (0, 3, 0);
+		ps[2] = new Vector3 (1, 1.5f, 4);
 
-		Vector3 within = new Vector3 (-1, -1, 2);
+		Vector3 within = new Vector3 (1, 1.3f, 3f);
 		assertTrue ("vertex should be inside tetrahedron", within (ps, within));
 	}
 
