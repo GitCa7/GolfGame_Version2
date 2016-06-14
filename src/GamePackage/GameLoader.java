@@ -19,7 +19,7 @@ public class GameLoader {
 	TerrainData tdata;
 	ArrayList<gameEntity> entities;
 	Course toPlay;
-	Vector3f ballPos;
+	ArrayList<Vector3f> ballPos;
 	Vector3f holePos;
 
 	public Game loadConfig(String name)	{
@@ -59,9 +59,10 @@ public class GameLoader {
 		Vector3 pos = new Vector3(holePos.x,holePos.y,holePos.z);
 		config.setHole(pos,20);
 
-        String pName = JOptionPane.showInputDialog("Player 1 Name?");
-        config.addPlayerAndBall(pName,entities.get(0).getScale(),1,new Vector3(ballPos.x,ballPos.y,ballPos.z));
-
+		for(int i=0;i<ballPos.size();i++) {
+			String pName = JOptionPane.showInputDialog("Player "+i+" Name?");
+			config.addPlayerAndBall(pName, entities.get(i).getScale(), 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y, ballPos.get(i).z));
+		}
         TerrainGeometryCalc calc = new TerrainGeometryCalc();
         config.setTerrain(calc.getAllTris(tdata));
 

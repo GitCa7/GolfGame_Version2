@@ -5,7 +5,7 @@ import java.util.PriorityQueue;
 
 import com.badlogic.gdx.math.Vector3;
 
-import aiExtention.GolfState;
+//import aiExtention.GolfState;
 
 
 public class AStar<E extends SearchState, Action extends AbstractAction<E>> {

@@ -26,7 +26,8 @@ public class MListener extends InputAdapter {
     MousePicker picker;
     Camera camera;
     Editor parent;
-    GolfBall ball ;
+    ArrayList<GolfBall> balls;
+    Hole hole;
 
     private int switchcnt=0;
 
@@ -34,11 +35,11 @@ public class MListener extends InputAdapter {
         this.loader=loader;
         this.terrain = terrain;
         instances = new ArrayList<gameEntity>();
+        balls = new ArrayList<GolfBall>();
         this.picker = picker;
         this.camera = camera;
         this.parent = parent;
-        ball = new GolfBall(new Vector3f(0,0,0),5);
-        instances.add(ball);
+        hole = new Hole(new Vector3f(0,0,0),10);
 
     }
     public Terrain terrain(){
@@ -46,6 +47,9 @@ public class MListener extends InputAdapter {
     }
     public ArrayList<gameEntity> entities(){
         return instances;
+    }
+    public ArrayList<GolfBall> balls(){
+        return balls;
     }
     @Override
     public boolean touchDown (int screenX, int screenY, int pointer, int button) {
@@ -67,9 +71,17 @@ public class MListener extends InputAdapter {
             parent.save();
             return true;
         }
+        else if (Gdx.input.isKeyPressed(Input.Keys.H)){
+            if(picker.getCurrentTerrainPoint()!=null) {
+                hole.setPosition(picker.getCurrentTerrainPoint());
+                return true;
+            }
+        }
         else if (Gdx.input.isKeyPressed(Input.Keys.B)){
-            if(picker.getCurrentTerrainPoint()!=null){
-                ball.setPosition(new Vector3f(picker.getCurrentTerrainPoint().x,terrain.getHeightDif(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z),picker.getCurrentTerrainPoint().z));
+            if(picker.getCurrentTerrainPoint()!=null) {
+                Vector3f pos = picker.getCurrentTerrainPoint();
+                GolfBall ball = new GolfBall(pos, 5);
+                instances.add(ball);
             }
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.Z)){
@@ -160,7 +172,7 @@ public class MListener extends InputAdapter {
             return true;
         }else{
             BoundingBox out;
-            for (int i=1;i<instances.size();i++){
+            for (int i=0;i<instances.size();i++){
                 if(dragSelec!=null){
 
                 }else{

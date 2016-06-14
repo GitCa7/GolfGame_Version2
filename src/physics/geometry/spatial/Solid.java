@@ -24,6 +24,7 @@ public abstract class Solid
 	 * of a solid object.
 	 * @author martin
 	 */
+	public Solid(){}
 	public static class SolidException extends IllegalArgumentException
 	{
 		public SolidException (String message) { super (message); }
