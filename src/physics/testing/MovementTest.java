@@ -23,9 +23,9 @@ public class MovementTest
 	
 	public static void main (String[] args)
 	{
-		Vector3 initBallPos = new Vector3(-100, 20, -100);
+		Vector3 initBallPos = new Vector3(0, 5, 0);
 		MovementTest test = new MovementTest (initBallPos);
-		Vector3 hitForce = new Vector3 (96, 0, 0);
+		Vector3 hitForce = new Vector3 (-500, 0,-500);
 		test.hitBall(hitForce);
 		test.init();
 		
@@ -35,13 +35,13 @@ public class MovementTest
 		
 		boolean truth = true;
 		
-		for (int cnt = 0; cnt < iterations; ++cnt)
+		while(test.mVisualizer.stillDispalyed())
 		{
 			test.updateEngine();
 
 			try
 			{
-				Thread.sleep(100);
+				Thread.sleep(10);
 			}
 			catch(Exception e) { System.out.println ("oh no"); }
 			test.printBallPosition();
@@ -52,7 +52,7 @@ public class MovementTest
 	}
 
 	/** default time delta*/
-	public static final float DT = 1f;
+	public static final float DT = 0.1f;
 
 	/** Runner for graphics */
 	public class VisualsRunner implements Runnable

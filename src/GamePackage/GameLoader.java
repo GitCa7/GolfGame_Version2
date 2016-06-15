@@ -3,6 +3,7 @@ package GamePackage;
 import Editor.Course;
 import Editor.CourseLoader;
 import Entities.gameEntity;
+import TerrainComponents.PointNode;
 import TerrainComponents.TerrainData;
 import TerrainComponents.TerrainGeometryCalc;
 import com.badlogic.gdx.math.Vector3;
@@ -63,10 +64,11 @@ public class GameLoader {
 			String pName = JOptionPane.showInputDialog("Player "+i+" Name?");
 			config.addPlayerAndBall(pName, entities.get(i).getScale(), 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y, ballPos.get(i).z));
 		}
-        TerrainGeometryCalc calc = new TerrainGeometryCalc();
-        config.setTerrain(calc.getAllTris(tdata));
+		ArrayList<>
+		for(PointNode a:tdata.getLeafs()) {
 
-
+		}
+		config.setTerrain(tdata.getLeafs());
 		return config.game();
 	}
 	
