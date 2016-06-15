@@ -57,7 +57,7 @@ public class MListener extends InputAdapter {
         if(Gdx.input.isKeyPressed(Input.Keys.R)){
             gameEntity selected=null;
             BoundingBox out;
-            for (int i=1;i<instances.size();i++){
+            for (int i=0;i<instances.size();i++){
                 out = instances.get(i).boundingBox();
                 if(Intersector.intersectRayBoundsFast(ray,out)){
                     selected = instances.get(i);
@@ -87,7 +87,7 @@ public class MListener extends InputAdapter {
         else if (Gdx.input.isKeyPressed(Input.Keys.Z)){
             int selected=-1;
             BoundingBox out;
-            for (int i=1;i<instances.size();i++){
+            for (int i=0;i<instances.size();i++){
                 out = instances.get(i).boundingBox();
                 if(Intersector.intersectRayBoundsFast(ray,out)){
                     selected = i;
@@ -113,7 +113,7 @@ public class MListener extends InputAdapter {
             gameEntity selected=null;
             Vector3 out2=new Vector3();
             BoundingBox out;
-            for (int i=1;i<instances.size();i++){
+            for (int i=0;i<instances.size();i++){
                 out = instances.get(i).boundingBox();
                 if(Intersector.intersectRayBoundsFast(ray,out)){
                     selected = instances.get(i);
@@ -139,7 +139,7 @@ public class MListener extends InputAdapter {
 
         gameEntity selected=null;
         BoundingBox out;
-        for (int i=1;i<instances.size();i++){
+        for (int i=0;i<instances.size();i++){
             out = instances.get(i).boundingBox();
             if(Intersector.intersectRayBoundsFast(ray,out)){
                 selected = instances.get(i);

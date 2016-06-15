@@ -78,7 +78,17 @@ public class GameVisual {
 		
 		
 	}
-
+	public void setBalls(ArrayList<Vector3f> balls){
+		ArrayList<GolfBall> tmp = new ArrayList();
+		for (int i =0;i<balls.size();i++){
+			GolfBall ball = new GolfBall(balls.get(i),25);
+			tmp.add(ball);
+		}
+		golfBalls = tmp;
+	}
+	public void setEntities(ArrayList<gameEntity> obs){
+		entities = obs;
+	}
 	
 	public void setTerrain(TerrainData terra)	{
 		Terrain terraNew = new Terrain(terra);
@@ -94,8 +104,7 @@ public class GameVisual {
 		PointNode centerNode = tmpTerrain.leafs.get(middle);
 		Vector3f center = new Vector3f(centerNode.getCoordinates().x, centerNode.getCoordinates().y + 10, centerNode.getCoordinates().z);
 		
-		GolfBall golfball = new GolfBall(new Vector3f(4,5,-475), 1);
-		golfBalls.add(golfball);
+
 		
 	}
 	
@@ -133,7 +142,7 @@ public class GameVisual {
 		checkGolfBallAmount();
 		
 	}
-	
+
 	public void updateObjects()	{
 		
 		
@@ -193,6 +202,10 @@ public class GameVisual {
      	   renderer.processEntity(ball);
      	   System.out.println("Ball Position: " + ball.getPosition());
         }
+		for(gameEntity ob:entities)	{
+			renderer.processEntity(ob);
+			System.out.println("Ball Position: " + ob.getPosition());
+		}
 
         for(Terrain terrain:terrains)	{
      	   renderer.processTerrain(terrain);
