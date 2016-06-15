@@ -45,6 +45,9 @@ public class Game
         init();
 	}
 
+	public Engine getEnigine(){
+		return mEngine;
+	}
 	/**
 	 *
 	 * @return the player whose turn it currently is. This comprises also the period during which the simulation is running following

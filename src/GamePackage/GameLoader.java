@@ -70,9 +70,12 @@ public class GameLoader {
 		return config.game();
 	}
 	
-	public GameVisual loadVisual(){
+	public GameVisual loadVisual(Game game){
 		GameVisual visual  = new GameVisual();
 		visual.setTerrain(tdata);
+		visual.setEntities(entities);
+		visual.setBalls(ballPos);
+		visual.setEngine(game.getEnigine());
 		return visual;
 	}
 

@@ -55,8 +55,8 @@ public class Main
      */
     public void loadGame(String fileName)
     {
-       GameLoader load = new GameLoader();
-        mGame = load.loadConfig(fileName);
+        mLoader = new GameLoader();
+        mGame = mLoader.loadConfig(fileName);
         initGraphics();
     }
 
@@ -69,8 +69,8 @@ public class Main
      */
     public void initGraphics()
     {
-        //set resources for visual
-        mVisual.startDisplay();
+        mVisual = mLoader.loadVisual(mGame);
+
     }
 
     /**
@@ -114,6 +114,7 @@ public class Main
         System.out.println ("current ball at " + p + " moving at " + v);
     }
 
+    private GameLoader mLoader;
     private Game mGame;
     private GameVisual mVisual;
 }
