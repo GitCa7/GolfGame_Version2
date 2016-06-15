@@ -1,9 +1,6 @@
 package Editor;
 
-import Entities.Camera;
-import Entities.Light;
-import Entities.freeCamera;
-import Entities.gameEntity;
+import Entities.*;
 import LogicAndExtras.MousePicker;
 import ModelBuildComponents.ModelTexture;
 import ModelBuildComponents.RawModel;
@@ -159,6 +156,10 @@ public class Editor implements ApplicationListener {
             renderer.processEntity(entity);
 
         }
+        for (gameEntity entity : mouse.balls()) {
+            renderer.processEntity(entity);
+
+        }
 
         renderer.render(light, camera);
 
@@ -194,8 +195,13 @@ public class Editor implements ApplicationListener {
     }
 
     public void save() {
+        ArrayList<Vector3f> tmp = new ArrayList<>();
+        for(GolfBall a:mouse.balls()){
+            tmp.add(a.getPosition());
+        }
         String name = JOptionPane.showInputDialog("Course Name?");
-        Course toSave = new Course(terrain.toData(), mouse.entities(), mouse.entities().get(0).getPosition(), new Vector3f(-50, 0, -50),name);
+        Course toSave = new Course(terrain.toData(), mouse.entities(), tmp, new Vector3f(-50, 0, -50),name);
+        System.out.println(toSave.getName()) ;
         ObjectInputStream inputStream = null;
         ObjectOutputStream outputStream = null;
         try {

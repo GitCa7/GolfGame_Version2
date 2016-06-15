@@ -86,7 +86,7 @@ public class CollisionImpactSystem extends framework.EntitySystem
         //given initial velocity v, normal unit vector nu
         //decompose v into u orthogonal to the plane and w parallel to the plane
         //get collision plane
-        Plane closestPlane = computeCollisionPlane(active, passive);
+        Plane closestPlane = new ColliderClosestSideFinder(active, passive).find();
         //Get the velocity
         Velocity currentDirection = CompoMappers.VELOCITY.get(active.getEntity());
 
@@ -108,33 +108,6 @@ public class CollisionImpactSystem extends framework.EntitySystem
         //F = m / dt * dv, dv = v' - v => F = m / dt * (v' - v)
         Vector3 needToApply = newDirection.sub(currentDirection).scl(activeMass / dTime);
         return needToApply;
-    }
-
-    /**
-     * @param active entity affecte by collision
-     * @param passive entity considered static in collision
-     * @return the plane on which the active's velocity needs to be mirrored.
-     */
-    private Plane computeCollisionPlane (ColliderEntity active, ColliderEntity passive)
-    {
-        // if one of active's vertices is within passive => active collides with a side of passive
-        if (active.hasCollidingVertex())
-        {
-            System.out.println ("on side collision");
-            //return side closest to active's colliding vertex
-            ClosestSideFinder sideFinder = new ClosestSideFinder(passive.getCollidingSolid());
-            return sideFinder.closestSide(active.getCollidingVertex());
-        }
-        // if active collides with a vertex of passive
-        else
-        {
-            System.out.println ("on vertex collision");
-            //assume a plane orthogonal to the velocity as collision plane
-            //return this plane
-            Velocity activeVelocity = CompoMappers.VELOCITY.get(active.getEntity());
-            Vector3 collisionVertex = passive.getCollidingVertex();
-            return new Plane (activeVelocity, collisionVertex);
-        }
     }
 
     @Override

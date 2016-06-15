@@ -38,7 +38,7 @@ public class GravityNormalForceTest
 		Vector3 initBallPos = new Vector3(-100, 20, -90);
 		GravityNormalForceTest test = new GravityNormalForceTest(initBallPos);
 		Vector3 hitForce = new Vector3 (10000, 0, 0);
-	//	test.hitBall(hitForce);
+		test.hitBall(hitForce);
 		test.init();
 
 
@@ -47,17 +47,14 @@ public class GravityNormalForceTest
 		int sleepTime = 10;
 
 		boolean truth = true;
-
-		for (int cnt = 0; cnt < iterations; ++cnt)
+		int i = 1;
+		while(i < iterations)
 		{
+			
 			test.updateEngine();
 			test.printBallPosition();
 
-			try
-			{
-				Thread.sleep(sleepTime);
-			}
-			catch (Exception e) { System.out.println ("oh no"); }
+			i++;
 		}
 
 		test.close();
@@ -87,7 +84,7 @@ public class GravityNormalForceTest
 		//set and add components to ball
 		Position initPos = new Position();
 		initPos.set(ballPos);
-		Vector3 bD =new Vector3(1, 0, 0), bW = new Vector3(0, 1, 0), bH = new Vector3(0, 0, 1);
+		Vector3 bD = new Vector3(1, 0, 0), bW = new Vector3(0, 1, 0), bH = new Vector3(0, 0, 1);
 		Box ballBodyBox = BoxPool.getInstance().getInstance(new BoxParameter(bD, bW, bH));
 		Body ballBody = new Body();
 		ballBody.add(new SolidTranslator(ballBodyBox, initPos.cpy()));
@@ -177,8 +174,9 @@ public class GravityNormalForceTest
 	public void updateEngine()
 	{
 		mEngine.update (DT);
-		if (VISUAL)
+		if (VISUAL)	{
 			mVisualizer.updateDisplay();
+		}
 	}
 
 	/**

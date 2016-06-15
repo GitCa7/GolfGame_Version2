@@ -41,7 +41,7 @@ public class SurfaceTest {
 			Light light;
 			boolean useFollow, targetingState;
 			Arrow Pfeil;
-			
+			final static float targetYawAmount = 0.1f;
 			
 			
 			public SurfaceTest()	{
@@ -165,17 +165,34 @@ public class SurfaceTest {
 					}
 				   
 				   if(Keyboard.isKeyDown(Keyboard.KEY_DOWN) && 	targetingState)	{
-					   float currentAngle = Pfeil.getRotX();
-					   System.out.println("Current Angle: " + currentAngle);
-					   if(currentAngle < 90)	{
-						   Pfeil.setRotX(currentAngle + 0.1f);
+					   
+					   float currentAngle,yAngle,xAmount,zAmount,ytemp;
+					   yAngle = -(Pfeil.getRotY());
+					   
+					   System.out.println("Current Angle: " + yAngle);
+					   if(yAngle >= 0.0f && 90 > yAngle)	{
+						   System.out.println("Angle between 0 and 90");
+						   //fist case : angle between 0 - 90
+						   zAmount = (yAngle / 90);
+						   xAmount = (90 - yAngle) / 90;
 					   }
+					   else	{
+						   System.out.println("Angle is not greater equal to 0 and lesser 90");
+						   xAmount = 0;
+						   zAmount =0;
+					   }
+					   
+					   
+					   System.out.println("xAmount: " + xAmount + "\nzAmount: " + zAmount);
+					   Pfeil.setRotX(Pfeil.getRotX() + targetYawAmount * xAmount);
+					   Pfeil.setRotZ(Pfeil.getRotZ() + targetYawAmount * zAmount);
+					   System.out.println("new xAmount: " + Pfeil.getRotX() + "\nnew yAmount: " + Pfeil.getRotZ() + "\n");
 				   }
 				   if(Keyboard.isKeyDown(Keyboard.KEY_UP) && targetingState)	{
 					   float currentAngle = Pfeil.getRotX();
-					   System.out.println("Current Angle: " + currentAngle);
-					   if(currentAngle > 60)	{
-						   Pfeil.setRotX(currentAngle - 0.1f);
+					   //System.out.println("Current Angle: " + currentAngle);
+					   if(currentAngle < 0)	{
+						   Pfeil.setRotX(currentAngle + 0.1f);
 					   }
 				   }
 		           
@@ -207,7 +224,7 @@ public class SurfaceTest {
 		            else	{
 		         	   renderer.render(light, followCam);
 		         	   renderer.processEntity(Pfeil);
-		         	   Pfeil.setRotZ(followCam.getYaw() - 90);
+		         	   Pfeil.setRotY(-(followCam.getYaw() - 180));
 		         	   //System.out.println("Yaw: " + followCam.getYaw());
 		            }
 		            
@@ -223,8 +240,10 @@ public class SurfaceTest {
 		            	System.out.println("Targeting State entered");
 		            }
 		            if(Keyboard.isKeyDown(Keyboard.KEY_MINUS) && targetingState)	{
-		            	Pfeil.setRotX(90);
+		            	Pfeil.setRotY(-(followCam.getYaw() - 180));
 		            	targetingState = false;
+		            	Pfeil.setRotX(0);
+		            	Pfeil.setRotZ(0);
 		            	System.out.println("Returning to normal targeting");
 		            }
 		           

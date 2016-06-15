@@ -84,10 +84,10 @@ public class PlayerTransitionTest
 		Turn player1Turn = new Turn();
 		player1Turn.mTurn = true;
 
-		mPlayer1.mEntity.add(new PlayerOrder(mPlayer2));
+		mPlayer1.mEntity.add(new PlayerOrder(mPlayer2,mPlayer1));
 		mPlayer1.mEntity.add(player1Turn);
 		mPlayer1.mEntity.add(new Name("p1"));
-		mPlayer2.mEntity.add(new PlayerOrder(mPlayer1));
+		mPlayer2.mEntity.add(new PlayerOrder(mPlayer1,mPlayer2));
 		mPlayer2.mEntity.add(new Turn());
 		mPlayer2.mEntity.add(new Name("p2"));
 		assert (framework.constants.Families.TURN_TAKING.matches(mPlayer1.mEntity));

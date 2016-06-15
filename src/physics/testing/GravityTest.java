@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 
 import GamePackage.GameVisual;
+import TerrainComponents.TerrainData;
 import physics.components.Force;
 import physics.components.GravityForce;
 import physics.components.Mass;
@@ -26,7 +27,7 @@ public class GravityTest
 		Vector3 initBallPos = new Vector3(0, 0, 100);
 		GravityTest test = new GravityTest(initBallPos);
 		Vector3 hitForce = new Vector3 (10000, 0, 0);
-	//	test.hitBall(hitForce);
+		test.hitBall(hitForce);
 		test.init();
 
 
@@ -35,7 +36,7 @@ public class GravityTest
 
 		boolean truth = true;
 
-		for (int cnt = 0; cnt < iterations; ++cnt)
+		while(test.mVisualizer.stillDispalyed())
 		{
 			test.updateEngine();
 			test.printBallPosition();
@@ -91,10 +92,10 @@ public class GravityTest
 		mEngine.addSystem (applyForce);
 		mEngine.addSystem (gravity);
 		
-	/*	mVisualizer = new GameVisual();
+		mVisualizer = new GameVisual();
 		mVisualizer.setEngine(mEngine);
 		mVisualizer.setTerrain(new TerrainData());
-	*/
+	
 	}
 
 	/**
@@ -113,7 +114,7 @@ public class GravityTest
 	public void updateEngine()
 	{
 		mEngine.update (DT);
-	//	mVisualizer.updateDisplay();
+		mVisualizer.updateDisplay();
 	}
 
 	/**
@@ -123,7 +124,7 @@ public class GravityTest
 	{
 		Position ballPos = CompoMappers.POSITION.get (mBall.mEntity);
 		Velocity ballV = CompoMappers.VELOCITY.get(mBall.mEntity);
-		System.out.println ("ball position " + ballPos + " velocity " + ballV);
+		System.out.println ("ball position " + ballPos + " velocity " + ballV + "\n");
 	}
 
 	/**
@@ -131,8 +132,8 @@ public class GravityTest
 	 */
 	public void init()
 	{
-	/*	mVisualizer.setEngine(mEngine);
-		mVisualizer.startDisplay();	*/
+		mVisualizer.setEngine(mEngine);
+		mVisualizer.startDisplay();
 	}
 
 	/**
@@ -140,7 +141,7 @@ public class GravityTest
 	 */
 	public void close()
 	{
-	//	mVisualizer.endDisplay();
+		mVisualizer.endDisplay();
 	}
 	
 	

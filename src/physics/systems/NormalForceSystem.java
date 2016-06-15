@@ -92,8 +92,7 @@ public class NormalForceSystem extends EntitySystem
     private Vector3 compute (ColliderEntity active, ColliderEntity passive)
     {
         //given a force g pushing on surface, normal unit vector nu of this surface
-        ColliderClosestSideFinder closestSide = new ColliderClosestSideFinder();
-        Plane p = closestSide.find(active, passive);
+        Plane p = new ColliderClosestSideFinder(active, passive).find();
 
         // Fg = gravity * mass
         Mass activeMass = CompoMappers.MASS.get(active.getEntity());

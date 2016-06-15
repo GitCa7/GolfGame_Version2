@@ -14,15 +14,16 @@ import java.util.ArrayList;
 public class Course implements Serializable {
     TerrainData terrain;
     ArrayList<gameEntity> entities;
-    transient String name;
-    transient Vector3f ballPos;
-    transient Vector3f holePos;
+    String name;
+    ArrayList<Vector3f> ballPos;
+    Vector3f holePos;
 
-    public Course(TerrainData terrain, ArrayList<gameEntity> entities, Vector3f a, Vector3f b, String name){
+    public Course(TerrainData terrain, ArrayList<gameEntity> entities, ArrayList<Vector3f> a, Vector3f b, String name){
         this.terrain = terrain;
         this.entities = entities;
         ballPos =a;
         holePos=b;
+        this.name = name;
     }
 
     public String getName(){
@@ -37,7 +38,7 @@ public class Course implements Serializable {
         return entities;
     }
 
-    public Vector3f getBallPos() {
+    public ArrayList<Vector3f> getBallPos() {
         return ballPos;
     }
 

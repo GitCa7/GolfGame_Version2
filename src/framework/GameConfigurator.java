@@ -240,12 +240,26 @@ public class GameConfigurator
         goalSystemFactory.setSystemPriority(16);
         turnSystemFactory.setSystemPriority(20);
 
+        //set engine to attach listener
+        collisionDetectionFactory.setEngine(mEngine);
+        collisionDetectionFactory.setEngine(mEngine);
+        collisionImpactFactory.setEngine(mEngine);
+        normalForceFactory.setEngine(mEngine);
+        gravitySystemFactory.setEngine(mEngine);
+        frictionSystemFactory.setEngine(mEngine);
+        forceApplyFactory.setEngine(mEngine);
+        movementFactory.setEngine(mEngine);
+        nonPenetrationFactory.setEngine(mEngine);
+        goalSystemFactory.setEngine(mEngine);
+        turnSystemFactory.setEngine(mEngine);
+
         //set repository
         CollisionRepository collisionRepo = new CollisionRepository();
         collisionDetectionFactory.setRepository(collisionRepo);
         collisionImpactFactory.setRepository(collisionRepo);
         normalForceFactory.setRepository(collisionRepo);
         nonPenetrationFactory.setRepository(collisionRepo);
+        frictionSystemFactory.setRepository(collisionRepo);
 
         //additional component factories for balls
         VelocityFactory ballVelocityFactory = new VelocityFactory();

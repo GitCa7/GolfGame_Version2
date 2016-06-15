@@ -12,15 +12,19 @@ import RenderComponents.OBJLoader;
 public class Arrow extends gameEntity {
 	
 	private static final Loader loader = new Loader();
-	private static final RawModel model = OBJLoader.loadObjModel("/Arrow/Arrow", loader);
-	private static final TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("/Arrow/Arrow_Text")));
+	private static final RawModel model = OBJLoader.loadObjModel("/Arrow/Arrow_flat", loader);
+	private static final TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("/Arrow/red")));
+	private float xLength,yLength,zLength;
 	
 	private final float maxDist = 50;
 	
 
 	public Arrow(Vector3f position, float scale) {
-		super(staticModel, position, 90, 0, 0, scale);
+		super(staticModel, position, 0, 0, 0, scale);
 		// TODO Auto-generated constructor stub
+		xLength = 0.5f * scale;
+		yLength = 0.02f * scale;
+		zLength = 1.5f * scale;
 	}
 	
 	public Arrow(GolfBall golfB) {

@@ -17,6 +17,7 @@ import physics.entities.Ball;
 import physics.entities.Hole;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -149,8 +150,30 @@ public class Game
 	 */
 	public void updateObservers()
 	{
-		for (GameObserver obsUpdate : mObservers)
-			obsUpdate.update(this);
+		/* add mechanism to avoid piling up of updates/data races
+		class UpdateRunner implements Runnable
+		{
+			UpdateRunner (Game updateSource, Collection<GameObserver> updating)
+			{
+				mSource = updateSource;
+				mUpdating = updating;
+			}
+
+			public void run()
+			{
+				for (GameObserver update : mUpdating)
+					update.update(mSource);
+			}
+
+			private Game mSource;
+			private Collection<GameObserver> mUpdating;
+		}
+
+		new Thread(new UpdateRunner(this, mObservers)).run();
+		*/
+
+		for (GameObserver update : mObservers)
+			update.update(this);
 	}
 
 	/**

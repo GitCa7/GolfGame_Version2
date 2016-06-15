@@ -212,7 +212,7 @@ public class GameVisual {
 
         for(gameEntity ball:golfBalls)	{
      	   renderer.processEntity(ball);
-     	   System.out.println("Ball Position: " + ball.getPosition());
+     	   //System.out.println("Ball Position: " + ball.getPosition());
         }
 
         for(Terrain terrain:terrains)	{
