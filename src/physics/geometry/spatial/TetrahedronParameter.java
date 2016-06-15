@@ -18,7 +18,6 @@ public class TetrahedronParameter implements Parameter<Tetrahedron>
     public TetrahedronParameter(Vector3 ... defining)
     {
         mDefining=defining;
-        norm();
 
         mBuilder = new TetrahedronBuilder(defining);
 
@@ -39,6 +38,7 @@ public class TetrahedronParameter implements Parameter<Tetrahedron>
      *
      * @param vertices array of vertices
      * @return the vertex in vertices the closest to the origin
+     * @deprecated
      */
     private Vector3 findClostestToOrigin (Vector3[] vertices)
     {
@@ -60,6 +60,7 @@ public class TetrahedronParameter implements Parameter<Tetrahedron>
     /**
      * subtracts the closest vertex from all vertices in order to normalize the tetrahedron
      * with respect to the origin.
+     * @deprecated
      */
     private void norm()
     {

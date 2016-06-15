@@ -129,7 +129,8 @@ public class FrictionSystem extends EntitySystem
 
 		if (magFriction *dTime / m.mMass > v.len())
 		{
-			System.out.println ("set zero");
+			if(mDebug)
+				System.out.println ("set zero");
 			return v.cpy().scl(-1 * m.mMass / dTime);
 		}
 
@@ -138,4 +139,5 @@ public class FrictionSystem extends EntitySystem
 	
 	
 	private CollisionRepository mRepo;
+	private final boolean mDebug = false;
 }

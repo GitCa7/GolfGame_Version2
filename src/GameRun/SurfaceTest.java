@@ -44,6 +44,7 @@ public class SurfaceTest {
 			final static float targetYawAmount = 0.1f;
 			
 			
+			
 			public SurfaceTest()	{
 				DisplayManager.createDisplay();
 				loader = new Loader();

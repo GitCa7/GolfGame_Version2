@@ -1,6 +1,8 @@
 package physics.geometry.spatial;
 
 import com.badlogic.gdx.math.Vector3;
+import physics.Vector3Rounder;
+import physics.constants.GlobalObjects;
 import physics.generic.Parameter;
 
 import java.util.ArrayList;
@@ -28,21 +30,24 @@ public class SphereTetrahedrizer
      * @param horizontalSteps the number of points generated at the equator
      * @return list of tetrahedra approximating the ball. for each tetrahedron, one vertex is the center
      */
-    public ArrayList<Tetrahedron> tetrahedrize(int halfVerticalSteps, int horizontalSteps)
+    public ArrayList<SolidTranslator> tetrahedrize(int halfVerticalSteps, int horizontalSteps)
     {
-        if (horizontalSteps - halfVerticalSteps + 1 < 3)
-            throw new IllegalArgumentException("too few horizontal steps, won't give tetrahedron at topmost layer");
 
-        ArrayList<Tetrahedron> tetrahedra = new ArrayList<>();
+        if (halfVerticalSteps <= 0)
+            throw new IllegalArgumentException("number of half vertical steps needs to be larger than 0, but is " + halfVerticalSteps);
+        if (horizontalSteps <= 1)
+            throw new IllegalArgumentException("need at least 2 horizontal steps to produce tetrahedron, given: " + horizontalSteps);
+
+        ArrayList<SolidTranslator> tetrahedra = new ArrayList<>();
 
         ArrayList<Vector3> northPole = null, northEquator = null;
         ArrayList<Vector3> southPole = null, southEquator = null;
 
         for (int nVertical = halfVerticalSteps - 1; nVertical >= 0; --nVertical)
         {
-            double verticalAngle = nVertical * Math.PI / halfVerticalSteps;
-            Vector3 northCenter = new Vector3 (mCenter.x, mCenter.y, (float) (mCenter.z - mRadius * Math.sin(verticalAngle)));
-            Vector3 southCenter = new Vector3 (mCenter.x, mCenter.y, (float) (mCenter.z + mRadius * Math.sin(verticalAngle)));
+            double verticalAngle = nVertical * Math.PI / (2 * halfVerticalSteps);
+            Vector3 northCenter = new Vector3 (mCenter.x, mCenter.y, (float) (mCenter.z + mRadius * Math.sin(verticalAngle)));
+            Vector3 southCenter = new Vector3 (mCenter.x, mCenter.y, (float) (mCenter.z - mRadius * Math.sin(verticalAngle)));
 
             double circleRadius = mRadius * Math.cos (verticalAngle);
 
@@ -71,24 +76,25 @@ public class SphereTetrahedrizer
      * @param equatorList list of points closer to equator
      * @return list of tetrahedra generated from both lists
      */
-    private ArrayList<Tetrahedron> generateTetrahedra (ArrayList<Vector3> poleList, ArrayList<Vector3> equatorList, Half half)
+    private ArrayList<SolidTranslator> generateTetrahedra (ArrayList<Vector3> poleList, ArrayList<Vector3> equatorList, Half half)
     {
         assert (poleList == null || poleList.size() - equatorList.size() == 0);
 
-        ArrayList<Tetrahedron> tetrahedra = new ArrayList<>();
+        ArrayList<SolidTranslator> tetrahedra = new ArrayList<>();
 
         if (poleList == null)
         {
             Vector3 pole = mCenter.cpy();
             if (half == Half.NORTH)
-                pole = new Vector3 (mCenter.x, mCenter.y, mCenter.z - mRadius);
-            else
                 pole = new Vector3 (mCenter.x, mCenter.y, mCenter.z + mRadius);
+            else
+                pole = new Vector3 (mCenter.x, mCenter.y, mCenter.z - mRadius);
 
             for (int cPoints = 0; cPoints < equatorList.size(); ++cPoints)
             {
-                Parameter<Tetrahedron> tp = new TetrahedronParameter(mCenter, pole, equatorList.get(cPoints), equatorList.get ((cPoints + 1) % equatorList.size()));
-                tetrahedra.add (TetrahedronPool.getInstance().getInstance(tp));
+                Parameter<Tetrahedron> tp = new TetrahedronParameter(pole, equatorList.get(cPoints), equatorList.get ((cPoints + 1) % equatorList.size()));
+                Tetrahedron tet = TetrahedronPool.getInstance().getInstance(tp);
+                tetrahedra.add (new SolidTranslator(tet, mCenter.cpy()));
             }
 
         }
@@ -102,10 +108,13 @@ public class SphereTetrahedrizer
                 nextEquator = equatorList.get ((cPoints + 1) % equatorList.size());
                 nextPole = poleList.get ((cPoints + 1) % poleList.size());
 
-                TetrahedronParameter tp1 = new TetrahedronParameter (mCenter, currEquator, nextEquator, currPole);
-                TetrahedronParameter tp2 = new TetrahedronParameter (mCenter, nextEquator, currPole, nextPole);
-                tetrahedra.add (TetrahedronPool.getInstance().getInstance(tp1));
-                tetrahedra.add (TetrahedronPool.getInstance().getInstance(tp2));
+                TetrahedronParameter tp1 = new TetrahedronParameter (currEquator, nextEquator, currPole);
+                TetrahedronParameter tp2 = new TetrahedronParameter (nextEquator, currPole, nextPole);
+
+                Tetrahedron tet1 = TetrahedronPool.getInstance().getInstance(tp1);
+                Tetrahedron tet2 = TetrahedronPool.getInstance().getInstance(tp2);
+                tetrahedra.add (new SolidTranslator(tet1, mCenter.cpy()));
+                tetrahedra.add (new SolidTranslator(tet2, mCenter.cpy()));
             }
         }
 
@@ -122,17 +131,19 @@ public class SphereTetrahedrizer
      */
     private ArrayList<Vector3> generateHorizontalPoints (Vector3 circleCenter, double circleRadius, int numberOfPoints, boolean uneven)
     {
+        Vector3Rounder vRounder = new Vector3Rounder(GlobalObjects.ROUND);
         ArrayList<Vector3> points = new ArrayList<>();
 
         double angleOffset = uneven ? Math.PI / numberOfPoints : 0;
 
         for (int nPoint = 0; nPoint < numberOfPoints; ++nPoint)
         {
-            double angle = angleOffset + 2*Math.PI / numberOfPoints;
+            double angle = angleOffset + 2*Math.PI * nPoint / numberOfPoints;
             float x = (float) (circleRadius * Math.sin (angle));
             float y = (float) (circleRadius * Math.cos (angle));
 
-            points.add (new Vector3 (circleCenter.x + x, circleCenter.y + y, circleCenter.z));
+            Vector3 add = new Vector3 (circleCenter.x + x, circleCenter.y + y, circleCenter.z);
+            points.add (vRounder.round(add));
         }
 
         return points;

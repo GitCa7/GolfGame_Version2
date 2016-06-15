@@ -89,7 +89,7 @@ public class GravitySlopeTest
 		mBall.mEntity.add(new Force());
 		mBall.mEntity.add(new GravityForce(new Vector3 (0, 0, -10)));
 		mBall.mEntity.add(ballBody);
-		mBall.mEntity.add(new GravityForce(new Vector3 (0, 0, -PhysicsCoefficients.GRAVITY_EARTH)));
+		mBall.mEntity.add(new GravityForce(new Vector3 (0, -PhysicsCoefficients.GRAVITY_EARTH, 0)));
 		assert (Families.ACCELERABLE.matches(mBall.mEntity));
 		assert (Families.COLLIDING.matches(mBall.mEntity));
 

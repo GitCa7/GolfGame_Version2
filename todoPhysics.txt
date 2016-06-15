@@ -49,16 +49,17 @@ implement input methods (x)
 integrate way to add listeners to engine in system factories (change interface to abstract class)	(x)
 require priority in system factories (~12.06.) 	(x)
 
-apply friction only when touching obstacle
-redo movement test
+adapt collider closest side finder to work if active is not within passive (x)
+apply friction only when touching obstacle (x)
+redo movement test (x)
 
 add proper extrinsic state to flyweight solids (x)
 adapt code relying on solids (solid/body/entity intersection detector) (x)
-write test for multi-solid obstacles
-integrate multi-solid obstacles (~13.06.)
+write test for multi-solid obstacles (x)
+integrate multi-solid obstacles (~13.06.)	(x)
 
-test tetrahedron intersection
-test sphere tetrahedrizer
+test tetrahedron intersection (x)
+test sphere tetrahedrizer	(x)
 use sphere tetrahedrizer in game configurator (~14.06)
 
 describe physics already implemented in report 
@@ -77,3 +78,4 @@ think whether to represent sides as plane
 write history components and systems properly
 revise rounding in ALL systems
 implement game result class + exporter
+improve finding collision plane

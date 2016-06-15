@@ -1,0 +1,74 @@
+REPORT PHYSICS PART
+Factors involved
+We decided to model the ball dynamics by taking into consideration the most important physical quantities: Time t, the position s of the ball and its velocity v given by the equation v = ds / dt. 
+Additionally we want to allow forces to modify the trajectory of the ball, so the impact of a force F on its
+velocity is given by F = ma = m * dv / dt => dv = F * dt / m, depending on the mass of the ball m.
+Since we can apply any modification by applying a force, we compute the impact on the ball of other quantities as a force. These are
+- gravity: F_g = m * g, for the gravitational constant g
+- normal force: F_N = -(F_g * n_u) * n_u, where n_u is the normal unit vector of the surface the ball is supported by
+- frictional force: F_f = -v_u * |F_n| * c_f for a coefficient of friction c_f
+- collision forces 0,..., i, ..., n: 	F_ci = m * (v* - v), where v is the velocity before the collision and v* the velocity after the collision
+										v* = f*w - r*u, for a friction coefficient f, the coefficient of restitution r, w being the vector projection of
+										v onto the collision plane and u being the vector projection onto the normal vector of this plane
+										u = (v * n_u) * n_u, w = v - u
+- forces due to noise F_nj 0,..., j, ..., m
+Thus we compute the resulting force at every time step F_T = F_g + F_N + sum(F_ci) + sum (F_nj) and then solve the differential equations above.
+
+collision model
+In order to model any object, be it an obstacle or the terrain itself, we approximate it by a set of known primitive geometric solids. This avoids problems 
+such as dealing with concave objects or a loss of performance due to solving general point-in-polyhedron problems. The geometric solid of our choice is the 
+tetrahedron, as it is the simplest platonic solid and has only 4 faces and 4 vertices. This means we have to store little information for each primitive, 
+optimizing the memory consumption. Also, in order to determine whether a point is located within the tetrahedron, we only have to determine whether this 
+point is an element of the intersection of a subspace partitionned by planes. For each face of the tetrahedron, we can determine a plane this face is in and
+a remaining vertex, which is not part of this face. Hence, this point is inside the tetrahedron, if for any of these planes it is not in the other
+partition as the remaining vertex. If the planes are stored, this means we have to do at most 4 vector equations in 3 dimensional space, so 12 equations in
+total in order to solve this problem.
+- mention: how to determine collision plane
+
+known problems
+As our simulation is discrete, it may occur that a ball passes through an obstacle if either the obstacle is very thin or the ball is moving at a very high
+velocity. In order to reduce the frequency of this issue, we limited the maximum force applicable and increased the temporal resolution.
+Another related problem occurs if the ball moves inside an obstacle and the forces resulting of the collision are not enough to propel it outside of the
+obstacle again. This may happen, as the speed of the ball after the collision is less than the speed of the ball after the collision. If this is the case, 
+our system would detect a collision that should not occur at the next time step and wrongfully apply a reaction.
+Since we apply Coulombian friction, it may occur that the frictional force has a larger impact than the remaining momentum of the ball. This means the ball
+might start moving backwards, due to the friction being the dominant force. In order to solve this, we perform a check and reduce the frictional force such
+that it will only cancel out the ball's momentum.
+As in most discrete simulations, we have to deal with roundoff errors. To keep them at a minimum, we perform computations at machine precision, but round 
+the values of the coordinates of the ball's position. This way, we intend to have accurate computations on the one hand, but we only use the most reliable 
+and relevant part of the result of these computations further in our simulation. 
+
+numerical methods used
+To solve the above differential equations, we either use Runge-Kutta methods or the adaptive Bogacki-Shampine method. While the former is very easy to
+implement, the latter allows us to control the error and might be even better performing. Controling the error is very useful, since this means we can 
+adjust the error to the overall degree of accuracy we are using in other computations.
+In order to solve the problem of wrong collisions, we use an adaptation of the bisection method to move the ball outside of an obstacle again. Since we know
+one position where the ball was not inside the obstacle  yet (at the previous time step) and another position, where the ball is inside (at the current
+time step), we may perform a bisection method to narrow down this interval such that we obtain a final interval below a specified width, where one is still
+endpoint a position where the ball is outside and the other a position where the ball is inside. We then set the ball's position to the former.
+
+architecture
+To implement the processes, we decided to use an entity-component-system model. This model integrates well with our chosen model-view-controller 
+architecture, as components attached to entities make up the model, while the system as the controler modifies this model. Each system performs exactly one
+task, such as computing and applying the deplacement of a ball. This approach allows for great modularity and a clear separation of individual 
+responsibility. However it comes at the expense of some overhead for managing the model (i.e. certain components have to be retrieved from entities, ...).
+The degree of indepencence of the systems needs to vary, as some systems require more communitation than a reasonable use of components allows. This is the 
+case for all systems related to collisions. To solve this, we implemented a repository, which is first updated by a system detecting collisions and 
+afterwards accessed by other systems requiring information about the collisions. For a complete list of systems and components, please refer to the appendix.
+
+optimization
+Mostly the detection of collision requires some optimization. A naive algorithm, where we check each ball against any other ball or obstacle requires
+quadratic time and is therefore rather undesireable. This is true in particular, as one objects may consist of many solids, requiring again quadratic time
+to evaluate. Thus, we would need time of O(n^4) in total with n being the number of primitive solids involved.
+One way to easily solve this is the use of bounding boxes, bounding the volume of an obstacle. This means that we can exclude non-colliding objects much 
+more quickly than by performing a check on every solid they are composed of. Therefore, we obtain a running time of O(m^2 + n^2) where m is the number of 
+composite objects and n is the number of solids they consist of.
+We may further improve the bounding box algorithm by sorting the projections of a bounding box on two orthogonal planes. This way, we could narrow down the 
+amount of checks, as two objects only collide, if both of their projections intersect and for each projection we only have to search a specific interval
+due to the prior sorting. From this, we expect an algorithm running in O(m*log(m) + k*n^2), where m is the number of composite objects, k is the number of
+bounding boxes whose projections are intersecting and n is the number of primitives they consist of.
+Another approach may be the use of octtrees. Constructing such a tree for a depth D for n elements takes O(n*D), while searching such a tree for an 
+intersection would take O(n*D) as well. Therefore, this is probably the most efficient solution.
+All of the given optimizations, which partition the space in one way or another, may be further optimized by only updating those objects which are not 
+static.
+

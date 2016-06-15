@@ -35,9 +35,9 @@ public class GravityNormalForceTest
 
 	public static void main (String[] args)
 	{
-		Vector3 initBallPos = new Vector3(-100, 20, -90);
+		Vector3 initBallPos = new Vector3(-100, 100, -90);
 		GravityNormalForceTest test = new GravityNormalForceTest(initBallPos);
-		Vector3 hitForce = new Vector3 (10000, 0, 0);
+		Vector3 hitForce = new Vector3 (0, 1000, 0);
 		test.hitBall(hitForce);
 		test.init();
 
@@ -48,20 +48,20 @@ public class GravityNormalForceTest
 
 		boolean truth = true;
 		int i = 1;
-		while(i < iterations)
+		while(test.mVisualizer.stillDispalyed())
 		{
 			
 			test.updateEngine();
 			test.printBallPosition();
 
-			i++;
+			
 		}
 
 		test.close();
 	}
 
 	/** default time delta*/
-	public static final float DT = .1f;
+	public static final float DT = 0.1f;
 	public static final boolean VISUAL = true;
 
 	/** Runner for graphics */
@@ -82,7 +82,7 @@ public class GravityNormalForceTest
 	{
 		mBall = new Ball (new Entity());
 		//set and add components to ball
-		Position initPos = new Position();
+		Position initPos = new Position(-100, 500, -100);
 		initPos.set(ballPos);
 		Vector3 bD = new Vector3(1, 0, 0), bW = new Vector3(0, 1, 0), bH = new Vector3(0, 0, 1);
 		Box ballBodyBox = BoxPool.getInstance().getInstance(new BoxParameter(bD, bW, bH));
@@ -95,7 +95,7 @@ public class GravityNormalForceTest
 		mBall.mEntity.add(new Force());
 		mBall.mEntity.add(new GravityForce(new Vector3 (0, 0, -10)));
 		mBall.mEntity.add(ballBody);
-		mBall.mEntity.add(new GravityForce(new Vector3 (0, 0, -PhysicsCoefficients.GRAVITY_EARTH)));
+		mBall.mEntity.add(new GravityForce(new Vector3 (0, -PhysicsCoefficients.GRAVITY_EARTH, 0)));
 		assert (Families.ACCELERABLE.matches(mBall.mEntity));
 		assert (Families.COLLIDING.matches(mBall.mEntity));
 
@@ -153,6 +153,8 @@ public class GravityNormalForceTest
 			mVisualizer = new GameVisual();
 			mVisualizer.setEngine(mEngine);
 			mVisualizer.setTerrain(new TerrainData());
+			
+			
 		}
 
 

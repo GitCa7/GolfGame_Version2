@@ -51,15 +51,15 @@ public class SolidIntersectionTest
 	 */
 	public void positiveTetrahedraTest()
 	{
-		Vector3 p12 = new Vector3 (3, 3, 0);
-		Vector3 p13 = new Vector3 (-1, 4, 0);
+		Vector3 p12 = new Vector3 (3, 0, 0);
+		Vector3 p13 = new Vector3 (0, 4, 0);
 		Vector3 p14 = new Vector3 (1, 1, 3);
-		Vector3 of1 = new Vector3(1, 2, 1);
+		Vector3 of1 = new Vector3(0, 0, 0);
 
-		Vector3 p22 = new Vector3 (7, -3, 0);
+		Vector3 p22 = new Vector3 (-3, 5, 0);
 		Vector3 p23 = new Vector3 (2, 3, 0);
 		Vector3 p24 = new Vector3 (2, 1, 3);
-		Vector3 of2 = new Vector3 (3, 3, 2);
+		Vector3 of2 = new Vector3 (1.15f, 1.12f, 2);
 
 		Tetrahedron t1 = new TetrahedronBuilder (ArrayUtil.construct (p12, p13, p14)).build();
 		Tetrahedron t2 = new TetrahedronBuilder (ArrayUtil.construct (p22, p23, p24)).build();
