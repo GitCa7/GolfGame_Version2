@@ -27,13 +27,11 @@ public class MovementTest
 		Vector3 initBallPos = new Vector3(0, 0, 0);
 		MovementTest test = new MovementTest (initBallPos);
 		Vector3 hitForce = new Vector3 (-800, 0, -800);
-		//test.hitBall(hitForce);
 		test.init();
-		
-		
 
 		int iterations = 20;
-		
+
+
 		boolean truth = true;
 		
 		while(test.mVisualizer.stillDispalyed())
@@ -48,6 +46,14 @@ public class MovementTest
 			
 		}
 
+/*
+		test.hitBall(hitForce);
+		for (int cnt = 0; cnt < iterations; ++cnt)
+		{
+			test.updateEngine();
+			test.printBallPosition();
+		}
+*/
 		test.close();
 	}
 
@@ -85,7 +91,7 @@ public class MovementTest
 		mBall.mEntity.add(new Friction(.5f, .5f, 0, 0));
 		mBall.mEntity.add(new Mass (5));
 		mBall.mEntity.add(new Force());
-		mBall.mEntity.add(new GravityForce(new Vector3 (0, 0, -10)));
+		mBall.mEntity.add(new GravityForce(new Vector3 (0, -10, 0)));
 		mBall.mEntity.add(ballBody);
 		assert (Families.ACCELERABLE.matches(mBall.mEntity));
 
@@ -142,7 +148,7 @@ public class MovementTest
 	public void hitBall (Vector3 force)
 	{
 		if(force != null)	{
-			System.out.println("Wil deliver force: " + force);
+			System.out.println("Will deliver force: " + force);
 			Force f = CompoMappers.FORCE.get(mBall.mEntity);
 			f.add (force);
 		}
