@@ -1,11 +1,18 @@
 package physics.testing;
 
-import GamePackage.GameVisual;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
+
+import GamePackage.GameVisual;
 import physics.collision.CollisionRepository;
-import physics.components.*;
+import physics.components.Body;
+import physics.components.Force;
+import physics.components.Friction;
+import physics.components.GravityForce;
+import physics.components.Mass;
+import physics.components.Position;
+import physics.components.Velocity;
 import physics.constants.CompoMappers;
 import physics.constants.Families;
 import physics.entities.Ball;
@@ -13,7 +20,10 @@ import physics.geometry.spatial.Box;
 import physics.geometry.spatial.BoxParameter;
 import physics.geometry.spatial.BoxPool;
 import physics.geometry.spatial.SolidTranslator;
-import physics.systems.*;
+import physics.systems.CollisionDetectionSystem;
+import physics.systems.CollisionImpactSystem;
+import physics.systems.ForceApply;
+import physics.systems.Movement;
 
 public class SingleSolidCollisionTest
 {

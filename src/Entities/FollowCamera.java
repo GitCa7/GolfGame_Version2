@@ -2,6 +2,7 @@ package Entities;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 public class FollowCamera extends Camera{
@@ -32,11 +33,13 @@ public class FollowCamera extends Camera{
 	
 
 	private void calculateZoom()	{
+		
 		float zoomLevel = Mouse.getDWheel() * 0.03f;
 		distanceFromPlayer -= zoomLevel;
 		if(distanceFromPlayer < 5) {
 			distanceFromPlayer = 5;
 		}
+		
 	}
 	
 	private void calcPitchAngle()	{
@@ -53,6 +56,20 @@ public class FollowCamera extends Camera{
 			}
 		}
 	}
+	
+	public void getAngleAroundPlayer()	{
+		System.out.println(super.getYaw());
+	}
+	
+	public Vector2f getDirection()	{
+		Vector3f center = player.getPosition();
+		Vector2f Direction = new Vector2f(center.x - pos.x, center.z - pos.z);
+		if(Direction.length()  > 1)
+			Direction.normalise();
+		System.out.println("Direction: " + Direction);
+		return Direction;
+	}
+	
 	/*
 	private void calculatePitch()	{
 		if(Mouse.isButtonDown(1))	{

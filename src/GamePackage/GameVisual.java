@@ -16,18 +16,23 @@ import physics.geometry.spatial.BoxBuilder;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 
+import Entities.Arrow;
 import Entities.Camera;
 import Entities.FollowCamera;
 import Entities.GolfBall;
 import Entities.Light;
+import Entities.Obstacle;
+import Entities.crate;
 import Entities.gameEntity;
 import GamePackage.PhysicsTranslator;
+import LogicAndExtras.MousePicker;
 import ModelBuildComponents.ModelTexture;
 import ModelBuildComponents.RawModel;
 import ModelBuildComponents.TexturedModel;
@@ -43,6 +48,8 @@ import TerrainComponents.PointNode;
 import TerrainComponents.Terrain;
 import TerrainComponents.TerrainData;
 
+
+
 public class GameVisual {
 	MasterRenderer renderer;
 	
@@ -54,9 +61,22 @@ public class GameVisual {
 	ArrayList<gameEntity> entities;
 	ArrayList<gameEntity> surrondings;
 	ArrayList<Terrain> terrains;
+	
+	Arrow directionArrow;
+	
 	FollowCamera followCam;
+	Arrow targetDestination;
 	Camera cam;
 	Light light;
+	float currentForce;
+	float currentBall;
+	Vector3f hitDirection;
+	boolean forcePresent, forceChangeAccept;
+	float timepassed;
+	
+	private static final float forceLvlMax = 3;
+	private static final float power = 250;
+	MousePicker mousePick;
 	
 	//The Physics
 	private Engine gameEngine;
@@ -75,8 +95,11 @@ public class GameVisual {
 		entities = new ArrayList<gameEntity>();
 		surrondings = new ArrayList<gameEntity>();
 		terrains = new ArrayList<Terrain>();
-		
-		
+		currentForce = 0;
+		hitDirection = new Vector3f(-1, 0, -1);
+		forcePresent = false;
+		forceChangeAccept = true;
+		timepassed = 0;
 	}
 	public void setBalls(ArrayList<Vector3f> balls){
 		ArrayList<GolfBall> tmp = new ArrayList();
@@ -93,6 +116,7 @@ public class GameVisual {
 	public void setTerrain(TerrainData terra)	{
 		Terrain terraNew = new Terrain(terra);
 		terrains.add(terraNew);
+		
 		//setUpEntities();
 		createSurrondings();
 		setUpScene();
@@ -105,6 +129,7 @@ public class GameVisual {
 		Vector3f center = new Vector3f(centerNode.getCoordinates().x, centerNode.getCoordinates().y + 10, centerNode.getCoordinates().z);
 		
 
+		
 		
 	}
 	
@@ -140,7 +165,7 @@ public class GameVisual {
 	public void setEngine(Engine newEngine)	{
 		gameEngine = newEngine; 
 		checkGolfBallAmount();
-		
+		targetDestination = new Arrow(golfBalls.get(0));
 	}
 
 	public void updateObjects()	{
@@ -153,6 +178,65 @@ public class GameVisual {
 			Vector3f fPos = new Vector3f(position.x, position.y, position.z);
 			golfBalls.get(pos).setPosition(fPos);
 			pos++;
+		}
+		
+	
+		
+	}
+	
+	
+	public void forceLevelCheck()	{
+		if(currentForce > 3)	{
+			currentForce = 0;
+		}
+		//System.out.println("CurrentForce: " + currentForce);
+		if(Keyboard.isKeyDown(Keyboard.KEY_1) && currentForce < forceLvlMax  && forceChangeAccept)	{
+			currentForce++;
+			System.out.println("CurrentForce set to: " + currentForce);
+			forceChangeAccept = false;
+		}
+		else if(Keyboard.isKeyDown(Keyboard.KEY_2) && currentForce > 0 && forceChangeAccept)	{
+			currentForce--;
+			System.out.println("CurrentForce set to: " + currentForce);
+			forceChangeAccept = false;
+		}
+	}
+	
+	public Vector3 deliverForce()	{
+		Vector3 returnForce;
+		if(currentForce != 0)	{
+			System.out.println("NewForce = " + hitDirection + "(hitDirection) scaled by: " + currentForce + " * 400");
+			
+			Vector3f newForce = new Vector3f(hitDirection.x * (currentForce * power), hitDirection.y * (currentForce * power), hitDirection.z * (currentForce * power));
+			
+			returnForce = new Vector3(newForce.x, newForce.y, newForce.z);
+		}
+		else	{
+			returnForce = null;
+		}
+		System.out.println(returnForce);
+		currentForce = 0;
+		return returnForce;
+	}
+	
+	public boolean hasForce()	{
+		return forcePresent;
+	}
+	
+	public void setForcePresent(boolean value)	{
+		forcePresent = value;
+	}
+	
+	
+	public void updateObstacles()	{
+		directionArrow = new Arrow(new Vector3f(0,0,0), 1);
+		int pos = 0;
+		crate Crate;
+		for(Entity ent : gameEngine.getEntitiesFor(Families.COLLIDING))	{
+			Vector3 position = CompoMappers.POSITION.get(ent);
+			Vector3f fPos = new Vector3f(position.x, position.y, position.z);
+			Crate = new crate(fPos, 1);
+			surrondings.add(Crate);
 		}
 		
 	}
@@ -174,6 +258,19 @@ public class GameVisual {
 	}
 	
 	
+	private void updateArrow()	{
+		
+		mousePick.update();
+		if(useFollow == true)	{
+			if(mousePick.getCurrentTerrainPoint() != null)	{
+				targetDestination.setAsTarget(mousePick.getCurrentTerrainPoint(), golfBalls.get(0));
+			}
+			else	{
+				targetDestination.setPosition(golfBalls.get(0));
+			}
+		}
+	}
+	
 	public void setUpScene()	{
 		cam = new Camera(new Vector3f(4,20,-422));
 		followCam = new FollowCamera(golfBalls.get(0));
@@ -184,12 +281,27 @@ public class GameVisual {
 		return !Display.isCloseRequested();
 	}
 	
+	
+	
 	public void startDisplay()	{
+		mousePick = new MousePicker(followCam, renderer.getProjectionMatrix(), terrains.get(0));
 		useFollow = true;
+		updateObstacles();
 	}
 	
 	public void updateDisplay()	{
 		updateObjects();
+		forceLevelCheck();
+		
+		if(forceChangeAccept == false && timepassed >= 1)	{
+			forceChangeAccept = true;
+			timepassed = 0;
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_RETURN) && currentForce != 0)	{
+			System.out.println("Force now present");
+			forcePresent = true;
+		}
 		
 		if(useFollow == false)	{
 			cam.move();
@@ -200,7 +312,7 @@ public class GameVisual {
 
         for(gameEntity ball:golfBalls)	{
      	   renderer.processEntity(ball);
-     	   System.out.println("Ball Position: " + ball.getPosition());
+     	   //System.out.println("Ball Position: " + ball.getPosition());
         }
 		for(gameEntity ob:entities)	{
 			renderer.processEntity(ob);
@@ -224,6 +336,8 @@ public class GameVisual {
      	   else
      		   useFollow = false;
         }
+        if(forceChangeAccept == false)
+        	timepassed += DisplayManager.getTimeDelat();
         
         DisplayManager.updateDisplay();
 	}

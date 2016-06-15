@@ -5,8 +5,8 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 
 import GamePackage.GameVisual;
-import TerrainComponents.Terrain;
 import TerrainComponents.TerrainData;
+
 import physics.collision.CollisionRepository;
 import physics.components.*;
 import physics.constants.CompoMappers;
@@ -18,15 +18,18 @@ import physics.geometry.spatial.BoxPool;
 import physics.geometry.spatial.SolidTranslator;
 import physics.systems.*;
 
+
 public class MovementTest 
 {
 	
 	public static void main (String[] args)
 	{
-		Vector3 initBallPos = new Vector3(0, 5, 0);
+
+		Vector3 initBallPos = new Vector3(0, 0, 0);
 		MovementTest test = new MovementTest (initBallPos);
-		Vector3 hitForce = new Vector3 (-500, 0,-500);
-		test.hitBall(hitForce);
+		Vector3 hitForce = new Vector3 (-800, 0, -800);
+		//test.hitBall(hitForce);
+
 		test.init();
 		
 		
@@ -39,11 +42,11 @@ public class MovementTest
 		{
 			test.updateEngine();
 
-			try
-			{
-				Thread.sleep(10);
+			if(test.mVisualizer.hasForce())	{
+				test.hitBall(test.mVisualizer.deliverForce());
+				test.mVisualizer.setForcePresent(false);
 			}
-			catch(Exception e) { System.out.println ("oh no"); }
+			
 			test.printBallPosition();
 			
 		}
@@ -74,11 +77,12 @@ public class MovementTest
 		//set and add components to ball
 		Position initPos = new Position();
 		initPos.set(ballPos);
+		
 		Vector3 bD = new Vector3(1, 0, 0), bW = new Vector3(0, 1, 0), bH = new Vector3(0, 0, 1);
 		Box ballBodyBox = BoxPool.getInstance().getInstance(new BoxParameter(bD, bW, bH));
 		Body ballBody = new Body();
 		ballBody.add(new SolidTranslator(ballBodyBox, initPos.cpy()));
-
+		
 		mBall.mEntity.add(initPos);
 		mBall.mEntity.add(new Velocity());
 		mBall.mEntity.add(new Friction(.5f, .5f, 0, 0));
@@ -91,9 +95,9 @@ public class MovementTest
 
 		Entity ground = new Entity();
 		//set components of ground
-		Position groundPosition = new Position(-500, -500, -100);
+		Position groundPosition = new Position(-500, 0, -500);
 		Body groundBody = new Body();
-		BoxParameter groundBoxParam = new BoxParameter(new Vector3(1000, 0, 0), new Vector3(0, 1000, 0), new Vector3(0, 0, -100));
+		BoxParameter groundBoxParam = new BoxParameter(new Vector3(1000, 0, 0), new Vector3(0, -200, 0), new Vector3(0, 0, 1000));
 		Box groundBox  = BoxPool.getInstance().getInstance(groundBoxParam);
 		groundBody.add(new SolidTranslator(groundBox, groundPosition));
 		//add components to ground
@@ -140,8 +144,11 @@ public class MovementTest
      */
 	public void hitBall (Vector3 force)
 	{
-		Force f = CompoMappers.FORCE.get(mBall.mEntity);
-		f.add (force);
+		if(force != null)	{
+			System.out.println("Wil deliver force: " + force);
+			Force f = CompoMappers.FORCE.get(mBall.mEntity);
+			f.add (force);
+		}
 	}
 
 	/**

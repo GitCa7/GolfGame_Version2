@@ -1,12 +1,19 @@
 package physics.testing;
 
-import GamePackage.GameVisual;
-import TerrainComponents.TerrainData;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
+
+import GamePackage.GameVisual;
+import TerrainComponents.TerrainData;
 import physics.collision.CollisionRepository;
-import physics.components.*;
+import physics.components.Body;
+import physics.components.Force;
+import physics.components.Friction;
+import physics.components.GravityForce;
+import physics.components.Mass;
+import physics.components.Position;
+import physics.components.Velocity;
 import physics.constants.CompoMappers;
 import physics.constants.Families;
 import physics.constants.PhysicsCoefficients;
@@ -15,17 +22,23 @@ import physics.geometry.spatial.Box;
 import physics.geometry.spatial.BoxParameter;
 import physics.geometry.spatial.BoxPool;
 import physics.geometry.spatial.SolidTranslator;
-import physics.systems.*;
+import physics.systems.CollisionDetectionSystem;
+import physics.systems.CollisionImpactSystem;
+import physics.systems.ForceApply;
+import physics.systems.GravitySystem;
+import physics.systems.Movement;
+import physics.systems.NonPenetrationSystem;
+import physics.systems.NormalForceSystem;
 
 public class GravityNormalForceTest
 {
 
 	public static void main (String[] args)
 	{
-		Vector3 initBallPos = new Vector3(-100, 20, -90);
+		Vector3 initBallPos = new Vector3(-100, 100, -90);
 		GravityNormalForceTest test = new GravityNormalForceTest(initBallPos);
-		Vector3 hitForce = new Vector3 (10000, 0, 0);
-	//	test.hitBall(hitForce);
+		Vector3 hitForce = new Vector3 (0, 1000, 0);
+		test.hitBall(hitForce);
 		test.init();
 
 
@@ -34,24 +47,21 @@ public class GravityNormalForceTest
 		int sleepTime = 10;
 
 		boolean truth = true;
-
-		for (int cnt = 0; cnt < iterations; ++cnt)
+		int i = 1;
+		while(test.mVisualizer.stillDispalyed())
 		{
+			
 			test.updateEngine();
 			test.printBallPosition();
 
-			try
-			{
-				Thread.sleep(sleepTime);
-			}
-			catch (Exception e) { System.out.println ("oh no"); }
+			
 		}
 
 		test.close();
 	}
 
 	/** default time delta*/
-	public static final float DT = .1f;
+	public static final float DT = 0.1f;
 	public static final boolean VISUAL = true;
 
 	/** Runner for graphics */
@@ -72,7 +82,7 @@ public class GravityNormalForceTest
 	{
 		mBall = new Ball (new Entity());
 		//set and add components to ball
-		Position initPos = new Position();
+		Position initPos = new Position(-100, 500, -100);
 		initPos.set(ballPos);
 		Vector3 bD = new Vector3(1, 0, 0), bW = new Vector3(0, 1, 0), bH = new Vector3(0, 0, 1);
 		Box ballBodyBox = BoxPool.getInstance().getInstance(new BoxParameter(bD, bW, bH));
@@ -143,6 +153,8 @@ public class GravityNormalForceTest
 			mVisualizer = new GameVisual();
 			mVisualizer.setEngine(mEngine);
 			mVisualizer.setTerrain(new TerrainData());
+			
+			
 		}
 
 
@@ -164,8 +176,9 @@ public class GravityNormalForceTest
 	public void updateEngine()
 	{
 		mEngine.update (DT);
-		if (VISUAL)
+		if (VISUAL)	{
 			mVisualizer.updateDisplay();
+		}
 	}
 
 	/**

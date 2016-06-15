@@ -260,12 +260,16 @@ public class TerrainGeometryCalc implements Serializable {
 				//Second Tetraeder CBFD
 				//Third Tetraeder BEFD
 
+
+				//TetraBuild = new TetrahedronBuilder(new Vector3[]{a,b,c,dNew});
 				TetraBuild = new TetrahedronBuilder(new Vector3[]{a,b,c});
-	    		TetraList[offset] = TetraBuild.build();
+				TetraList[offset] = TetraBuild.build();
 	    		
-	    		TetraBuild = new TetrahedronBuilder(new Vector3[]{c,b,dNew});
+	    		//TetraBuild = new TetrahedronBuilder(new Vector3[]{c,b,fNew,dNew});
+				TetraBuild = new TetrahedronBuilder(new Vector3[]{c,b,dNew});
 	    		TetraList[offset+1] = TetraBuild.build();
 	    		
+	    		//TetraBuild = new TetrahedronBuilder(new Vector3[]{b,eNew,fNew,dNew});
 	    		TetraBuild = new TetrahedronBuilder(new Vector3[]{b,fNew,dNew});
 	    		TetraList[offset+2] = TetraBuild.build();
 	    		offset+=3;

@@ -1,6 +1,8 @@
 package Entities;
 
 import com.badlogic.gdx.math.collision.BoundingBox;
+
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import ModelBuildComponents.TexturedModel;
@@ -52,6 +54,8 @@ public class gameEntity implements Serializable {
 	public void setPosition(Vector3f position) {
 		this.position = position;
 	}
+	
+	
 
 	public float getRotX() {
 		return rotX;

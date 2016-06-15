@@ -56,8 +56,10 @@ public class CollisionDetectionSystem extends EntitySystem
 		//detect collisions
 		mRepository.clear();
 		ArrayList<ColliderPair<ColliderEntity>> colliding = mDetect.getAnyColliding();
-		if (!colliding.isEmpty())
-			System.out.println ("detected a collision!");
+		if (!colliding.isEmpty())	{
+			if(mDebug)
+				System.out.println ("detected a collision!");
+		}
 		for(ColliderPair<ColliderEntity> pair:colliding){
 			mRepository.addColliderPair(pair);
 		}
@@ -91,5 +93,6 @@ public class CollisionDetectionSystem extends EntitySystem
 	/** detects collisions within the set of physics.entities */
 	private CollisionDetector mDetect;
 	private CollisionRepository mRepository;
+	private final boolean mDebug = true;
 
 }

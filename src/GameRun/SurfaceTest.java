@@ -3,19 +3,15 @@ package GameRun;
 import java.util.ArrayList;
 import java.util.Random;
 
-import Entities.*;
+
+import org.lwjgl.input.Keyboard;
+
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.badlogic.gdx.math.Vector3;
 
-import Entities.FollowCamera;
-import Entities.GolfBall;
-import Entities.Light;
-import Entities.Obstacle;
-import Entities.crate;
-import Entities.freeCamera;
-import Entities.gameEntity;
+import Entities.*;
 import LogicAndExtras.MousePicker;
 import ModelBuildComponents.ModelTexture;
 import ModelBuildComponents.RawModel;
@@ -40,9 +36,12 @@ public class SurfaceTest {
 			ArrayList<gameEntity> entities;
 			ArrayList<gameEntity> surrondings;
 			ArrayList<Terrain>terrains;
+			FollowCamera followCam;
 			freeCamera cam;
 			Light light;
-
+			boolean useFollow, targetingState;
+			Arrow Pfeil;
+			final static float targetYawAmount = 0.1f;
 			
 			
 			
@@ -101,6 +100,12 @@ public class SurfaceTest {
 				//System.out.println("ID: " + golfball.getModel().getRawModel().getID());
 				golfBalls.add(golfball);
 				//System.out.println("ID: " + entities.get(0));
+				
+				
+				Pfeil = new Arrow(new Vector3f(-500,13,-460), 1.5f);
+				targetingState = false;
+				//surrondings.add(Pfeil);
+				surrondings.add(Pfeil);
 			}
 			
 			public void displayAllEntites()	{
@@ -137,18 +142,60 @@ public class SurfaceTest {
 		    }
 		    
 		   public void setUpScene()	{
-			   cam = new freeCamera();
-			   //cam.setPosition(new Vector3f(4,20,-422));
-			   //cam.setPitch(25);
-			   
+			   useFollow = true;
+			   cam = new freeCamera(new Vector3f(4,20,-422));
+			   followCam = new FollowCamera(golfBalls.get(0));
+			  
 			   light = new Light(new Vector3f(20000,20000,2000),new Vector3f(1,1,1));
 		   }
+		   
+		   
 		    
 		   public void startGame()	{
 			   //displayAllEntites();
 			   
 			   while(!Display.isCloseRequested()){
-		           cam.move();
+				   if(useFollow == false)	{
+					   if(targetingState == false)
+						   cam.move();
+					}
+					else	{
+						if(targetingState == false)
+							followCam.move();
+						
+					}
+				   
+				   if(Keyboard.isKeyDown(Keyboard.KEY_DOWN) && 	targetingState)	{
+					   
+					   float currentAngle,yAngle,xAmount,zAmount,ytemp;
+					   yAngle = -(Pfeil.getRotY());
+					   
+					   System.out.println("Current Angle: " + yAngle);
+					   if(yAngle >= 0.0f && 90 > yAngle)	{
+						   System.out.println("Angle between 0 and 90");
+						   //fist case : angle between 0 - 90
+						   zAmount = (yAngle / 90);
+						   xAmount = (90 - yAngle) / 90;
+					   }
+					   else	{
+						   System.out.println("Angle is not greater equal to 0 and lesser 90");
+						   xAmount = 0;
+						   zAmount =0;
+					   }
+					   
+					   
+					   System.out.println("xAmount: " + xAmount + "\nzAmount: " + zAmount);
+					   Pfeil.setRotX(Pfeil.getRotX() + targetYawAmount * xAmount);
+					   Pfeil.setRotZ(Pfeil.getRotZ() + targetYawAmount * zAmount);
+					   System.out.println("new xAmount: " + Pfeil.getRotX() + "\nnew yAmount: " + Pfeil.getRotZ() + "\n");
+				   }
+				   if(Keyboard.isKeyDown(Keyboard.KEY_UP) && targetingState)	{
+					   float currentAngle = Pfeil.getRotX();
+					   //System.out.println("Current Angle: " + currentAngle);
+					   if(currentAngle < 0)	{
+						   Pfeil.setRotX(currentAngle + 0.1f);
+					   }
+				   }
 		           
 		           for(gameEntity plant:surrondings)	{
 		        	   renderer.processEntity(plant);
@@ -165,12 +212,43 @@ public class SurfaceTest {
 		        	   renderer.processEntity(ball);
 		           }
 		           
+		           
+		           
 		           for(Terrain terra : terrains)	{
 		        	   renderer.processTerrain(terra);
 		           }
 		           
 		           
-		           renderer.render(light, cam);
+		           if(useFollow == false)	{
+		         	   renderer.render(light, cam);
+		            }
+		            else	{
+		         	   renderer.render(light, followCam);
+		         	   renderer.processEntity(Pfeil);
+		         	   Pfeil.setRotY(-(followCam.getYaw() - 180));
+		         	   //System.out.println("Yaw: " + followCam.getYaw());
+		            }
+		            
+		            if(Keyboard.isKeyDown(Keyboard.KEY_TAB))	{
+		         	   if(useFollow == false)
+		         		   useFollow = true;
+		         	   else
+		         		   useFollow = false;
+		            }
+		           
+		            if(Keyboard.isKeyDown(Keyboard.KEY_RETURN) && !targetingState)	{
+		            	targetingState = true;
+		            	System.out.println("Targeting State entered");
+		            }
+		            if(Keyboard.isKeyDown(Keyboard.KEY_MINUS) && targetingState)	{
+		            	Pfeil.setRotY(-(followCam.getYaw() - 180));
+		            	targetingState = false;
+		            	Pfeil.setRotX(0);
+		            	Pfeil.setRotZ(0);
+		            	System.out.println("Returning to normal targeting");
+		            }
+		           
+		            
 		           DisplayManager.updateDisplay();
 		       }
 
