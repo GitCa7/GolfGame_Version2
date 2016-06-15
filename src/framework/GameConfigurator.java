@@ -271,9 +271,8 @@ public class GameConfigurator
         //set default parameters of component factories for balls we dont need to change
         ballVelocityFactory.setVector(new Vector3());
         ballForceFactory.setVector(new Vector3());
-        ballGravityFactory.setParameter(new Vector3());
         ballFrictionFactory.setParameter(PhysicsCoefficients.STATIC_FRICTION, PhysicsCoefficients.DYNAMIC_FRICTION, 0, 0);
-        ballGravityFactory.setParameter(new Vector3 (0, 0, -PhysicsCoefficients.GRAVITY_EARTH));
+        ballGravityFactory.setParameter(new Vector3 (0, -PhysicsCoefficients.GRAVITY_EARTH, 0));
         //construct ball component bundles
         ComponentBundle ballPosition = new ComponentBundle(mBallPositionFactory);
         ComponentBundle ballVelocity = new ComponentBundle(ballVelocityFactory, movementFactory);
