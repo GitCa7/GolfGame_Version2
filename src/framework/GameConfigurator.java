@@ -39,6 +39,7 @@ public class GameConfigurator
 
         mBallFactory = new EntityFactory(mSystemsTracker);
         mPlayerFactory = new EntityFactory(mSystemsTracker);
+        mObstacleFactory = new EntityFactory(mSystemsTracker);
 
         mBallPositionFactory = new PositionFactory();
         mBallMassFactory = new MassFactory();
