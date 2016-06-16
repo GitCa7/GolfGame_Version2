@@ -81,7 +81,7 @@ public class MListener extends InputAdapter {
             if(picker.getCurrentTerrainPoint()!=null) {
                 Vector3f pos = picker.getCurrentTerrainPoint();
                 GolfBall ball = new GolfBall(pos, 5);
-                instances.add(ball);
+                balls.add(ball);
             }
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.Z)){

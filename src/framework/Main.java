@@ -79,6 +79,7 @@ public class Main
      */
     public void run()
     {
+        mVisual.startDisplay();
         Vector3 defaultHit = new Vector3(50, 25, 0);
 
         Player active = mGame.getCurrentPlayers().get(0);

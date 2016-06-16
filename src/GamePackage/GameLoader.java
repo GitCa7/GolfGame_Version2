@@ -2,6 +2,7 @@ package GamePackage;
 
 import Editor.Course;
 import Editor.CourseLoader;
+import Editor.ObstacleDat;
 import Entities.gameEntity;
 import TerrainComponents.PointNode;
 import TerrainComponents.TerrainData;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import framework.Game;
 import framework.GameConfigurator;
 import org.lwjgl.util.vector.Vector3f;
+import physics.geometry.planar.Triangle;
 import physics.geometry.spatial.*;
 import physics.geometry.spatial.Box;
 
@@ -18,33 +20,32 @@ import java.util.ArrayList;
 
 public class GameLoader {
 	TerrainData tdata;
-	ArrayList<gameEntity> entities;
+	ArrayList<ObstacleDat> obstacles;
 	Course toPlay;
 	ArrayList<Vector3f> ballPos;
 	Vector3f holePos;
 
 	public Game loadConfig(String name)	{
 		toPlay = CourseLoader.loadCourse(name);
-		entities = toPlay.getEntities();
+		obstacles = toPlay.getObs();
 		tdata = toPlay.getTerrain();
 		ballPos = toPlay.getBallPos();
 		holePos = toPlay.getHolePos();
 
-		Vector3[][] params = new Vector3[entities.size()][3];
-		Box[] boxes = new Box[entities.size()];
-		Vector3[] positions = new Vector3[entities.size()];
-		for (int i=0;i<entities.size();i++){
-			params[i][0]=new Vector3(0,entities.get(i).scale,0);
-			Vector3 tmpx = new Vector3(entities.get(i).scale,0,0);
-			Vector3 tmpz = new Vector3(0,0,entities.get(i).scale);
+		Vector3[][] params = new Vector3[obstacles.size()][3];
+		Box[] boxes = new Box[obstacles.size()];
+		Vector3[] positions = new Vector3[obstacles.size()];
+		for (int i=0;i<obstacles.size();i++){
+			params[i][0]=new Vector3(0,obstacles.get(i).getScale(),0);
+			Vector3 tmpx = new Vector3(obstacles.get(i).getScale(),0,0);
+			Vector3 tmpz = new Vector3(0,0,obstacles.get(i).getScale());
 
-			params[i][1]=tmpx.rotate(entities.get(i).getRotY(),0,1,0);
-			params[i][2]=tmpz.rotate(entities.get(i).getRotY(),0,1,0);
+			params[i][1]=tmpx.rotate(obstacles.get(i).getRotY(),0,1,0);
+			params[i][2]=tmpz.rotate(obstacles.get(i).getRotY(),0,1,0);
 
 			BoxParameter tmp=new BoxParameter(params[i]);
 			boxes[i]=tmp.instantiate();
-			Vector3f a  = entities.get(i).getPosition();
-			positions[i] = new Vector3(a.x,a.y,a.z) ;
+			positions[i] = obstacles.get(i).getPos();
 		}
 
 		GameConfigurator config = new GameConfigurator();
@@ -59,15 +60,13 @@ public class GameLoader {
 
 		Vector3 pos = new Vector3(holePos.x,holePos.y,holePos.z);
 		config.setHole(pos,20);
-
+		System.out.println(ballPos.size());
 		for(int i=0;i<ballPos.size();i++) {
 			String pName = JOptionPane.showInputDialog("Player "+i+" Name?");
-			config.addPlayerAndBall(pName, entities.get(i).getScale(), 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y, ballPos.get(i).z));
+			config.addPlayerAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y, ballPos.get(i).z));
 		}
-		ArrayList<Vector3> tmp = new ArrayList<>();
-		for(PointNode a:tdata.getLeafs()) {
-			tmp.add(new Vector3(a.getCoordinates().x,a.getCoordinates().y,a.getCoordinates().z));
-		}
+		TerrainGeometryCalc calc =  new TerrainGeometryCalc();
+		ArrayList<Triangle> tmp = calc.getAllTris(tdata);
 		config.setTerrain(tmp);
 		return config.game();
 	}

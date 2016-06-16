@@ -44,7 +44,6 @@ public class Editor implements ApplicationListener {
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         new LwjglApplication(new Editor(), config);
-
     }
 
     @Override
@@ -193,12 +192,20 @@ public class Editor implements ApplicationListener {
     public void dispose() {
         renderer.cleanUp();
         loader.cleanUp(); //To change body of generated methods, choose Tools | Templates.
+        Gdx.gl.glFlush();
+        Gdx.app.exit();
+
+
     }
 
     public void save() {
         ArrayList<Vector3f> tmp = new ArrayList<>();
         for(GolfBall a:mouse.balls()){
             tmp.add(a.getPosition());
+        }
+        ArrayList<ObstacleDat> obdat = new ArrayList<>();
+        for(gameEntity a:mouse.entities()){
+            obdat.add(a.toData());
         }
         String name = JOptionPane.showInputDialog("Course Name?");
         Course toSave = new Course(terrain.toData(), mouse.entities(), tmp, new Vector3f(-50, 0, -50),name);
@@ -227,6 +234,8 @@ public class Editor implements ApplicationListener {
                 System.out.println("[Update] Error: " + e2.getMessage());
             }
         }
+
+        this.dispose();
     }
 }
 

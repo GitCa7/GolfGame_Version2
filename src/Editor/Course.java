@@ -13,12 +13,12 @@ import java.util.ArrayList;
  */
 public class Course implements Serializable {
     TerrainData terrain;
-    ArrayList<gameEntity> entities;
+    ArrayList<ObstacleDat> entities;
     String name;
     ArrayList<Vector3f> ballPos;
     Vector3f holePos;
 
-    public Course(TerrainData terrain, ArrayList<gameEntity> entities, ArrayList<Vector3f> a, Vector3f b, String name){
+    public Course(TerrainData terrain, ArrayList<ObstacleDat> entities, ArrayList<Vector3f> a, Vector3f b, String name){
         this.terrain = terrain;
         this.entities = entities;
         ballPos =a;
@@ -34,7 +34,7 @@ public class Course implements Serializable {
         return terrain;
     }
 
-    public ArrayList<gameEntity> getEntities(){
+    public ArrayList<ObstacleDat> getObs(){
         return entities;
     }
 
