@@ -74,7 +74,7 @@ public class Editor implements ApplicationListener {
         if (first) {
             ObjectOutputStream outputStream = null;
             try {
-                Course tmp = new Course(null,null,null,null,"null");
+                Course tmp = new Course(null,null,null,null,null,"null");
                 ArrayList<Course> courses = new ArrayList<Course>();
                 courses.add(tmp);
                 System.out.println("yt");
@@ -200,15 +200,17 @@ public class Editor implements ApplicationListener {
 
     public void save() {
         ArrayList<Vector3f> tmp = new ArrayList<>();
+        ArrayList<Boolean> tmp2 = new ArrayList<>();
         for(GolfBall a:mouse.balls()){
             tmp.add(a.getPosition());
+            tmp2.add(a.isBot());
         }
         ArrayList<ObstacleDat> obdat = new ArrayList<>();
         for(gameEntity a:mouse.entities()){
             obdat.add(a.toData());
         }
         String name = JOptionPane.showInputDialog("Course Name?");
-        Course toSave = new Course(terrain.toData(), mouse.entities(), tmp, new Vector3f(-50, 0, -50),name);
+        Course toSave = new Course(terrain.toData(), obdat, tmp,tmp2, mouse.hole.getPosition(),name);
         System.out.println(toSave.getName()) ;
         ObjectInputStream inputStream = null;
         ObjectOutputStream outputStream = null;

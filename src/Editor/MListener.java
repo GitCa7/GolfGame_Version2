@@ -2,7 +2,11 @@ package Editor;
 
 import Entities.*;
 import LogicAndExtras.MousePicker;
+import ModelBuildComponents.ModelTexture;
+import ModelBuildComponents.RawModel;
+import ModelBuildComponents.TexturedModel;
 import RenderComponents.Loader;
+import RenderComponents.OBJLoader;
 import TerrainComponents.Terrain;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -78,10 +82,21 @@ public class MListener extends InputAdapter {
             }
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.B)){
-            if(picker.getCurrentTerrainPoint()!=null) {
-                Vector3f pos = picker.getCurrentTerrainPoint();
-                GolfBall ball = new GolfBall(pos, 5);
-                balls.add(ball);
+            if(button==Input.Buttons.LEFT) {
+                if (picker.getCurrentTerrainPoint() != null) {
+                    Vector3f pos = picker.getCurrentTerrainPoint();
+                    GolfBall ball = new GolfBall(pos, 5, false);
+                    balls.add(ball);
+                }
+            }else{
+                if (picker.getCurrentTerrainPoint() != null) {
+                    Vector3f pos = picker.getCurrentTerrainPoint();
+                    GolfBall ball = new GolfBall(pos, 5, true);
+                    RawModel model = OBJLoader.loadObjModel("golfBallblend", loader);
+                    TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("sand2")));
+                    ball.setModel(staticModel);
+                    balls.add(ball);
+                }
             }
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.Z)){

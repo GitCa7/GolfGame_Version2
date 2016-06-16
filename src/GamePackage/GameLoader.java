@@ -21,12 +21,14 @@ import java.util.ArrayList;
 public class GameLoader {
 	TerrainData tdata;
 	ArrayList<ObstacleDat> obstacles;
+	ArrayList<Boolean> bots;
 	Course toPlay;
 	ArrayList<Vector3f> ballPos;
 	Vector3f holePos;
 
 	public Game loadConfig(String name)	{
 		toPlay = CourseLoader.loadCourse(name);
+		bots=toPlay.getBots();
 		obstacles = toPlay.getObs();
 		tdata = toPlay.getTerrain();
 		ballPos = toPlay.getBallPos();
@@ -63,7 +65,11 @@ public class GameLoader {
 		System.out.println(ballPos.size());
 		for(int i=0;i<ballPos.size();i++) {
 			String pName = JOptionPane.showInputDialog("Player "+i+" Name?");
-			config.addPlayerAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y, ballPos.get(i).z));
+			if(bots.get(i)){
+				config.addBotAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y, ballPos.get(i).z));
+			}else {
+				config.addHumanAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y, ballPos.get(i).z));
+			}
 		}
 		TerrainGeometryCalc calc =  new TerrainGeometryCalc();
 		ArrayList<Triangle> tmp = calc.getAllTris(tdata);
@@ -73,9 +79,15 @@ public class GameLoader {
 	
 	public GameVisual loadVisual(Game game){
 		GameVisual visual  = new GameVisual();
-		visual.setTerrain(tdata);
-		visual.setEntities(entities);
 		visual.setBalls(ballPos);
+		visual.setTerrain(tdata);
+		//visual.startDisplay();
+		ArrayList<gameEntity> entities = new ArrayList<>();
+		for(ObstacleDat a:obstacles){
+			entities.add(a.toObstacle());
+		}
+		visual.setEntities(entities);
+
 		visual.setEngine(game.getEnigine());
 		return visual;
 	}

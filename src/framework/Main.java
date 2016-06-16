@@ -1,16 +1,12 @@
 package framework;
 
-import Editor.Course;
-import Editor.CourseLoader;
 import Editor.Editor;
 import GamePackage.GameLoader;
 import GamePackage.GameVisual;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.math.Vector3;
-import framework.constants.CompoMappers;
 import framework.entities.Player;
-import framework.testing.MockLoader;
 import framework.testing.MockMainMenu;
 import physics.components.Position;
 import physics.components.Velocity;
