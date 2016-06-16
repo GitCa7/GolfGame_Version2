@@ -1,5 +1,6 @@
 package physics.testing;
 
+import Entities.Arrow;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
@@ -7,6 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 import GamePackage.GameVisual;
 import TerrainComponents.TerrainData;
 
+import org.lwjgl.util.vector.Vector3f;
 import physics.collision.CollisionRepository;
 import physics.components.*;
 import physics.constants.CompoMappers;
@@ -25,7 +27,7 @@ public class MovementTest
 	public static void main (String[] args)
 	{
 
-		Vector3 initBallPos = new Vector3(0, 0, 0);
+		Vector3 initBallPos = new Vector3(-100, 0,-100);
 		MovementTest test = new MovementTest (initBallPos);
 		Vector3 hitForce = new Vector3 (-800, 0, -800);
 
@@ -83,7 +85,9 @@ public class MovementTest
 		//set and add components to ball
 		Position initPos = new Position();
 		initPos.set(ballPos);
-		
+
+
+
 		Vector3 bD = new Vector3(1, 0, 0), bW = new Vector3(0, 1, 0), bH = new Vector3(0, 0, 1);
 		Box ballBodyBox = BoxPool.getInstance().getInstance(new BoxParameter(bD, bW, bH));
 		Body ballBody = new Body();
@@ -192,8 +196,8 @@ public class MovementTest
 	{
 		mVisualizer.endDisplay();
 	}
-	
-	
+
+
 	public GameVisual mVisualizer;
 	private Ball mBall;
 	private Engine mEngine;

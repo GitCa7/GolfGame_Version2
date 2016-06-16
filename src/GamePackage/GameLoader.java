@@ -64,11 +64,11 @@ public class GameLoader {
 			String pName = JOptionPane.showInputDialog("Player "+i+" Name?");
 			config.addPlayerAndBall(pName, entities.get(i).getScale(), 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y, ballPos.get(i).z));
 		}
-		ArrayList<Vector3f> tmp = new ArrayList<>();
+		ArrayList<Vector3> tmp = new ArrayList<>();
 		for(PointNode a:tdata.getLeafs()) {
-			tmp.add(a.g)
+			tmp.add(new Vector3(a.getCoordinates().x,a.getCoordinates().y,a.getCoordinates().z));
 		}
-		config.setTerrain(tdata.getLeafs());
+		config.setTerrain(tmp);
 		return config.game();
 	}
 	
