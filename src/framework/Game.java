@@ -194,15 +194,6 @@ public class Game
 	 */
 	private void init()
 	{
-		//internal systems
-		ActiveSystem activeSystem = new ActiveSystem();
-		BusySystem busySystem = new BusySystem();
-		mEngine.addSystem (activeSystem);
-		mEngine.addSystem (busySystem);
-		//add entity listeners for systems added
-		mEngine.addEntityListener (new EntityListener (activeSystem));
-		mEngine.addEntityListener (new EntityListener (busySystem));
-		
 		//internal components of global state
 		Active active = new Active();
 		Busy busy = new Busy();
@@ -212,8 +203,20 @@ public class Game
 
 		mGlobalState.add(active);
 		mGlobalState.add (busy);
-		
-		
+		mEngine.addEntity(mGlobalState);
+
+		//internal systems
+		ActiveSystem activeSystem = new ActiveSystem();
+		BusySystem busySystem = new BusySystem();
+
+		activeSystem.setPriority(1000);
+		busySystem.setPriority(1001);
+
+		mEngine.addSystem (activeSystem);
+		mEngine.addSystem (busySystem);
+		//add entity listeners for systems added
+		mEngine.addEntityListener (new EntityListener (activeSystem));
+		mEngine.addEntityListener (new EntityListener (busySystem));
 	}
 
 	private Engine mEngine;

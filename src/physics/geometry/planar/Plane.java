@@ -31,8 +31,8 @@ public class Plane
 			{
 				Vector3 diffVec = points[cVec].cpy().sub (points[0]);
 				//cosine of angle between indep[0] and diffVec
-				double cosAngle = indep[0].dot (diffVec) / (indep[0].len() * diffVec.len());
-				if (!GlobalObjects.ROUND.epsilonEquals (cosAngle, 1f))
+				float eps = (float) GlobalObjects.ROUND.getEpsilon();
+				if (!diffVec.isOnLine(indep[0], eps))
 				{
 					indep[1] = diffVec;
 					return indep;
@@ -71,7 +71,10 @@ public class Plane
 
 		//if points lie on a line
 		if (indep[1] == null)
-			throw new IllegalArgumentException ("points lie on a line/are identical");
+		{
+			getTwoLinearlyIndependent(points);
+			throw new IllegalArgumentException("points lie on a line/are identical");
+		}
 
 		mOffset = points[0];
 		setNormal (indep[0], indep[1]);

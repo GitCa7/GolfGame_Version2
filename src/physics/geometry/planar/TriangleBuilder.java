@@ -14,7 +14,7 @@ public class TriangleBuilder
      * parametric constructor
      * @param vertices vertices to build triangles from
      */
-    public TriangleBuilder (Vector3[] vertices)
+    public TriangleBuilder (Vector3... vertices)
     {
         mVertices = vertices;
 

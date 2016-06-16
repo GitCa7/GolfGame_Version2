@@ -74,7 +74,6 @@ public class GoalSystem extends EntitySystem
     {
         for (Entity e : entities())
         {
-            System.out.println ("updating an entity for goal");
             Goal goal = CompoMappers.GOAL.get(e);
             Body body = physics.constants.CompoMappers.BODY.get(e);
             Velocity v = physics.constants.CompoMappers.VELOCITY.get(e);

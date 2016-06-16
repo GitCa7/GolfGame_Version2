@@ -16,11 +16,23 @@ import java.util.HashSet;
 public class ActiveSystem extends EntitySystem
 {
 
+    public ActiveSystem()
+    {
+        mTurnTaking = new HashSet<>();
+    }
+
+    public ActiveSystem clone()
+    {
+        return new ActiveSystem();
+    }
 
     public void addedToEngine (Engine e)
     {
         for (Entity add : e.getEntitiesFor(Families.GLOBAL_STATE))
             entities().add (add);
+
+        for (Entity add : e.getEntitiesFor(Families.TURN_TAKING))
+            mTurnTaking.add (add);
     }
 
     @Override

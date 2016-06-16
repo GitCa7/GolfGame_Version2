@@ -34,17 +34,14 @@ public abstract class PlayerObserver implements GameObserver
         if (mMatchingPlayer == null)
             throw new IllegalStateException("player observer was used before player was set!");
 
-        Player current = state.getCurrentPlayers().get(0);
-        if (mMatchingPlayer.equals(current))
+        if (!state.isBusy())
         {
-            if (!mTurn)
+            Player current = state.getCurrentPlayers().get(0);
+            if (mMatchingPlayer.equals(current))
             {
-                mTurn = true;
                 state.hit(mMatchingPlayer, getForce(state));
             }
         }
-        else
-            mTurn = false;
     }
 
     /**
