@@ -174,7 +174,7 @@ public class GameConfigurator
      */
     public void setTerrain(Collection<Vector3> terrainPoints)
     {
-        Triangle[] triangleArray = meshTriangles.toArray(new Triangle[meshTriangles.size()]);
+        Triangle[] triangleArray = terrainPoints.toArray(new Triangle[terrainPoints.size()]);
         TerrainTetrahedronBuilder tetBuilder = new TerrainTetrahedronBuilder(triangleArray);
 
         mObstacleBodyFactory.clear();
