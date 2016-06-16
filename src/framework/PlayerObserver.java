@@ -40,6 +40,11 @@ public abstract class PlayerObserver implements GameObserver
      */
     public abstract  Vector3 getForce(Game state);
 
+    /**
+     * @return the player on whose behalf this object observes the game
+     */
+    protected Player getPlayer() { return mMatchingPlayer; }
+
     /** store the matching player */
     private Player mMatchingPlayer;
     /** store whether it was this player's turn at the previous update already */
