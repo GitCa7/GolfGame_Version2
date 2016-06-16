@@ -6,12 +6,14 @@
 		- simple bounding boxes
 		- sorted bounding boxes
 		- octtree
-	- mention: almost everything self-written
+	- mention: almost everything self-written (i.e. geometric classes)
 - architecture
 	- model-view-controller	
+	- aim: interchangeable set of operations
 	- use entity-component-system framework
 	- implemented own components, own systems
-	- show usual chain of execution: collision detection, compute & apply forces, update velocity, update position (rounding happens here!)
+	- show top-level uml of last presentation
+	- show usual chain of execution: collision detection, compute & apply forces, update velocity, update position (rounding happens 
 - known problems
 	- tunneling
 	- ball remains within obstacle
