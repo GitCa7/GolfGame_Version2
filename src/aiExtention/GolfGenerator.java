@@ -42,6 +42,12 @@ public class GolfGenerator extends NodeGenerator<GolfState, GolfAction> {
 
 	private void applyAction(GolfState childState, GolfAction anAction) {
 
+
+
+
+
+
+
 		// moveManager.addEntity(childState.getBall());
 		// System.out.println(childState.getBall());
 		// Vector3 forceAplly = forceGenerator.generateRandomForce();

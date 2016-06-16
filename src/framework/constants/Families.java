@@ -23,4 +23,6 @@ public class Families
     public static Family OWNED = Family.all(Ownership.class).get();
     /** family of entities set to reach a goal */
     public static Family GOAL_SEEKING = Family.all(Goal.class, Body.class, Position.class, Velocity.class).get();
+    /** family of entities being possibly modified */
+    public static Family MODIFIABLE = Family.one(Velocity.class, Busy.class, Active.class, Turn.class).get();
 }

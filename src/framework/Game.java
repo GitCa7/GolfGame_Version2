@@ -48,6 +48,16 @@ public class Game
 	public Engine getEnigine(){
 		return mEngine;
 	}
+
+	/**
+	 * @param simulationPlayer the player accessing the simulation
+	 * @return a simulation for simulationPlayer
+     */
+	public SimulatedGame getGameSimulation(Player simulationPlayer)
+	{
+		return new SimulatedGame(mEngine, getBall(simulationPlayer));
+	}
+
 	/**
 	 *
 	 * @return the player whose turn it currently is. This comprises also the period during which the simulation is running following
