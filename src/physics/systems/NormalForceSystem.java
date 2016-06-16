@@ -3,6 +3,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.*;
 import framework.EntitySystem;
+import framework.testing.RepositoryEntitySystem;
 import physics.collision.*;
 import physics.components.Force;
 import physics.constants.CompoMappers;
@@ -21,13 +22,18 @@ import java.util.ArrayList;
  * @author martin
  */
 
-public class NormalForceSystem extends EntitySystem
+public class NormalForceSystem extends EntitySystem  implements RepositoryEntitySystem
 {
     public NormalForceSystem()
     {
         mRepo = null;
     }
 
+
+    public NormalForceSystem clone()
+    {
+        return new NormalForceSystem();
+    }
 
     public void addEntity (Entity add)
     {

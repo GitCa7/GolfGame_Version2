@@ -1,6 +1,7 @@
 package physics.systems;
 import com.badlogic.ashley.core.*;
 import com.badlogic.gdx.math.*;
+import framework.testing.RepositoryEntitySystem;
 import physics.collision.*;
 import physics.components.Friction;
 import physics.components.Velocity;
@@ -25,7 +26,7 @@ import java.util.HashSet;
         repository => normal force system
         */
 
-public class CollisionImpactSystem extends framework.EntitySystem
+public class CollisionImpactSystem extends framework.EntitySystem implements RepositoryEntitySystem
 {
     /*
     In general: How does this system interact with the collisionImpactSystem and the CollisionComputer, what does the Collisions Computer do?
@@ -34,6 +35,12 @@ public class CollisionImpactSystem extends framework.EntitySystem
 
     public CollisionImpactSystem(){
         mActive = new HashSet<>();
+    }
+
+
+    public CollisionImpactSystem clone()
+    {
+        return new CollisionImpactSystem();
     }
 
     public void setRepository(CollisionRepository repository){

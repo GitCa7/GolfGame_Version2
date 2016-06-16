@@ -28,6 +28,11 @@ public class GoalSystem extends EntitySystem
 
     }
 
+    public GoalSystem clone()
+    {
+        return new GoalSystem();
+    }
+
     @Override
     public void addEntity(Entity e)
     {

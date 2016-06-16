@@ -27,6 +27,12 @@ public class TurnSystem extends EntitySystem
         mMoving = new HashSet<>();
     }
 
+
+    public TurnSystem clone()
+    {
+        return new TurnSystem();
+    }
+
     public void addedToEngine (Engine e)
     {
         for (Entity add : e.getEntitiesFor(Families.OWNED))

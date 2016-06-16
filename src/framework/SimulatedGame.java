@@ -3,10 +3,14 @@ package framework;
 import com.badlogic.ashley.core.*;
 import com.badlogic.gdx.math.Vector3;
 import framework.internal.components.Busy;
+import framework.testing.RepositoryEntitySystem;
+import physics.collision.CollisionRepository;
 import physics.components.Force;
 import physics.constants.CompoMappers;
 import physics.constants.Families;
 import physics.entities.Ball;
+
+import java.util.ArrayList;
 
 /**
  * Class cloning a game based on its engine.
@@ -113,11 +117,17 @@ public class SimulatedGame
      */
     private void setSystems(Engine original)
     {
+        CollisionRepository repo = new CollisionRepository();
+
         for (com.badlogic.ashley.core.EntitySystem entitySystem : original.getSystems())
         {
             EntitySystem system = ((EntitySystem) entitySystem).clone();
             mEngine.addSystem(system);
             mEngine.addEntityListener(system.getNewEntitiesListener());
+
+            //@TODO ugly RTTI, FIX!!!
+            if (RepositoryEntitySystem.class.isAssignableFrom(system.getClass()))
+                ((RepositoryEntitySystem) system).setRepository(repo);
         }
     }
 

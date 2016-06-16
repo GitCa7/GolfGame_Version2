@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 
 import framework.EntitySystem;
+import framework.testing.RepositoryEntitySystem;
 import physics.collision.ColliderClosestSideFinder;
 import physics.collision.ColliderEntity;
 import physics.collision.ColliderPair;
@@ -24,15 +25,20 @@ import physics.geometry.planar.Plane;
  * System applying the impact of friction to the velocities of entities affected
  * @author martin
  */
-public class FrictionSystem extends EntitySystem
+public class FrictionSystem extends EntitySystem implements RepositoryEntitySystem
 {
-	//@TODO check whether normal force exists (collision checking)
 	
 	public FrictionSystem()
 	{
 		mRepo = null;
 	}
-	
+
+
+	public FrictionSystem clone()
+	{
+		return new FrictionSystem();
+	}
+
 	public void addedToEngine(Engine e)
 	{
 		

@@ -27,7 +27,13 @@ public class Movement extends EntitySystem
 	{
 		
 	}
-	
+
+
+	public Movement clone()
+	{
+		return new Movement();
+	}
+
 	/**
 	 * @param e engine to which this was added
 	 * adds all moveable physics.entities of e to this system
