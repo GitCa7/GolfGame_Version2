@@ -20,9 +20,12 @@ public class Ownership implements Component
         mOwner = owner;
     }
 
+    /**
+     * @return a new ownership component whose owner is set to null. Needs to be set manually.
+     */
     public Ownership clone()
     {
-        throw new UnsupportedOperationException("cloneing ownership not yet supported");
+        return new Ownership(null);
     }
 
 
