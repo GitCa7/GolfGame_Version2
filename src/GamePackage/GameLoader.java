@@ -64,9 +64,9 @@ public class GameLoader {
 			String pName = JOptionPane.showInputDialog("Player "+i+" Name?");
 			config.addPlayerAndBall(pName, entities.get(i).getScale(), 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y, ballPos.get(i).z));
 		}
-		ArrayList<>
+		ArrayList<Vector3f> tmp = new ArrayList<>();
 		for(PointNode a:tdata.getLeafs()) {
-
+			tmp.add(a.g)
 		}
 		config.setTerrain(tdata.getLeafs());
 		return config.game();
