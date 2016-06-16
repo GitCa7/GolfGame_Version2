@@ -14,7 +14,16 @@ import physics.entities.Ball;
 public abstract class PlayerObserver implements GameObserver
 {
 
-    public PlayerObserver(Player match)
+    public PlayerObserver()
+    {
+        mTurn = false;
+    }
+
+    /**
+     * sets the player to match to match
+     * @param match player to do input for
+     */
+    public void setMatchingPlayer(Player match)
     {
         mMatchingPlayer = match;
         mTurn = false;
@@ -22,6 +31,9 @@ public abstract class PlayerObserver implements GameObserver
 
     public void update(Game state)
     {
+        if (mMatchingPlayer == null)
+            throw new IllegalStateException("player observer was used before player was set!");
+
         Player current = state.getCurrentPlayers().get(0);
         if (mMatchingPlayer.equals(current))
         {
@@ -39,6 +51,11 @@ public abstract class PlayerObserver implements GameObserver
      * @return the force the player wishes to apply to the ball
      */
     public abstract  Vector3 getForce(Game state);
+
+    /**
+     * @return the player on whose behalf this object observes the game
+     */
+    protected Player getPlayer() { return mMatchingPlayer; }
 
     /** store the matching player */
     private Player mMatchingPlayer;
