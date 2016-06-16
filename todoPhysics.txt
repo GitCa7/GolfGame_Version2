@@ -62,8 +62,8 @@ test tetrahedron intersection (x)
 test sphere tetrahedrizer	(x)
 use sphere tetrahedrizer in game configurator (~14.06)
 
-describe physics already implemented in report 
-isolate topics relevant for presentation
+describe physics already implemented in report (x)
+isolate topics relevant for presentation	(x)
 make presentation (~15.06)
 
 choose method for differential equations
