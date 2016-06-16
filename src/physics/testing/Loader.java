@@ -1,5 +1,7 @@
 package physics.testing;
 
+import com.badlogic.gdx.math.Vector3;
+
 import framework.ComponentBundle;
 import framework.GameConfigurator;
 import framework.components.*;

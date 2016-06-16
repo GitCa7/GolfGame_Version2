@@ -137,7 +137,7 @@ public class SurfaceTest {
 			   	terrains.add(terra);
 			  
 		    	
-		    	//terrains[0][0].getAllTetrahedons();
+		    	
 		    }
 		    
 		   public void setUpScene()	{

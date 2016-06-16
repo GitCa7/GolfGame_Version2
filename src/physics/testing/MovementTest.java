@@ -28,6 +28,7 @@ public class MovementTest
 	{
 
 		Vector3 initBallPos = new Vector3(-100, 0,-100);
+
 		MovementTest test = new MovementTest (initBallPos);
 		Vector3 hitForce = new Vector3 (-800, 0, -800);
 
@@ -51,14 +52,7 @@ public class MovementTest
 			
 		}
 
-/*
-		test.hitBall(hitForce);
-		for (int cnt = 0; cnt < iterations; ++cnt)
-		{
-			test.updateEngine();
-			test.printBallPosition();
-		}
-*/
+
 		test.close();
 	}
 
