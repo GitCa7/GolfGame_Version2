@@ -21,11 +21,6 @@ import searchTree.TreeNode;
 public class BotObserver extends PlayerObserver
 {
 
-    public BotObserver(Player match)
-    {
-        super(match);
-    }
-
     @Override
     public Vector3 getForce(Game state)
     {
