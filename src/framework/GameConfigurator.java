@@ -1,6 +1,7 @@
 package framework;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 import framework.components.*;
 import framework.entities.Player;
@@ -8,6 +9,7 @@ import framework.systems.EntityListener;
 import framework.systems.GoalSystemFactory;
 import framework.systems.TurnSystemFactory;
 import physics.collision.CollisionRepository;
+import physics.collision.TerrainTetrahedronBuilder;
 import physics.components.*;
 import physics.constants.PhysicsCoefficients;
 import physics.entities.Ball;
@@ -28,6 +30,7 @@ import java.util.HashMap;
  */
 public class GameConfigurator
 {
+
 	/**
 	 * constructs game configurator using a new engine with an empty map of balls, no hole set and no physics.systems stored
 	 */
@@ -140,7 +143,7 @@ public class GameConfigurator
         for (SolidTranslator bodyPart : bodySolids)
                 mObstacleBodyFactory.addSolid(bodyPart);
 
-
+        mEngine.addEntity(mObstacleFactory.produce());
     }
 
     /**
@@ -167,12 +170,36 @@ public class GameConfigurator
     /**
      * Constructs a new obstacle for the terrain within the given area. This will transform the given mesh triangles
      * into tetrahedra used for collision checking.
-     * @param meshTriangles a collection of triangles approximating the surface of the terrain.
+     * @param terrainPoints a collection of triangles approximating the surface of the terrain.
      */
-    public void setTerrain(Collection<Triangle> meshTriangles)
+    public void setTerrain(Collection<Vector3> terrainPoints)
     {
-        //@TODO implement terrain setting
-        throw new UnsupportedOperationException("the terrain is not yet relevant and thus not implemented");
+        Triangle[] triangleArray = meshTriangles.toArray(new Triangle[meshTriangles.size()]);
+        TerrainTetrahedronBuilder tetBuilder = new TerrainTetrahedronBuilder(triangleArray);
+
+        mObstacleBodyFactory.clear();
+
+        Vector3 minTerrainPosition = null;
+        float minTerrainDistance = Float.MAX_VALUE;
+
+        for (SolidTranslator tetrahedron : tetBuilder.build(PhysicsCoefficients.TERRAIN_THICKNESS))
+        {
+            //add tetrahedron to body
+            mObstacleBodyFactory.addSolid(tetrahedron);
+            //compare & update minimum offset
+            float offsetDistance = tetrahedron.getPosition().dot(tetrahedron.getPosition());
+            if (minTerrainDistance > offsetDistance)
+            {
+                minTerrainDistance = offsetDistance;
+                minTerrainPosition = tetrahedron.getPosition();
+            }
+        }
+
+        mObstaclePositionFactory.setVector(minTerrainPosition.cpy());
+
+        //add terrain obstacle to the engine
+        mEngine.addEntity(mObstacleFactory.produce());
+
     }
 
     /**

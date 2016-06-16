@@ -1,5 +1,6 @@
 package physics.testing;
 
+import Entities.Arrow;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
@@ -7,6 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 import GamePackage.GameVisual;
 import TerrainComponents.TerrainData;
 
+import org.lwjgl.util.vector.Vector3f;
 import physics.collision.CollisionRepository;
 import physics.components.*;
 import physics.constants.CompoMappers;
@@ -24,21 +26,23 @@ public class MovementTest
 	
 	public static void main (String[] args)
 	{
-		Vector3 initBallPos = new Vector3(0, 0, -100);
+
+		Vector3 initBallPos = new Vector3(-100, 0,-100);
+
 		MovementTest test = new MovementTest (initBallPos);
 		Vector3 hitForce = new Vector3 (-800, 0, -800);
-		//test.hitBall(hitForce);
+
 		test.init();
-		
-		
 
 		int iterations = 20;
-		
+
+
 		boolean truth = true;
 		
 		while(test.mVisualizer.stillDispalyed())
 		{
 			test.updateEngine();
+
 			if(test.mVisualizer.hasForce())	{
 				test.hitBall(test.mVisualizer.deliverForce());
 				test.mVisualizer.setForcePresent(false);
@@ -48,6 +52,14 @@ public class MovementTest
 			
 		}
 
+/*
+		test.hitBall(hitForce);
+		for (int cnt = 0; cnt < iterations; ++cnt)
+		{
+			test.updateEngine();
+			test.printBallPosition();
+		}
+*/
 		test.close();
 	}
 
@@ -74,7 +86,9 @@ public class MovementTest
 		//set and add components to ball
 		Position initPos = new Position();
 		initPos.set(ballPos);
-		
+
+
+
 		Vector3 bD = new Vector3(1, 0, 0), bW = new Vector3(0, 1, 0), bH = new Vector3(0, 0, 1);
 		Box ballBodyBox = BoxPool.getInstance().getInstance(new BoxParameter(bD, bW, bH));
 		Body ballBody = new Body();
@@ -85,7 +99,7 @@ public class MovementTest
 		mBall.mEntity.add(new Friction(.5f, .5f, 0, 0));
 		mBall.mEntity.add(new Mass (5));
 		mBall.mEntity.add(new Force());
-		mBall.mEntity.add(new GravityForce(new Vector3 (0, 0, -10)));
+		mBall.mEntity.add(new GravityForce(new Vector3 (0, -10, 0)));
 		mBall.mEntity.add(ballBody);
 		assert (Families.ACCELERABLE.matches(mBall.mEntity));
 
@@ -142,7 +156,7 @@ public class MovementTest
 	public void hitBall (Vector3 force)
 	{
 		if(force != null)	{
-			System.out.println("Wil deliver force: " + force);
+			System.out.println("Will deliver force: " + force);
 			Force f = CompoMappers.FORCE.get(mBall.mEntity);
 			f.add (force);
 		}
@@ -183,8 +197,8 @@ public class MovementTest
 	{
 		mVisualizer.endDisplay();
 	}
-	
-	
+
+
 	public GameVisual mVisualizer;
 	private Ball mBall;
 	private Engine mEngine;

@@ -1,0 +1,18 @@
+- Relevant quantities: same as report + pictures for visualization + maybe give equations
+- Numerical methods: same as report, mention: use own solvers
+- collision model: 
+	- composite objects consisting of tetrahedra: easy to use, easy to compute
+	- usage of bounding boxes:
+		- simple bounding boxes
+		- sorted bounding boxes
+		- octtree
+	- mention: almost everything self-written
+- architecture
+	- model-view-controller	
+	- use entity-component-system framework
+	- implemented own components, own systems
+	- show usual chain of execution: collision detection, compute & apply forces, update velocity, update position (rounding happens here!)
+- known problems
+	- tunneling
+	- ball remains within obstacle
+	- limiting roundoff error	

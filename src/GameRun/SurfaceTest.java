@@ -104,7 +104,6 @@ public class SurfaceTest {
 				
 				directionArrow = new Arrow(new Vector3f(-500,13,-460), 1.5f);
 				targetingState = false;
-				//surrondings.add(directionArrow);
 				surrondings.add(directionArrow);
 			}
 			
@@ -227,6 +226,9 @@ public class SurfaceTest {
 		         	   renderer.processEntity(directionArrow);
 		         	   directionArrow.setRotY(-(followCam.getYaw() - 180));
 		         	   System.out.println("Angle: " + directionArrow.getRotY());
+					   Vector3 dir = new Vector3(0,0,1);
+					   dir.rotate(directionArrow.getRotY(),0,1,0);
+					   System.out.println("Vector: " + dir.toString());
 		            }
 		            
 		            if(Keyboard.isKeyDown(Keyboard.KEY_TAB))	{
