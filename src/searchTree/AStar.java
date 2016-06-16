@@ -34,24 +34,27 @@ public class AStar<E extends SearchState, Action extends AbstractAction<E>> {
 		TreeNode<E, Action> solutionNode = queue.poll();
 		while (solutionNode.getNodeDeapth() < 20000 && !goalTester.test(solutionNode.getState())) {
 			nodesExpanded++;
-			if(nodesExpanded % 100 == 0) {
-				Vector3 position = ((GolfState) solutionNode.getState()).getPosition();
+
+		/*	if(nodesExpanded % 100 == 0) {
+				Vector3 position = ((GolfState) solutionNode.getState()).getPosition()
 				System.out.println("Working really hard " + nodesExpanded + " nodes expanded, queue size: " + queue.size() +position );
+
 			}
+			*/
 //			System.out.println("new expantion");
 
-		for (int i=0;i<noOfGenerChild;i++){
+			for (int i=0;i<noOfGenerChild;i++){
 
-				TreeNode<E, Action> child = generator.generateChildNode(solutionNode);
+					TreeNode<E, Action> child = generator.generateChildNode(solutionNode);
 
-				// if (stateComparator.isStateExplored(child.getState())) {
-				// } else {
-//				Vector3 position = ((GolfState) child.getState()).getPosition();
-					stateComparator.markExplored(child.getState());
-					queue.add(child);
-				
-				// }
-		}
+					// if (stateComparator.isStateExplored(child.getState())) {
+					// } else {
+	//				Vector3 position = ((GolfState) child.getState()).getPosition();
+						stateComparator.markExplored(child.getState());
+						queue.add(child);
+
+					// }
+			}
 			solutionNode = queue.poll();
 		}
 		System.out.println("Total nodes expanded " + nodesExpanded);
