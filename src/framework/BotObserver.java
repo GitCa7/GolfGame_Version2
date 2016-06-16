@@ -11,6 +11,9 @@ import physics.components.Position;
 import physics.entities.Ball;
 import searchTree.TreeNode;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 /**
  * Player observer class allowing the bot to react to the game by applying
  * a force on his ball, once it is the bot's turn.
@@ -20,6 +23,11 @@ import searchTree.TreeNode;
  */
 public class BotObserver extends PlayerObserver
 {
+
+    public BotObserver()
+    {
+        forceListToSolution = new LinkedList<>();
+    }
 
     @Override
     public Vector3 getForce(Game state)
@@ -33,18 +41,27 @@ public class BotObserver extends PlayerObserver
 
         TreeNode<GolfState, GolfAction> solutionNode = searchPerformer.greedySolution();
 
-        return extractSolution(solutionNode);
+        extractSolution(solutionNode);
+
+        return forceListToSolution.pollFirst();
     }
 
     /**
-     * @param leaf the node considered leaf
-     * @return the force stored at the root node
+     * @param leaf the node considered leaf,
+     * adds the series of forces need  to be applied to the root state to reach the leaf state to the forceListToSolution List
      */
-    Vector3 extractSolution(TreeNode<GolfState, GolfAction> leaf)
+    public void  extractSolution(TreeNode<GolfState, GolfAction> leaf)
     {
-        if (leaf.getParent() != null)
-            return extractSolution(leaf.getParent());
-
-        return leaf.getAction().getForce();
+        int depthCounter=0;
+        TreeNode<GolfState, GolfAction> tempNode = leaf;
+        while(depthCounter<leaf.getNodeDeapth()){
+            while(tempNode.getParent().getNodeDeapth()!=depthCounter){
+                tempNode=tempNode.getParent();
+                depthCounter++;
+            }
+            forceListToSolution.add(tempNode.getAction().getForce());
+        }
     }
+
+    private LinkedList<Vector3> forceListToSolution;
 }
