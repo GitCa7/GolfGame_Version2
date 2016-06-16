@@ -72,6 +72,7 @@ public class GameVisual {
 	float currentBall;
 	Vector3f hitDirection;
 	boolean forcePresent, forceChangeAccept;
+	boolean targetingState;
 	float timepassed;
 	
 	private static final float forceLvlMax = 3;
@@ -100,6 +101,9 @@ public class GameVisual {
 		forcePresent = false;
 		forceChangeAccept = true;
 		timepassed = 0;
+		directionArrow = new Arrow(new Vector3f(-500,13,-460), 1.5f);
+		targetingState = false;
+		surrondings.add(directionArrow);
 	}
 	public void setBalls(ArrayList<Vector3f> balls){
 		ArrayList<GolfBall> tmp = new ArrayList();
@@ -127,7 +131,7 @@ public class GameVisual {
 		int middle = tmpTerrain.leafs.size() / 2;
 		PointNode centerNode = tmpTerrain.leafs.get(middle);
 		Vector3f center = new Vector3f(centerNode.getCoordinates().x, centerNode.getCoordinates().y + 10, centerNode.getCoordinates().z);
-		
+
 
 		
 		
@@ -177,9 +181,9 @@ public class GameVisual {
 			//System.out.println("Delta: " + position);
 			Vector3f fPos = new Vector3f(position.x, position.y, position.z);
 			golfBalls.get(pos).setPosition(fPos);
+			directionArrow.setPosition(new Vector3f(fPos.x,fPos.y+3,fPos.z));
 			pos++;
 		}
-		
 	
 		
 	}
@@ -204,10 +208,12 @@ public class GameVisual {
 	
 	public Vector3 deliverForce()	{
 		Vector3 returnForce;
+		Vector3 dir = new Vector3(0,0,1);
+		dir.rotate(directionArrow.getRotY(),0,1,0);
 		if(currentForce != 0)	{
 			System.out.println("NewForce = " + hitDirection + "(hitDirection) scaled by: " + currentForce + " * 400");
 			
-			Vector3f newForce = new Vector3f(hitDirection.x * (currentForce * power), hitDirection.y * (currentForce * power), hitDirection.z * (currentForce * power));
+			Vector3f newForce = new Vector3f(dir.x * (currentForce * power), dir.y * (currentForce * power), dir.z * (currentForce * power));
 			
 			returnForce = new Vector3(newForce.x, newForce.y, newForce.z);
 		}
@@ -229,7 +235,7 @@ public class GameVisual {
 	
 	
 	public void updateObstacles()	{
-		directionArrow = new Arrow(new Vector3f(0,0,0), 1);
+		//directionArrow = new Arrow(new Vector3f(0,0,0), 1);
 		int pos = 0;
 		crate Crate;
 		for(Entity ent : gameEngine.getEntitiesFor(Families.COLLIDING))	{
@@ -328,8 +334,15 @@ public class GameVisual {
         }
         else	{
      	   renderer.render(light, followCam);
+			renderer.processEntity(directionArrow);
+			directionArrow.setRotY(-(followCam.getYaw() - 180));
+			System.out.println("Angle: " + directionArrow.getRotY());
+			Vector3 dir = new Vector3(0,0,1);
+			dir.rotate(directionArrow.getRotY(),0,1,0);
+			System.out.println("Vector: " + dir.toString());
         }
-        
+
+
         if(Keyboard.isKeyDown(Keyboard.KEY_TAB))	{
      	   if(useFollow == false)
      		   useFollow = true;

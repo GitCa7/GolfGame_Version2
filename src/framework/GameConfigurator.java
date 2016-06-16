@@ -170,9 +170,9 @@ public class GameConfigurator
     /**
      * Constructs a new obstacle for the terrain within the given area. This will transform the given mesh triangles
      * into tetrahedra used for collision checking.
-     * @param meshTriangles a collection of triangles approximating the surface of the terrain.
+     * @param terrainPoints a collection of triangles approximating the surface of the terrain.
      */
-    public void setTerrain(Collection<Triangle> meshTriangles)
+    public void setTerrain(Collection<Vector3> terrainPoints)
     {
         Triangle[] triangleArray = meshTriangles.toArray(new Triangle[meshTriangles.size()]);
         TerrainTetrahedronBuilder tetBuilder = new TerrainTetrahedronBuilder(triangleArray);
