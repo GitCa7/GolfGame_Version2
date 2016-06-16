@@ -186,6 +186,9 @@ public class TerrainGeometryCalc implements Serializable {
     	int offset = 0;
     	for(int i = 0; i < list.length - 3; i+=3)	{
     		
+    		if(leafs.get(indices[i]) == null || leafs.get(indices[i+1]) == null|| leafs.get(indices[i+2]) == null)
+    			break;
+    		
     		start = leafs.get(indices[i]).getCoordinates();
     		startTemp = new Vector3(start.x, start.y, start.z);
     		
@@ -207,7 +210,7 @@ public class TerrainGeometryCalc implements Serializable {
     		offset++;
     	}
 		ArrayList<Triangle> ret = new ArrayList<>();
-		for(int i = 0; i < list.length; i++){
+		for(int i = 0; list[i] != null; i++){
 			ret.add(list[i]);
 		}
     	return ret;
@@ -237,7 +240,7 @@ public class TerrainGeometryCalc implements Serializable {
 	    	Vector3 lineA,lineB,lineC;
 	    	
 	    	
-	    	for(int i = 0; i < triNumBorder2; i++)	{
+	    	for(int i = 0; i < allTri.length; i++)	{
 	    		
 	    		//System.out.println("Number: " + i + "\t" + allTri[i]);
 	    		

@@ -52,14 +52,7 @@ public class MovementTest
 			
 		}
 
-/*
-		test.hitBall(hitForce);
-		for (int cnt = 0; cnt < iterations; ++cnt)
-		{
-			test.updateEngine();
-			test.printBallPosition();
-		}
-*/
+
 		test.close();
 	}
 
