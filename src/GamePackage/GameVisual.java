@@ -108,7 +108,7 @@ public class GameVisual {
 	public void setBalls(ArrayList<Vector3f> balls){
 		ArrayList<GolfBall> tmp = new ArrayList();
 		for (int i =0;i<balls.size();i++){
-			GolfBall ball = new GolfBall(balls.get(i),25);
+			GolfBall ball = new GolfBall(balls.get(i),25,false);
 			tmp.add(ball);
 		}
 		golfBalls = tmp;
@@ -255,7 +255,7 @@ public class GameVisual {
 				if(golfBalls.size() == 0 || golfBalls.get(pos) == null)	{
 					Vector3 position = CompoMappers.POSITION.get(ent);
 					Vector3f fPos = new Vector3f(position.x, position.y, position.z);
-					golfBalls.add(new GolfBall(fPos, 2));
+					golfBalls.add(new GolfBall(fPos, 2,false));
 				}
 				pos++;
 			}

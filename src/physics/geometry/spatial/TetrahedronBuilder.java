@@ -37,6 +37,7 @@ public class TetrahedronBuilder
 	 */
 	public Triangle[] sides()
 	{
+
 		//get all elements of the power set of 3 elements
 		PowersetGenerator<Vector3> genSidePoints = new PowersetGenerator(Arrays.asList (mVertices));
 

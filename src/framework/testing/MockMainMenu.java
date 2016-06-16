@@ -78,7 +78,7 @@ public class MockMainMenu extends JFrame implements ActionListener {
         }if(e.getActionCommand().equals("start")){
             String name = JOptionPane.showInputDialog("Course Name?");
             main.loadGame(name);
-
+            main.run();
         }
 
     }

@@ -177,6 +177,7 @@ public class GameConfigurator
             ballsAdded.mEntity.remove(Goal.class);
             ballsAdded.mEntity.add(mBallGoalFactory.produce());
         }
+        mSetHole = true;
     }
 
     /**
