@@ -1,19 +1,21 @@
 package framework;
 
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
+
 import framework.components.*;
 import framework.entities.Player;
 import framework.systems.EntityListener;
 import framework.systems.GoalSystemFactory;
 import framework.systems.TurnSystemFactory;
+import framework.entities.EntityFactory;
+
 import physics.collision.CollisionRepository;
 import physics.collision.TerrainTetrahedronBuilder;
 import physics.components.*;
 import physics.constants.PhysicsCoefficients;
 import physics.entities.Ball;
-import framework.entities.EntityFactory;
+
 import physics.geometry.planar.Triangle;
 import physics.geometry.spatial.*;
 import physics.systems.*;
@@ -172,7 +174,7 @@ public class GameConfigurator
      * into tetrahedra used for collision checking.
      * @param terrainPoints a collection of triangles approximating the surface of the terrain.
      */
-    public void setTerrain(Collection<Vector3> terrainPoints)
+    public void setTerrain(Collection<Triangle> terrainPoints)
     {
         Triangle[] triangleArray = terrainPoints.toArray(new Triangle[terrainPoints.size()]);
         TerrainTetrahedronBuilder tetBuilder = new TerrainTetrahedronBuilder(triangleArray);
