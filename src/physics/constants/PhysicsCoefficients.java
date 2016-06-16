@@ -17,8 +17,11 @@ public class PhysicsCoefficients
 	public static final float SPIN_COEFFICIENT = 0.75f;
 	
 	public static final float GRAVITY_EARTH = 9.81f;
-	
+
+	public static final float TERRAIN_THICKNESS = 100;
+
 	public static final int ARITHMETIC_PRECISION = 4;
 	public static final int ARITHMETIC_TOLERANCE = 3;
+
 
 }
