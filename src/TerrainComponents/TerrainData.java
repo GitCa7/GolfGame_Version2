@@ -140,6 +140,11 @@ public class TerrainData implements Serializable {
         return indices;
     }
     
+    public boolean isFlat()	{
+    	return terraCalc.terrainIsFlat(this);
+    }
+    
+    
     public float getSIZE(){return SIZE;}
 
 

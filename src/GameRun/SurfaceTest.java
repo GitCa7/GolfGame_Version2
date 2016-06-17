@@ -11,6 +11,8 @@ import org.lwjgl.util.vector.Vector3f;
 
 import com.badlogic.gdx.math.Vector3;
 
+import Editor.Course;
+import Editor.CourseLoader;
 import Entities.*;
 import LogicAndExtras.MousePicker;
 import ModelBuildComponents.ModelTexture;
@@ -131,8 +133,9 @@ public class SurfaceTest {
 		   
 		    public void setUpTerrain(){
 		    	
-		    	//Terrain terra = new Terrain(0,0, "heightmap");
-		    	TerrainData terraDat = new TerrainData("heightmap");
+		    	Course course = CourseLoader.loadCourse("test");
+		    	TerrainData terraDat = course.getTerrain();
+		    	System.out.println("Terrain is flat: " + terraDat.isFlat());
 		    	Terrain terra = new Terrain(terraDat);
 			   	terrains.add(terra);
 			  
