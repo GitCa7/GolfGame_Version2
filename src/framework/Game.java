@@ -48,6 +48,16 @@ public class Game
 	public Engine getEnigine(){
 		return mEngine;
 	}
+
+	/**
+	 * @param simulationPlayer the player accessing the simulation
+	 * @return a simulation for simulationPlayer
+     */
+	public SimulatedGame getGameSimulation(Player simulationPlayer)
+	{
+		return new SimulatedGame(mEngine, getBall(simulationPlayer));
+	}
+
 	/**
 	 *
 	 * @return the player whose turn it currently is. This comprises also the period during which the simulation is running following
@@ -184,15 +194,6 @@ public class Game
 	 */
 	private void init()
 	{
-		//internal systems
-		ActiveSystem activeSystem = new ActiveSystem();
-		BusySystem busySystem = new BusySystem();
-		mEngine.addSystem (activeSystem);
-		mEngine.addSystem (busySystem);
-		//add entity listeners for systems added
-		mEngine.addEntityListener (new EntityListener (activeSystem));
-		mEngine.addEntityListener (new EntityListener (busySystem));
-		
 		//internal components of global state
 		Active active = new Active();
 		Busy busy = new Busy();
@@ -202,8 +203,20 @@ public class Game
 
 		mGlobalState.add(active);
 		mGlobalState.add (busy);
-		
-		
+		mEngine.addEntity(mGlobalState);
+
+		//internal systems
+		ActiveSystem activeSystem = new ActiveSystem();
+		BusySystem busySystem = new BusySystem();
+
+		activeSystem.setPriority(1000);
+		busySystem.setPriority(1001);
+
+		mEngine.addSystem (activeSystem);
+		mEngine.addSystem (busySystem);
+		//add entity listeners for systems added
+		mEngine.addEntityListener (new EntityListener (activeSystem));
+		mEngine.addEntityListener (new EntityListener (busySystem));
 	}
 
 	private Engine mEngine;

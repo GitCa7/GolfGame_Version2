@@ -15,6 +15,12 @@ public class GravitySystem extends EntitySystem
 	{
 		
 	}
+
+
+	public GravitySystem clone()
+	{
+		return new GravitySystem();
+	}
 	
 	public void addedToEngine (Engine e)
 	{

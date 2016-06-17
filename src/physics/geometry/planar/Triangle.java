@@ -25,6 +25,10 @@ public class Triangle extends Shape
     public Triangle (Vector3[] vertices, Line[] border)
     {
         super (vertices, border);
+
+        if (!checkNotOnLine(vertices))
+            throw new IllegalArgumentException("vertices lie on line, don't form a triangle");
+
         lines = border;
         this.vertices = vertices;
     }
@@ -42,5 +46,13 @@ public class Triangle extends Shape
     	return vertices;
     }
     
-    
+
+    private boolean checkNotOnLine(Vector3[] vertices)
+    {
+        Vector3 d1 = vertices[1].cpy().sub(vertices[0]);
+        Vector3 d2 = vertices[2].cpy().sub(vertices[0]);
+
+        return (!d1.isOnLine(d2) && !d1.isOnLine(d2));
+    }
+
 }

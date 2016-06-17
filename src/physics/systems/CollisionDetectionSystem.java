@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import framework.EntitySystem;
+import framework.testing.RepositoryEntitySystem;
 import physics.collision.*;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
@@ -16,7 +17,7 @@ import physics.constants.Families;
  * @autor martin
  * created 13.05.2016
  */
-public class CollisionDetectionSystem extends EntitySystem
+public class CollisionDetectionSystem extends EntitySystem implements RepositoryEntitySystem
 {
 	/**
 	 * default constructor. Constructs objects needed.
@@ -25,6 +26,12 @@ public class CollisionDetectionSystem extends EntitySystem
 	{
 		mActive = new HashSet<>();
 		mDetect = new CollisionDetector();
+	}
+
+
+	public CollisionDetectionSystem clone()
+	{
+		return new CollisionDetectionSystem();
 	}
 
 	/**

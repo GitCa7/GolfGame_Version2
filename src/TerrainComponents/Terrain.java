@@ -24,7 +24,7 @@ import physics.geometry.spatial.TetrahedronBuilder;
 
 public class Terrain {
     private Loader loader = new Loader();
-    private ModelTexture modelTex = new ModelTexture(loader.loadTexture("grass_surf"));
+    private ModelTexture modelTex = new ModelTexture(loader.loadTexture("grassNew"));
     private RawModel model;
 
     private float SIZE;

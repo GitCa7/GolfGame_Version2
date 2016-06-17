@@ -24,6 +24,11 @@ public class BusySystem extends EntitySystem
     }
 
 
+    public BusySystem clone()
+    {
+        return new BusySystem();
+    }
+
     public void addedToEngine (Engine e)
     {
         for (Entity add : e.getEntitiesFor(Families.GLOBAL_STATE))

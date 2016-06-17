@@ -1,6 +1,7 @@
 package physics.collision;
 
 
+import com.badlogic.ashley.core.Entity;
 import physics.components.Body;
 import physics.constants.CompoMappers;
 

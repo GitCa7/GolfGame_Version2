@@ -10,6 +10,7 @@ import framework.systems.GoalSystemFactory;
 import framework.systems.TurnSystemFactory;
 import framework.entities.EntityFactory;
 
+import framework.testing.FakeHumanObserver;
 import physics.collision.CollisionRepository;
 import physics.collision.TerrainTetrahedronBuilder;
 import physics.components.*;
@@ -41,6 +42,7 @@ public class GameConfigurator
 		mSystemsTracker = new SystemsTracker();
 		mEngine = new Engine();
 		mBallMap = new HashMap<>();
+        mGameObservers = new ArrayList<>();
 
         mBallFactory = new EntityFactory(mSystemsTracker);
         mPlayerFactory = new EntityFactory(mSystemsTracker);
@@ -88,11 +90,16 @@ public class GameConfigurator
         setNextPlayers();
         //add entity systems processing components to the engine
 		addAllSystems();
-		return new Game (mEngine, mBallMap);
+
+		Game game =  new Game (mEngine, mBallMap);
+        //add input observers
+        addAllObservers(game);
+
+        return  game;
 	}
 
     /**
-     * Construct a new player and a new ball. Map this player to this ball. Players will take turns in the order
+     * Construct a new human player and a new ball. Map this player to this ball. Players will take turns in the order
      * they were added. The player added will contain all the necessary components for a turn-taking entitiy (see framework
      * families) and the ball will contain all entities associated with the moving, accelerable, gravity-attracted, colliding and
      * friction families (see physics families).
@@ -101,21 +108,24 @@ public class GameConfigurator
      * @param ballMass ball's mass
      * @param initBallPos ball's initial position
      */
-    public void addPlayerAndBall(String name, float ballRadius, float ballMass, Vector3 initBallPos)
+    public void addHumanAndBall(String name, float ballRadius, float ballMass, Vector3 initBallPos)
     {
-        Ball b = constructBall(ballRadius, ballMass, initBallPos);
-        Player p = constructPlayer(name);
-        //set the first player as active player
-        if (mBallMap.isEmpty())
-        {
-            assert(framework.constants.CompoMappers.TURN.has(p.mEntity));
-            Turn playerTurn = framework.constants.CompoMappers.TURN.get(p.mEntity);
-            playerTurn.mTurn = true;
-        }
+        addPlayerAndBall(name, ballRadius, ballMass, initBallPos, new FakeHumanObserver());
+    }
 
-        mBallMap.put(p, b);
-        mEngine.addEntity(b.mEntity);
-        mEngine.addEntity(p.mEntity);
+    /**
+     * Construct a new bot player and a new ball. Map this player to this ball. Players will take turns in the order
+     * they were added. The player added will contain all the necessary components for a turn-taking entitiy (see framework
+     * families) and the ball will contain all entities associated with the moving, accelerable, gravity-attracted, colliding and
+     * friction families (see physics families).
+     * @param name player's name
+     * @param ballRadius ball's radius
+     * @param ballMass ball's mass
+     * @param initBallPos ball's initial position
+     */
+    public void addBotAndBall(String name, float ballRadius, float ballMass, Vector3 initBallPos)
+    {
+        addPlayerAndBall(name, ballRadius, ballMass, initBallPos, new BotObserver());
     }
 
     /**
@@ -167,6 +177,7 @@ public class GameConfigurator
             ballsAdded.mEntity.remove(Goal.class);
             ballsAdded.mEntity.add(mBallGoalFactory.produce());
         }
+        mSetHole = true;
     }
 
     /**
@@ -304,6 +315,7 @@ public class GameConfigurator
         ballFrictionFactory.setParameter(PhysicsCoefficients.STATIC_FRICTION, PhysicsCoefficients.DYNAMIC_FRICTION, 0, 0);
         ballGravityFactory.setParameter(new Vector3 (0, -PhysicsCoefficients.GRAVITY_EARTH, 0));
         //construct ball component bundles
+        /*complete
         ComponentBundle ballPosition = new ComponentBundle(mBallPositionFactory);
         ComponentBundle ballVelocity = new ComponentBundle(ballVelocityFactory, movementFactory);
         ComponentBundle ballForce = new ComponentBundle(ballForceFactory, forceApplyFactory);
@@ -312,6 +324,18 @@ public class GameConfigurator
         ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory, collisionDetectionFactory, collisionImpactFactory, nonPenetrationFactory);
         ComponentBundle ballGravity = new ComponentBundle(ballGravityFactory, gravitySystemFactory, normalForceFactory, nonPenetrationFactory);
         ComponentBundle ballGoal = new ComponentBundle(mBallGoalFactory, goalSystemFactory);
+        */
+
+        //simplyfied
+        ComponentBundle ballPosition = new ComponentBundle(mBallPositionFactory);
+        ComponentBundle ballVelocity = new ComponentBundle(ballVelocityFactory, movementFactory);
+        ComponentBundle ballForce = new ComponentBundle(ballForceFactory, forceApplyFactory);
+        ComponentBundle ballFriction = new ComponentBundle(ballFrictionFactory, frictionSystemFactory);
+        ComponentBundle ballMass = new ComponentBundle(mBallMassFactory);
+        ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory, collisionDetectionFactory);
+        ComponentBundle ballGravity = new ComponentBundle(ballGravityFactory, gravitySystemFactory, normalForceFactory, nonPenetrationFactory);
+        ComponentBundle ballGoal = new ComponentBundle(mBallGoalFactory, goalSystemFactory);
+
         //add bundles to ball factory
         mBallFactory.addComponent(ballPosition, ballVelocity, ballFriction);
         mBallFactory.addComponent(ballForce, ballGravity);
@@ -337,6 +361,39 @@ public class GameConfigurator
         mObstacleFactory.addComponent(obsBody, obsPosition);
     }
 
+
+    /**
+     * Construct a new player and a new ball. Map this player to this ball. Players will take turns in the order
+     * they were added. The player added will contain all the necessary components for a turn-taking entitiy (see framework
+     * families) and the ball will contain all entities associated with the moving, accelerable, gravity-attracted, colliding and
+     * friction families (see physics families).
+     * @param name player's name
+     * @param ballRadius ball's radius
+     * @param ballMass ball's mass
+     * @param initBallPos ball's initial position
+     */
+    private void addPlayerAndBall(String name, float ballRadius, float ballMass, Vector3 initBallPos, PlayerObserver inputMethod)
+    {
+        Ball b = constructBall(ballRadius, ballMass, initBallPos);
+        Player p = constructPlayer(name);
+        //set the first player as active player
+        if (mBallMap.isEmpty())
+        {
+            assert(framework.constants.CompoMappers.TURN.has(p.mEntity));
+            Turn playerTurn = framework.constants.CompoMappers.TURN.get(p.mEntity);
+            playerTurn.mTurn = true;
+        }
+
+        mBallMap.put(p, b);
+
+        inputMethod.setMatchingPlayer(p);
+        mGameObservers.add(inputMethod);
+
+        mEngine.addEntity(b.mEntity);
+        mEngine.addEntity(p.mEntity);
+
+    }
+
 	/**
 	 * adds all systems tracked by the systems tracker to the engine
 	 */
@@ -349,6 +406,16 @@ public class GameConfigurator
             mEngine.addEntityListener(listenEntityChanges);
         }
 	}
+
+    /**
+     * attaches all stored observers to the game
+     * @param game game to attach observers to
+     */
+    private void addAllObservers(Game game)
+    {
+        for (GameObserver observer : mGameObservers)
+            game.attachObserver(observer);
+    }
 
     /**
      * adds components indicating turn transitions between players
@@ -367,6 +434,8 @@ public class GameConfigurator
 
 	/** mapping of players to their balls */
 	private HashMap<Player, Ball> mBallMap;
+    /** stores all observers which need to be added to the game before it runs */
+    private ArrayList<GameObserver> mGameObservers;
 	/** engine to configure */
 	private Engine mEngine;
 	/** objects tracking physics.systems in use */

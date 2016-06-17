@@ -1,6 +1,7 @@
 package physics.geometry.spatial;
 
 import com.badlogic.gdx.math.Vector3;
+import physics.constants.GlobalObjects;
 import physics.constants.PhysicsCoefficients;
 import physics.generic.Bisection;
 
@@ -77,7 +78,12 @@ public class SolidBisection extends Bisection<Vector3>
     {
         if (mCurrLeft == null || mCurrRight == null)
             return false;
-        return (mCurrLeft.dst(mCurrRight) < mEpsilon && mLastComparison == 1);
+
+        boolean distanceRule = mCurrLeft.dst(mCurrRight) < mEpsilon;
+        boolean comparisonRule = mLastComparison == 1;
+        boolean equalityRule = mCurrLeft.epsilonEquals(mCurrRight, (float) GlobalObjects.ROUND.getEpsilon());
+
+        return (equalityRule || (distanceRule && comparisonRule));
     }
 
     /**

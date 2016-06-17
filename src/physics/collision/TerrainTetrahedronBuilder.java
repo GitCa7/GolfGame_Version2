@@ -29,7 +29,7 @@ public class TerrainTetrahedronBuilder
     public SolidTranslator[] build(float thickness)
     {
 
-        float bottomPlaneHeight = findLowestHeightValue();
+        float bottomPlaneHeight = findLowestHeightValue() - thickness;
 
         //each triangle yields 3 tetrahedra
         SolidTranslator[] tetrahedra = new SolidTranslator[mTerrainMesh.length * 3];

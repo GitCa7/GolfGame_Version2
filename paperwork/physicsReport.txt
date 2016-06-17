@@ -3,6 +3,15 @@ Factors involved
 We decided to model the ball dynamics by taking into consideration the most important physical quantities: Time t, the position s of the ball and its velocity v given by the equation v = ds / dt. 
 Additionally we want to allow forces to modify the trajectory of the ball, so the impact of a force F on its
 velocity is given by F = ma = m * dv / dt => dv = F * dt / m, depending on the mass of the ball m.
+
+position-velocity-acceleration-momentum-force give system of odes
+v = ds / dt
+a = dv / dt
+F = dp / dt = d(m*v) / dt = dv * m / dt
+
+with initial condition y = [v_0, 0, F_0]
+
+
 Since we can apply any modification by applying a force, we compute the impact on the ball of other quantities as a force. These are
 - gravity: F_g = m * g, for the gravitational constant g
 - normal force: F_N = -(F_g * n_u) * n_u, where n_u is the normal unit vector of the surface the ball is supported by

@@ -6,7 +6,7 @@ import framework.systems.EntityListener;
 
 import java.util.HashSet;
 
-public abstract class EntitySystem extends com.badlogic.ashley.core.EntitySystem
+public abstract class EntitySystem extends com.badlogic.ashley.core.EntitySystem implements Cloneable
 {
 	/**
 	 * default constructor
@@ -15,7 +15,12 @@ public abstract class EntitySystem extends com.badlogic.ashley.core.EntitySystem
 	{
 		mEntities = new HashSet<>();
 	}
-	
+
+	/**
+	 * @return a clone of this system
+     */
+	public abstract EntitySystem clone();
+
 	/**
 	 * @return a listener updating the physics.entities of this entity system
 	 */

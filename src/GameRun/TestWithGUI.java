@@ -96,7 +96,7 @@ public class TestWithGUI {
 			
 			public void setUpEntities()	{
 				
-				GolfBall golfball = new GolfBall(new Vector3f(4,20,-475), 2);
+				GolfBall golfball = new GolfBall(new Vector3f(4,20,-475), 2,false);
 				//cam.setPosition(new Vector3f(4,20,-422));
 				//System.out.println("ID: " + golfball.getModel().getRawModel().getID());
 				golfBalls.add(golfball);

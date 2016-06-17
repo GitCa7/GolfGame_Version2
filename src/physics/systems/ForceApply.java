@@ -16,6 +16,11 @@ public class  ForceApply extends EntitySystem
 	{
 		
 	}
+
+	public ForceApply clone()
+	{
+		return new ForceApply();
+	}
 	
 	public void addedToEngine (Engine e)
 	{

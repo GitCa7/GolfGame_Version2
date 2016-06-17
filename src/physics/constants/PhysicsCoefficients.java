@@ -18,10 +18,10 @@ public class PhysicsCoefficients
 	
 	public static final float GRAVITY_EARTH = 9.81f;
 
-	public static final float TERRAIN_THICKNESS = 100;
+	public static final float TERRAIN_THICKNESS = 10000;
 
-	public static final int ARITHMETIC_PRECISION = 4;
-	public static final int ARITHMETIC_TOLERANCE = 3;
+	public static final int ARITHMETIC_PRECISION = 2;
+	public static final int ARITHMETIC_TOLERANCE = 1;
 
 
 }

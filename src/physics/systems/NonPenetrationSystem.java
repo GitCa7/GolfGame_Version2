@@ -3,6 +3,7 @@ package physics.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 import framework.EntitySystem;
+import framework.testing.RepositoryEntitySystem;
 import physics.collision.ColliderEntity;
 import physics.collision.ColliderPair;
 import physics.collision.CollisionRepository;
@@ -19,13 +20,19 @@ import java.util.ArrayList;
  * System ensuring no moving entity penetrates any other entity
  * @author martin
  */
-public class NonPenetrationSystem extends EntitySystem
+public class NonPenetrationSystem extends EntitySystem implements RepositoryEntitySystem
 {
 
 
     public NonPenetrationSystem()
     {
         mRepo = null;
+    }
+
+
+    public NonPenetrationSystem clone()
+    {
+        return new NonPenetrationSystem();
     }
 
     public void setRepository(CollisionRepository repo)

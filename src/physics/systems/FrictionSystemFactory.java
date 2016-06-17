@@ -27,6 +27,7 @@ public class FrictionSystemFactory extends EntitySystemFactory
             throw new IllegalStateException("cannot initialize friction system, collision repository is not set");
         checkAndThrowPriorityException();
         FrictionSystem f = new FrictionSystem();
+        f.setRepository(mRepo);
         attachListener(f);
         return f;
     }

@@ -15,7 +15,11 @@ public class SpinApply extends EntitySystem
 	{
 		
 	}
-	
+
+	public SpinApply clone()
+	{
+		return new SpinApply();
+	}
 	
 	public void addedToEngine (Engine e)
 	{

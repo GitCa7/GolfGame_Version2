@@ -20,10 +20,13 @@ public class PlayerOrder implements Component
     }
 
     @Override
+    /**
+     * @return a new player order component whose previous and next player is set to null.
+     * Needs to be set manually.
+     */
     public Component clone()
     {
-        //@TODO how should cloning work??? Always need to clone group...
-        return null;
+        return new PlayerOrder(null, null);
     }
 
     public Player mPrevious, mNext;

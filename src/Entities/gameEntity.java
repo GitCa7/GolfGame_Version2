@@ -1,5 +1,7 @@
 package Entities;
 
+import Editor.ObstacleDat;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 
 import org.lwjgl.util.vector.Vector2f;
@@ -37,6 +39,9 @@ public class gameEntity implements Serializable {
 		this.rotX += dx;
 		this.rotY += dy;
 		this.rotZ += dz;
+	}
+	public ObstacleDat toData(){
+		return new ObstacleDat(scale,rotY,new Vector3(position.x,position.y,position.z));
 	}
 
 	public TexturedModel getModel() {
