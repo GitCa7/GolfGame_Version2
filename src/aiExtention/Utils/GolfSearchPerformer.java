@@ -12,7 +12,7 @@ import physics.systems.*;
 import java.util.Arrays;
 import java.util.List;
 
-public class GolfSearchData {
+public class GolfSearchPerformer {
 	private Engine aiEngine;
 	private float deltaTime = 1f;
 	private NodeEvaluator<GolfState> evaluator;
@@ -20,7 +20,7 @@ public class GolfSearchData {
 	private GoalAchived<GolfState> goalTester;
 	private TreeNode<GolfState,GolfAction> rootNode;
 	
-	public GolfSearchData(Ball ball,Entity target){
+	public GolfSearchPerformer(Ball ball, Entity target){
 		aiEngine= new Engine();
 		List<EntitySystem> systems = Arrays.asList(/*new GravitySystem()*/ new ForceApply(), new Movement(),
 				new FrictionSystem());

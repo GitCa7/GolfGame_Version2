@@ -130,7 +130,7 @@ public class Game
 	public void tick (float ticks)
 	{
 		mEngine.update (ticks);
-		updateObservers();
+  		updateObservers();
 	}
 
 	/**

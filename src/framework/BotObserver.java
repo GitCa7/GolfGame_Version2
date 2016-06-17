@@ -2,16 +2,14 @@ package framework;
 
 import aiExtention.GolfAction;
 import aiExtention.GolfState;
-import aiExtention.Utils.GolfSearchData;
+import aiExtention.Utils.GolfSearchPerformer;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 import framework.constants.CompoMappers;
-import framework.entities.Player;
 import physics.components.Position;
 import physics.entities.Ball;
 import searchTree.TreeNode;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -37,7 +35,7 @@ public class BotObserver extends PlayerObserver
         Entity target = new Entity();
         target.add(new Position(goalPos.x, goalPos.y, goalPos.z));
 
-        GolfSearchData searchPerformer= new GolfSearchData(myBall, target);
+        GolfSearchPerformer searchPerformer= new GolfSearchPerformer(myBall, target);
 
         TreeNode<GolfState, GolfAction> solutionNode = searchPerformer.greedySolution();
 
