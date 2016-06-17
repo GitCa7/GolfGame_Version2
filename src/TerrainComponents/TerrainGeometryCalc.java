@@ -27,9 +27,33 @@ public class TerrainGeometryCalc implements Serializable {
 	private static final int triNumBorder2 = 10837;
 	private static final float MAX_HEIGHT = 80;
     private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
+    
+    private String heightMapPath;
+    private boolean heightMapUse;
+    private BufferedImage heightMapImage;
+    private int count,VERTEX_COUNT;
 	
-	public TerrainGeometryCalc()	{
-		
+	public TerrainGeometryCalc(String heightMapPath)	{
+		this.heightMapPath = heightMapPath;
+		heightMapImage = null;
+		heightMapUse = false;
+		if(heightMapPath != null)	{
+    		
+	    	try {
+	    		heightMapImage = ImageIO.read(new File("res/" + heightMapPath +".png"));
+				heightMapUse = true;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	VERTEX_COUNT = heightMapImage.getHeight();
+    	}
+    	
+    	
+    	if(VERTEX_COUNT == 0)	{
+    		VERTEX_COUNT = 128;
+    	}
+    	count = (int) (VERTEX_COUNT * VERTEX_COUNT);
 	}
 	
 	public RawModel getTerrainFromData(TerrainData data)	{
@@ -47,26 +71,9 @@ public class TerrainGeometryCalc implements Serializable {
 	
 	
 	public void generateTerrain(float[] vertices,float[] normals,float[] textureCoords,int[] indices, ArrayList<PointNode> leafs, float SIZE, String heightMapPath)	{
-		int VERTEX_COUNT = 0;
-    	boolean heightMapUse = false;
-    	BufferedImage image = null;
-    	if(heightMapPath != null)	{
-    		
-	    	try {
-				image = ImageIO.read(new File("res/" + heightMapPath +".png"));
-				heightMapUse = true;
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	    	VERTEX_COUNT = image.getHeight();
-    	}
+
+    	int count = VERTEX_COUNT * VERTEX_COUNT;
     	
-    	
-    	if(VERTEX_COUNT == 0)	{
-    		VERTEX_COUNT = 128;
-    	}
-    		
     	
         int vertexPointer = 0;
         int leafCount = 0;
@@ -76,7 +83,7 @@ public class TerrainGeometryCalc implements Serializable {
                 vertices[vertexPointer*3] = -((float)j)/((float)VERTEX_COUNT - 1) * SIZE;
                 
                 if(heightMapUse == true)	{
-                	vertices[vertexPointer*3+1] = getHeight(j, i, image);
+                	vertices[vertexPointer*3+1] = getHeight(j, i, heightMapImage);
                 }
                 else	{
                 	vertices[vertexPointer*3+1] = 1;
@@ -86,7 +93,6 @@ public class TerrainGeometryCalc implements Serializable {
                 
                 
                 PointNode tmp = new PointNode(vertices[vertexPointer*3], vertices[vertexPointer*3+1], vertices[vertexPointer*3+2]);
-                
                 leafs.add(tmp);
                 
                 
@@ -94,7 +100,7 @@ public class TerrainGeometryCalc implements Serializable {
                 
                 normal = new Vector3f();
                 if(heightMapUse)	{
-	                normal = calculateNormal(j,i,image);
+	                normal = calculateNormal(j,i,heightMapImage);
 	
 	                normals[vertexPointer*3] = normal.x;
 	                normals[vertexPointer*3+1] = normal.y;
@@ -128,6 +134,8 @@ public class TerrainGeometryCalc implements Serializable {
                 indices[pointer++] = bottomRight;
             }
         }
+        
+
 	}
 	
 	private Vector3f calculateNormal(int x, int z, BufferedImage image)		{
@@ -183,6 +191,8 @@ public class TerrainGeometryCalc implements Serializable {
     	Line line1, line2, line3;
     	Line[] tempLineArray;
     	
+    	System.out.println("Size of leafs: " + leafs.size());
+    	
     	int offset = 0;
     	for(int i = 0; i < list.length - 3; i+=3)	{
     		
@@ -220,7 +230,7 @@ public class TerrainGeometryCalc implements Serializable {
 	    	
 	    	float newPointDist = 5f;
 	    	
-	    	//need to go thoruhall triangles of the terrain
+	    	//need to go through all triangles of the terrain
 		 	ArrayList<Triangle> tmp = getAllTris(terraData);
 		 	
 		 	Triangle[] allTri = new Triangle[tmp.size()];
@@ -282,5 +292,25 @@ public class TerrainGeometryCalc implements Serializable {
 	    	
 	    	
 	    }
+	 
+	 public boolean getHeigtMapExcistence()	{
+		 return heightMapUse;
+	 }
+	
+	 public float[] updateVerticeAmount()	{
+		 return new float[(int) (count * 3)];
+	 }
+	 
+	 public float[] updateNormalsAmount()	{
+		 return new float[(int) (count * 3)];
+	 }
+	 
+	 public float[] updateTextureCoordAmount()	{
+		 return new float[(int) (count * 2)];
+	 }
+	 
+	 public int[] updateIndicesAmount()	{
+		 return new int[6 * (VERTEX_COUNT - 1) * (VERTEX_COUNT * 1)];
+	 }
 
 }

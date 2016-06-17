@@ -27,11 +27,27 @@ public class TerrainData implements Serializable {
         this.indices = indices;
         this.vertices = vertices;
         this.normals = normals;
-        terraCalc = new TerrainGeometryCalc();
+        terraCalc = new TerrainGeometryCalc(null);
         terraCalc.generateTerrain(vertices, normals, textureCoords, indices, leafs, 1000, heightMapID);
         tetrahedons = terraCalc.getAllTetrahedons(this);
     }
 
+    public TerrainData(){
+    	int VERTEX_COUNT = 128;
+    	SIZE = 1000;
+    	int count = VERTEX_COUNT * VERTEX_COUNT;
+    	this.vertices = new float[count * 3];
+    	this.normals = new float[count * 3];
+    	this.textureCoords = new float[count*2];
+    	this.indices = new int[6*(VERTEX_COUNT-1)*(VERTEX_COUNT*1)];
+        this.leafs = new ArrayList<PointNode>();
+    	
+    	terraCalc = new TerrainGeometryCalc(null);
+        terraCalc.generateTerrain(vertices, normals, textureCoords, indices, leafs, SIZE, null);
+        //System.out.println("Attributres before calculation: \n" + "Amount of vertices: " + "\t" + vertices.length + "\nAmount of indices: " + "\t" + indices.length + "\nAmount of normals: " + "\t" + normals.length + "\nAmount of Texture Coordinates: " + "\t" + textureCoords.length);
+        tetrahedons = terraCalc.getAllTetrahedons(this);
+    }
+    
     public TerrainData(String heightMapID){
         hasHeightMap = true;
         this.heightMapID = heightMapID;
@@ -43,32 +59,30 @@ public class TerrainData implements Serializable {
     	this.textureCoords = new float[count*2];
     	this.indices = new int[6*(VERTEX_COUNT-1)*(VERTEX_COUNT*1)];
         this.leafs = new ArrayList<PointNode>();
-        terraCalc = new TerrainGeometryCalc();
+        //System.out.println("Attributres before calculation: \n" + "Amount of vertices: " + "\t" + vertices.length + "\nAmount of indices: " + "\t" + indices.length + "\nAmount of normals: " + "\t" + normals.length + "\nAmount of Texture Coordinates: " + "\t" + textureCoords.length);
+        
+        terraCalc = new TerrainGeometryCalc(heightMapID);
+        if(terraCalc.getHeigtMapExcistence() == true)	{
+        	this.vertices = terraCalc.updateVerticeAmount();
+        	this.normals = terraCalc.updateNormalsAmount();
+        	this.textureCoords = terraCalc.updateTextureCoordAmount();
+        	this.indices = terraCalc.updateIndicesAmount();
+        }
+        
         terraCalc.generateTerrain(vertices, normals, textureCoords, indices, leafs, 1000, heightMapID);
+        //System.out.println("Attributres after calculation: \n" + "Amount of vertices: " + "\t" + vertices.length + "\nAmount of indices: " + "\t" + indices.length + "\nAmount of normals: " + "\t" + normals.length + "\nAmount of Texture Coordinates: " + "\t" + textureCoords.length);
+
         tetrahedons = terraCalc.getAllTetrahedons(this);
-        updateTetraList();
     }
     
     private void updateTetraList()	{
-    	for(int i = 0; i < tetrahedons.length; i++)	{
+    	
+    	for(int i = 0;  tetrahedons[i] != null && i < tetrahedons.length; i++)	{
     		tetraList.add(tetrahedons[i]);
     	}
     }
     
-    public TerrainData(){
-    	int VERTEX_COUNT = 128;
-    	SIZE = 1000;
-    	int count = VERTEX_COUNT * VERTEX_COUNT;
-    	this.vertices = new float[count * 3];
-    	this.normals = new float[count * 3];
-    	this.textureCoords = new float[count*2];
-    	this.indices = new int[6*(VERTEX_COUNT-1)*(VERTEX_COUNT*1)];
-        this.leafs = new ArrayList<PointNode>();
-    	
-    	terraCalc = new TerrainGeometryCalc();
-        terraCalc.generateTerrain(vertices, normals, textureCoords, indices, leafs, SIZE, null);
-        tetrahedons = terraCalc.getAllTetrahedons(this);
-    }
+    
     
     public Tetrahedron[] getAllTetrahedon()	{
     	return tetrahedons;

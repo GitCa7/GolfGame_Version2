@@ -132,7 +132,7 @@ public class SurfaceTest {
 		    public void setUpTerrain(){
 		    	
 		    	//Terrain terra = new Terrain(0,0, "heightmap");
-		    	TerrainData terraDat = new TerrainData();
+		    	TerrainData terraDat = new TerrainData("heightmap");
 		    	Terrain terra = new Terrain(terraDat);
 			   	terrains.add(terra);
 			  
@@ -164,38 +164,7 @@ public class SurfaceTest {
 						
 					}
 				   
-				   if(Keyboard.isKeyDown(Keyboard.KEY_DOWN) && 	targetingState)	{
-					   
-					   float currentAngle,yAngle,xAmount,zAmount,ytemp;
-					   yAngle = -(directionArrow.getRotY());
-					   
-					   System.out.println("Current Angle: " + yAngle);
-					   if(yAngle >= 0.0f && 90 > yAngle)	{
-						   System.out.println("Angle between 0 and 90");
-						   //fist case : angle between 0 - 90
-						   zAmount = (yAngle / 90);
-						   xAmount = (90 - yAngle) / 90;
-					   }
-					   else	{
-						   System.out.println("Angle is not greater equal to 0 and lesser 90");
-						   xAmount = 0;
-						   zAmount =0;
-					   }
-					   
-					   
-					   System.out.println("xAmount: " + xAmount + "\nzAmount: " + zAmount);
-					   directionArrow.setRotX(directionArrow.getRotX() + targetYawAmount * xAmount);
-					   directionArrow.setRotZ(directionArrow.getRotZ() + targetYawAmount * zAmount);
-					   System.out.println("new xAmount: " + directionArrow.getRotX() + "\nnew yAmount: " + directionArrow.getRotZ() + "\n");
-				   }
-				   if(Keyboard.isKeyDown(Keyboard.KEY_UP) && targetingState)	{
-					   float currentAngle = directionArrow.getRotX();
-					   //System.out.println("Current Angle: " + currentAngle);
-					   if(currentAngle < 0)	{
-						   directionArrow.setRotX(currentAngle + 0.1f);
-					   }
-				   }
-		           
+				   
 		           for(gameEntity plant:surrondings)	{
 		        	   renderer.processEntity(plant);
 		           }
@@ -225,10 +194,10 @@ public class SurfaceTest {
 		         	   renderer.render(light, followCam);
 		         	   renderer.processEntity(directionArrow);
 		         	   directionArrow.setRotY(-(followCam.getYaw() - 180));
-		         	   System.out.println("Angle: " + directionArrow.getRotY());
+		         	   //System.out.println("Angle: " + directionArrow.getRotY());
 					   Vector3 dir = new Vector3(0,0,1);
 					   dir.rotate(directionArrow.getRotY(),0,1,0);
-					   System.out.println("Vector: " + dir.toString());
+					   //System.out.println("Vector: " + dir.toString());
 		            }
 		            
 		            if(Keyboard.isKeyDown(Keyboard.KEY_TAB))	{
