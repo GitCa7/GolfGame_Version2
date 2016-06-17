@@ -338,4 +338,7 @@ public class TerrainGeometryCalc implements Serializable {
 		 return new int[6 * (VERTEX_COUNT - 1) * (VERTEX_COUNT * 1)];
 	 }
 
+	 
+	 
+	 
 }

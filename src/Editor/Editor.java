@@ -215,11 +215,11 @@ public class Editor implements ApplicationListener {
         ObjectInputStream inputStream = null;
         ObjectOutputStream outputStream = null;
         try {
-            inputStream = new ObjectInputStream(new FileInputStream("C:\\Users\\Asus\\Documents\\UNI\\GolfGame_Version2\\courses.dat"));
+            inputStream = new ObjectInputStream(new FileInputStream("courses.dat"));
             System.out.println("g");
             ArrayList<Course> courses = (ArrayList<Course>) inputStream.readObject();
             courses.add(toSave);
-            outputStream = new ObjectOutputStream(new FileOutputStream("C:\\Users\\Asus\\Documents\\UNI\\GolfGame_Version2\\courses.dat"));
+            outputStream = new ObjectOutputStream(new FileOutputStream("courses.dat"));
             outputStream.writeObject(courses);
         } catch (IOException ex) {
             System.out.println("[Laad] IO Error: " + ex.getMessage());

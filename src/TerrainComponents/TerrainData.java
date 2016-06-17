@@ -77,6 +77,9 @@ public class TerrainData implements Serializable {
     }
     
     public TerrainData(int triangleNumber){
+    	
+    	
+    	
     	int VERTEX_COUNT = 128;
     	SIZE = 1000;
     	int count = VERTEX_COUNT * VERTEX_COUNT;
@@ -136,6 +139,24 @@ public class TerrainData implements Serializable {
     public int[] getIndices() {
         return indices;
     }
-
+    
+    public boolean isFlat()	{
+    	return terraCalc.terrainIsFlat(this);
+    }
+    
+    
     public float getSIZE(){return SIZE;}
+
+
+    
+    public static void main(String[] args)	{
+    	TerrainData terraDat = new TerrainData();
+    	TerrainGeometryCalc calculate = new TerrainGeometryCalc();
+    	System.out.println("Is flat: " + calculate.terrainIsFlat(terraDat));
+    	
+    	TerrainData terraDat2 = new TerrainData("heightmap");
+    	TerrainGeometryCalc calculate2 = new TerrainGeometryCalc();
+    	System.out.println("Is flat: " + calculate2.terrainIsFlat(terraDat2));
+    }
+
 }

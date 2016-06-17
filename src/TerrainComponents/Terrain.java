@@ -51,7 +51,7 @@ public class Terrain {
     public float x,z;
 
 
-    public Terrain (TerrainData data){
+    public Terrain(TerrainData data){
     	x = 0;
     	z = 0;
         vertices = data.getVertices();
