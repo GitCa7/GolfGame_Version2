@@ -44,7 +44,7 @@ public class Terrain {
     float[] textureCoords;
     int[] indices;
     
-    private static final TerrainGeometryCalc terraCalc = new TerrainGeometryCalc();
+    private static TerrainGeometryCalc terraCalc;
 
     public ArrayList<PointNode> leafs;
     
@@ -59,6 +59,7 @@ public class Terrain {
         textureCoords = data.getTextureCoords();
         indices = data.getIndices();
         leafs = data.getLeafs();
+        terraCalc = new TerrainGeometryCalc(data.getHeightMapID());
         model = terraCalc.getTerrainFromData(data);
         SIZE = data.getSIZE();
     }

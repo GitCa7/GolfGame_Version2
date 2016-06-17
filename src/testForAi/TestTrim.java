@@ -2,12 +2,11 @@ package testForAi;
 
 import aiExtention.GolfAction;
 import aiExtention.GolfState;
-import aiExtention.Utils.GolfSearchData;
+import aiExtention.Utils.GolfSearchPerformer;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 import physics.components.Force;
-import physics.components.GravityForce;
 import physics.components.Position;
 import physics.components.Velocity;
 import physics.entities.Ball;
@@ -15,7 +14,6 @@ import physics.systems.Movement;
 import searchTree.TreeNode;
 import physics.systems.ForceApply;
 import physics.systems.FrictionSystem;
-import physics.systems.GravitySystem;
 
 
 public class TestTrim {
@@ -27,6 +25,7 @@ public class TestTrim {
 		int gravityConstant = 0;
 		Ball ball = new Ball(new Entity());
 		ball.mEntity.add(new Position(0, 0, 0));
+		ball.mEntity.add(new Velocity(0, 0, 0));
 		ball.mEntity.add(new Force());
 
 		engine.addEntity(ball.mEntity);
@@ -43,7 +42,7 @@ public class TestTrim {
 		target.add(new Position(100, 0, 0));
 		
 		
-		GolfSearchData searchPerformer= new GolfSearchData(ball, target);
+		GolfSearchPerformer searchPerformer= new GolfSearchPerformer(ball, target);
 		
 		TreeNode<GolfState, GolfAction> solutionNode= searchPerformer.greedySolution();
 		

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector3;
 import physics.components.Force;
 import physics.components.GravityForce;
 import physics.components.Position;
+import physics.components.Velocity;
 import physics.entities.Ball;
 import searchTree.SearchState;
 
@@ -42,6 +43,7 @@ public class GolfState extends SearchState {
 		Ball newBall = new Ball(new Entity());
 		newBall.mEntity.add(new Position(ball.mEntity.getComponent(Position.class).x, ball.mEntity.getComponent(Position.class).y, ball
 				.mEntity.getComponent(Position.class).z));
+		newBall.mEntity.add(new Velocity(0, 0, 0));
 		newBall.mEntity.add(new Force());
 		GolfState cloneState = new GolfState(newBall, target);
 		return cloneState;
