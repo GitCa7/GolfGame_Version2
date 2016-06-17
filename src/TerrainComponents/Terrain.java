@@ -60,6 +60,7 @@ public class Terrain {
         indices = data.getIndices();
         leafs = data.getLeafs();
         model = terraCalc.getTerrainFromData(data);
+        SIZE = data.getSIZE();
     }
 
     public Terrain(int gridX, int gridZ, String heightMapPath) {
@@ -97,7 +98,7 @@ public class Terrain {
     }
 
     public TerrainData toData(){
-        return new TerrainData(vertices,normals,textureCoords,indices,leafs, 1000);
+        return new TerrainData(vertices,normals,textureCoords,indices,leafs, SIZE);
     }
 
     private void calculateNormal2()	{

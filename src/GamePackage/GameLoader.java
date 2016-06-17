@@ -66,9 +66,9 @@ public class GameLoader {
 		for(int i=0;i<ballPos.size();i++) {
 			String pName = JOptionPane.showInputDialog("Player "+i+" Name?");
 			if(bots.get(i)){
-				config.addBotAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y, ballPos.get(i).z));
+				config.addBotAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y+10, ballPos.get(i).z));
 			}else {
-				config.addHumanAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y, ballPos.get(i).z));
+				config.addHumanAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y+10, ballPos.get(i).z));
 			}
 		}
 		TerrainGeometryCalc calc =  new TerrainGeometryCalc();

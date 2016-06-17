@@ -30,6 +30,7 @@ public class TerrainData implements Serializable {
         terraCalc = new TerrainGeometryCalc();
         terraCalc.generateTerrain(vertices, normals, textureCoords, indices, leafs, 1000, heightMapID);
         tetrahedons = terraCalc.getAllTetrahedons(this);
+        this.SIZE = SIZE;
     }
 
     public TerrainData(String heightMapID){
@@ -105,4 +106,6 @@ public class TerrainData implements Serializable {
     public int[] getIndices() {
         return indices;
     }
+
+    public float getSIZE(){return SIZE;}
 }

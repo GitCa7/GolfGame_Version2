@@ -7,7 +7,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class FollowCamera extends Camera{
 
-	private float distanceFromPlayer = 35f;
+	private float distanceFromPlayer = 100f;
 	private float angleAroundPlayer = 0;
 	private gameEntity player;
 	private Vector3f pos = new Vector3f(0,0,0);

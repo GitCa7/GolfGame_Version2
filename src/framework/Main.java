@@ -79,7 +79,7 @@ public class Main
         Vector3 defaultHit = new Vector3(50, 25, 0);
 
         Player active = mGame.getCurrentPlayers().get(0);
-        mGame.hit(active, defaultHit);
+        //mGame.hit(active, defaultHit);
 
         while (mGame.isActive())
         {
@@ -88,12 +88,12 @@ public class Main
             {
                 mGame.tick(DELTA_TIME);
                 mVisual.updateDisplay();
-                printCurrentBall();
+                printCurrentBall();/*
                 try
                 {
                     Thread.sleep(1000);
                 }
-                catch (Exception e) {}
+                catch (Exception e) {}*/
 
             } while (mGame.isBusy());
 
