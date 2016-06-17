@@ -33,6 +33,15 @@ public class TerrainGeometryCalc implements Serializable {
     private BufferedImage heightMapImage;
     private int count,VERTEX_COUNT;
 	
+    public TerrainGeometryCalc()	{
+    	heightMapImage = null;
+		heightMapUse = false;
+    	if(VERTEX_COUNT == 0)	{
+    		VERTEX_COUNT = 128;
+    	}
+    	count = (int) (VERTEX_COUNT * VERTEX_COUNT);
+    }
+    
 	public TerrainGeometryCalc(String heightMapPath)	{
 		this.heightMapPath = heightMapPath;
 		heightMapImage = null;
@@ -292,6 +301,22 @@ public class TerrainGeometryCalc implements Serializable {
 	    	
 	    	
 	    }
+	 
+	 public boolean terrainIsFlat(TerrainData terraData)	{
+		 
+		 PointNode start = terraData.getLeafs().get(0);
+		 float yTarget = start.getCoordinates().y;
+		 
+		 float yVal;
+		 for(PointNode tmp: terraData.getLeafs())	{
+			 yVal = tmp.getCoordinates().y;
+			 if(yVal != yTarget)	{
+				 return false;
+			 }
+		 }
+		 return true;
+	 }
+	 
 	 
 	 public boolean getHeigtMapExcistence()	{
 		 return heightMapUse;

@@ -28,8 +28,8 @@ public class Arrow extends gameEntity {
 	}
 	
 	public Arrow(GolfBall golfB) {
-		super(staticModel, golfB.getPosition(), 90, 0, 0, 1);
-		Vector3f newPos = new Vector3f(golfB.getPosition().x, golfB.getPosition().y + 1, golfB.getPosition().z);
+		super(staticModel, golfB.getPosition(), 0, 0, 0, 1);
+		Vector3f newPos = new Vector3f(golfB.getPosition().x, golfB.getPosition().y + 3, golfB.getPosition().z);
 		super.setPosition(newPos);
 		// TODO Auto-generated constructor stub
 	}

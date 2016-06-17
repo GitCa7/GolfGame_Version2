@@ -75,6 +75,22 @@ public class TerrainData implements Serializable {
         tetrahedons = terraCalc.getAllTetrahedons(this);
     }
     
+    public TerrainData(int triangleNumber){
+    	int VERTEX_COUNT = 128;
+    	SIZE = 1000;
+    	int count = VERTEX_COUNT * VERTEX_COUNT;
+    	this.vertices = new float[count * 3];
+    	this.normals = new float[count * 3];
+    	this.textureCoords = new float[count*2];
+    	this.indices = new int[6*(VERTEX_COUNT-1)*(VERTEX_COUNT*1)];
+        this.leafs = new ArrayList<PointNode>();
+    	
+    	terraCalc = new TerrainGeometryCalc(null);
+        terraCalc.generateTerrain(vertices, normals, textureCoords, indices, leafs, SIZE, null);
+        //System.out.println("Attributres before calculation: \n" + "Amount of vertices: " + "\t" + vertices.length + "\nAmount of indices: " + "\t" + indices.length + "\nAmount of normals: " + "\t" + normals.length + "\nAmount of Texture Coordinates: " + "\t" + textureCoords.length);
+        tetrahedons = terraCalc.getAllTetrahedons(this);
+    }
+    
     private void updateTetraList()	{
     	
     	for(int i = 0;  tetrahedons[i] != null && i < tetrahedons.length; i++)	{

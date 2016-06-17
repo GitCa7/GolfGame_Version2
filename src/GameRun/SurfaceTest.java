@@ -95,14 +95,14 @@ public class SurfaceTest {
 			
 			public void setUpEntities()	{
 				
-				GolfBall golfball = new GolfBall(new Vector3f(-500,10,-460), 2,false);
+				GolfBall golfball = new GolfBall(new Vector3f(-500,terrains.get(0).getHeightSimple(-500, -460),-460), 2,false);
 				//cam.setPosition(new Vector3f(4,20,-422));
 				//System.out.println("ID: " + golfball.getModel().getRawModel().getID());
 				golfBalls.add(golfball);
 				//System.out.println("ID: " + entities.get(0));
 				
 				
-				directionArrow = new Arrow(new Vector3f(-500,13,-460), 1.5f);
+				directionArrow = new Arrow(golfball);
 				targetingState = false;
 				surrondings.add(directionArrow);
 			}
