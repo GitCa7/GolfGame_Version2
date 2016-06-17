@@ -1,6 +1,7 @@
 package framework;
 
 
+import physics.components.Component;
 import physics.components.ComponentFactory;
 
 /**

@@ -210,7 +210,7 @@ public class Editor implements ApplicationListener {
             obdat.add(a.toData());
         }
         String name = JOptionPane.showInputDialog("Course Name?");
-        Course toSave = new Course(terrain.toData(), obdat, tmp,tmp2, mouse.hole.getPosition(),name);
+        Course toSave = new Course(mouse.terrain.toData(), obdat, tmp,tmp2, mouse.hole.getPosition(),name);
         System.out.println(toSave.getName()) ;
         ObjectInputStream inputStream = null;
         ObjectOutputStream outputStream = null;

@@ -73,7 +73,7 @@ public class NormalForceSystem extends EntitySystem  implements RepositoryEntity
         ArrayList<ColliderPair<ColliderEntity>> collisions = mRepo.getColliderPairs();
 
         if (!collisions.isEmpty())
-            System.out.println ("received collision");
+            //System.out.println ("received collision");
 
         //get collider pairs
         for (ColliderPair<ColliderEntity> p : collisions) {

@@ -149,8 +149,9 @@ public class FrictionSystem extends EntitySystem implements RepositoryEntitySyst
 
 		if (magFriction *dTime / m.mMass > v.len())
 		{
-			if(mDebug)
-				System.out.println ("set zero");
+			if(mDebug) {
+				System.out.println("set zero");
+			}
 			return v.cpy().scl(-1 * m.mMass / dTime);
 		}
 

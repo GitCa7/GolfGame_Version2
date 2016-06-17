@@ -131,13 +131,13 @@ public class FakeMain
                 mGame.tick(dt);
 
                 //   mVisual.updateDisplay();
-
+/*
                 try
                 {
                     Thread.sleep(100);
                 } catch (Exception e)
                 {
-                }
+                }*/
             } while (mGame.isBusy());
         }
 

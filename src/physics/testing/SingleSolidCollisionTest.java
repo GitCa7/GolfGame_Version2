@@ -42,12 +42,12 @@ public class SingleSolidCollisionTest
 		for (int cnt = 0; cnt < iterations; ++cnt)
 		{
 			test.updateEngine();
-			test.printBallPosition();
+			test.printBallPosition();/*
 			try
 			{
 				Thread.sleep(50);
 			}
-			catch (Exception e) { System.out.println ("oh no"); }
+			catch (Exception e) { System.out.println ("oh no"); }*/
 		}
 	}
 

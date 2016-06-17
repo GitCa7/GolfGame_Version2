@@ -97,7 +97,7 @@ public class NonPenetrationSystem extends EntitySystem implements RepositoryEnti
         Body b = CompoMappers.BODY.get(e);
 
 
-        System.out.println ("correcting position from " + p + " to " + newPosition);
+        //System.out.println ("correcting position from " + p + " to " + newPosition);
 
         GlobalObjects.ROUND.roundDigits(newPosition.x);
         GlobalObjects.ROUND.roundDigits(newPosition.y);

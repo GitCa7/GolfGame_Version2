@@ -108,7 +108,7 @@ public class GameVisual {
 	public void setBalls(ArrayList<Vector3f> balls){
 		ArrayList<GolfBall> tmp = new ArrayList();
 		for (int i =0;i<balls.size();i++){
-			GolfBall ball = new GolfBall(balls.get(i),25,false);
+			GolfBall ball = new GolfBall(new Vector3f(balls.get(i).x,balls.get(i).y+5,balls.get(i).z),5,false);
 			tmp.add(ball);
 		}
 		golfBalls = tmp;
@@ -196,12 +196,12 @@ public class GameVisual {
 		//System.out.println("CurrentForce: " + currentForce);
 		if(Keyboard.isKeyDown(Keyboard.KEY_1) && currentForce < forceLvlMax  && forceChangeAccept)	{
 			currentForce++;
-			System.out.println("CurrentForce set to: " + currentForce);
+			//System.out.println("CurrentForce set to: " + currentForce);
 			forceChangeAccept = false;
 		}
 		else if(Keyboard.isKeyDown(Keyboard.KEY_2) && currentForce > 0 && forceChangeAccept)	{
 			currentForce--;
-			System.out.println("CurrentForce set to: " + currentForce);
+			//System.out.println("CurrentForce set to: " + currentForce);
 			forceChangeAccept = false;
 		}
 	}
@@ -211,7 +211,7 @@ public class GameVisual {
 		Vector3 dir = new Vector3(0,0,1);
 		dir.rotate(directionArrow.getRotY(),0,1,0);
 		if(currentForce != 0)	{
-			System.out.println("NewForce = " + hitDirection + "(hitDirection) scaled by: " + currentForce + " * 400");
+			//System.out.println("NewForce = " + hitDirection + "(hitDirection) scaled by: " + currentForce + " * 400");
 			
 			Vector3f newForce = new Vector3f(dir.x * (currentForce * power), dir.y * (currentForce * power), dir.z * (currentForce * power));
 			
@@ -220,7 +220,7 @@ public class GameVisual {
 		else	{
 			returnForce = null;
 		}
-		System.out.println(returnForce);
+		//System.out.println(returnForce);
 		currentForce = 0;
 		return returnForce;
 	}
@@ -305,7 +305,7 @@ public class GameVisual {
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_RETURN) && currentForce != 0)	{
-			System.out.println("Force now present");
+			//System.out.println("Force now present");
 			forcePresent = true;
 		}
 		
@@ -322,7 +322,7 @@ public class GameVisual {
         }
 		for(gameEntity ob:entities)	{
 			renderer.processEntity(ob);
-			System.out.println("Ball Position: " + ob.getPosition());
+			//System.out.println("Ball Position: " + ob.getPosition());
 		}
 
         for(Terrain terrain:terrains)	{
@@ -336,10 +336,10 @@ public class GameVisual {
      	   renderer.render(light, followCam);
 			renderer.processEntity(directionArrow);
 			directionArrow.setRotY(-(followCam.getYaw() - 180));
-			System.out.println("Angle: " + directionArrow.getRotY());
+			//System.out.println("Angle: " + directionArrow.getRotY());
 			Vector3 dir = new Vector3(0,0,1);
 			dir.rotate(directionArrow.getRotY(),0,1,0);
-			System.out.println("Vector: " + dir.toString());
+			//System.out.println("Vector: " + dir.toString());
         }
 
 

@@ -1,6 +1,7 @@
 package framework.components;
 
-import com.badlogic.ashley.core.Component;
+
+import physics.components.Component;
 import physics.components.ComponentFactory;
 
 /**

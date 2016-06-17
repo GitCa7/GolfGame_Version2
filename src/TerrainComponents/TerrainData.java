@@ -30,6 +30,7 @@ public class TerrainData implements Serializable {
         terraCalc = new TerrainGeometryCalc(null);
         terraCalc.generateTerrain(vertices, normals, textureCoords, indices, leafs, 1000, heightMapID);
         tetrahedons = terraCalc.getAllTetrahedons(this);
+        this.SIZE = SIZE;
     }
 
     public TerrainData(){
@@ -139,6 +140,9 @@ public class TerrainData implements Serializable {
         return indices;
     }
     
+    public float getSIZE(){return SIZE;}
+
+
     
     public static void main(String[] args)	{
     	TerrainData terraDat = new TerrainData();
@@ -149,4 +153,5 @@ public class TerrainData implements Serializable {
     	TerrainGeometryCalc calculate2 = new TerrainGeometryCalc();
     	System.out.println("Is flat: " + calculate2.terrainIsFlat(terraDat2));
     }
+
 }

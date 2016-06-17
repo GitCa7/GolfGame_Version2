@@ -66,8 +66,9 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 		mRepository.clear();
 		ArrayList<ColliderPair<ColliderEntity>> colliding = mDetect.getAnyColliding();
 		if (!colliding.isEmpty())	{
-			if(mDebug)
-				System.out.println ("detected a collision!");
+			if(mDebug) {
+				//System.out.println ("detected a collision!");
+			}
 		}
 
 		float epsilon = (float) GlobalObjects.ROUND.getEpsilon();
