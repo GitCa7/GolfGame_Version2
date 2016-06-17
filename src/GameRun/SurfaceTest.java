@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
+import Editor.Course;
+import Editor.CourseLoader;
 import org.lwjgl.input.Keyboard;
 
 import org.lwjgl.opengl.Display;
@@ -130,9 +132,9 @@ public class SurfaceTest {
 			
 		   
 		    public void setUpTerrain(){
-		    	
+		    	Course course = CourseLoader.loadCourse("test");
 		    	//Terrain terra = new Terrain(0,0, "heightmap");
-		    	TerrainData terraDat = new TerrainData("heightmap");
+		    	TerrainData terraDat = course.getTerrain();
 		    	Terrain terra = new Terrain(terraDat);
 			   	terrains.add(terra);
 			  

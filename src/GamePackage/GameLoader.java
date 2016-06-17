@@ -71,7 +71,8 @@ public class GameLoader {
 				config.addHumanAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y+10, ballPos.get(i).z));
 			}
 		}
-		TerrainGeometryCalc calc =  new TerrainGeometryCalc(null);
+		TerrainGeometryCalc calc =  new TerrainGeometryCalc();
+		System.out.println(calc.terrainIsFlat(tdata));
 		ArrayList<Triangle> tmp = calc.getAllTris(tdata);
 		config.setTerrain(tmp);
 		return config.game();
