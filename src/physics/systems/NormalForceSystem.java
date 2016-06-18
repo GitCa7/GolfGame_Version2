@@ -3,11 +3,9 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.*;
 import framework.EntitySystem;
-import framework.testing.RepositoryEntitySystem;
 import physics.collision.*;
 import physics.components.Force;
 import physics.constants.CompoMappers;
-import physics.components.*;
 import physics.geometry.planar.Plane;
 import physics.geometry.VectorProjector;
 
@@ -61,7 +59,7 @@ public class NormalForceSystem extends EntitySystem  implements RepositoryEntity
 
     /**
      * for every entity on which a force can be excerted, the normal force will be added to this entity.
-     * This is the vector projection of the opposite gravity onto the normal vector supporting the entity.
+     * This is the vector projection of the opposite current force excerted onto the normal vector supporting the entity.
      * @param dtime time elapsed between this and the last update
      */
     public void update (float dtime)
@@ -77,6 +75,7 @@ public class NormalForceSystem extends EntitySystem  implements RepositoryEntity
 
         //get collider pairs
         for (ColliderPair<ColliderEntity> p : collisions) {
+            System.out.println ("apply normal force");
             //for each collider pair
             if (p.getFirst().isActive()) {
                 //compute
@@ -100,13 +99,19 @@ public class NormalForceSystem extends EntitySystem  implements RepositoryEntity
         //given a force g pushing on surface, normal unit vector nu of this surface
         Plane p = new ColliderClosestSideFinder(active, passive).find();
 
-        // Fg = gravity * mass
-        Mass activeMass = CompoMappers.MASS.get(active.getEntity());
-        Vector3 invFg = CompoMappers.GRAVITY_FORCE.get(active.getEntity()).cpy().scl(-1 * activeMass.mMass);
+        //get current force
+        Force f = CompoMappers.FORCE.get(active.getEntity());
 
-        // Vector Projection of Fg onto normal Vector of P to get Fn
-        VectorProjector vp = new VectorProjector(p.getNormal());
-        return vp.project(invFg);
+        //if force points inside passive => f has same direction as p's normal
+        if (f.hasSameDirection(p.getNormal()))
+        {
+            // Vector Projection of Fg onto normal Vector of P to get Fn
+            VectorProjector vp = new VectorProjector(p.getNormal());
+            return vp.project(f.cpy().scl(-1));
+        }
+
+        //otherwise: no normal force applicable
+        return new Vector3();
     }
 
     private CollisionRepository mRepo;

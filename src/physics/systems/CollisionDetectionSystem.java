@@ -5,15 +5,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import framework.EntitySystem;
-import framework.testing.RepositoryEntitySystem;
 import physics.collision.*;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 
 
 import physics.constants.Families;
-import physics.constants.GlobalObjects;
-import physics.geometry.planar.Plane;
 
 /**
  * @autor martin
@@ -71,15 +68,8 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 			}
 		}
 
-		float epsilon = (float) GlobalObjects.ROUND.getEpsilon();
-
 		for(ColliderPair<ColliderEntity> pair : colliding)
-		{
-			//do this elsewhere (i.e. needed for collisions
-			//if (	(pair.getFirst().isActive() && !testCloseness(pair.getFirst(), pair.getSecond(), epsilon) ||
-			//		(pair.getSecond().isActive() && !testCloseness(pair.getSecond(), pair.getFirst(), epsilon))))
-					mRepository.addColliderPair(pair);
-		}
+			mRepository.addColliderPair(pair);
 	}
 
 
@@ -107,14 +97,7 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 	}
 
 
-	private boolean testCloseness(ColliderEntity active, ColliderEntity passive, float eps)
-	{
-		ColliderClosestSideFinder findSide = new ColliderClosestSideFinder(active, passive);
-		Plane closest = findSide.find();
-		if (closest.testPoint(active.getCollidingVertex()) < eps)
-			return true;
-		return false;
-	}
+
 
 	/** store impacted by collisions */
 	private HashSet<Entity> mActive;

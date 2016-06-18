@@ -18,6 +18,7 @@ import physics.entities.Ball;
 import physics.geometry.planar.Triangle;
 import physics.geometry.planar.TriangleBuilder;
 import physics.geometry.spatial.*;
+import physics.systems.NonPenetrationSystem;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,12 +32,19 @@ public class FakeMain
 
     public static void main(String[] args)
     {
+        setDebug();
+
         FakeMain fm = new FakeMain();
         fm.initGame();
-        fm.initGraphics();
+    //    fm.initGraphics();
 
         fm.run();
         fm.close();
+    }
+
+    public static void setDebug()
+    {
+        NonPenetrationSystem.DEBUG = true;
     }
 
     public static final float DELTA_TIME = 1;
@@ -87,9 +95,9 @@ public class FakeMain
 
         float ballRadius = 3, ballMass = 5;
         Vector3 initBallPos = new Vector3();
-        //config.addHumanAndBall("martin", ballRadius, ballMass, initBallPos);
+        config.addHumanAndBall("martin", ballRadius, ballMass, initBallPos);
         //comment above and uncomment below for bot
-        config.addBotAndBall("bot", ballRadius, ballMass, initBallPos);
+        //config.addBotAndBall("bot", ballRadius, ballMass, initBallPos);
         mGame = config.game();
     }
 

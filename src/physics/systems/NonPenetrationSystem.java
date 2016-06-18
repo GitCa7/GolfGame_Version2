@@ -3,7 +3,6 @@ package physics.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 import framework.EntitySystem;
-import framework.testing.RepositoryEntitySystem;
 import physics.collision.ColliderEntity;
 import physics.collision.ColliderPair;
 import physics.collision.CollisionRepository;
@@ -23,6 +22,7 @@ import java.util.ArrayList;
 public class NonPenetrationSystem extends EntitySystem implements RepositoryEntitySystem
 {
 
+    public static boolean DEBUG = false;
 
     public NonPenetrationSystem()
     {
@@ -97,7 +97,8 @@ public class NonPenetrationSystem extends EntitySystem implements RepositoryEnti
         Body b = CompoMappers.BODY.get(e);
 
 
-        //System.out.println ("correcting position from " + p + " to " + newPosition);
+        if (DEBUG)
+            System.out.println ("correcting position from " + p + " to " + newPosition);
 
         GlobalObjects.ROUND.roundDigits(newPosition.x);
         GlobalObjects.ROUND.roundDigits(newPosition.y);
@@ -105,7 +106,6 @@ public class NonPenetrationSystem extends EntitySystem implements RepositoryEnti
         p.set(newPosition);
         b.setPosition(newPosition);
     }
-
 
 
     private CollisionRepository mRepo;

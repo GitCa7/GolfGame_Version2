@@ -23,7 +23,7 @@ public class CollisionDetectionSystemFactory extends EntitySystemFactory
 
         CollisionDetectionSystem newSystem = new CollisionDetectionSystem();
         newSystem.setRepository(mRepoUsed);
-        attachListener(newSystem);
+        initSystem(newSystem);
         return newSystem;
     }
 

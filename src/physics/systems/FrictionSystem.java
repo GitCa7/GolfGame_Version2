@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 
 import framework.EntitySystem;
-import framework.testing.RepositoryEntitySystem;
 import physics.collision.ColliderClosestSideFinder;
 import physics.collision.ColliderEntity;
 import physics.collision.ColliderPair;

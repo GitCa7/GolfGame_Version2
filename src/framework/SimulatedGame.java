@@ -3,14 +3,11 @@ package framework;
 import com.badlogic.ashley.core.*;
 import com.badlogic.gdx.math.Vector3;
 import framework.internal.components.Busy;
-import framework.testing.RepositoryEntitySystem;
+import physics.systems.RepositoryEntitySystem;
 import physics.collision.CollisionRepository;
 import physics.components.Force;
 import physics.constants.CompoMappers;
-import physics.constants.Families;
 import physics.entities.Ball;
-
-import java.util.ArrayList;
 
 /**
  * Class cloning a game based on its engine.

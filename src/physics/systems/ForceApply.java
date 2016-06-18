@@ -36,6 +36,8 @@ public class  ForceApply extends EntitySystem
 	 */
 	public void update (float dTime)
 	{
+		System.out.println("applying forces");
+
 		for (Entity update : entities())
 		{
 			Force f = CompoMappers.FORCE.get (update);

@@ -88,7 +88,7 @@ public class Main
             {
                 mGame.tick(DELTA_TIME);
                 mVisual.updateDisplay();
-                printCurrentBall();/*
+                /*printCurrentBall();
                 try
                 {
                     Thread.sleep(1000);

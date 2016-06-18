@@ -3,6 +3,7 @@ package GamePackage;
 import java.util.ArrayList;
 import java.util.Random;
 
+import TerrainComponents.TerrainGeometryCalc;
 import framework.Game;
 import physics.components.Body;
 import physics.components.Force;
@@ -74,6 +75,7 @@ public class GameVisual {
 	boolean forcePresent, forceChangeAccept;
 	boolean targetingState;
 	float timepassed;
+	TerrainGeometryCalc calc = new TerrainGeometryCalc();
 	
 	private static final float forceLvlMax = 3;
 	private static final float power = 250;
@@ -292,13 +294,15 @@ public class GameVisual {
 	public void startDisplay()	{
 		mousePick = new MousePicker(followCam, renderer.getProjectionMatrix(), terrains.get(0));
 		useFollow = true;
+		System.out.println(calc.terrainIsFlat(terrains.get(0).toData()));
 		updateObstacles();
+		terrains.get(0).toData().printVerts();
 	}
 	
 	public void updateDisplay()	{
 		updateObjects();
 		forceLevelCheck();
-		
+
 		if(forceChangeAccept == false && timepassed >= 1)	{
 			forceChangeAccept = true;
 			timepassed = 0;
@@ -325,9 +329,7 @@ public class GameVisual {
 			//System.out.println("Ball Position: " + ob.getPosition());
 		}
 
-        for(Terrain terrain:terrains)	{
-     	   renderer.processTerrain(terrain);
-        }
+     	   renderer.processTerrain(terrains.get(0));
         
         if(useFollow == false)	{
      	   renderer.render(light, cam);

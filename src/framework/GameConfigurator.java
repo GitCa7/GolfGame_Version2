@@ -271,13 +271,14 @@ public class GameConfigurator
 
         //set system's priorities
         collisionDetectionFactory.setSystemPriority(1);
-        collisionImpactFactory.setSystemPriority(2);
-        normalForceFactory.setSystemPriority(3);
-        gravitySystemFactory.setSystemPriority(6);
-        frictionSystemFactory.setSystemPriority(8);
+        nonPenetrationFactory.setSystemPriority(2);
+        gravitySystemFactory.setSystemPriority(3);
+        frictionSystemFactory.setSystemPriority(5);
+        normalForceFactory.setSystemPriority(8);
+        collisionImpactFactory.setSystemPriority(9);
         forceApplyFactory.setSystemPriority(10);
+
         movementFactory.setSystemPriority(12);
-        nonPenetrationFactory.setSystemPriority(14);
         goalSystemFactory.setSystemPriority(16);
         turnSystemFactory.setSystemPriority(20);
 
@@ -328,12 +329,12 @@ public class GameConfigurator
 
         //simplyfied
         ComponentBundle ballPosition = new ComponentBundle(mBallPositionFactory);
-        ComponentBundle ballVelocity = new ComponentBundle(ballVelocityFactory,movementFactory);
+        ComponentBundle ballVelocity = new ComponentBundle(ballVelocityFactory/*,movementFactory*/);
         ComponentBundle ballForce = new ComponentBundle(ballForceFactory, forceApplyFactory);
         ComponentBundle ballFriction = new ComponentBundle(ballFrictionFactory, frictionSystemFactory);
         ComponentBundle ballMass = new ComponentBundle(mBallMassFactory);
-        ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory, collisionDetectionFactory);
-        ComponentBundle ballGravity = new ComponentBundle(ballGravityFactory);
+        ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory, collisionDetectionFactory, collisionImpactFactory, nonPenetrationFactory);
+        ComponentBundle ballGravity = new ComponentBundle(ballGravityFactory, gravitySystemFactory, normalForceFactory);
         ComponentBundle ballGoal = new ComponentBundle(mBallGoalFactory, goalSystemFactory);
 
         //add bundles to ball factory

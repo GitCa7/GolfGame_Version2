@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
+import Editor.Course;
+import Editor.CourseLoader;
 import org.lwjgl.input.Keyboard;
 
 import org.lwjgl.opengl.Display;
@@ -132,7 +134,6 @@ public class SurfaceTest {
 			
 		   
 		    public void setUpTerrain(){
-		    	
 		    	Course course = CourseLoader.loadCourse("test");
 		    	TerrainData terraDat = course.getTerrain();
 		    	System.out.println("Terrain is flat: " + terraDat.isFlat());

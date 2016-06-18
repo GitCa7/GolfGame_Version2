@@ -137,6 +137,12 @@ public class Terrain {
         }
     }
 
+    public void printVerts(){
+        for (int i=1;i<vertices.length-300;i=i+300){
+            System.out.println(vertices[i]);
+        }
+    }
+
     private Vector3f calculateNormal(int x, int z, BufferedImage image) {
 
         if (x < 0 || x > image.getHeight() || z < 0 || z > image.getHeight()) {
