@@ -77,8 +77,8 @@ public class TerrainData implements Serializable {
     }
     
     public TerrainData(int triangleNumber){
-    	
-    	
+
+    	//START HERE!!!!!!!
     	
     	int VERTEX_COUNT = 128;
     	SIZE = 1000;
