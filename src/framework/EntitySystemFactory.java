@@ -48,15 +48,16 @@ public abstract class EntitySystemFactory
 		mPriority = priority;
 	}
 
+
 	/**
-	 * checks whether the priority value has been set and throws a standard exception if this is
-	 * not the case.
-	 * @throws IllegalArgumentException if the priority value has not been set
-	 */
-	public void checkAndThrowPriorityException()
+	 * initialize a new entity system for proper use in clients
+	 * @param init the system to initialize
+     */
+	protected void initSystem(EntitySystem init)
 	{
-		if (!hasPriority())
-			throw new IllegalStateException("system factory cannot operate, priority value has not been set yet");
+		checkAndThrowPriorityException();
+		init.setPriority(mPriority);
+		attachListener(init);
 	}
 
 	/**
@@ -64,12 +65,23 @@ public abstract class EntitySystemFactory
 	 * @param newSystem an entity system instance
 	 * @throws IllegalStateException if no engine was set
      */
-	protected void attachListener(EntitySystem newSystem)
+	private void attachListener(EntitySystem newSystem)
 	{
 		if (mListenEngine == null)
 			throw new IllegalStateException("no engine set, cannot attach listener for system");
 		EntityListener listener = new EntityListener(newSystem);
 		mListenEngine.addEntityListener(listener);
+	}
+
+	/**
+	 * checks whether the priority value has been set and throws a standard exception if this is
+	 * not the case.
+	 * @throws IllegalArgumentException if the priority value has not been set
+	 */
+	private void checkAndThrowPriorityException()
+	{
+		if (!hasPriority())
+			throw new IllegalStateException("system factory cannot operate, priority value has not been set yet");
 	}
 
 	private Engine mListenEngine;

@@ -71,12 +71,12 @@ fix: normal force being applied multiple times lifts ball	(x)
 fix: collision reaction tolerance while keeping friction & normal force updated
 finish integration testing
 
-
-
 choose method for differential equations	(x)
 do generic implementation of differential equation solver
 adapt existing systems to work with DE solver
 re run tests
+
+momentum split if two moving entities collide
 
 UNORDERED
 write adapter for game abstracting entities

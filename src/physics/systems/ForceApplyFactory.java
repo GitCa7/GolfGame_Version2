@@ -14,9 +14,8 @@ public class ForceApplyFactory extends EntitySystemFactory {
     @Override
     public ForceApply produce()
     {
-        checkAndThrowPriorityException();
         ForceApply fa = new ForceApply();
-        attachListener(fa);
+        initSystem(fa);
         return fa;
     }
 }

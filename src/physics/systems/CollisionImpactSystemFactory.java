@@ -22,6 +22,7 @@ public class CollisionImpactSystemFactory extends EntitySystemFactory
             throw new IllegalStateException("no collision repository set, cannot produce collision impact system");
         CollisionImpactSystem cs = new CollisionImpactSystem();
         cs.setRepository(mRepoUsed);
+        initSystem(cs);
         return cs;
     }
 

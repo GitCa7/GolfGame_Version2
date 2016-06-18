@@ -3,11 +3,9 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.*;
 import framework.EntitySystem;
-import framework.testing.RepositoryEntitySystem;
 import physics.collision.*;
 import physics.components.Force;
 import physics.constants.CompoMappers;
-import physics.components.*;
 import physics.geometry.planar.Plane;
 import physics.geometry.VectorProjector;
 
@@ -104,9 +102,16 @@ public class NormalForceSystem extends EntitySystem  implements RepositoryEntity
         //get current force
         Force f = CompoMappers.FORCE.get(active.getEntity());
 
-        // Vector Projection of Fg onto normal Vector of P to get Fn
-        VectorProjector vp = new VectorProjector(p.getNormal());
-        return vp.project(f.cpy().scl(-1));
+        //if force points inside passive => f has same direction as p's normal
+        if (f.hasSameDirection(p.getNormal()))
+        {
+            // Vector Projection of Fg onto normal Vector of P to get Fn
+            VectorProjector vp = new VectorProjector(p.getNormal());
+            return vp.project(f.cpy().scl(-1));
+        }
+
+        //otherwise: no normal force applicable
+        return new Vector3();
     }
 
     private CollisionRepository mRepo;

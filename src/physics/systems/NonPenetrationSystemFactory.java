@@ -23,11 +23,11 @@ public class NonPenetrationSystemFactory extends EntitySystemFactory
      */
     public NonPenetrationSystem produce()
     {
-        checkAndThrowPriorityException();
         if (mRepo == null)
             throw new IllegalStateException("Collision repository not set, non penetration system cannot be initialized");
         NonPenetrationSystem newSystem = new NonPenetrationSystem();
         newSystem.setRepository(mRepo);
+        initSystem(newSystem);
         return newSystem;
     }
 

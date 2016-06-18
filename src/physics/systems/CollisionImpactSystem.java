@@ -1,15 +1,14 @@
 package physics.systems;
 import com.badlogic.ashley.core.*;
 import com.badlogic.gdx.math.*;
-import framework.testing.RepositoryEntitySystem;
 import physics.collision.*;
 import physics.components.Friction;
 import physics.components.Velocity;
 import physics.constants.CompoMappers;
 import physics.constants.Families;
+import physics.constants.GlobalObjects;
 import physics.constants.PhysicsCoefficients;
 
-import physics.geometry.ClosestSideFinder;
 import physics.geometry.VectorProjector;
 import physics.geometry.planar.Plane;
 
@@ -49,13 +48,18 @@ public class CollisionImpactSystem extends framework.EntitySystem implements Rep
 
     public void update (float dTime)
     {
-
+        //tolerance for collision impact
+        float epsilon = (float) GlobalObjects.ROUND.getEpsilon();
         //detect collisions
         ArrayList<ColliderPair<ColliderEntity>> colliding = mRepository.getColliderPairs();
 
         //for each physics.collision detected
         for (ColliderPair collPair : colliding)
         {
+            //do this elsewhere (i.e. needed for collisions
+            //if (	(pair.getFirst().isActive() && !testCloseness(pair.getFirst(), pair.getSecond(), epsilon) ||
+            //		(pair.getSecond().isActive() && !testCloseness(pair.getSecond(), pair.getFirst(), epsilon))))
+
             //if entity 1 is active
             if (((ColliderEntity)collPair.mFirst).isActive())
             {
@@ -82,12 +86,13 @@ public class CollisionImpactSystem extends framework.EntitySystem implements Rep
         }
 
     }
-        //get collider pairs
-        //for each collider pair
-        //f = compute
-        //apply f on active entity
 
-
+    /**
+     * @param active the entity deemed active
+     * @param passive the entity deemed passive
+     * @param dTime time elapsed between the last update and this update
+     * @return the force to be applied to account for the impact of the collision
+     */
     private Vector3 compute (ColliderEntity active, ColliderEntity passive, float dTime)
     {
         //given initial velocity v, normal unit vector nu
@@ -97,24 +102,34 @@ public class CollisionImpactSystem extends framework.EntitySystem implements Rep
         //Get the velocity
         Velocity currentDirection = CompoMappers.VELOCITY.get(active.getEntity());
 
-        //Constructing the triangle/computing u, w
-        VectorProjector mProjector = new VectorProjector(closestPlane.getNormal());
-        //u = -v * nu * nu (orthogonal projection, use vector projector)
-        Vector3 orthoVec = mProjector.project(currentDirection);
-        //w = v - u
-        Vector3 paraVec = currentDirection.cpy().sub(orthoVec);
+        if (currentDirection.hasSameDirection(closestPlane.getNormal()))
+        {
+            //Constructing the triangle/computing u, w
+            VectorProjector mProjector = new VectorProjector(closestPlane.getNormal());
+            //u = -v * nu * nu (orthogonal projection, use vector projector)
+            Vector3 orthoVec = mProjector.project(currentDirection);
 
-        //get Stuff
-        float activeMass = CompoMappers.MASS.get(active.getEntity()).mMass;
-        float friction = CompoMappers.FRICTION.get(active.getEntity()).get(Friction.State.DYNAMIC, Friction.Type.MOVE);
-        float restitution = PhysicsCoefficients.RESTITUTION_COEFFICIENT;
+            //only apply collision force if active moves towards passive
+            if (orthoVec.len() > GlobalObjects.ROUND.getEpsilon()) {
+                //w = v - u
+                Vector3 paraVec = currentDirection.cpy().sub(orthoVec);
 
-        //New force
-        //v' = f*w - r*u
-        Vector3 newDirection = paraVec.scl(friction).sub(orthoVec.scl(restitution));
-        //F = m / dt * dv, dv = v' - v => F = m / dt * (v' - v)
-        Vector3 needToApply = newDirection.sub(currentDirection).scl(activeMass / dTime);
-        return needToApply;
+                //get Stuff
+                float activeMass = CompoMappers.MASS.get(active.getEntity()).mMass;
+                float friction = CompoMappers.FRICTION.get(active.getEntity()).get(Friction.State.DYNAMIC, Friction.Type.MOVE);
+                float restitution = PhysicsCoefficients.RESTITUTION_COEFFICIENT;
+
+                //New force
+                //v' = f*w - r*u
+                Vector3 newDirection = paraVec.scl(friction).sub(orthoVec.scl(restitution));
+                //F = m / dt * dv, dv = v' - v => F = m / dt * (v' - v)
+                Vector3 needToApply = newDirection.sub(currentDirection).scl(activeMass / dTime);
+                return needToApply;
+            }
+        }
+
+        //if active does not move towards passive
+        return new Vector3();
     }
 
     @Override
@@ -149,6 +164,15 @@ public class CollisionImpactSystem extends framework.EntitySystem implements Rep
         }
     }
 
+
+    private boolean testCloseness(ColliderEntity active, ColliderEntity passive, float eps)
+    {
+        ColliderClosestSideFinder findSide = new ColliderClosestSideFinder(active, passive);
+        Plane closest = findSide.find();
+        if (closest.testPoint(active.getCollidingVertex()) < eps)
+            return true;
+        return false;
+    }
 
     private HashSet<Entity> mActive;
     private ColliderClosestSideFinder mClosestSideFinder;
