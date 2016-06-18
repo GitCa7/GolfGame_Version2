@@ -33,7 +33,7 @@ public class FakeMain
     {
         FakeMain fm = new FakeMain();
         fm.initGame();
-        fm.initGraphics();
+    //    fm.initGraphics();
 
         fm.run();
         fm.close();
@@ -87,9 +87,9 @@ public class FakeMain
 
         float ballRadius = 3, ballMass = 5;
         Vector3 initBallPos = new Vector3();
-        //config.addHumanAndBall("martin", ballRadius, ballMass, initBallPos);
+        config.addHumanAndBall("martin", ballRadius, ballMass, initBallPos);
         //comment above and uncomment below for bot
-        config.addBotAndBall("bot", ballRadius, ballMass, initBallPos);
+        //config.addBotAndBall("bot", ballRadius, ballMass, initBallPos);
         mGame = config.game();
     }
 

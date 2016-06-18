@@ -272,9 +272,9 @@ public class GameConfigurator
         //set system's priorities
         collisionDetectionFactory.setSystemPriority(1);
         collisionImpactFactory.setSystemPriority(2);
-        normalForceFactory.setSystemPriority(3);
-        gravitySystemFactory.setSystemPriority(6);
-        frictionSystemFactory.setSystemPriority(8);
+        gravitySystemFactory.setSystemPriority(3);
+        frictionSystemFactory.setSystemPriority(5);
+        normalForceFactory.setSystemPriority(8);
         forceApplyFactory.setSystemPriority(10);
         movementFactory.setSystemPriority(12);
         nonPenetrationFactory.setSystemPriority(14);
@@ -333,7 +333,7 @@ public class GameConfigurator
         ComponentBundle ballFriction = new ComponentBundle(ballFrictionFactory, frictionSystemFactory);
         ComponentBundle ballMass = new ComponentBundle(mBallMassFactory);
         ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory, collisionDetectionFactory);
-        ComponentBundle ballGravity = new ComponentBundle(ballGravityFactory);
+        ComponentBundle ballGravity = new ComponentBundle(ballGravityFactory, gravitySystemFactory, normalForceFactory);
         ComponentBundle ballGoal = new ComponentBundle(mBallGoalFactory, goalSystemFactory);
 
         //add bundles to ball factory

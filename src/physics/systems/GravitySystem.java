@@ -36,6 +36,8 @@ public class GravitySystem extends EntitySystem
 	{
 		for (Entity update : entities())
 		{
+			System.out.println ("apply gravity");
+
 			float mass = CompoMappers.MASS.get (update).mMass;
 			Force f = CompoMappers.FORCE.get (update);
 			GravityForce g = CompoMappers.GRAVITY_FORCE.get (update);
