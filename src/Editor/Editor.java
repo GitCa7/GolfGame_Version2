@@ -209,6 +209,9 @@ public class Editor implements ApplicationListener {
         for(gameEntity a:mouse.entities()){
             obdat.add(a.toData());
         }
+        terrain.printVerts();
+        System.out.println("--------------------------------------------------------------------------------------");
+        mouse.terrain().toData().printVerts();
         String name = JOptionPane.showInputDialog("Course Name?");
         Course toSave = new Course(mouse.terrain.toData(), obdat, tmp,tmp2, mouse.hole.getPosition(),name);
         System.out.println(toSave.getName()) ;

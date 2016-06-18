@@ -28,7 +28,7 @@ public class TerrainData implements Serializable {
         this.vertices = vertices;
         this.normals = normals;
         terraCalc = new TerrainGeometryCalc(null);
-        terraCalc.generateTerrain(vertices, normals, textureCoords, indices, leafs, 1000, heightMapID);
+        //terraCalc.generateTerrain(vertices, normals, textureCoords, indices, leafs, 1000, heightMapID);
         tetrahedons = terraCalc.getAllTetrahedons(this);
         this.SIZE = SIZE;
     }
@@ -101,8 +101,18 @@ public class TerrainData implements Serializable {
     		tetraList.add(tetrahedons[i]);
     	}
     }
-    
-    
+
+    public void printleafs(){
+        for (int i=0;i<leafs.size();i=i+100){
+            System.out.println(leafs.get(i).getCoordinates());
+        }
+    }
+
+    public void printVerts(){
+        for (int i=1;i<vertices.length-300;i=i+300){
+            System.out.println(vertices[i]);
+        }
+    }
     
     public Tetrahedron[] getAllTetrahedon()	{
     	return tetrahedons;

@@ -296,12 +296,13 @@ public class GameVisual {
 		useFollow = true;
 		System.out.println(calc.terrainIsFlat(terrains.get(0).toData()));
 		updateObstacles();
+		terrains.get(0).toData().printVerts();
 	}
 	
 	public void updateDisplay()	{
 		updateObjects();
 		forceLevelCheck();
-		System.out.println(calc.terrainIsFlat(terrains.get(0).toData()));
+
 		if(forceChangeAccept == false && timepassed >= 1)	{
 			forceChangeAccept = true;
 			timepassed = 0;
@@ -329,7 +330,6 @@ public class GameVisual {
 		}
 
      	   renderer.processTerrain(terrains.get(0));
-
         
         if(useFollow == false)	{
      	   renderer.render(light, cam);

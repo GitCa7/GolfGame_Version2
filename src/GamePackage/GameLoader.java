@@ -81,7 +81,10 @@ public class GameLoader {
 	public GameVisual loadVisual(Game game){
 		GameVisual visual  = new GameVisual();
 		visual.setBalls(ballPos);
-		visual.setTerrain(tdata);
+		//tdata.printVerts();
+		//System.out.println("--------------------------------------------------------------------------------------");
+		//visual.setTerrain(tdata);
+
 		//visual.startDisplay();
 		ArrayList<gameEntity> entities = new ArrayList<>();
 		for(ObstacleDat a:obstacles){
