@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import framework.constants.Families;
 import framework.internal.components.Busy;
+import physics.components.Force;
 import physics.components.Velocity;
 import physics.constants.CompoMappers;
 import framework.EntitySystem;
@@ -69,7 +70,8 @@ public class BusySystem extends EntitySystem
         {
             Entity m = iMoving.next();
             Velocity v = CompoMappers.VELOCITY.get(m);
-            if (v.len() > mMovementThreshold)
+            Force f = CompoMappers.FORCE.get(m);
+            if (v.len() > mMovementThreshold || f.len() > mMovementThreshold)
                 detectedMove = true;
         }
 

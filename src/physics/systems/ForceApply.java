@@ -44,11 +44,11 @@ public class  ForceApply extends EntitySystem
 			Mass m = CompoMappers.MASS.get (update);
 			Velocity v = CompoMappers.VELOCITY.get (update);
 			
-			//F=m*a => F=m*dv/dt => dv = F*dt/m
+			//F=m*a
 			Vector3 a = f.cpy();
 			a.scl (1 / m.mMass);
 			
-			//dv = a * t
+			//v* = v + a * t
 			a.scl (dTime);
 			v.add (a);
 			

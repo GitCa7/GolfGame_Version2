@@ -1,6 +1,8 @@
 package aiExtention;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.gdx.math.Vector3;
+import framework.SimulatedGame;
 import physics.components.Force;
 import physics.components.Velocity;
 import physics.entities.Ball;
@@ -9,6 +11,9 @@ import searchTree.NodeGenerator;
 import searchTree.TreeNode;
 
 public class GolfGenerator extends NodeGenerator<GolfState, GolfAction> {
+
+	public static final float DELTA_TIME  = 1f;
+
 
 	private Engine moveManager;
 	private NodeEvaluator<GolfState> evaluator ;
@@ -40,10 +45,11 @@ public class GolfGenerator extends NodeGenerator<GolfState, GolfAction> {
 		return childNode;
 	}
 
-	private void applyAction(GolfState childState, GolfAction anAction) {
+	private void applyAction(GolfState childState, GolfAction anAction)
+	{
 
-
-
+		SimulatedGame simulation = childState.getSimulation();
+		simulation.play(new Vector3(anAction.getForce()), DELTA_TIME);
 
 
 
@@ -58,14 +64,14 @@ public class GolfGenerator extends NodeGenerator<GolfState, GolfAction> {
 		// while (childState.getBall().getComponent(Velocity.class).len() > 0.1) {
 		// moveManager.update(1f);
 		// System.out.println("running engine");
-
+	/*
 		Engine engine = moveManager;
 		engine.removeAllEntities();
 		// System.out.println(engine.g);
 		Ball ball2 = childState.getBall();
 	
 		engine.addEntity(ball2.mEntity);
-
+	*/
 		// Position pos = ball2.getComponent(Position.class);
 
 		// engine.addSystem(new Gravity());
@@ -75,7 +81,8 @@ public class GolfGenerator extends NodeGenerator<GolfState, GolfAction> {
 		//
 		// System.out.println("ball pos 1 " + pos);
 
-			float deltaTime = 1f;
+		/*
+		float deltaTime = 1f;
 
 		ball2.mEntity.getComponent(Force.class).add(anAction.getForce().x, anAction.getForce().y, anAction.getForce().z);
 			int i = 1;
@@ -84,7 +91,7 @@ public class GolfGenerator extends NodeGenerator<GolfState, GolfAction> {
 			// System.out.println(i);
 				i++;
 			}
-
+	*/
 		}
 
 	}

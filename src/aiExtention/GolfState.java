@@ -3,6 +3,9 @@ package aiExtention;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
+import framework.Game;
+import framework.GameState;
+import framework.SimulatedGame;
 import physics.components.Force;
 import physics.components.GravityForce;
 import physics.components.Position;
@@ -11,42 +14,58 @@ import physics.entities.Ball;
 import searchTree.SearchState;
 
 public class GolfState extends SearchState {
-	private Ball ball;
-	private Entity target;
+	/** contains the state of all mutable entities */
+	private GameState mSimulationState;
+	/** contains all immutable entities and game logic (i.e. systems */
+	private SimulatedGame mSimulationEngine;
 
-	public GolfState(Ball ball, Entity target) {
-		this.ball = ball;
-		this.target = target;
+
+	public GolfState(SimulatedGame simulation, GameState mSimulationState)
+	{
+		mSimulationEngine = simulation;
+		mSimulationState = mSimulationState;
 	}
-	
+
+	/**
+	 * @return the reference to the simulated game after setting the state of stored. Any modification occuring to the simulation
+	 * will also affect this state.
+     */
+	public SimulatedGame getSimulation()
+	{
+		mSimulationEngine.setGameState(mSimulationState);
+		return mSimulationEngine;
+	}
+
+	/**
+	 * @return the ai's ball's position
+     */
 	public Vector3 getPosition() {
-		return ball.mEntity.getComponent(Position.class);
+		return mSimulationState.getBallPosition();
 	}
 
+	/**
+	 * @return the target of the ai's ball
+     */
+	public Vector3 getTargetPosition() { return mSimulationState.getTargetPosition(); }
+
+	/**
+	 * @return the distance from the ai's ball position to the target (i.e. target - ballPos)
+     */
+	public Vector3 getDistanceToTarget() { return mSimulationState.getTargetPosition().cpy().sub(mSimulationState.getBallPosition()); }
+
+	/**
+	 * @return the ai's ball
+     */
 	public Ball getBall() {
-		return ball;
+		return mSimulationState.getPlayerBall();
 	}
 
-	public void setBall(Ball ball) {
-		this.ball = ball;
-	}
-
-	public Entity getTarget() {
-		return target;
-	}
-
-	public void setTarget(Entity target) {
-		this.target = target;
-	}
-
-	public GolfState cloneState() {
-		Ball newBall = new Ball(new Entity());
-		newBall.mEntity.add(new Position(ball.mEntity.getComponent(Position.class).x, ball.mEntity.getComponent(Position.class).y, ball
-				.mEntity.getComponent(Position.class).z));
-		newBall.mEntity.add(new Velocity(0, 0, 0));
-		newBall.mEntity.add(new Force());
-		GolfState cloneState = new GolfState(newBall, target);
-		return cloneState;
+	/**
+	 * @return a partial deep copy of this state
+     */
+	public GolfState cloneState()
+	{
+		return new GolfState(mSimulationEngine, mSimulationState.clone());
 	}
 
 }
