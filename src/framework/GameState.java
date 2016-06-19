@@ -3,8 +3,10 @@ package framework;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.math.Vector3;
 import framework.components.Ownership;
 import framework.constants.Families;
+import physics.constants.CompoMappers;
 import physics.entities.Ball;
 
 import java.util.ArrayList;
@@ -88,6 +90,16 @@ public class GameState
      * @return the ball being modified of the current state
      */
     public Ball getPlayerBall() { return mPlayerBall; }
+
+    /**
+     * @return the position of the ball being modified
+     */
+    public Vector3 getBallPosition() { return CompoMappers.POSITION.get(mPlayerBall.mEntity); }
+
+    /**
+     * @return the position of the goal matching the ball being modified
+     */
+    public Vector3 getTargetPosition() { return framework.constants.CompoMappers.GOAL.get(mPlayerBall.mEntity).mGoalSpace.getPosition(); }
 
     /**
      * @param cloning the entity to clone
