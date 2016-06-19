@@ -47,7 +47,7 @@ public class FakeMain
         NonPenetrationSystem.DEBUG = true;
     }
 
-    public static final float DELTA_TIME = 1;
+    public static final float DELTA_TIME = .02f;
 
 
 
@@ -127,7 +127,6 @@ public class FakeMain
      */
     public void run()
     {
-        float dt = 1;
 
         while (mGame.isActive())
         {
@@ -136,7 +135,7 @@ public class FakeMain
                 if (mGame.isBusy())
                     printCurrentBall();
 
-                mGame.tick(dt);
+                mGame.tick(DELTA_TIME);
 
                 //   mVisual.updateDisplay();
 /*

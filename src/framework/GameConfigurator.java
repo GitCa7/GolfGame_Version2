@@ -329,11 +329,11 @@ public class GameConfigurator
 
         //simplyfied
         ComponentBundle ballPosition = new ComponentBundle(mBallPositionFactory);
-        ComponentBundle ballVelocity = new ComponentBundle(ballVelocityFactory/*,movementFactory*/);
+        ComponentBundle ballVelocity = new ComponentBundle(ballVelocityFactory, movementFactory);
         ComponentBundle ballForce = new ComponentBundle(ballForceFactory, forceApplyFactory);
         ComponentBundle ballFriction = new ComponentBundle(ballFrictionFactory, frictionSystemFactory);
         ComponentBundle ballMass = new ComponentBundle(mBallMassFactory);
-        ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory, collisionDetectionFactory, collisionImpactFactory, nonPenetrationFactory);
+        ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory, collisionDetectionFactory, collisionImpactFactory);
         ComponentBundle ballGravity = new ComponentBundle(ballGravityFactory, gravitySystemFactory, normalForceFactory);
         ComponentBundle ballGoal = new ComponentBundle(mBallGoalFactory, goalSystemFactory);
 

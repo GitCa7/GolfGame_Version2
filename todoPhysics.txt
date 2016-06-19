@@ -68,6 +68,7 @@ make presentation (~15.06)
 
 initial integration test 	(x)
 fix: normal force being applied multiple times lifts ball	(x)
+fix: normal force being applied if ball does not push on surface 	(x)
 fix: collision reaction tolerance while keeping friction & normal force updated
 finish integration testing
 

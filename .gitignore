@@ -1,6 +1,9 @@
+#binary folders
+*/bin/*
+*/out/*
+
 #compiled code
 *.class
-
 
 #maven configuration file
 *code/pom.xml
