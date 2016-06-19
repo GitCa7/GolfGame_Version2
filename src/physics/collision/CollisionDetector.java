@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import physics.constants.Families;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 
 /**
@@ -74,6 +75,17 @@ public class CollisionDetector
 	}
 
 	/**
+	 * adds all elements of es to the collision detector. For all entities added,
+	 * collisions will be checked.
+	 * @param es a collection of entities all belonging to the colliding family
+     */
+	public void addAll(Collection<Entity> es)
+	{
+		for (Entity e : es)
+			add (e);
+	}
+
+	/**
 	 * removes  e from the set of physics.entities to check for collisions if e is stored there.
 	 * Otherwise nothing happens.
 	 * @param e an entity
@@ -81,6 +93,7 @@ public class CollisionDetector
 	public void remove (Entity e)
 	{
 		BodyPair ePair = new BodyPair (e);
+		mActive.toArray()[0].equals(ePair);
 		if (Families.ACCELERABLE.matches (e))
 			mActive.remove (ePair);
 		mAll.remove (ePair);

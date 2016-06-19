@@ -24,7 +24,6 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 	public CollisionDetectionSystem()
 	{
 		mActive = new HashSet<>();
-		mDetect = new CollisionDetector();
 	}
 
 
@@ -47,7 +46,6 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 			if (Families.COLLIDING.matches(add))
 			{
 				entities().add(add);
-				mDetect.add(add);
 				if (Families.ACCELERABLE.matches(add))
 					mActive.add(add);
 			}
@@ -66,7 +64,9 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 	{
 		//detect collisions
 		mRepository.clear();
-		ArrayList<ColliderPair<ColliderEntity>> colliding = mDetect.getAnyColliding();
+		CollisionDetector detector = new CollisionDetector();
+		detector.addAll(entities());
+		ArrayList<ColliderPair<ColliderEntity>> colliding = detector.getAnyColliding();
 		if (!colliding.isEmpty())	{
 			if(mDebug) {
 				//System.out.println ("detected a collision!");
@@ -84,7 +84,6 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 	public void addEntity(Entity e) {
 		if (Families.COLLIDING.matches((e))) {
 			entities().add(e);
-			mDetect.add(e);
 			if (Families.ACCELERABLE.matches(e))
 				mActive.add(e);
 		}
@@ -93,9 +92,9 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 
 	public void removeEntity(Entity e)
 	{
-		if (Families.COLLIDING.matches((e))) {
+		if (Families.COLLIDING.matches((e)))
+		{
 			entities().remove (e);
-			mDetect.remove (e);
 			if (Families.ACCELERABLE.matches (e))
 				mActive.remove (e);
 		}
@@ -107,7 +106,7 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 	/** store impacted by collisions */
 	private HashSet<Entity> mActive;
 	/** detects collisions within the set of physics.entities */
-	private CollisionDetector mDetect;
+//	private CollisionDetector mDetect;
 	private CollisionRepository mRepository;
 	private final boolean mDebug = true;
 

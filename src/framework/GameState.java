@@ -76,7 +76,7 @@ public class GameState
         for (Entity cloning : mMutableEntities)
         {
             Entity clone = cloneEntity(cloning);
-            newEntities.add(cloning);
+            newEntities.add(clone);
             if (cloning.equals(mPlayerBall.mEntity))
                 newPlayerBall = new Ball (clone);
         }

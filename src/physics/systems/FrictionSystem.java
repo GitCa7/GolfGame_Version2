@@ -145,18 +145,20 @@ public class FrictionSystem extends EntitySystem implements RepositoryEntitySyst
 			fricCoeff = fric.get(Friction.State.STATIC, Friction.Type.MOVE);
 
 		Plane collisionPlane = new ColliderClosestSideFinder(active, passive).find();
+		Vector3 velocityOnNormal = new VectorProjector(collisionPlane.getNormal()).project(v);
+		Vector3 velocityOnPlane = v.cpy().sub(velocityOnNormal);
 
 		float magFriction = new VectorProjector(collisionPlane.getNormal()).project(grav).len();
 
-		if (magFriction *dTime / m.mMass > v.len())
+		if (magFriction *dTime / m.mMass > velocityOnPlane.len())
 		{
 			if(mDebug) {
 				System.out.println("set zero");
 			}
-			return v.cpy().scl(-1 * m.mMass / dTime);
+			return velocityOnPlane.scl(-1 * m.mMass / dTime);
 		}
 
-		return v.cpy().scl(-1).setLength(magFriction);
+		return velocityOnPlane.scl(-1).setLength(magFriction);
 	}
 	
 	

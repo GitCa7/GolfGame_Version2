@@ -14,8 +14,7 @@ public class GolfEvaluator extends NodeEvaluator<GolfState> {
 		GolfState aState = aNode.getState();
 
 
-		Vector3 difference = aState.getTarget().getComponent(Position.class).cpy()
-				.sub(aState.getBall().mEntity.getComponent(Position.class).cpy());
+		Vector3 difference = aState.getDistanceToTarget();
 
 		// for (int i = 0; i < aState.getCourt().getToxicAreasList().size(); i++) {
 		// if (aState.getCourt().getToxicAreasList().get(i).getToxicArea()

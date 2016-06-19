@@ -66,11 +66,18 @@ describe physics already implemented in report (x)
 isolate topics relevant for presentation	(x)
 make presentation (~15.06)
 
+implement game simulation	(x)
+implement game state	(x)
+test game simulation and game state	(x)
+
 initial integration test 	(x)
 fix: normal force being applied multiple times lifts ball	(x)
 fix: normal force being applied if ball does not push on surface 	(x)
-fix: collision reaction tolerance while keeping friction & normal force updated
-finish integration testing
+fix: collision reaction tolerance while keeping friction & normal force updated	(x)
+finish integration testing	
+
+implement game state and game simulatino in AI	(x)
+test AI	(x)
 
 choose method for differential equations	(x)
 do generic implementation of differential equation solver

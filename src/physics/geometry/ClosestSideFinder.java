@@ -30,14 +30,11 @@ public class ClosestSideFinder
         //local variable instantiation
 
         float length = Float.MAX_VALUE;
-        Plane[] solidSides = new Plane[mSides.getSides().length];
-        Plane closestSide = solidSides[0];
+        Plane[] solidSides = mSides.getSidePlanes();
+        Plane closestSide = null;
 
-        //Create planes out of Shapes to be able to work with the hessian normal form
-        for (int i = 0; i < mSides.getSides().length; i++) {
-            solidSides[i] = new Plane(mSides.getSides()[i].getVertices());
-        }
-        for (int i = 0; i < solidSides.length; i++) {
+
+        for (int i = 0; i < mSides.getSidePlanes().length; i++) {
             float thisDistance = distance(p,solidSides[i]);
             //if condition to determine the shortest distance
             if (thisDistance < length) {
