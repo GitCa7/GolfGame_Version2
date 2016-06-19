@@ -49,7 +49,7 @@ public class SurfaceTest {
 			
 			
 			
-			public SurfaceTest()	{
+			public SurfaceTest() throws Exception	{
 				DisplayManager.createDisplay();
 				loader = new Loader();
 				renderer = new MasterRenderer(loader);
@@ -98,8 +98,11 @@ public class SurfaceTest {
 			
 			
 			public void setUpEntities()	{
+				float x = terrains.get(0).getX() - 200;
+				float z = terrains.get(0).getZ() - 200;
 				
-				GolfBall golfball = new GolfBall(new Vector3f(-500,terrains.get(0).getHeightSimple(-500, -460),-460), 2,false);
+				
+				GolfBall golfball = new GolfBall(new Vector3f(x,2,z), 2,false);
 				//cam.setPosition(new Vector3f(4,20,-422));
 				//System.out.println("ID: " + golfball.getModel().getRawModel().getID());
 				golfBalls.add(golfball);
@@ -133,9 +136,9 @@ public class SurfaceTest {
 		
 			
 		   
-		    public void setUpTerrain(){
-		    	Course course = CourseLoader.loadCourse("test");
-		    	TerrainData terraDat = course.getTerrain();
+		    public void setUpTerrain() throws Exception{
+		    	
+		    	TerrainData terraDat = new TerrainData(8, 300);
 		    	System.out.println("Terrain is flat: " + terraDat.isFlat());
 		    	Terrain terra = new Terrain(terraDat);
 			   	terrains.add(terra);
@@ -233,7 +236,7 @@ public class SurfaceTest {
 		   }
 		    
 		   
-		   public static void main(String[] args)	{
+		   public static void main(String[] args) throws Exception	{
 			   SurfaceTest test = new SurfaceTest();
 		   }
 		   

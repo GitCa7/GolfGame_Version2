@@ -36,10 +36,7 @@ public class TerrainGeometryCalc implements Serializable {
     public TerrainGeometryCalc()	{
     	heightMapImage = null;
 		heightMapUse = false;
-    	if(VERTEX_COUNT == 0)	{
-    		VERTEX_COUNT = 128;
-    	}
-    	count = (int) (VERTEX_COUNT * VERTEX_COUNT);
+    	
     }
     
 	public TerrainGeometryCalc(String heightMapPath)	{
@@ -81,14 +78,22 @@ public class TerrainGeometryCalc implements Serializable {
 	
 	public void generateTerrain(float[] vertices,float[] normals,float[] textureCoords,int[] indices, ArrayList<PointNode> leafs, float SIZE, String heightMapPath)	{
 
-    	int count = VERTEX_COUNT * VERTEX_COUNT;
+    	//int count = VERTEX_COUNT * VERTEX_COUNT;
+		System.out.println("HeightmapUse: " + heightMapUse);
+		if(!heightMapUse)	{
+			System.out.println("No Heightmap used");
+	    	count = vertices.length / 3;
+	    	VERTEX_COUNT = (int) Math.sqrt(count);
+		}
     	
-    	
+		
+		
         int vertexPointer = 0;
         int leafCount = 0;
         Vector3f normal;
         for(int i=0;i<VERTEX_COUNT;i++){
             for(int j=0;j<VERTEX_COUNT;j++){
+
                 vertices[vertexPointer*3] = -((float)j)/((float)VERTEX_COUNT - 1) * SIZE;
                 
                 if(heightMapUse == true)	{
@@ -200,13 +205,15 @@ public class TerrainGeometryCalc implements Serializable {
     	Line line1, line2, line3;
     	Line[] tempLineArray;
     	
-    	System.out.println("Size of leafs: " + leafs.size());
+    	//System.out.println("Size of leafs: " + leafs.size());
     	
     	int offset = 0;
     	for(int i = 0; i < list.length - 3; i+=3)	{
     		
-    		if(leafs.get(indices[i]) == null || leafs.get(indices[i+1]) == null|| leafs.get(indices[i+2]) == null)
+    		if(leafs.get(indices[i]) == null || leafs.get(indices[i+1]) == null|| leafs.get(indices[i+2]) == null)	{
+    			System.out.println("Null indices encountered at: " + i);
     			break;
+    		}
     		
     		start = leafs.get(indices[i]).getCoordinates();
     		startTemp = new Vector3(start.x, start.y, start.z);
@@ -253,7 +260,7 @@ public class TerrainGeometryCalc implements Serializable {
 	    	Vector3 a,b,c,dNew,eNew,fNew;
 	    	
 	    	TetrahedronBuilder TetraBuild;
-	    	Tetrahedron[] TetraList = new Tetrahedron[triNumBorder * 3];
+	    	Tetrahedron[] TetraList = new Tetrahedron[allTri.length * 3];
 	    	
 	    	int offset = 0;
 	    	Vector3 lineA,lineB,lineC;

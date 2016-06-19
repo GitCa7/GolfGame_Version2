@@ -42,10 +42,12 @@ public class TerrainData implements Serializable {
     	this.textureCoords = new float[count*2];
     	this.indices = new int[6*(VERTEX_COUNT-1)*(VERTEX_COUNT*1)];
         this.leafs = new ArrayList<PointNode>();
+        
+    	System.out.println("Number of vertices: " + count);
     	
     	terraCalc = new TerrainGeometryCalc(null);
         terraCalc.generateTerrain(vertices, normals, textureCoords, indices, leafs, SIZE, null);
-        //System.out.println("Attributres before calculation: \n" + "Amount of vertices: " + "\t" + vertices.length + "\nAmount of indices: " + "\t" + indices.length + "\nAmount of normals: " + "\t" + normals.length + "\nAmount of Texture Coordinates: " + "\t" + textureCoords.length);
+        System.out.println("Attributres before calculation: \n" + "Amount of vertices: " + "\t" + vertices.length + "\nAmount of indices: " + "\t" + indices.length + "\nAmount of normals: " + "\t" + normals.length + "\nAmount of Texture Coordinates: " + "\t" + textureCoords.length);
         tetrahedons = terraCalc.getAllTetrahedons(this);
     }
     
@@ -76,13 +78,21 @@ public class TerrainData implements Serializable {
         tetrahedons = terraCalc.getAllTetrahedons(this);
     }
     
-    public TerrainData(int triangleNumber){
+    public TerrainData(int newVertexCount, int newSIZE) throws Exception{
 
-    	//START HERE!!!!!!!
+    	if(newVertexCount % 8 != 0 || newVertexCount < 0)	{
+    		throw new Exception("Vertexcount has to be devisable by 8 and greater than 0");
+    	}
     	
-    	int VERTEX_COUNT = 128;
-    	SIZE = 1000;
+    	
+    	int VERTEX_COUNT = newVertexCount;
+    	if(newSIZE > 100)
+    		SIZE = newSIZE;
+    	else 
+    		SIZE = 1000;
+    	
     	int count = VERTEX_COUNT * VERTEX_COUNT;
+    	
     	this.vertices = new float[count * 3];
     	this.normals = new float[count * 3];
     	this.textureCoords = new float[count*2];
@@ -91,7 +101,8 @@ public class TerrainData implements Serializable {
     	
     	terraCalc = new TerrainGeometryCalc(null);
         terraCalc.generateTerrain(vertices, normals, textureCoords, indices, leafs, SIZE, null);
-        //System.out.println("Attributres before calculation: \n" + "Amount of vertices: " + "\t" + vertices.length + "\nAmount of indices: " + "\t" + indices.length + "\nAmount of normals: " + "\t" + normals.length + "\nAmount of Texture Coordinates: " + "\t" + textureCoords.length);
+    	System.out.println("VertexCount: " + VERTEX_COUNT + "\nCount: " + count);
+    	System.out.println("Attributres before calculation: \n" + "Amount of vertices: " + "\t" + vertices.length + "\nAmount of indices: " + "\t" + indices.length + "\nAmount of normals: " + "\t" + normals.length + "\nAmount of Texture Coordinates: " + "\t" + textureCoords.length + "\nAmount of Triangles: " + "\t" + terraCalc.getAllTris(this).size());
         tetrahedons = terraCalc.getAllTetrahedons(this);
     }
     
@@ -162,11 +173,7 @@ public class TerrainData implements Serializable {
     public static void main(String[] args)	{
     	TerrainData terraDat = new TerrainData();
     	TerrainGeometryCalc calculate = new TerrainGeometryCalc();
-    	System.out.println("Is flat: " + calculate.terrainIsFlat(terraDat));
-    	
-    	TerrainData terraDat2 = new TerrainData("heightmap");
-    	TerrainGeometryCalc calculate2 = new TerrainGeometryCalc();
-    	System.out.println("Is flat: " + calculate2.terrainIsFlat(terraDat2));
+    	System.out.println("Number of all Triangles: " + calculate.getAllTris(terraDat).size());
     }
 
 }
