@@ -30,7 +30,9 @@ public class TurnSystem extends EntitySystem
 
     public TurnSystem clone()
     {
-        return new TurnSystem();
+        TurnSystem newSystem =  new TurnSystem();
+        newSystem.setPriority(priority);
+        return newSystem;
     }
 
     public void addedToEngine (Engine e)

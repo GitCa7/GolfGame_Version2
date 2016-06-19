@@ -30,7 +30,9 @@ public class GoalSystem extends EntitySystem
 
     public GoalSystem clone()
     {
-        return new GoalSystem();
+        GoalSystem newSystem = new GoalSystem();
+        newSystem.setPriority(priority);
+        return newSystem;
     }
 
     @Override

@@ -30,7 +30,9 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 
 	public CollisionDetectionSystem clone()
 	{
-		return new CollisionDetectionSystem();
+		CollisionDetectionSystem newSystem = new CollisionDetectionSystem();
+		newSystem.setPriority(priority);
+		return newSystem;
 	}
 
 	/**

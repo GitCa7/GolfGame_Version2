@@ -30,7 +30,9 @@ public class NormalForceSystem extends EntitySystem  implements RepositoryEntity
 
     public NormalForceSystem clone()
     {
-        return new NormalForceSystem();
+        NormalForceSystem newSystem = new NormalForceSystem();
+        newSystem.setPriority(priority);
+        return newSystem;
     }
 
     public void addEntity (Entity add)

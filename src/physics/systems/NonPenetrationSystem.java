@@ -32,7 +32,9 @@ public class NonPenetrationSystem extends EntitySystem implements RepositoryEnti
 
     public NonPenetrationSystem clone()
     {
-        return new NonPenetrationSystem();
+        NonPenetrationSystem newSystem = new NonPenetrationSystem();
+        newSystem.setPriority(priority);
+        return newSystem;
     }
 
     public void setRepository(CollisionRepository repo)

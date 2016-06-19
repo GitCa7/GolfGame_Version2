@@ -39,7 +39,9 @@ public class CollisionImpactSystem extends framework.EntitySystem implements Rep
 
     public CollisionImpactSystem clone()
     {
-        return new CollisionImpactSystem();
+        CollisionImpactSystem newSystem = new CollisionImpactSystem();
+        newSystem.setPriority(priority);
+        return newSystem;
     }
 
     public void setRepository(CollisionRepository repository){

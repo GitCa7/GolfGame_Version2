@@ -35,7 +35,9 @@ public class FrictionSystem extends EntitySystem implements RepositoryEntitySyst
 
 	public FrictionSystem clone()
 	{
-		return new FrictionSystem();
+		FrictionSystem newSystem = new FrictionSystem();
+		newSystem.setPriority(priority);
+		return newSystem;
 	}
 
 	public void addedToEngine(Engine e)

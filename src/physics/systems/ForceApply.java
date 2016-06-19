@@ -19,7 +19,9 @@ public class  ForceApply extends EntitySystem
 
 	public ForceApply clone()
 	{
-		return new ForceApply();
+		ForceApply newSystem = new ForceApply();
+		newSystem.setPriority(priority);
+		return newSystem;
 	}
 	
 	public void addedToEngine (Engine e)

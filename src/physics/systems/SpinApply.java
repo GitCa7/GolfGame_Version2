@@ -18,7 +18,9 @@ public class SpinApply extends EntitySystem
 
 	public SpinApply clone()
 	{
-		return new SpinApply();
+		SpinApply newSystem = new SpinApply();
+		newSystem.setPriority(priority);
+		return newSystem;
 	}
 	
 	public void addedToEngine (Engine e)

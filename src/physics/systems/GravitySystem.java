@@ -19,7 +19,9 @@ public class GravitySystem extends EntitySystem
 
 	public GravitySystem clone()
 	{
-		return new GravitySystem();
+		GravitySystem newSystem = new GravitySystem();
+		newSystem.setPriority(priority);
+		return newSystem;
 	}
 	
 	public void addedToEngine (Engine e)

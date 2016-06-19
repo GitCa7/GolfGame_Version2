@@ -31,7 +31,9 @@ public class Movement extends EntitySystem
 
 	public Movement clone()
 	{
-		return new Movement();
+		Movement newSystem = new Movement();
+		newSystem.setPriority(priority);
+		return newSystem;
 	}
 
 	/**
