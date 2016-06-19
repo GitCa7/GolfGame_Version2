@@ -90,6 +90,11 @@ public class Plane
 	public Vector3 getNormal() { return mNormal; }
 
 	/**
+	 * @return the offset vector of the plane
+     */
+	public Vector3 getOffset() { return mOffset; }
+
+	/**
 	 * @param p some point
 	 * @return 0 if p is in the plane, > 0 if p is not in the plane and pointing the same direction as the normal,
 	 * < 0 otherwise
