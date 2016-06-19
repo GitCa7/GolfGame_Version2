@@ -24,8 +24,11 @@ public class GravitySystem extends EntitySystem
 	
 	public void addedToEngine (Engine e)
 	{
-		for (Entity add : e.getEntitiesFor (Families.GRAVITY_ATTRACTED))
-			entities().add (add);
+		for (Entity add : e.getEntities())
+		{
+			if (Families.GRAVITY_ATTRACTED.matches(add))
+				entities().add (add);
+		}
 	}
 	
 	/**

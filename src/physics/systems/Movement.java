@@ -41,8 +41,11 @@ public class Movement extends EntitySystem
 	 */
 	public void addedToEngine (Engine e)
 	{
-		for (Entity ent : e.getEntitiesFor (Families.MOVING))
-			entities().add (ent);
+		for (Entity ent : e.getEntities())
+		{
+			if (Families.MOVING.matches(ent))
+				entities().add(ent);
+		}
 	}
 	
 	/**

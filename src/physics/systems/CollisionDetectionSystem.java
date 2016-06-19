@@ -40,12 +40,15 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 	 */
 	public void addedToEngine (Engine e)
 	{
-		for (Entity add : e.getEntitiesFor (Families.COLLIDING))
+		for (Entity add : e.getEntities())
 		{
-			entities().add (add);
-			mDetect.add (add);
-			if (Families.ACCELERABLE.matches (add))
-				mActive.add (add);
+			if (Families.COLLIDING.matches(add))
+			{
+				entities().add(add);
+				mDetect.add(add);
+				if (Families.ACCELERABLE.matches(add))
+					mActive.add(add);
+			}
 		}
 	}
 

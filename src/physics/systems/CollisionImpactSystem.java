@@ -135,33 +135,17 @@ public class CollisionImpactSystem extends framework.EntitySystem implements Rep
     @Override
     public void addedToEngine (Engine e)
     {
-        for (Entity add : e.getEntitiesFor (Families.COLLIDING))
-        {
-            entities().add (add);
-            mActive.add (add);
-            if (Families.ACCELERABLE.matches (add))
-                mActive.add (add);
-        }
+
     }
 
     public void addEntity(Entity e) {
-        if (Families.COLLIDING.matches((e))) {
-            entities().add(e);
-            mActive.add(e);
-            if (Families.ACCELERABLE.matches(e))
-                mActive.add(e);
-        }
+
     }
 
 
     public void removeEntity(Entity e)
     {
-        if (Families.COLLIDING.matches((e))) {
-            entities().remove (e);
-            mActive.remove (e);
-            if (Families.ACCELERABLE.matches (e))
-                mActive.remove (e);
-        }
+
     }
 
 

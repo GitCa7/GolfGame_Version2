@@ -24,8 +24,11 @@ public class  ForceApply extends EntitySystem
 	
 	public void addedToEngine (Engine e)
 	{
-		for (Entity add : e.getEntitiesFor (Families.ACCELERABLE))
-			entities().add (add);
+		for (Entity add : e.getEntities())
+		{
+			if (Families.ACCELERABLE.matches(add))
+				entities().add(add);
+		}
 	}
 	
 	/**

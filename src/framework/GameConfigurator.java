@@ -88,6 +88,10 @@ public class GameConfigurator
 
         //set components indicating which player succeeds another
         setNextPlayers();
+
+        //general engine update before systems are added to refresh
+        mEngine.update(1);
+
         //add entity systems processing components to the engine
 		addAllSystems();
 

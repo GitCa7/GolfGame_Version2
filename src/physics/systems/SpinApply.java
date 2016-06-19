@@ -23,8 +23,11 @@ public class SpinApply extends EntitySystem
 	
 	public void addedToEngine (Engine e)
 	{
-		for (Entity add : e.getEntitiesFor (Families.SPINNING))
-			entities().add (add);
+		for (Entity add : e.getEntities())
+		{
+			if (Families.SPINNING.matches(add))
+				entities().add(add);
+		}
 	}
 	
 	/**
