@@ -19,11 +19,15 @@ public class GolfState extends SearchState {
 	/** contains all immutable entities and game logic (i.e. systems */
 	private SimulatedGame mSimulationEngine;
 
-
-	public GolfState(SimulatedGame simulation, GameState mSimulationState)
+	/**
+	 * parametric constructor
+	 * @param simulation a simulated game instance
+	 * @param simulationState an instance of the state used with the simulated game
+     */
+	public GolfState(SimulatedGame simulation, GameState simulationState)
 	{
 		mSimulationEngine = simulation;
-		mSimulationState = mSimulationState;
+		mSimulationState = simulationState;
 	}
 
 	/**
