@@ -46,6 +46,7 @@ public class MListener extends InputAdapter {
         hole = new Hole(new Vector3f(0,0,0),10);
 
     }
+    public Hole hole(){return hole;}
     public Terrain terrain(){
         return terrain;
     }
@@ -77,7 +78,8 @@ public class MListener extends InputAdapter {
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.H)){
             if(picker.getCurrentTerrainPoint()!=null) {
-                hole.setPosition(picker.getCurrentTerrainPoint());
+                Vector3f pos = picker.getCurrentTerrainPoint();
+                hole.setPosition(new Vector3f(pos.x,terrain.getHeightDif(pos.x,pos.z),pos.z));
                 return true;
             }
         }
@@ -85,7 +87,7 @@ public class MListener extends InputAdapter {
             if(button==Input.Buttons.LEFT) {
                 if (picker.getCurrentTerrainPoint() != null) {
                     Vector3f pos = picker.getCurrentTerrainPoint();
-                    GolfBall ball = new GolfBall(pos, 5, false);
+                    GolfBall ball = new GolfBall(new Vector3f(pos.x,terrain.getHeightDif(pos.x,pos.z),pos.z), 5, false);
                     balls.add(ball);
                 }
             }else{

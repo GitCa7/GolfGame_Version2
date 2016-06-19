@@ -34,7 +34,7 @@ public class Editor implements ApplicationListener {
     ArrayList<gameEntity> renderEntities = new ArrayList();
     Terrain terrain;
     private float size;
-    private final boolean first = true;
+    private final boolean first = false;
     String sizeInput;
 
     public Editor(){
@@ -63,13 +63,13 @@ public class Editor implements ApplicationListener {
         terrain.changeHeightNB(20, -20, 20, -size - 20, 80);
         terrain.changeHeightNB(-size + 20, -size - 20, 20, -size - 20, 80);
 
-        model = OBJLoader.loadObjModel("dragon", loader);
+        /*model = OBJLoader.loadObjModel("dragon", loader);
 
         staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("sand")));
 
         gameEntity dragon = new gameEntity(staticModel, new Vector3f(-50, 0, -50), 0, 0, 0, 5);
         dragon.setRotY(-40);
-        renderEntities.add(dragon);
+        renderEntities.add(dragon);*/
 
         if (first) {
             ObjectOutputStream outputStream = null;
@@ -160,6 +160,7 @@ public class Editor implements ApplicationListener {
             renderer.processEntity(entity);
 
         }
+        renderer.processEntity(mouse.hole());
 
         renderer.render(light, camera);
 
@@ -191,11 +192,12 @@ public class Editor implements ApplicationListener {
     @Override
     public void dispose() {
         renderer.cleanUp();
-        loader.cleanUp(); //To change body of generated methods, choose Tools | Templates.
+        loader.cleanUp();
+        Gdx.gl.glFinish();
         Gdx.gl.glFlush();
+        Gdx.gl20.glFinish();
+        Gdx.gl20.glFlush();
         Gdx.app.exit();
-
-
     }
 
     public void save() {

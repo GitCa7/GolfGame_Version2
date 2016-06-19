@@ -3,6 +3,7 @@ package GamePackage;
 import Editor.Course;
 import Editor.CourseLoader;
 import Editor.ObstacleDat;
+import Entities.Obstacle;
 import Entities.gameEntity;
 import TerrainComponents.PointNode;
 import TerrainComponents.TerrainData;
@@ -83,12 +84,14 @@ public class GameLoader {
 		visual.setBalls(ballPos);
 		//tdata.printVerts();
 		//System.out.println("--------------------------------------------------------------------------------------");
-		//visual.setTerrain(tdata);
+		visual.setTerrain(tdata);
 
 		//visual.startDisplay();
 		ArrayList<gameEntity> entities = new ArrayList<>();
 		for(ObstacleDat a:obstacles){
-			entities.add(a.toObstacle());
+			Obstacle b = a.toObstacle();
+			b.setRotY(a.getRotY());
+			entities.add(b);
 		}
 		visual.setEntities(entities);
 
