@@ -324,19 +324,19 @@ public class GameConfigurator
         ballFrictionFactory.setParameter(PhysicsCoefficients.STATIC_FRICTION, PhysicsCoefficients.DYNAMIC_FRICTION, 0, 0);
         ballGravityFactory.setParameter(new Vector3 (0, -PhysicsCoefficients.GRAVITY_EARTH, 0));
         //construct ball component bundles
-        /*complete
+
         ComponentBundle ballPosition = new ComponentBundle(mBallPositionFactory);
-        ComponentBundle ballVelocity = new ComponentBundle(ballVelocityFactory, movementFactory);
+        ComponentBundle ballVelocity = new ComponentBundle(ballVelocityFactory, movementFactory, roundingSystemFactory);
         ComponentBundle ballForce = new ComponentBundle(ballForceFactory, forceApplyFactory);
         ComponentBundle ballFriction = new ComponentBundle(ballFrictionFactory, frictionSystemFactory);
         ComponentBundle ballMass = new ComponentBundle(mBallMassFactory);
         ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory, collisionDetectionFactory, collisionImpactFactory, nonPenetrationFactory);
         ComponentBundle ballGravity = new ComponentBundle(ballGravityFactory, gravitySystemFactory, normalForceFactory, nonPenetrationFactory);
         ComponentBundle ballGoal = new ComponentBundle(mBallGoalFactory, goalSystemFactory);
-        */
+
 
         //simplyfied
-        ComponentBundle ballPosition = new ComponentBundle(mBallPositionFactory);
+    /*    ComponentBundle ballPosition = new ComponentBundle(mBallPositionFactory);
         ComponentBundle ballVelocity = new ComponentBundle(ballVelocityFactory, movementFactory, roundingSystemFactory);
         ComponentBundle ballForce = new ComponentBundle(ballForceFactory, forceApplyFactory);
         ComponentBundle ballFriction = new ComponentBundle(ballFrictionFactory, frictionSystemFactory);
@@ -344,7 +344,7 @@ public class GameConfigurator
         ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory, collisionDetectionFactory, collisionImpactFactory);
         ComponentBundle ballGravity = new ComponentBundle(ballGravityFactory, gravitySystemFactory, normalForceFactory);
         ComponentBundle ballGoal = new ComponentBundle(mBallGoalFactory, goalSystemFactory);
-
+    */
         //add bundles to ball factory
         mBallFactory.addComponent(ballPosition, ballVelocity, ballFriction);
         mBallFactory.addComponent(ballForce, ballGravity);

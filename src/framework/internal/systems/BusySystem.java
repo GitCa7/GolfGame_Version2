@@ -105,9 +105,10 @@ public class BusySystem extends EntitySystem
         if (entity.hasSpace())
             return false;
 
-        for (int cSize = 0; cSize < entity.getSize(); ++cSize)
+        for (int cSize = entity.getSize() - 1; cSize > 0; --cSize)
         {
-            if (!GlobalObjects.ROUND.epsilonEquals(entity.getElement(cSize).len(), 0f))
+            float diff = entity.getElement(cSize).cpy().sub(entity.getElement(cSize - 1)).len();
+            if (!GlobalObjects.ROUND.epsilonEquals(diff, 0f))
                 return false;
         }
 
@@ -131,7 +132,7 @@ public class BusySystem extends EntitySystem
 
         public void update()
         {
-            push(CompoMappers.POSITION.get(mEntity));
+            push(CompoMappers.POSITION.get(mEntity).clone());
         }
 
         private Entity mEntity;

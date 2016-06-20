@@ -49,7 +49,7 @@ public class FakeMain
         NonPenetrationSystem.DEBUG = true;
     }
 
-    public static final float DELTA_TIME = .02f;
+    public static final float DELTA_TIME = .03f;
 
 
 
