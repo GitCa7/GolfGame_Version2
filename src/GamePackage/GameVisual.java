@@ -6,6 +6,7 @@ import java.util.Random;
 import Entities.*;
 import TerrainComponents.TerrainGeometryCalc;
 import framework.testing.HumanObserver;
+import physics.components.Position;
 import physics.constants.CompoMappers;
 import physics.constants.Families;
 
@@ -309,6 +310,14 @@ public class GameVisual {
      	   renderer.processEntity(ball);
      	   //System.out.println("Ball Position: " + ball.getPosition());
         }
+		for(Entity a:gameEngine.getEntities()){
+			if(a.getComponent(Position.class)!=null) {
+				Vector3 pos = a.getComponent(Position.class);
+				Obstacle tmp = new Obstacle(new Vector3f(pos.x, pos.y, pos.z), 0.5f);
+				renderer.processEntity(tmp);
+			}
+		}
+
 		for(gameEntity ob:entities)	{
 			renderer.processEntity(ob);
 			//System.out.println("Ball Position: " + ob.getPosition());
