@@ -10,7 +10,7 @@ import TerrainComponents.TerrainGeometryCalc;
 import com.badlogic.gdx.math.Vector3;
 import framework.Game;
 import framework.GameConfigurator;
-import framework.HumanObserver;
+import framework.testing.HumanObserver;
 import org.lwjgl.util.vector.Vector3f;
 import physics.geometry.planar.Triangle;
 import physics.geometry.spatial.*;
@@ -41,16 +41,17 @@ public class GameLoader {
 		Box[] boxes = new Box[obstacles.size()];
 		Vector3[] positions = new Vector3[obstacles.size()];
 		for (int i=0;i<obstacles.size();i++){
-			params[i][0]=new Vector3(0,obstacles.get(i).getScale(),0);
-			Vector3 tmpx = new Vector3(obstacles.get(i).getScale(),0,0);
-			Vector3 tmpz = new Vector3(0,0,obstacles.get(i).getScale());
+			params[i][0]=new Vector3(0,obstacles.get(i).getScale()*2,0);
+			Vector3 tmpx = new Vector3(obstacles.get(i).getScale()*2,0,0);
+			Vector3 tmpz = new Vector3(0,0,obstacles.get(i).getScale()*2);
 
 			params[i][1]=tmpx.rotate(obstacles.get(i).getRotY(),0,1,0);
 			params[i][2]=tmpz.rotate(obstacles.get(i).getRotY(),0,1,0);
 
 			BoxParameter tmp=new BoxParameter(params[i]);
 			boxes[i]=tmp.instantiate();
-			positions[i] = obstacles.get(i).getPos();
+			Vector3 tpos = obstacles.get(i).getPos();
+			positions[i] = new Vector3(tpos.x-obstacles.get(i).getScale(),tpos.y-obstacles.get(i).getScale(),tpos.z-obstacles.get(i).getScale());
 		}
 
 		GameConfigurator config = new GameConfigurator();
