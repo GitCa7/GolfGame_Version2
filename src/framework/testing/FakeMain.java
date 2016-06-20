@@ -46,8 +46,6 @@ public class FakeMain
 
     public static void setDebug()
     {
-        CollisionDetectionSystem.DEBUG = true;
-        CollisionImpactSystem.DEBUG = true;
         NonPenetrationSystem.DEBUG = true;
     }
 
