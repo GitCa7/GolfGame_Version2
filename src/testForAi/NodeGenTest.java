@@ -42,9 +42,9 @@ public class NodeGenTest {
 		target.add(new Position(50, 0, 0));
 
 
-		GolfState rootState = new GolfState(ball, target);
+		//GolfState rootState = new GolfState(ball, target);
 		TreeNode<GolfState, GolfAction> rootNode = new TreeNode<GolfState, GolfAction>(null);
-		rootNode.setState(rootState);
+		//rootNode.setState(rootState);
 		rootNode.setNodeDeapth(0);
 		// System.out.println(ball);
 		GolfGenerator generator = new GolfGenerator(engine,new GolfEvaluator());

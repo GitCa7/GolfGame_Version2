@@ -11,6 +11,8 @@ import framework.testing.MockMainMenu;
 import physics.components.Position;
 import physics.components.Velocity;
 import physics.entities.Ball;
+import physics.systems.CollisionDetectionSystem;
+import physics.systems.CollisionImpactSystem;
 
 import java.io.IOException;
 
@@ -23,6 +25,10 @@ public class Main
 
     public static void main(String[] args)
     {
+
+
+        CollisionImpactSystem.DEBUG = true;
+        CollisionDetectionSystem.DEBUG = true;
         Main main = new Main();
         try {
             new MockMainMenu(main);

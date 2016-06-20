@@ -19,6 +19,8 @@ import physics.constants.Families;
  */
 public class CollisionDetectionSystem extends EntitySystem implements RepositoryEntitySystem
 {
+
+	public static boolean DEBUG = false;
 	/**
 	 * default constructor. Constructs objects needed.
 	 */
@@ -77,7 +79,8 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 		for(ColliderPair<ColliderEntity> pair : colliding)
 		{
 			mRepository.addColliderPair(pair);
-			debugOut(pair);
+			if (DEBUG)
+				debugOut(pair);
 		}
 	}
 
