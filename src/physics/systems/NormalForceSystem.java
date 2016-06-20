@@ -109,11 +109,12 @@ public class NormalForceSystem extends EntitySystem  implements RepositoryEntity
 
     private Vector3 compute (ColliderEntity active, ColliderEntity passive)
     {
-        //given a force g pushing on surface, normal unit vector nu of this surface
-        Plane p = new ColliderClosestSideFinder(active, passive).find();
-
         //get current force
         Force f = CompoMappers.FORCE.get(active.getEntity());
+
+        //given a force g pushing on surface, normal unit vector nu of this surface
+        Plane p = new ColliderClosestSideFinder(active, passive).findClosestIntersecting(f, false);
+
 
         //if force points inside passive => f has same direction as p's normal
         if (f.hasSameDirection(p.getNormal()))

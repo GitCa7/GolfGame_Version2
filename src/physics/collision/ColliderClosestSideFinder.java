@@ -51,6 +51,35 @@ public class ColliderClosestSideFinder {
         }
     }
 
+    /**
+     * Computes the collision plane whose normal points inside the passive solid.
+     * Additionally, the plane's normal should point in the same direction as direction.
+     * If the strictlySameDirection flag is set, the normal may not be orthogonal, otherwise it may.
+     * @param direction direction vector to compare with normal
+     * @param strictlySameDirection boolean flag
+     * @return the plane containing the closest side satisfying the conditions above.
+     */
+    public Plane findClosestIntersecting(Vector3 direction, boolean strictlySameDirection)
+    {
+        // if one of active's vertices is within passive => active collides with a side of passive
+        if (mActive.hasCollidingVertex())
+        {
+            //return side closest to active's colliding vertex
+            ClosestSideFinder sideFinder = new ClosestSideFinder(mPassive.getCollidingSolid());
+            Plane collisionPlane = sideFinder.closestIntersectingSide(mActive.getCollidingVertex(), direction, strictlySameDirection);
+            return collisionPlane;
+        }
+        // if active collides with a vertex of passive
+        else
+        {
+            //assume a plane orthogonal to the velocity as collision plane
+            Velocity activeVelocity = CompoMappers.VELOCITY.get(mActive.getEntity());
+            Vector3 collisionVertex = mPassive.getCollidingVertex();
+            return new Plane (activeVelocity.cpy(), collisionVertex.cpy());
+
+        }
+    }
+
     ColliderEntity mActive;
     ColliderEntity mPassive;
 }
