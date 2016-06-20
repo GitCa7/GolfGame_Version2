@@ -23,11 +23,15 @@ public class TreeOperator<E extends SearchState, Action extends AbstractAction<E
 
 	/** Main search method */
 	public TreeNode<E, Action> runSearch() {
+		int nodesExp=0;
 		int depth = 0;
 		System.out.println("Running search");
+		System.out.println("Statetest " + !goalTester.test(searchTree.getListOfNodes(depth).peek().getState()));
 		while (!goalTester.test(searchTree.getListOfNodes(depth).peek().getState()) && depth < 1000) {
 			expandDeapth(depth);
 			depth++;
+			nodesExp++;
+			System.out.println("nodeExp" + nodesExp);
 			// System.out.println(depth + " " + searchTree.getListOfNodes(depth).peek().getNodeDeapth());
 		}
 		return searchTree.getListOfNodes(depth).poll();
@@ -44,7 +48,9 @@ public class TreeOperator<E extends SearchState, Action extends AbstractAction<E
 		for (int i = 1; i <= nodesToExpand; i++) {
 			TreeNode<E, Action> tempParent = searchTree.getListOfNodes(deapth).poll();
 			for (int j = 1; j <= noOfGenerChild; j++) {
+				System.out.println("testing node " + (i * (noOfGenerChild - 1) + j));
 				searchTree.addNode(generator.generateChildNode(tempParent));
+				System.out.println("nodeExp" + tempParent.getValueOfNode());
 			}
 		}
 		// System.out.println("Finished exp");
