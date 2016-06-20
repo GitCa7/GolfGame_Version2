@@ -105,8 +105,9 @@ public class FrictionSystem extends EntitySystem implements RepositoryEntitySyst
 	private boolean hasFriction(ColliderEntity active, ColliderEntity passive)
 	{
 		Vector3 gravity = CompoMappers.GRAVITY_FORCE.get(active.getEntity());
+		Vector3 velocity = CompoMappers.VELOCITY.get(active.getEntity());
 
-		Plane collisionPlane = new ColliderClosestSideFinder(active, passive).find();
+		Plane collisionPlane = new ColliderClosestSideFinder(active, passive).findClosestIntersecting(velocity, true);
 		//let normal point inwards => towards any vertex not in plane
 		Vector3[] solidCollidingVertices = passive.getCollidingSolid().getVertices();
 		boolean foundOutsidePlane = false;
