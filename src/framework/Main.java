@@ -28,8 +28,8 @@ public class Main
     {
 
         //Movement.DEBUG= true;
-       // CollisionImpactSystem.DEBUG = true;
-       // CollisionDetectionSystem.DEBUG = true;
+        CollisionImpactSystem.DEBUG = true;
+        CollisionDetectionSystem.DEBUG = true;
         Main main = new Main();
         try {
             new MockMainMenu(main);
