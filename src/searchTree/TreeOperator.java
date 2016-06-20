@@ -1,7 +1,5 @@
 package searchTree;
 
-
-
 /** Main class that performs the search process */
 public class TreeOperator<E extends SearchState, Action extends AbstractAction<E>> {
 
@@ -11,7 +9,6 @@ public class TreeOperator<E extends SearchState, Action extends AbstractAction<E
 	private SearchTree<E, Action> searchTree;
 	private NodeGenerator<E, Action> generator;
 	private GoalAchived<E> goalTester;
-
 
 	public TreeOperator(TreeNode<E, Action> rootNode, NodeGenerator<E, Action> generator, GoalAchived<E> goalTester) {
 		this.setRootNode(rootNode);
@@ -30,17 +27,19 @@ public class TreeOperator<E extends SearchState, Action extends AbstractAction<E
 		while (!goalTester.test(searchTree.getListOfNodes(depth).peek().getState()) && depth < 1000) {
 			expandDeapth(depth);
 			depth++;
+
 			nodesExp++;
 			System.out.println("nodeExp" + nodesExp);
 			// System.out.println(depth + " " + searchTree.getListOfNodes(depth).peek().getNodeDeapth());
+
 		}
 		return searchTree.getListOfNodes(depth).poll();
 
 	}
 
 	/**
-	 * expands the nodes of the specified depth by adding their children to the a new priority queue in the SearchTree
-	 * instance used
+	 * expands the nodes of the specified depth by adding their children to the
+	 * a new priority queue in the SearchTree instance used
 	 */
 	public void expandDeapth(int deapth) {
 		// System.out.println("Expanding");

@@ -1,6 +1,5 @@
 package searchTree;
 
-
 public abstract class GoalAchived<E extends SearchState> {
 
 	/** Goal-test for a given state */
