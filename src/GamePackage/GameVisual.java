@@ -5,32 +5,19 @@ import java.util.Random;
 
 import Entities.*;
 import TerrainComponents.TerrainGeometryCalc;
-import framework.Game;
-import framework.testing.FakeHumanObserver;
-import physics.components.Body;
-import physics.components.Force;
-import physics.components.Friction;
-import physics.components.Mass;
-import physics.components.Position;
+import framework.testing.HumanObserver;
 import physics.constants.CompoMappers;
 import physics.constants.Families;
-import physics.geometry.spatial.Box;
-import physics.geometry.spatial.BoxBuilder;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.util.vector.Vector;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 
-import GamePackage.PhysicsTranslator;
 import LogicAndExtras.MousePicker;
-import ModelBuildComponents.ModelTexture;
-import ModelBuildComponents.RawModel;
-import ModelBuildComponents.TexturedModel;
 import ModelBuildComponents.ModelTexture;
 import ModelBuildComponents.RawModel;
 import ModelBuildComponents.TexturedModel;
@@ -101,7 +88,7 @@ public class GameVisual {
 		targetingState = false;
 		surrondings.add(directionArrow);
 	}
-	public void setBalls(ArrayList<Vector3f> balls,ArrayList<FakeHumanObserver>  obs){
+	public void setBalls(ArrayList<Vector3f> balls,ArrayList<HumanObserver>  obs){
 		ArrayList<GolfBall> tmp = new ArrayList();
 		for (int i =0;i<balls.size();i++){
 			GolfBall ball = new GolfBall(new Vector3f(balls.get(i).x,balls.get(i).y+5,balls.get(i).z),5,false);
