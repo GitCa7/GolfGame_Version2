@@ -9,6 +9,7 @@ public class PhysicsCoefficients
 	public static final float STATIC_FRICTION = 0.2f;
 	public static final float DYNAMIC_FRICTION = 0.4f;
 	public static final float SPIN_FRICTION = 0.3f;
+	public static final float FRICTION_FLUCTUATION = .2f;
 
 	public static final float RESTITUTION_COEFFICIENT = 0.6f;
 	
@@ -26,5 +27,5 @@ public class PhysicsCoefficients
 	public static final int AI_ARITHMETIC_PRECISION = 3;
 	public static final int AI_ARITHMETIC_TOLERANCE = 0;
 
-	public static final int MAX_ZERO_UPDATES = 15;
+	public static final int MAX_ZERO_UPDATES = 35;
 }
