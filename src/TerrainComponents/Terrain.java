@@ -585,14 +585,10 @@ public class Terrain {
     }
     
     public float getX()	{
-    	float xPos = x + SIZE / 2;
-    	//System.out.println("xPos: " + xPos);
-    	return -xPos;
+    	return x;
     }
     
     public float getZ()	{
-    	float zPos = z + SIZE / 2;
-    	//System.out.println("zPos: " + zPos);
-    	return -zPos;
+    	return z;
     }
 }
