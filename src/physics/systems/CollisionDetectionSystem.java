@@ -10,6 +10,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 
 
+import physics.constants.CompoMappers;
 import physics.constants.Families;
 
 /**
@@ -74,7 +75,10 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 		}
 
 		for(ColliderPair<ColliderEntity> pair : colliding)
+		{
 			mRepository.addColliderPair(pair);
+			debugOut(pair);
+		}
 	}
 
 
@@ -100,7 +104,13 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 		}
 	}
 
-
+	public void debugOut(ColliderPair<ColliderEntity> cPair)
+	{
+		System.out.print("detected collision between " + cPair.getFirst().getEntity());
+		System.out.print(" at " + CompoMappers.POSITION.get(cPair.getFirst().getEntity()));
+		System.out.print(" and " + cPair.getSecond().getEntity());
+		System.out.println(" at " + CompoMappers.POSITION.get(cPair.getSecond().getEntity()));
+	}
 
 
 	/** store impacted by collisions */

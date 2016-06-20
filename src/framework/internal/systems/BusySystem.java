@@ -5,12 +5,17 @@ import com.badlogic.ashley.core.Entity;
 import framework.constants.Families;
 import framework.internal.components.Busy;
 import physics.components.Force;
+import physics.components.Position;
 import physics.components.Velocity;
 import physics.constants.CompoMappers;
 import framework.EntitySystem;
+import physics.constants.GlobalObjects;
+import physics.constants.PhysicsCoefficients;
+import physics.generic.History;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  * class updating busy components of global objects
@@ -21,7 +26,7 @@ public class BusySystem extends EntitySystem
 
     public BusySystem()
     {
-        mMoving = new HashSet<>();
+        mMoving = new LinkedList<>();
     }
 
 
@@ -36,7 +41,7 @@ public class BusySystem extends EntitySystem
             super.entities().add (add);
 
         for (Entity add : e.getEntitiesFor(physics.constants.Families.MOVING))
-            mMoving.add (add);
+            mMoving.add (new EntityPositionHistory(add));
     }
 
 
@@ -45,7 +50,7 @@ public class BusySystem extends EntitySystem
         if (Families.GLOBAL_STATE.matches(e))
             entities().add(e);
         if (physics.constants.Families.MOVING.matches(e))
-            mMoving.add(e);
+            mMoving.add(new EntityPositionHistory(e));
 
     }
 
@@ -65,13 +70,12 @@ public class BusySystem extends EntitySystem
     {
         //search for moving entity
         boolean detectedMove = false;
-        Iterator<Entity> iMoving = mMoving.iterator();
+        Iterator<EntityPositionHistory> iMoving = mMoving.iterator();
         while (!detectedMove && iMoving.hasNext())
         {
-            Entity m = iMoving.next();
-            Velocity v = CompoMappers.VELOCITY.get(m);
-            Force f = CompoMappers.FORCE.get(m);
-            if (v.len() > mMovementThreshold || f.len() > mMovementThreshold)
+            EntityPositionHistory m = iMoving.next();
+            m.update();
+            if (!testForInactivity(m))
                 detectedMove = true;
         }
 
@@ -92,6 +96,47 @@ public class BusySystem extends EntitySystem
         mMovementThreshold = threshold;
     }
 
-    private HashSet<Entity> mMoving;
+    /**
+     * @param entity entity to test
+     * @return true if the entity's position did not change throughout its history stored
+     */
+    private boolean testForInactivity(EntityPositionHistory entity)
+    {
+        if (entity.hasSpace())
+            return false;
+
+        for (int cSize = 0; cSize < entity.getSize(); ++cSize)
+        {
+            if (!GlobalObjects.ROUND.epsilonEquals(entity.getElement(cSize).len(), 0f))
+                return false;
+        }
+
+        return true;
+    }
+
+    private class EntityPositionHistory extends History<Position>
+    {
+        public EntityPositionHistory(Entity coupled)
+        {
+            super(PhysicsCoefficients.MAX_ZERO_UPDATES);
+            mEntity = coupled;
+        }
+
+        public Entity getEntity() { return mEntity; }
+
+        public boolean equals(EntityPositionHistory comp)
+        {
+            return this.mEntity.equals(comp.mEntity);
+        }
+
+        public void update()
+        {
+            push(CompoMappers.POSITION.get(mEntity));
+        }
+
+        private Entity mEntity;
+    }
+
+    private LinkedList<EntityPositionHistory> mMoving;
     private float mMovementThreshold;
 }

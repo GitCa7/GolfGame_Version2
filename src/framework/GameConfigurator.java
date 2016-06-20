@@ -273,6 +273,8 @@ public class GameConfigurator
         //player system factories
         TurnSystemFactory turnSystemFactory = new TurnSystemFactory();
 
+        RoundingSystemFactory roundingSystemFactory = new RoundingSystemFactory();
+
         //set system's priorities
         collisionDetectionFactory.setSystemPriority(1);
         nonPenetrationFactory.setSystemPriority(2);
@@ -285,6 +287,7 @@ public class GameConfigurator
         movementFactory.setSystemPriority(12);
         goalSystemFactory.setSystemPriority(16);
         turnSystemFactory.setSystemPriority(20);
+        roundingSystemFactory.setSystemPriority(25);
 
         //set engine to attach listener
         collisionDetectionFactory.setEngine(mEngine);
@@ -298,6 +301,7 @@ public class GameConfigurator
         nonPenetrationFactory.setEngine(mEngine);
         goalSystemFactory.setEngine(mEngine);
         turnSystemFactory.setEngine(mEngine);
+        roundingSystemFactory.setEngine(mEngine);
 
         //set repository
         CollisionRepository collisionRepo = new CollisionRepository();
@@ -333,7 +337,7 @@ public class GameConfigurator
 
         //simplyfied
         ComponentBundle ballPosition = new ComponentBundle(mBallPositionFactory);
-        ComponentBundle ballVelocity = new ComponentBundle(ballVelocityFactory, movementFactory);
+        ComponentBundle ballVelocity = new ComponentBundle(ballVelocityFactory, movementFactory, roundingSystemFactory);
         ComponentBundle ballForce = new ComponentBundle(ballForceFactory, forceApplyFactory);
         ComponentBundle ballFriction = new ComponentBundle(ballFrictionFactory, frictionSystemFactory);
         ComponentBundle ballMass = new ComponentBundle(mBallMassFactory);

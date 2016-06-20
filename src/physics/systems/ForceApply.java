@@ -12,6 +12,9 @@ import physics.components.*;
 
 public class  ForceApply extends EntitySystem
 {
+
+	public static boolean DEBUG = false;
+
 	public ForceApply()
 	{
 		
@@ -41,8 +44,6 @@ public class  ForceApply extends EntitySystem
 	 */
 	public void update (float dTime)
 	{
-		System.out.println("applying forces");
-
 		for (Entity update : entities())
 		{
 			Force f = CompoMappers.FORCE.get (update);
@@ -56,8 +57,12 @@ public class  ForceApply extends EntitySystem
 			//v* = v + a * t
 			a.scl (dTime);
 			v.add (a);
-			
+
+			if (DEBUG)
+				debugOut(update, f);
+
 			f.setZero();
+
 		}
 	}
 
@@ -73,6 +78,12 @@ public class  ForceApply extends EntitySystem
 		if (Families.ACCELERABLE.matches((e))) {
 			entities().remove(e);
 		}
+	}
+
+
+	public void debugOut(Entity appliedTo, Vector3 totalForce)
+	{
+		System.out.println("applying total force " + totalForce + " to " + appliedTo + " at " + CompoMappers.POSITION.get(appliedTo));
 	}
 
 }

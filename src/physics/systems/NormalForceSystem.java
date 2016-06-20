@@ -22,6 +22,9 @@ import java.util.ArrayList;
 
 public class NormalForceSystem extends EntitySystem  implements RepositoryEntitySystem
 {
+
+    public static boolean DEBUG = false;
+
     public NormalForceSystem()
     {
         mRepo = null;
@@ -77,14 +80,14 @@ public class NormalForceSystem extends EntitySystem  implements RepositoryEntity
 
         //get collider pairs
         for (ColliderPair<ColliderEntity> p : collisions) {
-            System.out.println ("apply normal force");
             //for each collider pair
             if (p.getFirst().isActive()) {
                 //compute
                 Vector3 newV = compute(p.getFirst(), p.getSecond());
                 Force f = CompoMappers.FORCE.get(p.getFirst().getEntity());
                 f.add(newV);
-
+                if (DEBUG)
+                    debugOut(p.getFirst().getEntity(), newV);
             }
             if (p.getSecond().isActive()) {
                 //compute
@@ -92,8 +95,16 @@ public class NormalForceSystem extends EntitySystem  implements RepositoryEntity
                 Force f = CompoMappers.FORCE.get(p.getSecond().getEntity());
                 f.add(newV);
                 //apply f on active entity
+                if (DEBUG)
+                    debugOut(p.getSecond().getEntity(), newV);
             }
         }
+    }
+
+
+    public void debugOut(Entity appliedTo, Vector3 normalForce)
+    {
+        System.out.println("apply normal force " + normalForce + " to " + appliedTo + " at " + CompoMappers.POSITION.get(appliedTo));
     }
 
     private Vector3 compute (ColliderEntity active, ColliderEntity passive)

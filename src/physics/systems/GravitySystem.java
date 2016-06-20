@@ -3,6 +3,7 @@ package physics.systems;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 
+import com.badlogic.gdx.math.Vector3;
 import framework.EntitySystem;
 import physics.constants.CompoMappers;
 import physics.constants.Families;
@@ -11,6 +12,9 @@ import physics.components.GravityForce;
 
 public class GravitySystem extends EntitySystem
 {
+
+	public static boolean DEBUG = false;
+
 	public GravitySystem()
 	{
 		
@@ -41,13 +45,15 @@ public class GravitySystem extends EntitySystem
 	{
 		for (Entity update : entities())
 		{
-			System.out.println ("apply gravity");
 
 			float mass = CompoMappers.MASS.get (update).mMass;
 			Force f = CompoMappers.FORCE.get (update);
 			GravityForce g = CompoMappers.GRAVITY_FORCE.get (update);
 			
 			f.add (g.cpy().scl (mass));
+
+			if (DEBUG)
+				debugOut(update, g.cpy().scl(mass));
 		}
 	}
 
@@ -65,5 +71,10 @@ public class GravitySystem extends EntitySystem
 			entities().remove(e);
 		}
 
+	}
+
+	public void debugOut(Entity appliedTo, Vector3 gravity)
+	{
+		System.out.println("apply gravity " + gravity + " to " + appliedTo + " at " + CompoMappers.POSITION.get(appliedTo));
 	}
 }

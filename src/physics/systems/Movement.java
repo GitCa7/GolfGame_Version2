@@ -60,9 +60,7 @@ public class Movement extends EntitySystem
 		for (Entity move : entities())
 		{	
 			Velocity v = CompoMappers.VELOCITY.get (move);
-			
 
-			
 			//alter position
 			Vector3 change = v.cpy().scl(dTime);
 
@@ -71,10 +69,6 @@ public class Movement extends EntitySystem
 
 			if (CompoMappers.BODY.has(move))
 				moveBody(CompoMappers.BODY.get(move), change);
-
-			//set velocity to 0 if magnitude is below arithmetic precision
-			if (GlobalObjects.ROUND.epsilonEquals (0f, v.len()))
-				v.setZero();
 		}
 	}
 

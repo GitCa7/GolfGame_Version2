@@ -27,6 +27,10 @@ import java.util.HashSet;
 
 public class CollisionImpactSystem extends framework.EntitySystem implements RepositoryEntitySystem
 {
+
+    public static boolean DEBUG = false;
+
+
     /*
     In general: How does this system interact with the collisionImpactSystem and the CollisionComputer, what does the Collisions Computer do?
     Probably will have to change all of this but nevermind, cuz' I'll know and understand why and how
@@ -72,7 +76,8 @@ public class CollisionImpactSystem extends framework.EntitySystem implements Rep
                 //Update Force
                 Vector3 currentForce= CompoMappers.FORCE.get(active.getEntity());
                 currentForce.add(forceToBeApplied);
-
+                if (DEBUG && forceToBeApplied.len() > GlobalObjects.ROUND.getEpsilon())
+                    debugOut(active.getEntity(), forceToBeApplied, passive.getEntity());
             }
             //if entity 2 is active
             if (((ColliderEntity)collPair.mSecond).isActive())
@@ -84,6 +89,9 @@ public class CollisionImpactSystem extends framework.EntitySystem implements Rep
                 //Update Force
                 Vector3 currentForce= CompoMappers.FORCE.get(active.getEntity());
                 currentForce.add(forceToBeApplied);
+
+                if (DEBUG && forceToBeApplied.len() > GlobalObjects.ROUND.getEpsilon())
+                    debugOut(active.getEntity(), forceToBeApplied, passive.getEntity());
             }
         }
 
@@ -150,6 +158,17 @@ public class CollisionImpactSystem extends framework.EntitySystem implements Rep
 
     }
 
+
+    public void debugOut(Entity appliedTo, Vector3 force, Entity obstacle)
+    {
+        System.out.print("apply force " + force);
+        System.out.print(" to entity " + appliedTo);
+        System.out.print(" moving at v = " + CompoMappers.VELOCITY.get(appliedTo));
+        System.out.print(" at position s = " + CompoMappers.POSITION.get(appliedTo));
+        System.out.print(" due to collision with " + obstacle);
+        System.out.print(" at " + CompoMappers.POSITION.get(obstacle));
+        System.out.println();
+    }
 
     private boolean testCloseness(ColliderEntity active, ColliderEntity passive, float eps)
     {
