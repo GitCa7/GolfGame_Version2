@@ -19,6 +19,7 @@ import physics.constants.Families;
  */
 public class CollisionDetectionSystem extends EntitySystem implements RepositoryEntitySystem
 {
+
 	public static boolean DEBUG = false;
 
 

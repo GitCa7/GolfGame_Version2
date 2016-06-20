@@ -77,12 +77,12 @@ public class TerrainData implements Serializable {
 
         tetrahedons = terraCalc.getAllTetrahedons(this);
     }
-    
-    public TerrainData(int newVertexCount, int newSIZE) throws Exception{
 
-    	if(newVertexCount % 8 != 0 || newVertexCount < 0)	{
+    public TerrainData(int newVertexCount, int newSIZE) {
+
+    	/*if(newVertexCount % 8 != 0 || newVertexCount < 0)	{
     		throw new Exception("Vertexcount has to be devisable by 8 and greater than 0");
-    	}
+    	}*/
     	
     	
     	int VERTEX_COUNT = newVertexCount;

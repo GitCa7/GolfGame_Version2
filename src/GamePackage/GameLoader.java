@@ -3,6 +3,7 @@ package GamePackage;
 import Editor.Course;
 import Editor.CourseLoader;
 import Editor.ObstacleDat;
+import Entities.FollowCamera;
 import Entities.Obstacle;
 import Entities.gameEntity;
 import TerrainComponents.PointNode;
@@ -11,6 +12,7 @@ import TerrainComponents.TerrainGeometryCalc;
 import com.badlogic.gdx.math.Vector3;
 import framework.Game;
 import framework.GameConfigurator;
+import framework.testing.FakeHumanObserver;
 import org.lwjgl.util.vector.Vector3f;
 import physics.geometry.planar.Triangle;
 import physics.geometry.spatial.*;
@@ -26,6 +28,8 @@ public class GameLoader {
 	Course toPlay;
 	ArrayList<Vector3f> ballPos;
 	Vector3f holePos;
+	TerrainData a;
+	ArrayList<FakeHumanObserver> obs;
 
 	public Game loadConfig(String name)	{
 		toPlay = CourseLoader.loadCourse(name);
@@ -64,27 +68,33 @@ public class GameLoader {
 		Vector3 pos = new Vector3(holePos.x,holePos.y,holePos.z);
 		config.setHole(pos,20);
 		System.out.println(ballPos.size());
+		obs = new ArrayList<>();
 		for(int i=0;i<ballPos.size();i++) {
 			String pName = JOptionPane.showInputDialog("Player "+i+" Name?");
+			FakeHumanObserver a = new FakeHumanObserver();
 			if(bots.get(i)){
-				config.addBotAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y+10, ballPos.get(i).z));
+				config.addBotAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y+20, ballPos.get(i).z));
 			}else {
-				config.addHumanAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y+10, ballPos.get(i).z));
+				config.addHumanAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y+20, ballPos.get(i).z),a);
 			}
+			obs.add(a);
 		}
+		a = new TerrainData(8,300);
+
 		TerrainGeometryCalc calc =  new TerrainGeometryCalc();
 		System.out.println(calc.terrainIsFlat(tdata));
-		ArrayList<Triangle> tmp = calc.getAllTris(tdata);
+		ArrayList<Triangle> tmp = calc.getAllTris(a);
 		config.setTerrain(tmp);
 		return config.game();
 	}
 	
 	public GameVisual loadVisual(Game game){
 		GameVisual visual  = new GameVisual();
-		visual.setBalls(ballPos);
+		visual.setBalls(ballPos,obs);
+		visual.setHole(holePos,20);
 		//tdata.printVerts();
 		//System.out.println("--------------------------------------------------------------------------------------");
-		visual.setTerrain(tdata);
+		visual.setTerrain(a);
 
 		//visual.startDisplay();
 		ArrayList<gameEntity> entities = new ArrayList<>();
