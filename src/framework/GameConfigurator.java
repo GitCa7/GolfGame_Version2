@@ -112,9 +112,9 @@ public class GameConfigurator
      * @param ballMass ball's mass
      * @param initBallPos ball's initial position
      */
-    public void addHumanAndBall(String name, float ballRadius, float ballMass, Vector3 initBallPos)
+    public void addHumanAndBall(String name, float ballRadius, float ballMass, Vector3 initBallPos,FakeHumanObserver a)
     {
-        addPlayerAndBall(name, ballRadius, ballMass, initBallPos, new FakeHumanObserver());
+        addPlayerAndBall(name, ballRadius, ballMass, initBallPos,a);
     }
 
     /**

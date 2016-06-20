@@ -22,7 +22,7 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 
 	public static boolean DEBUG = false;
 
-	
+
 	/**
 	 * default constructor. Constructs objects needed.
 	 */
