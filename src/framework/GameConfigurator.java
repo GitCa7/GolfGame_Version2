@@ -190,8 +190,7 @@ public class GameConfigurator
      */
     public void setTerrain(Collection<Triangle> terrainPoints)
     {
-        /*
-
+    /*
         Triangle[] triangleArray = terrainPoints.toArray(new Triangle[terrainPoints.size()]);
         TerrainTetrahedronBuilder tetBuilder = new TerrainTetrahedronBuilder(triangleArray);
 
@@ -215,6 +214,29 @@ public class GameConfigurator
 
 
         mObstaclePositionFactory.setVector(minTerrainPosition.cpy());
+    */
+        /*
+        Vector3 min = new Vector3(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
+        Vector3 max = new Vector3(-Float.MAX_VALUE, -Float.MAX_VALUE, -Float.MAX_VALUE);
+        for (Triangle t : terrainPoints)
+        {
+            for (Vector3 v : t.getVertices())
+            {
+                if (v.x < min.x)
+                    min.x = v.x;
+                if (v.y < min.y)
+                    min.y = v.y;
+                if (v.z < min.z)
+                    min.z = v.z;
+
+                if (v.x > max.x)
+                    max.x = v.x;
+                if (v.y > max.y)
+                    max.y = v.y;
+                if (v.z > max.z)
+                    max.z = v.z;
+            }
+        }
         */
 
         mObstacleBodyFactory.clear();
@@ -239,16 +261,34 @@ public class GameConfigurator
     private Ball constructBall(float radius, float mass, Vector3 initPos)
     {
         //@TODO tetrahedrize sphere
+        Vector3 ballCenter = new Vector3(initPos.x + radius, initPos.y + radius, initPos.z + radius);
+        SphereTetrahedrizer tetSphere = new SphereTetrahedrizer(ballCenter, radius);
+
         mBallPositionFactory.setVector(initPos);
         mBallMassFactory.setParameter(mass);
         mBallBodyFactory.clear();
 
-        Vector3 sphereDep = new Vector3 (2*radius, 0, 0);
-        Vector3 sphereWid = new Vector3 (0, 2*radius, 0);
-        Vector3 sphereHig = new Vector3 (0, 0, 2*radius);
+    /*
+        Vector3 sphereDep = new Vector3 (2*radius, 2*radius, 0);
+        Vector3 sphereWid = new Vector3 (2*radius, -2*radius, 0);
+        Vector3 sphereHig = new Vector3 (0, -2*radius, 2*radius);
+    */
+        Vector3 sphereDep = new Vector3 (2*radius*.5f, 2*radius*.70711f, 2*radius*-.5f);
+        Vector3 sphereWid = new Vector3 (2*radius*-.5f, 2*radius*.70711f, 2*radius*.5f);
+        Vector3 sphereHig = new Vector3 (2*radius*.70711f, 0, 2*radius*.70711f);
+
         BoxParameter sphereBound = new BoxParameter(sphereDep, sphereWid, sphereHig);
         Box sphereBoundingBox = BoxPool.getInstance().getInstance(sphereBound);
         mBallBodyFactory.addSolid(new SolidTranslator (sphereBoundingBox, initPos));
+    /*
+        int horizontal = 2;
+        int halfVertical = 1;
+        mBallBodyFactory.clear();
+        for (SolidTranslator tets : tetSphere.tetrahedrize(halfVertical, horizontal))
+        {
+            mBallBodyFactory.addSolid(tets);
+        }
+     */
         return new Ball (mBallFactory.produce());
     }
 
@@ -331,6 +371,7 @@ public class GameConfigurator
         ballVelocityFactory.setVector(new Vector3());
         ballForceFactory.setVector(new Vector3());
         ballFrictionFactory.setParameter(PhysicsCoefficients.STATIC_FRICTION, PhysicsCoefficients.DYNAMIC_FRICTION, 0, 0);
+        ballFrictionFactory.setFluctuation(PhysicsCoefficients.FRICTION_FLUCTUATION);
         ballGravityFactory.setParameter(new Vector3 (0, -PhysicsCoefficients.GRAVITY_EARTH, 0));
         //construct ball component bundles
 
@@ -339,8 +380,8 @@ public class GameConfigurator
         ComponentBundle ballForce = new ComponentBundle(ballForceFactory, forceApplyFactory);
         ComponentBundle ballFriction = new ComponentBundle(ballFrictionFactory, frictionSystemFactory);
         ComponentBundle ballMass = new ComponentBundle(mBallMassFactory);
-        ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory, collisionDetectionFactory, collisionImpactFactory, nonPenetrationFactory);
-        ComponentBundle ballGravity = new ComponentBundle(ballGravityFactory, gravitySystemFactory, normalForceFactory, nonPenetrationFactory);
+        ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory, collisionDetectionFactory, collisionImpactFactory);
+        ComponentBundle ballGravity = new ComponentBundle(ballGravityFactory, gravitySystemFactory, normalForceFactory);
         ComponentBundle ballGoal = new ComponentBundle(mBallGoalFactory, goalSystemFactory);
 
 

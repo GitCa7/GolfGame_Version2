@@ -27,9 +27,9 @@ public class Main
     public static void main(String[] args)
     {
 
-        Movement.DEBUG= true;
+     //   Movement.DEBUG= true;
         CollisionImpactSystem.DEBUG = true;
-        CollisionDetectionSystem.DEBUG = true;
+     //   CollisionDetectionSystem.DEBUG = true;
         Main main = new Main();
         try {
             new MockMainMenu(main);
@@ -39,6 +39,7 @@ public class Main
     }
 
     public static final float DELTA_TIME = 0.05f;
+    public static final int FRAMES = (int) (1.2 * 1000 * DELTA_TIME);
 
 
 
@@ -88,13 +89,17 @@ public class Main
         Player active = mGame.getCurrentPlayers().get(0);
         //mGame.hit(active, defaultHit);
 
+        FPSController controlFPS = new FPSController(FRAMES);
+
         while (mGame.isActive())
         {
 
             do
             {
+                controlFPS.startFrame();
                 mGame.tick(DELTA_TIME);
                 mVisual.updateDisplay();
+                controlFPS.endFrame();
                 /*printCurrentBall();
                 try
                 {
