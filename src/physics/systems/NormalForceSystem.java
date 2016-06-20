@@ -113,7 +113,7 @@ public class NormalForceSystem extends EntitySystem  implements RepositoryEntity
         Force f = CompoMappers.FORCE.get(active.getEntity());
 
         //given a force g pushing on surface, normal unit vector nu of this surface
-        Plane p = new ColliderClosestSideFinder(active, passive).findClosestIntersecting(f, false);
+        Plane p = new ColliderClosestSideFinder(active, passive).find();
 
 
         //if force points inside passive => f has same direction as p's normal

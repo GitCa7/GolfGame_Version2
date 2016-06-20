@@ -72,9 +72,9 @@ public class ClosestSideFinder
             float planeDot = direction.dot(solidSides[i].getNormal());
             boolean directionCondition;
             if (strictly)
-                directionCondition = planeDot > 0 || GlobalObjects.ROUND.epsilonEquals(planeDot, 0f);
-            else
                 directionCondition = planeDot > 0 && !GlobalObjects.ROUND.epsilonEquals(planeDot, 0f);
+            else
+                directionCondition = planeDot > 0 || GlobalObjects.ROUND.epsilonEquals(planeDot, 0f);
 
             //if condition to determine the shortest distance
             if (thisDistance < length && directionCondition)

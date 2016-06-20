@@ -18,6 +18,7 @@ import physics.entities.Ball;
 import physics.geometry.planar.Triangle;
 import physics.geometry.planar.TriangleBuilder;
 import physics.geometry.spatial.*;
+import physics.systems.CollisionDetectionSystem;
 import physics.systems.CollisionImpactSystem;
 import physics.systems.NonPenetrationSystem;
 
@@ -45,7 +46,8 @@ public class FakeMain
 
     public static void setDebug()
     {
-    //    CollisionImpactSystem.DEBUG = true;
+        CollisionDetectionSystem.DEBUG = true;
+        CollisionImpactSystem.DEBUG = true;
         NonPenetrationSystem.DEBUG = true;
     }
 
@@ -77,7 +79,7 @@ public class FakeMain
         config.setTerrain(terrainMesh);
 
         //add a box obstacle
-        Vector3 boxPos = new Vector3(10, -5, 10);
+        Vector3 boxPos = new Vector3(10, 0, 10);
         BoxParameter bp = new BoxParameter(new Vector3(-20, 0, 0), new Vector3(0, 0, 25), new Vector3(0, 20, 0));
         ArrayList<SolidTranslator> boxBodyList = new ArrayList<>();
         boxBodyList.add(new SolidTranslator(BoxPool.getInstance().getInstance(bp), boxPos));
@@ -97,7 +99,7 @@ public class FakeMain
 
         float ballRadius = 3, ballMass = 5;
         Vector3 initBallPos = new Vector3();
-        config.addHumanAndBall("martin", ballRadius, ballMass, initBallPos);
+        config.addHumanAndBall("martin", ballRadius, ballMass, initBallPos, new FakeHumanObserver());
         //comment above and uncomment below for bot
      //   config.addBotAndBall("bot", ballRadius, ballMass, initBallPos);
         mGame = config.game();

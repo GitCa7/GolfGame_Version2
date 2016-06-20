@@ -106,12 +106,10 @@ public class CollisionImpactSystem extends framework.EntitySystem implements Rep
     private Vector3 compute (ColliderEntity active, ColliderEntity passive, float dTime)
     {
 
-        Vector3 velocity = CompoMappers.VELOCITY.get(active.getEntity());
-
         //given initial velocity v, normal unit vector nu
         //decompose v into u orthogonal to the plane and w parallel to the plane
         //get collision plane
-        Plane closestPlane = new ColliderClosestSideFinder(active, passive).findClosestIntersecting(velocity, false);
+        Plane closestPlane = new ColliderClosestSideFinder(active, passive).find();
         //Get the velocity
         Velocity currentDirection = CompoMappers.VELOCITY.get(active.getEntity());
 

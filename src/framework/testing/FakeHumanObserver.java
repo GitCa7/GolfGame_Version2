@@ -15,15 +15,15 @@ import java.util.Scanner;
  */
 public class FakeHumanObserver extends PlayerObserver
 {
-    private FollowCamera cam;
-
-    public void setCam(FollowCamera cam){
-        this.cam = cam;
-    }
     @Override
     public Vector3 getForce(Game state)
     {
-        return cam.inputLoop();
+        Scanner input = new Scanner(System.in);
+        System.out.println("enter the force you want to apply");
+        float x = askForValue("x", input);
+        float y = askForValue("y", input);
+        float z = askForValue("z", input);
+        return new Vector3(x, y, z);
     }
 
 
