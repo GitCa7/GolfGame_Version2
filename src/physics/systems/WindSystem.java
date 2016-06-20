@@ -81,7 +81,7 @@ public class WindSystem extends EntitySystem
 
     public void initializeWind(Wind wind)
     {
-        if (wind.mGen.nextDouble() > wind.mFrequency)
+        if (wind.mGen.nextDouble() <= wind.mFrequency)
         {
             wind.mDurationCounter = wind.mMinDuration + wind.mGen.nextInt(wind.mMaxDuration - wind.mMinDuration);
             float windIntensity = (float) (wind.mMinMagnitude + (wind.mMaxMagnitude - wind.mMinMagnitude) * wind.mGen.nextGaussian());

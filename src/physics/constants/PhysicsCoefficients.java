@@ -21,6 +21,12 @@ public class PhysicsCoefficients
 
 	public static final float TERRAIN_THICKNESS = 10000;
 
+	public static final float WIND_FREQUENCY = .01f;
+	public static final float WIND_MIN_INTENSITY = 10f;
+	public static final float WIND_MAX_INTENSITY = 50f;
+	public static final int WIND_MIN_DURATION = 10;
+	public static final int WIND_MAX_DURATION = 15;
+
 	public static final int ARITHMETIC_PRECISION = 5;
 	public static final int ARITHMETIC_TOLERANCE = 1;
 

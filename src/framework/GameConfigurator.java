@@ -313,6 +313,7 @@ public class GameConfigurator
         ForceApplyFactory forceApplyFactory = new ForceApplyFactory();
         FrictionSystemFactory frictionSystemFactory = new FrictionSystemFactory();
         GravitySystemFactory gravitySystemFactory = new GravitySystemFactory();
+        WindSystemFactory windSystemFactory = new WindSystemFactory();
         GoalSystemFactory goalSystemFactory = new GoalSystemFactory();
         //collision system factories
         CollisionDetectionSystemFactory collisionDetectionFactory = new CollisionDetectionSystemFactory();
@@ -329,6 +330,7 @@ public class GameConfigurator
         nonPenetrationFactory.setSystemPriority(2);
         gravitySystemFactory.setSystemPriority(3);
         frictionSystemFactory.setSystemPriority(5);
+        windSystemFactory.setSystemPriority(6);
         normalForceFactory.setSystemPriority(8);
         collisionImpactFactory.setSystemPriority(9);
         forceApplyFactory.setSystemPriority(10);
@@ -344,6 +346,7 @@ public class GameConfigurator
         collisionImpactFactory.setEngine(mEngine);
         normalForceFactory.setEngine(mEngine);
         gravitySystemFactory.setEngine(mEngine);
+        windSystemFactory.setEngine(mEngine);
         frictionSystemFactory.setEngine(mEngine);
         forceApplyFactory.setEngine(mEngine);
         movementFactory.setEngine(mEngine);
@@ -365,7 +368,7 @@ public class GameConfigurator
         ForceFactory ballForceFactory = new ForceFactory();
         GravityForceFactory ballGravityFactory = new GravityForceFactory();
         FrictionFactory ballFrictionFactory = new FrictionFactory();
-
+        WindFactory ballWindFactory = new WindFactory();
 
         //set default parameters of component factories for balls we dont need to change
         ballVelocityFactory.setVector(new Vector3());
@@ -373,6 +376,11 @@ public class GameConfigurator
         ballFrictionFactory.setParameter(PhysicsCoefficients.STATIC_FRICTION, PhysicsCoefficients.DYNAMIC_FRICTION, 0, 0);
         ballFrictionFactory.setFluctuation(PhysicsCoefficients.FRICTION_FLUCTUATION);
         ballGravityFactory.setParameter(new Vector3 (0, -PhysicsCoefficients.GRAVITY_EARTH, 0));
+        ballWindFactory.setParameter(   PhysicsCoefficients.WIND_MIN_INTENSITY,
+                                        PhysicsCoefficients.WIND_MAX_INTENSITY,
+                                        PhysicsCoefficients.WIND_FREQUENCY,
+                                        PhysicsCoefficients.WIND_MIN_DURATION,
+                                        PhysicsCoefficients.WIND_MAX_DURATION);
         //construct ball component bundles
 
         ComponentBundle ballPosition = new ComponentBundle(mBallPositionFactory);
@@ -382,6 +390,7 @@ public class GameConfigurator
         ComponentBundle ballMass = new ComponentBundle(mBallMassFactory);
         ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory, collisionDetectionFactory, collisionImpactFactory);
         ComponentBundle ballGravity = new ComponentBundle(ballGravityFactory, gravitySystemFactory, normalForceFactory);
+        ComponentBundle ballWind = new ComponentBundle(ballWindFactory, windSystemFactory);
         ComponentBundle ballGoal = new ComponentBundle(mBallGoalFactory, goalSystemFactory);
 
 
@@ -397,7 +406,7 @@ public class GameConfigurator
     */
         //add bundles to ball factory
         mBallFactory.addComponent(ballPosition, ballVelocity, ballFriction);
-        mBallFactory.addComponent(ballForce, ballGravity);
+        mBallFactory.addComponent(ballForce, ballGravity, ballWind);
         mBallFactory.addComponent(ballMass, ballBody, ballGoal);
 
         //additional component factories for players
