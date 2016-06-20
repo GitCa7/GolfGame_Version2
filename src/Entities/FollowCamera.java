@@ -5,7 +5,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-public class FollowCamera extends Camera{
+public class FollowCamera extends Camera implements InputObserver{
 
 	private float distanceFromPlayer = 100f;
 	private float angleAroundPlayer = 0;
@@ -18,23 +18,41 @@ public class FollowCamera extends Camera{
 		super.setPosition(pos);
 	}
 	
-	public void move(){
-		calculateZoom();
-		//calculatePitch();
-		//calculateAngleAroundPlayer();
-		calcPitchAngle();
-		float horizontalDistance = calculateHorizontalDistance();
-		float verticalDistance = calculateVerticalDistance();
-		calculateCameraPosition(horizontalDistance, verticalDistance);
-		super.setYaw(180 - (player.getRotY() + angleAroundPlayer));
-		super.setYaw(super.getYaw() % 360);
+	public FollowCamera()	{
+		this.player = null;
 		super.setPosition(pos);
+	}
+	
+	public void setPlayer(gameEntity ent)	{
+		player = ent;
+	}
+	
+	public void move(){
+		if(player != null)	{
+			calculateZoom();
+			calcPitchAngle();
+			float horizontalDistance = calculateHorizontalDistance();
+			float verticalDistance = calculateVerticalDistance();
+			calculateCameraPosition(horizontalDistance, verticalDistance);
+			super.setYaw(180 - (player.getRotY() + angleAroundPlayer));
+			super.setYaw(super.getYaw() % 360);
+			super.setPosition(pos);
+		}
 	}
 	
 
 	private void calculateZoom()	{
 		
 		float zoomLevel = Mouse.getDWheel() * 0.03f;
+		distanceFromPlayer -= zoomLevel;
+		if(distanceFromPlayer < 5) {
+			distanceFromPlayer = 5;
+		}
+		
+	}
+	
+	private void calculateZoom(float zoomLevel)	{
+		
 		distanceFromPlayer -= zoomLevel;
 		if(distanceFromPlayer < 5) {
 			distanceFromPlayer = 5;
@@ -57,40 +75,41 @@ public class FollowCamera extends Camera{
 		}
 	}
 	
+	
+	
+	public void calcPitchAngle(float deltaX, float deltaY)	{
+		float pitchChange = deltaY * 0.2f;
+		super.setPitch(super.getPitch() - pitchChange);
+		
+		float angleChange = deltaX * 0.3f;
+		angleAroundPlayer -= angleChange;
+		
+		if(super.getPitch() < 0)	{
+			super.setPitch(0);
+		}
+		else if	(super.getPitch() > 90){
+			super.setPitch(90);
+		}
+	}
+	
 	public void getAngleAroundPlayer()	{
 		System.out.println(super.getYaw());
 	}
 	
 	public Vector2f getDirection()	{
-		Vector3f center = player.getPosition();
-		Vector2f Direction = new Vector2f(center.x - pos.x, center.z - pos.z);
-		if(Direction.length()  > 1)
-			Direction.normalise();
-		System.out.println("Direction: " + Direction);
-		return Direction;
-	}
-	
-	/*
-	private void calculatePitch()	{
-		if(Mouse.isButtonDown(1))	{
-			float pitchChange = Mouse.getDY() * 0.2f;
-			super.setPitch(super.getPitch() - pitchChange);
-			if(super.getPitch() < 0)	{
-				super.setPitch(0);
-			}
-			else if	(super.getPitch() > 90){
-				super.setPitch(90);
-			}
+		if(player != null)	{
+			Vector3f center = player.getPosition();
+			Vector2f Direction = new Vector2f(center.x - pos.x, center.z - pos.z);
+			if(Direction.length()  > 1)
+				Direction.normalise();
+			System.out.println("Direction: " + Direction);
+			return Direction;
+		}
+		else	{
+			return null;
 		}
 	}
 	
-	private void calculateAngleAroundPlayer(){
-		if(Mouse.isButtonDown(0))	{
-			float angleChange = Mouse.getDX() * 0.3f;
-			angleAroundPlayer -= angleChange;
-		}
-	}
-	*/
 	private float calculateHorizontalDistance()	{
 		return (float) (distanceFromPlayer * Math.cos(Math.toRadians(super.getPitch() + 4)));
 	}
@@ -102,14 +121,35 @@ public class FollowCamera extends Camera{
 	
 	
 	private void calculateCameraPosition(float horizontalDistance, float verticalDistance)	{
-		float theta = player.getRotY() + angleAroundPlayer;
-		float offsetX = (float) (horizontalDistance * Math.sin(Math.toRadians(theta)));
-		float offsetZ = (float) (horizontalDistance * Math.cos(Math.toRadians(theta)));
-		//System.out.println(player.getPosition().x  + " " +  player.getPosition().y  + " " + player.getPosition().z);
-		
-		pos.x = player.getPosition().x - offsetX;
-		pos.z = player.getPosition().z - offsetZ;
-		pos.y = player.getPosition().y + verticalDistance + 4;
-		
+		if(player != null)	{
+			float theta = player.getRotY() + angleAroundPlayer;
+			float offsetX = (float) (horizontalDistance * Math.sin(Math.toRadians(theta)));
+			float offsetZ = (float) (horizontalDistance * Math.cos(Math.toRadians(theta)));
+			//System.out.println(player.getPosition().x  + " " +  player.getPosition().y  + " " + player.getPosition().z);
+			
+			pos.x = player.getPosition().x - offsetX;
+			pos.z = player.getPosition().z - offsetZ;
+			pos.y = player.getPosition().y + verticalDistance + 4;
+		}
 	}
+	
+	public void update(float deltaX, float deltaY, float deltaZ)	{
+		
+		if(player != null)	{
+			//DeltaZ will be for followCamera the curent Value of the mouseWheel
+			float mouseWheel = deltaZ * 0.3f;
+			calculateZoom(deltaZ);
+			
+			calcPitchAngle(deltaX,deltaY);
+			
+			float horizontalDistance = calculateHorizontalDistance();
+			float verticalDistance = calculateVerticalDistance();
+			calculateCameraPosition(horizontalDistance, verticalDistance);
+			super.setYaw(180 - (player.getRotY() + angleAroundPlayer));
+			super.setYaw(super.getYaw() % 360);
+			super.setPosition(pos);
+		}
+	}
+	
+	
 }
