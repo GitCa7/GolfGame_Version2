@@ -81,6 +81,12 @@ public class SolidTranslator
 	public Vector3 getPosition() { return mPosition; }
 
 	/**
+	 * computes the translated center
+	 * @return the translated center
+     */
+	public Vector3 getCenter() { return mPosition.cpy().add(mTranslated.getCenter()); }
+
+	/**
 	 * @param p a point given by a vector
 	 * @return true if p is within the translated solid
      */

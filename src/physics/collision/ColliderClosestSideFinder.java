@@ -37,7 +37,7 @@ public class ColliderClosestSideFinder {
         {
             //return side closest to active's colliding vertex
             ClosestSideFinder sideFinder = new ClosestSideFinder(mPassive.getCollidingSolid());
-            Plane collisionPlane = sideFinder.closestSide(mActive.getCollidingVertex());
+            Plane collisionPlane = sideFinder.closestSide(mActive.getCollidingSolid().getCenter());
             return collisionPlane;
         }
         // if active collides with a vertex of passive
@@ -45,7 +45,7 @@ public class ColliderClosestSideFinder {
         {
             //assume a plane orthogonal to the velocity as collision plane
             Velocity activeVelocity = CompoMappers.VELOCITY.get(mActive.getEntity());
-            Vector3 collisionVertex = mPassive.getCollidingVertex();
+            Vector3 collisionVertex = mPassive.getCollidingSolid().getCenter();
             return new Plane (activeVelocity.cpy(), collisionVertex.cpy());
 
         }
@@ -58,6 +58,7 @@ public class ColliderClosestSideFinder {
      * @param direction direction vector to compare with normal
      * @param strictlySameDirection boolean flag
      * @return the plane containing the closest side satisfying the conditions above.
+     * @deprecated
      */
     public Plane findClosestIntersecting(Vector3 direction, boolean strictlySameDirection)
     {
