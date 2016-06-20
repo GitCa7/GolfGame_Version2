@@ -10,7 +10,7 @@ import framework.systems.GoalSystemFactory;
 import framework.systems.TurnSystemFactory;
 import framework.entities.EntityFactory;
 
-import framework.testing.FakeHumanObserver;
+import framework.testing.HumanObserver;
 import physics.collision.CollisionRepository;
 import physics.collision.TerrainTetrahedronBuilder;
 import physics.components.*;
@@ -112,7 +112,7 @@ public class GameConfigurator
      * @param ballMass ball's mass
      * @param initBallPos ball's initial position
      */
-    public void addHumanAndBall(String name, float ballRadius, float ballMass, Vector3 initBallPos,FakeHumanObserver a)
+    public void addHumanAndBall(String name, float ballRadius, float ballMass, Vector3 initBallPos,HumanObserver a)
     {
         addPlayerAndBall(name, ballRadius, ballMass, initBallPos,a);
     }

@@ -13,7 +13,7 @@ import java.util.Scanner;
  *
  * @author martin
  */
-public class FakeHumanObserver extends PlayerObserver
+public class HumanObserver extends PlayerObserver
 {
     @Override
     public Vector3 getForce(Game state)

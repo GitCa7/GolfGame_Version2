@@ -3,16 +3,14 @@ package GamePackage;
 import Editor.Course;
 import Editor.CourseLoader;
 import Editor.ObstacleDat;
-import Entities.FollowCamera;
 import Entities.Obstacle;
 import Entities.gameEntity;
-import TerrainComponents.PointNode;
 import TerrainComponents.TerrainData;
 import TerrainComponents.TerrainGeometryCalc;
 import com.badlogic.gdx.math.Vector3;
 import framework.Game;
 import framework.GameConfigurator;
-import framework.testing.FakeHumanObserver;
+import framework.testing.HumanObserver;
 import org.lwjgl.util.vector.Vector3f;
 import physics.geometry.planar.Triangle;
 import physics.geometry.spatial.*;
@@ -29,7 +27,7 @@ public class GameLoader {
 	ArrayList<Vector3f> ballPos;
 	Vector3f holePos;
 	TerrainData a;
-	ArrayList<FakeHumanObserver> obs;
+	ArrayList<HumanObserver> obs;
 
 	public Game loadConfig(String name)	{
 		toPlay = CourseLoader.loadCourse(name);
@@ -71,7 +69,7 @@ public class GameLoader {
 		obs = new ArrayList<>();
 		for(int i=0;i<ballPos.size();i++) {
 			String pName = JOptionPane.showInputDialog("Player "+i+" Name?");
-			FakeHumanObserver a = new FakeHumanObserver();
+			HumanObserver a = new HumanObserver();
 			if(bots.get(i)){
 				config.addBotAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y+20, ballPos.get(i).z));
 			}else {
