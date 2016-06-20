@@ -47,6 +47,8 @@ As in most discrete simulations, we have to deal with roundoff errors. To keep t
 the values of the coordinates of the ball's position. This way, we intend to have accurate computations on the one hand, but we only use the most reliable 
 and relevant part of the result of these computations further in our simulation. 
 
+mention: when bouncing position does not converge if time step chosen too large
+
 numerical methods used
 To solve the above differential equations, we either use Runge-Kutta methods or the adaptive Bogacki-Shampine method. While the former is very easy to
 implement, the latter allows us to control the error and might be even better performing. Controling the error is very useful, since this means we can 

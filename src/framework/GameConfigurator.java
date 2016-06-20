@@ -88,6 +88,10 @@ public class GameConfigurator
 
         //set components indicating which player succeeds another
         setNextPlayers();
+
+        //general engine update before systems are added to refresh
+        mEngine.update(1);
+
         //add entity systems processing components to the engine
 		addAllSystems();
 
@@ -269,6 +273,8 @@ public class GameConfigurator
         //player system factories
         TurnSystemFactory turnSystemFactory = new TurnSystemFactory();
 
+        RoundingSystemFactory roundingSystemFactory = new RoundingSystemFactory();
+
         //set system's priorities
         collisionDetectionFactory.setSystemPriority(1);
         nonPenetrationFactory.setSystemPriority(2);
@@ -281,6 +287,7 @@ public class GameConfigurator
         movementFactory.setSystemPriority(12);
         goalSystemFactory.setSystemPriority(16);
         turnSystemFactory.setSystemPriority(20);
+        roundingSystemFactory.setSystemPriority(25);
 
         //set engine to attach listener
         collisionDetectionFactory.setEngine(mEngine);
@@ -294,6 +301,7 @@ public class GameConfigurator
         nonPenetrationFactory.setEngine(mEngine);
         goalSystemFactory.setEngine(mEngine);
         turnSystemFactory.setEngine(mEngine);
+        roundingSystemFactory.setEngine(mEngine);
 
         //set repository
         CollisionRepository collisionRepo = new CollisionRepository();
@@ -316,27 +324,27 @@ public class GameConfigurator
         ballFrictionFactory.setParameter(PhysicsCoefficients.STATIC_FRICTION, PhysicsCoefficients.DYNAMIC_FRICTION, 0, 0);
         ballGravityFactory.setParameter(new Vector3 (0, -PhysicsCoefficients.GRAVITY_EARTH, 0));
         //construct ball component bundles
-        /*complete
+
         ComponentBundle ballPosition = new ComponentBundle(mBallPositionFactory);
-        ComponentBundle ballVelocity = new ComponentBundle(ballVelocityFactory, movementFactory);
+        ComponentBundle ballVelocity = new ComponentBundle(ballVelocityFactory, movementFactory, roundingSystemFactory);
         ComponentBundle ballForce = new ComponentBundle(ballForceFactory, forceApplyFactory);
         ComponentBundle ballFriction = new ComponentBundle(ballFrictionFactory, frictionSystemFactory);
         ComponentBundle ballMass = new ComponentBundle(mBallMassFactory);
         ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory, collisionDetectionFactory, collisionImpactFactory, nonPenetrationFactory);
         ComponentBundle ballGravity = new ComponentBundle(ballGravityFactory, gravitySystemFactory, normalForceFactory, nonPenetrationFactory);
         ComponentBundle ballGoal = new ComponentBundle(mBallGoalFactory, goalSystemFactory);
-        */
+
 
         //simplyfied
-        ComponentBundle ballPosition = new ComponentBundle(mBallPositionFactory);
-        ComponentBundle ballVelocity = new ComponentBundle(ballVelocityFactory, movementFactory);
+    /*    ComponentBundle ballPosition = new ComponentBundle(mBallPositionFactory);
+        ComponentBundle ballVelocity = new ComponentBundle(ballVelocityFactory, movementFactory, roundingSystemFactory);
         ComponentBundle ballForce = new ComponentBundle(ballForceFactory, forceApplyFactory);
         ComponentBundle ballFriction = new ComponentBundle(ballFrictionFactory, frictionSystemFactory);
         ComponentBundle ballMass = new ComponentBundle(mBallMassFactory);
         ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory, collisionDetectionFactory, collisionImpactFactory);
         ComponentBundle ballGravity = new ComponentBundle(ballGravityFactory, gravitySystemFactory, normalForceFactory);
         ComponentBundle ballGoal = new ComponentBundle(mBallGoalFactory, goalSystemFactory);
-
+    */
         //add bundles to ball factory
         mBallFactory.addComponent(ballPosition, ballVelocity, ballFriction);
         mBallFactory.addComponent(ballForce, ballGravity);

@@ -18,13 +18,18 @@ public class SpinApply extends EntitySystem
 
 	public SpinApply clone()
 	{
-		return new SpinApply();
+		SpinApply newSystem = new SpinApply();
+		newSystem.setPriority(priority);
+		return newSystem;
 	}
 	
 	public void addedToEngine (Engine e)
 	{
-		for (Entity add : e.getEntitiesFor (Families.SPINNING))
-			entities().add (add);
+		for (Entity add : e.getEntities())
+		{
+			if (Families.SPINNING.matches(add))
+				entities().add(add);
+		}
 	}
 	
 	/**

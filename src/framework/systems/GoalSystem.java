@@ -30,7 +30,9 @@ public class GoalSystem extends EntitySystem
 
     public GoalSystem clone()
     {
-        return new GoalSystem();
+        GoalSystem newSystem = new GoalSystem();
+        newSystem.setPriority(priority);
+        return newSystem;
     }
 
     @Override
@@ -53,9 +55,10 @@ public class GoalSystem extends EntitySystem
             throw new IllegalStateException("goal system cannot be added to multiple engines!");
         mEngine = e;
 
-        for (Entity add : e.getEntitiesFor(Families.GOAL_SEEKING))
+        for (Entity add : e.getEntities())
         {
-            entities().add(add);
+            if (Families.GOAL_SEEKING.matches(add))
+                entities().add(add);
         }
     }
 

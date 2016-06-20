@@ -9,8 +9,7 @@ public class GolfGoalTester extends GoalAchived<GolfState> {
 
 	@Override
 	public boolean test(GolfState aState) {
-		Vector3 difference = aState.getTarget().getComponent(Position.class).cpy()
-				.sub(aState.getBall().mEntity.getComponent(Position.class).cpy());
+		Vector3 difference = aState.getDistanceToTarget();
 		return difference.len() < diameterOfTarget;
 	}
 

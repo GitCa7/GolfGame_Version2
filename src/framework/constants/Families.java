@@ -25,4 +25,6 @@ public class Families
     public static Family GOAL_SEEKING = Family.all(Goal.class, Body.class, Position.class, Velocity.class).get();
     /** family of entities being possibly modified */
     public static Family MODIFIABLE = Family.one(Velocity.class, Busy.class, Active.class, Turn.class).get();
+    /** family of classes never being modified, complement to MODIFIABLE family */
+    public static Family NON_MODIFIABLE = Family.exclude(Velocity.class, Busy.class, Active.class, Turn.class).get();
 }

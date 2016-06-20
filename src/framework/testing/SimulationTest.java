@@ -43,7 +43,7 @@ public class SimulationTest
 
         Game game = config.game();
 
-        Vector3 hitForce = new Vector3(50, 0, 50);
+        Vector3 hitForce = new Vector3(500, 0, 500);
         float dt = .1f;
 
         SimulatedGame simulation = game.getGameSimulation(game.getCurrentPlayers().get(0));

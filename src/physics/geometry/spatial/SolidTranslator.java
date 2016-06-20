@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector3;
 import physics.generic.ForEach;
 import physics.geometry.linear.VertexTranslateOperation;
 import physics.geometry.linear.VertexTranslator;
+import physics.geometry.planar.Plane;
 import physics.geometry.planar.Shape;
 import physics.geometry.planar.ShapeTranslator;
 import physics.geometry.planar.ShapeTranslateOperation;
@@ -51,6 +52,22 @@ public class SolidTranslator
 		ShapeTranslateOperation translate = new ShapeTranslateOperation(mPosition);
 		ForEach<Shape, ShapeTranslator> allSides = new ForEach<>(translate);
 		return allSides.operate(new ShapeTranslator[sides.length], sides);
+	}
+
+	/**
+	 * computes the translated side planes
+	 * @return the translated side planes
+     */
+	public Plane[] getSidePlanes()
+	{
+		Plane[] sidePlanes = mTranslated.getSidePlanes();
+		Plane[] translatedSidePlanes = new Plane[sidePlanes.length];
+		for (int cPlane = 0; cPlane < sidePlanes.length; ++cPlane)
+		{
+			Vector3 translatedOffset = sidePlanes[cPlane].getOffset().cpy().add(mPosition);
+			translatedSidePlanes[cPlane] = new Plane(sidePlanes[cPlane].getNormal(), translatedOffset);
+		}
+		return translatedSidePlanes;
 	}
 
 	/**

@@ -10,6 +10,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 
 
+import physics.constants.CompoMappers;
 import physics.constants.Families;
 
 /**
@@ -24,13 +25,14 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 	public CollisionDetectionSystem()
 	{
 		mActive = new HashSet<>();
-		mDetect = new CollisionDetector();
 	}
 
 
 	public CollisionDetectionSystem clone()
 	{
-		return new CollisionDetectionSystem();
+		CollisionDetectionSystem newSystem = new CollisionDetectionSystem();
+		newSystem.setPriority(priority);
+		return newSystem;
 	}
 
 	/**
@@ -40,12 +42,14 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 	 */
 	public void addedToEngine (Engine e)
 	{
-		for (Entity add : e.getEntitiesFor (Families.COLLIDING))
+		for (Entity add : e.getEntities())
 		{
-			entities().add (add);
-			mDetect.add (add);
-			if (Families.ACCELERABLE.matches (add))
-				mActive.add (add);
+			if (Families.COLLIDING.matches(add))
+			{
+				entities().add(add);
+				if (Families.ACCELERABLE.matches(add))
+					mActive.add(add);
+			}
 		}
 	}
 
@@ -61,7 +65,9 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 	{
 		//detect collisions
 		mRepository.clear();
-		ArrayList<ColliderPair<ColliderEntity>> colliding = mDetect.getAnyColliding();
+		CollisionDetector detector = new CollisionDetector();
+		detector.addAll(entities());
+		ArrayList<ColliderPair<ColliderEntity>> colliding = detector.getAnyColliding();
 		if (!colliding.isEmpty())	{
 			if(mDebug) {
 				//System.out.println ("detected a collision!");
@@ -69,7 +75,10 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 		}
 
 		for(ColliderPair<ColliderEntity> pair : colliding)
+		{
 			mRepository.addColliderPair(pair);
+			debugOut(pair);
+		}
 	}
 
 
@@ -79,7 +88,6 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 	public void addEntity(Entity e) {
 		if (Families.COLLIDING.matches((e))) {
 			entities().add(e);
-			mDetect.add(e);
 			if (Families.ACCELERABLE.matches(e))
 				mActive.add(e);
 		}
@@ -88,21 +96,27 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 
 	public void removeEntity(Entity e)
 	{
-		if (Families.COLLIDING.matches((e))) {
+		if (Families.COLLIDING.matches((e)))
+		{
 			entities().remove (e);
-			mDetect.remove (e);
 			if (Families.ACCELERABLE.matches (e))
 				mActive.remove (e);
 		}
 	}
 
-
+	public void debugOut(ColliderPair<ColliderEntity> cPair)
+	{
+		System.out.print("detected collision between " + cPair.getFirst().getEntity());
+		System.out.print(" at " + CompoMappers.POSITION.get(cPair.getFirst().getEntity()));
+		System.out.print(" and " + cPair.getSecond().getEntity());
+		System.out.println(" at " + CompoMappers.POSITION.get(cPair.getSecond().getEntity()));
+	}
 
 
 	/** store impacted by collisions */
 	private HashSet<Entity> mActive;
 	/** detects collisions within the set of physics.entities */
-	private CollisionDetector mDetect;
+//	private CollisionDetector mDetect;
 	private CollisionRepository mRepository;
 	private final boolean mDebug = true;
 

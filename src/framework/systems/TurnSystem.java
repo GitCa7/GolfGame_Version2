@@ -30,14 +30,16 @@ public class TurnSystem extends EntitySystem
 
     public TurnSystem clone()
     {
-        return new TurnSystem();
+        TurnSystem newSystem =  new TurnSystem();
+        newSystem.setPriority(priority);
+        return newSystem;
     }
 
     public void addedToEngine (Engine e)
     {
-        for (Entity add : e.getEntitiesFor(Families.OWNED))
+        for (Entity add : e.getEntities())
         {
-            if (physics.constants.Families.MOVING.matches(add))
+            if (Families.OWNED.matches(add) && physics.constants.Families.MOVING.matches(add))
                 entities().add(add);
         }
     }

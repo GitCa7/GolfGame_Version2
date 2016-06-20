@@ -35,7 +35,7 @@ public class BotObserver extends PlayerObserver
         Entity target = new Entity();
         target.add(new Position(goalPos.x, goalPos.y, goalPos.z));
 
-        GolfSearchPerformer searchPerformer= new GolfSearchPerformer(myBall, target);
+        GolfSearchPerformer searchPerformer= new GolfSearchPerformer(state.getCurrentPlayers().get(0), state);
 
         TreeNode<GolfState, GolfAction> solutionNode = searchPerformer.greedySolution();
 

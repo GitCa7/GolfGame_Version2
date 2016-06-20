@@ -1,8 +1,12 @@
 package framework;
 
 import com.badlogic.ashley.core.*;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Vector3;
+import framework.constants.Families;
 import framework.internal.components.Busy;
+import physics.components.Position;
+import physics.components.Velocity;
 import physics.systems.RepositoryEntitySystem;
 import physics.collision.CollisionRepository;
 import physics.components.Force;
@@ -31,9 +35,11 @@ public class SimulatedGame
     {
         mEngine = new Engine();
         mBall = playerBall;
-        GlobalState = engine.getEntitiesFor(framework.constants.Families.GLOBAL_STATE).get(0);
+        mGlobalState = engine.getEntitiesFor(framework.constants.Families.GLOBAL_STATE).get(0);
 
         setEntities(engine);
+        //dry refresh update
+        mEngine.update(1);
         setSystems(engine);
     }
 
@@ -71,13 +77,21 @@ public class SimulatedGame
     public void play(Vector3 force, float dTime)
     {
         Force f = CompoMappers.FORCE.get(mBall.mEntity);
-        Busy busy = framework.constants.CompoMappers.BUSY.get(GlobalState);
+        Busy busy = framework.constants.CompoMappers.BUSY.get(mGlobalState);
+
+        Position ballPos = CompoMappers.POSITION.get(mBall.mEntity);
+        Velocity ballVel = CompoMappers.VELOCITY.get(mBall.mEntity);
+
 
         f.add(force);
         //loop while busy
         do
         {
             mEngine.update(dTime);
+            System.out.print("ball s " + ballPos);
+            System.out.print(" v " + ballVel);
+            System.out.print(" busy " + busy.mBusy);
+            System.out.println();
         }while(busy.mBusy);
     }
 
@@ -89,7 +103,13 @@ public class SimulatedGame
     {
         removeModifiableEntities();
         for (Entity moving : state.getMutableEntities())
+        {
             mEngine.addEntity(moving);
+            if (Families.GLOBAL_STATE.matches(moving))
+                mGlobalState = moving;
+        }
+
+        mBall = state.getPlayerBall();
     }
 
     /**
@@ -99,12 +119,18 @@ public class SimulatedGame
      */
     private void setEntities(Engine original)
     {
-        GameState state = new GameState(original.getEntities(), mBall);
-        for (Entity cloned : state.clone().getMutableEntities())
+        for (Entity immutable : original.getEntitiesFor(Families.NON_MODIFIABLE))
+            mEngine.addEntity(immutable);
+
+        GameState state = new GameState(original.getEntities(), mBall).clone();
+        for (Entity cloned : state.getMutableEntities())
+        {
             mEngine.addEntity(cloned);
+            if (Families.GLOBAL_STATE.matches(cloned))
+                mGlobalState = cloned;
+        }
 
         mBall = state.getPlayerBall();
-
     }
 
     /**
@@ -119,8 +145,8 @@ public class SimulatedGame
         for (com.badlogic.ashley.core.EntitySystem entitySystem : original.getSystems())
         {
             EntitySystem system = ((EntitySystem) entitySystem).clone();
-            mEngine.addSystem(system);
             mEngine.addEntityListener(system.getNewEntitiesListener());
+            mEngine.addSystem(system);
 
             //@TODO ugly RTTI, FIX!!!
             if (RepositoryEntitySystem.class.isAssignableFrom(system.getClass()))
@@ -133,11 +159,16 @@ public class SimulatedGame
      */
     private void removeModifiableEntities()
     {
-        for (Entity remove : mEngine.getEntitiesFor(framework.constants.Families.MODIFIABLE))
-            mEngine.removeEntity(remove);
+
+        ImmutableArray<Entity> remove = mEngine.getEntitiesFor(Families.MODIFIABLE);
+
+        for (int cRemove = remove.size() - 1; cRemove >= 0; --cRemove)
+        {
+            mEngine.removeEntity(remove.get(cRemove));
+        }
     }
 
     private Engine mEngine;
     private Ball mBall;
-    private Entity GlobalState;
+    private Entity mGlobalState;
 }

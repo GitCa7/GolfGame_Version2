@@ -38,8 +38,6 @@ public class ColliderClosestSideFinder {
             //return side closest to active's colliding vertex
             ClosestSideFinder sideFinder = new ClosestSideFinder(mPassive.getCollidingSolid());
             Plane collisionPlane = sideFinder.closestSide(mActive.getCollidingVertex());
-            //norm inwards
-            collisionPlane.setNormalOrientation(mActive.getCollidingVertex().cpy());
             return collisionPlane;
         }
         // if active collides with a vertex of passive
@@ -48,7 +46,6 @@ public class ColliderClosestSideFinder {
             //assume a plane orthogonal to the velocity as collision plane
             Velocity activeVelocity = CompoMappers.VELOCITY.get(mActive.getEntity());
             Vector3 collisionVertex = mPassive.getCollidingVertex();
-            //plane is already inward-pointing, since velocity is used as normal
             return new Plane (activeVelocity.cpy(), collisionVertex.cpy());
 
         }

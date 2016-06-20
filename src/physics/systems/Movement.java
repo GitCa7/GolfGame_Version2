@@ -31,7 +31,9 @@ public class Movement extends EntitySystem
 
 	public Movement clone()
 	{
-		return new Movement();
+		Movement newSystem = new Movement();
+		newSystem.setPriority(priority);
+		return newSystem;
 	}
 
 	/**
@@ -41,8 +43,11 @@ public class Movement extends EntitySystem
 	 */
 	public void addedToEngine (Engine e)
 	{
-		for (Entity ent : e.getEntitiesFor (Families.MOVING))
-			entities().add (ent);
+		for (Entity ent : e.getEntities())
+		{
+			if (Families.MOVING.matches(ent))
+				entities().add(ent);
+		}
 	}
 	
 	/**
@@ -55,9 +60,7 @@ public class Movement extends EntitySystem
 		for (Entity move : entities())
 		{	
 			Velocity v = CompoMappers.VELOCITY.get (move);
-			
 
-			
 			//alter position
 			Vector3 change = v.cpy().scl(dTime);
 
@@ -66,10 +69,6 @@ public class Movement extends EntitySystem
 
 			if (CompoMappers.BODY.has(move))
 				moveBody(CompoMappers.BODY.get(move), change);
-
-			//set velocity to 0 if magnitude is below arithmetic precision
-			if (GlobalObjects.ROUND.epsilonEquals (0f, v.len()))
-				v.setZero();
 		}
 	}
 
