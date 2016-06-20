@@ -52,7 +52,13 @@ public class TestTrim {
 		GolfSearchPerformer searchPerformer= new GolfSearchPerformer(bot, game);
 		
 		TreeNode<GolfState, GolfAction> solutionNode= searchPerformer.greedySolution();
-		
+		System.out.println(solutionNode.getState().getPosition());
+		System.out.println(solutionNode.getAction().getForce().len());
+		System.out.println(solutionNode.getParent().getState().getPosition());
+		System.out.println(solutionNode.getParent().getParent().getState().getPosition());
+		System.out.println(solutionNode.getParent().getAction().getForce().len());
+
+
 		//displaySolution(engine, deltaTime, game.getBall(bot), solutionNode);
 
 	}
@@ -90,6 +96,7 @@ public class TestTrim {
 		}
 		ball.mEntity.getComponent(Velocity.class).setZero();
 		System.out.println("Solution Depth: " + tempNode.getNodeDeapth() + " ball pos " + tempNode.getState().getPosition());
+
 
 	}
 }

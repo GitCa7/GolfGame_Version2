@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class ActionGeneatorV2 {
 
-	private final int maxForceLength = 10;
+	private final int maxForceLength = 5000;
 
 	private Vector3 firstTryDir;
 
@@ -14,8 +14,8 @@ public class ActionGeneatorV2 {
 
 	private int currentRep = 0;
 
-	private int strengthItteration = 3;
-	private int zAxisItterations = 3;
+	private int strengthItteration = 1;
+	private int zAxisItterations = 1;
 
 	private ArrayList<Vector3> forceData = new ArrayList<Vector3>();
 

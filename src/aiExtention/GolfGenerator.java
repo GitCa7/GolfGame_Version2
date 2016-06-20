@@ -12,12 +12,12 @@ import searchTree.TreeNode;
 
 public class GolfGenerator extends NodeGenerator<GolfState, GolfAction> {
 
-	public static final float DELTA_TIME  = .02f;
+	public static final float DELTA_TIME  = 0.02f;
 
 
 	private Engine moveManager;
 	private NodeEvaluator<GolfState> evaluator ;
-	private ActionGeneatorV2 forceGenerator = new ActionGeneatorV2(1000);
+	private ActionGeneatorV2 forceGenerator = new ActionGeneatorV2(100);
 
 	public GolfGenerator(Engine engine, NodeEvaluator<GolfState> evaluator) {
 		super(evaluator);
@@ -40,6 +40,7 @@ public class GolfGenerator extends NodeGenerator<GolfState, GolfAction> {
 		childNode.setAction(action);
 		childNode.setNodeDeapth(aNode.getNodeDeapth() + 1);
 		childNode.setValueOfNode(evaluator.evaluateNode(childNode));
+		//System.out.println("ChildNode " + childNode.getState().getPosition());
 		// System.out.println(evaluator.evaluateNode(childNode));
 		// aNode.addChildNode(childNode);
 		// System.out.println("childNodeActonStore" + childNode.getAction().getForce());

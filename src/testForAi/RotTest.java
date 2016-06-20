@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class RotTest {
 
 	public static void main(String[] args) {
-		ActionGeneatorV2 generator = new ActionGeneatorV2(1000);
+		ActionGeneatorV2 generator = new ActionGeneatorV2(100);
 		ArrayList<Vector3> myList = generator.getForceData();
 		System.out.println(myList.size());
 		for (int i = 0; i < myList.size(); i++) {

@@ -1,11 +1,13 @@
 package searchTree;
 
 
+import aiExtention.GolfAction;
+import aiExtention.GolfState;
 
 /** Main class that performs the search process */
 public class TreeOperator<E extends SearchState, Action extends AbstractAction<E>> {
 
-	private final int noOfGenerChild = 1000;
+	private final int noOfGenerChild = 100;
 	private final int noOfParents = 3;
 	private TreeNode<E, Action> rootNode;
 	private SearchTree<E, Action> searchTree;
@@ -27,12 +29,12 @@ public class TreeOperator<E extends SearchState, Action extends AbstractAction<E
 		int depth = 0;
 		System.out.println("Running search");
 		System.out.println("Statetest " + !goalTester.test(searchTree.getListOfNodes(depth).peek().getState()));
-		while (!goalTester.test(searchTree.getListOfNodes(depth).peek().getState()) && depth < 1000) {
+		while (!goalTester.test(searchTree.getListOfNodes(depth).peek().getState()) && depth < 10) {
 			expandDeapth(depth);
 			depth++;
 			nodesExp++;
-			System.out.println("nodeExp" + nodesExp);
-			// System.out.println(depth + " " + searchTree.getListOfNodes(depth).peek().getNodeDeapth());
+		//	System.out.println("nodeExp" + nodesExp);
+		//	 System.out.println(depth + " " + searchTree.getListOfNodes(depth).peek().getNodeDeapth());
 		}
 		return searchTree.getListOfNodes(depth).poll();
 
@@ -48,12 +50,13 @@ public class TreeOperator<E extends SearchState, Action extends AbstractAction<E
 		for (int i = 1; i <= nodesToExpand; i++) {
 			TreeNode<E, Action> tempParent = searchTree.getListOfNodes(deapth).poll();
 			for (int j = 1; j <= noOfGenerChild; j++) {
-				System.out.println("testing node " + (i * (noOfGenerChild - 1) + j));
+				//System.out.println("testing node " + (i * (noOfGenerChild - 1) + j));
 				searchTree.addNode(generator.generateChildNode(tempParent));
-				System.out.println("nodeExp" + tempParent.getValueOfNode());
+				//System.out.println("ValueOfNode" + tempParent.getValueOfNode());
+				//System.out.println("ball possition " + tempParent.getState());
 			}
 		}
-		// System.out.println("Finished exp");
+		System.out.println("Finished exp");
 
 	}
 
