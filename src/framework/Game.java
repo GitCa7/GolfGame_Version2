@@ -118,6 +118,8 @@ public class Game
 	 */
 	public void hit (Player p, Vector3 force)
 	{
+		System.out.println ("hit ball with " + force);
+
 		Ball ballHit = getBall (p);
 		Force forceComp = physics.constants.CompoMappers.FORCE.get(ballHit.mEntity);
 		forceComp.add (force);

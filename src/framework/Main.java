@@ -27,7 +27,7 @@ public class Main
     public static void main(String[] args)
     {
 
-        //Movement.DEBUG= true;
+        Movement.DEBUG= true;
         CollisionImpactSystem.DEBUG = true;
         CollisionDetectionSystem.DEBUG = true;
         Main main = new Main();
@@ -38,7 +38,7 @@ public class Main
         }
     }
 
-    public static final float DELTA_TIME = 0.02f;
+    public static final float DELTA_TIME = 0.05f;
 
 
 
