@@ -84,14 +84,21 @@ public class SimulatedGame
 
 
         f.add(force);
+
+        int maxIterations = 100;
+        int cIteration = 0;
+
         //loop while busy
         do
         {
             mEngine.update(dTime);
+            ++cIteration;
+            /*
             System.out.print("ball s " + ballPos);
             System.out.print(" v " + ballVel);
             System.out.print(" busy " + busy.mBusy);
             System.out.println();
+            */
         }while(busy.mBusy);
     }
 

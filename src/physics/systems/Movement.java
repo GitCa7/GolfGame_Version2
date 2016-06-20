@@ -19,7 +19,10 @@ import physics.geometry.spatial.SolidTranslator;
  * @author martin
  */
 public class Movement extends EntitySystem
-{	
+{
+
+	public static boolean DEBUG = false;
+
 	/**
 	 * default constructor
 	 */
@@ -69,6 +72,9 @@ public class Movement extends EntitySystem
 
 			if (CompoMappers.BODY.has(move))
 				moveBody(CompoMappers.BODY.get(move), change);
+
+			if (DEBUG)
+				debugOut(move);
 		}
 	}
 
@@ -86,6 +92,14 @@ public class Movement extends EntitySystem
 			entities().remove(e);
 		}
 
+	}
+
+
+	public void debugOut(Entity moving)
+	{
+		System.out.print ("entity at " + CompoMappers.POSITION.get(moving));
+		System.out.print (" v= " + CompoMappers.VELOCITY.get(moving));
+		System.out.println (" entity " + moving);
 	}
 
 	/**

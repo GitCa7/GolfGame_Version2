@@ -6,47 +6,54 @@ import aiExtention.Utils.GolfSearchPerformer;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
+import framework.Game;
+import framework.GameConfigurator;
+import framework.entities.Player;
 import physics.components.Force;
 import physics.components.Position;
 import physics.components.Velocity;
 import physics.entities.Ball;
+import physics.geometry.planar.Triangle;
+import physics.geometry.planar.TriangleBuilder;
 import physics.systems.Movement;
 import searchTree.TreeNode;
 import physics.systems.ForceApply;
 import physics.systems.FrictionSystem;
 
+import java.util.ArrayList;
+
 
 public class TestTrim {
 
 	public static void main(String[] args) {
-		Engine engine = new Engine();
+
+	//	Movement.DEBUG = true;
+
+
 		float deltaTime = 1f;
-		int radius = 1;
-		int gravityConstant = 0;
-		Ball ball = new Ball(new Entity());
-		ball.mEntity.add(new Position(0, 0, 0));
-		ball.mEntity.add(new Velocity(0, 0, 0));
-		ball.mEntity.add(new Force());
+		float radius = 1;
+		float ballMass = 1;
+		Vector3 ballPosition = new Vector3();
 
-		engine.addEntity(ball.mEntity);
+		Vector3 holePosition = new Vector3(100, 0, 0);
+		float holeSize = 20;
 
-		//engine.addSystem(new GravitySystem());
-		engine.addSystem(new ForceApply());
-		engine.addSystem(new Movement());
-		engine.addSystem(new FrictionSystem());
-		
+		GameConfigurator config = new GameConfigurator();
+		config.addBotAndBall("bot1", radius, ballMass, ballPosition);
+		config.setHole(holePosition, holeSize);
+		Triangle groundTriangle = new TriangleBuilder(new Vector3(-10000, 0, 10000), new Vector3(10000, 0, 10000), new Vector3(0, 0, -10000)).build();
+		ArrayList<Triangle> groundList = new ArrayList<>();
+		groundList.add(groundTriangle);
+		config.setTerrain(groundList);
 
+		Game game = config.game();
 
-	
-		Entity target = new Entity();
-		target.add(new Position(100, 0, 0));
-		
-		
-		GolfSearchPerformer searchPerformer= new GolfSearchPerformer(ball, target);
+		Player bot = game.getCurrentPlayers().get(0);
+		GolfSearchPerformer searchPerformer= new GolfSearchPerformer(bot, game);
 		
 		TreeNode<GolfState, GolfAction> solutionNode= searchPerformer.greedySolution();
 		
-		displaySolution(engine, deltaTime, ball, solutionNode);
+		//displaySolution(engine, deltaTime, game.getBall(bot), solutionNode);
 
 	}
 	
