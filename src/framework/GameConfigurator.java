@@ -58,6 +58,8 @@ public class GameConfigurator
         mObstacleBodyFactory = new BodyFactory();
         mObstaclePositionFactory = new PositionFactory();
 
+        mHitNoise = 0;
+
         mSetHole = false;
 
         initFactories();
@@ -248,6 +250,15 @@ public class GameConfigurator
         //add terrain obstacle to the engine
         mEngine.addEntity(mObstacleFactory.produce());
 
+    }
+
+    /**
+     * set upper bound for absolute amount of noise added to each coordinate during a hit
+     * @param hitNoise amount of noise
+     */
+    public void setHitNoise(float hitNoise)
+    {
+        mHitNoise = hitNoise;
     }
 
     /**
@@ -522,6 +533,8 @@ public class GameConfigurator
     private BodyFactory mObstacleBodyFactory;
     private PositionFactory mObstaclePositionFactory;
 
+    // noise during hit
+    private float mHitNoise;
     //boolean flags for conditions fulfilled before start
     boolean mSetHole;
 }
