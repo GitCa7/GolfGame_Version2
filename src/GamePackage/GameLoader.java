@@ -10,7 +10,7 @@ import TerrainComponents.TerrainGeometryCalc;
 import com.badlogic.gdx.math.Vector3;
 import framework.Game;
 import framework.GameConfigurator;
-import framework.testing.HumanObserver;
+import framework.HumanObserver;
 import org.lwjgl.util.vector.Vector3f;
 import physics.geometry.planar.Triangle;
 import physics.geometry.spatial.*;
