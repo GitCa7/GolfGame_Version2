@@ -45,13 +45,19 @@ public class GameLoader {
 			Vector3 tmpx = new Vector3(obstacles.get(i).getScale()*2,0,0);
 			Vector3 tmpz = new Vector3(0,0,obstacles.get(i).getScale()*2);
 
+			//System.out.println("aaaahhhhahahhahah"+obstacles.get(i).getRotY());
 			params[i][1]=tmpx.rotate(obstacles.get(i).getRotY(),0,1,0);
 			params[i][2]=tmpz.rotate(obstacles.get(i).getRotY(),0,1,0);
 
 			BoxParameter tmp=new BoxParameter(params[i]);
 			boxes[i]=tmp.instantiate();
-			Vector3 tpos = obstacles.get(i).getPos();
-			positions[i] = new Vector3(tpos.x-obstacles.get(i).getScale(),tpos.y-obstacles.get(i).getScale(),tpos.z-obstacles.get(i).getScale());
+			Vector3 tpos = obstacles.get(i).getPos().cpy();
+			//System.out.println("aaaahhhhahahhahah" + tpos);
+			//System.out.println("aaaahhhhahahhahah2" + tpos.sub(tmpx.scl(0.5f)));
+			tpos = tpos.sub(tmpx.cpy().scl(0.5f));
+			tpos = tpos.sub(tmpz.cpy().scl(0.5f));
+			//System.out.println("aaaahhhhahahhahah" + tpos);
+			positions[i] = new Vector3(tpos.x,tpos.y-obstacles.get(i).getScale(),tpos.z);
 		}
 
 		GameConfigurator config = new GameConfigurator();
