@@ -21,7 +21,7 @@ public class PhysicsCoefficients
 	public static final float TERRAIN_THICKNESS = 10000;
 
 	public static final int ARITHMETIC_PRECISION = 5;
-	public static final int ARITHMETIC_TOLERANCE = 2;
+	public static final int ARITHMETIC_TOLERANCE = 0;
 
 	public static final int AI_ARITHMETIC_PRECISION = 3;
 	public static final int AI_ARITHMETIC_TOLERANCE = 0;

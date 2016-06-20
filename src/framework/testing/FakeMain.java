@@ -14,7 +14,9 @@ import framework.entities.Player;
 import org.lwjgl.util.vector.Vector3f;
 import physics.components.Position;
 import physics.components.Velocity;
+import physics.constants.GlobalObjects;
 import physics.entities.Ball;
+import physics.generic.Rounder;
 import physics.geometry.planar.Triangle;
 import physics.geometry.planar.TriangleBuilder;
 import physics.geometry.spatial.*;
@@ -40,6 +42,8 @@ public class FakeMain
         fm.initGame();
     //    fm.initGraphics();
 
+        GlobalObjects.ROUND = new Rounder(4, -.9);
+
         fm.run();
         fm.close();
     }
@@ -49,7 +53,14 @@ public class FakeMain
         NonPenetrationSystem.DEBUG = true;
     }
 
-    public static final float DELTA_TIME = .03f;
+    /**
+     *  tolerance       delta time
+     *  2               .03
+     *  1               .0875
+     *  0               .3
+     *  -.9             .775add
+     */
+    public static final float DELTA_TIME = .775f;
 
 
 
