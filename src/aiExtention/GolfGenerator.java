@@ -12,7 +12,7 @@ import searchTree.TreeNode;
 
 public class GolfGenerator extends NodeGenerator<GolfState, GolfAction> {
 
-	public static final float DELTA_TIME  = 1f;
+	public static final float DELTA_TIME  = .02f;
 
 
 	private Engine moveManager;
@@ -33,6 +33,7 @@ public class GolfGenerator extends NodeGenerator<GolfState, GolfAction> {
 		GolfState childState = aNode.getState().cloneState();
 		GolfAction action = new GolfAction(forceGenerator.generateNextForce());
 
+		//System.out.println ("new node expanded");
 		// System.out.println("Action " + action.getForce());
 		applyAction(childState, action);
 		childNode.setState(childState);
