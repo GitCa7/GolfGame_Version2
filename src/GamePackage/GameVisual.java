@@ -57,7 +57,7 @@ public class GameVisual {
 	float currentBall;
 	Vector3f hitDirection;
 	boolean forcePresent, forceChangeAccept;
-	final boolean targetingState = false;
+	boolean targetingState;
 	float timepassed;
 	TerrainGeometryCalc calc = new TerrainGeometryCalc();
 	
@@ -69,7 +69,7 @@ public class GameVisual {
 	private Engine gameEngine;
 	
 	
-	protected final boolean useFollow = false;
+	private boolean useFollow;
 	
 	public GameVisual()	{
 		DisplayManager.createDisplay();
@@ -87,10 +87,8 @@ public class GameVisual {
 		forcePresent = false;
 		forceChangeAccept = true;
 		timepassed = 0;
-
-		directionArrow = new Arrow(new Vector3f(-500,13,-460), 1.5f);
-		//targetingState = false;
-
+		directionArrow = new Arrow(new Vector3f(-500,20,-460), 1.5f);
+		targetingState = false;
 		surrondings.add(directionArrow);
 	}
 	public void setBalls(ArrayList<Vector3f> balls,ArrayList<HumanObserver>  obs){
@@ -181,14 +179,40 @@ public class GameVisual {
 		entities.add(new Hole(pos,scale));
 	}
 	
-
+	public void forceLevelCheck()	{
+		if(currentForce > 3)	{
+			currentForce = 0;
+		}
+		//System.out.println("CurrentForce: " + currentForce);
+		if(Keyboard.isKeyDown(Keyboard.KEY_1) && currentForce < forceLvlMax  && forceChangeAccept)	{
+			currentForce++;
+			//System.out.println("CurrentForce set to: " + currentForce);
+			forceChangeAccept = false;
+		}
+		else if(Keyboard.isKeyDown(Keyboard.KEY_2) && currentForce > 0 && forceChangeAccept)	{
+			currentForce--;
+			//System.out.println("CurrentForce set to: " + currentForce);
+			forceChangeAccept = false;
+		}
+	}
 	
 	public Vector3 deliverForce()	{
 		Vector3 returnForce;
 		Vector3 dir = new Vector3(0,0,1);
 		dir.rotate(directionArrow.getRotY(),0,1,0);
-		
-		return dir;
+		if(currentForce != 0)	{
+			//System.out.println("NewForce = " + hitDirection + "(hitDirection) scaled by: " + currentForce + " * 400");
+			
+			Vector3f newForce = new Vector3f(dir.x * (currentForce * power), dir.y * (currentForce * power), dir.z * (currentForce * power));
+			
+			returnForce = new Vector3(newForce.x, newForce.y, newForce.z);
+		}
+		else	{
+			returnForce = null;
+		}
+		//System.out.println(returnForce);
+		currentForce = 0;
+		return returnForce;
 	}
 	
 	public boolean hasForce()	{
@@ -244,9 +268,8 @@ public class GameVisual {
 	}
 	
 	public void setUpScene()	{
-		cam = new freeCamera(new Vector3f(4,20,-422));
-		followCam = new FollowCamera(golfBalls.get(0), this);
-
+		cam = new Camera(new Vector3f(4,20,-422));
+		followCam = new FollowCamera(golfBalls.get(0),this);
 		light = new Light(new Vector3f(20000,20000,2000),new Vector3f(1,1,1));
 	}
 	
@@ -258,7 +281,7 @@ public class GameVisual {
 	
 	public void startDisplay()	{
 		mousePick = new MousePicker(followCam, renderer.getProjectionMatrix(), terrains.get(0));
-		//useFollow = true;
+		useFollow = true;
 		System.out.println(calc.terrainIsFlat(terrains.get(0).toData()));
 		updateObstacles();
 		terrains.get(0).toData().printVerts();
@@ -266,9 +289,11 @@ public class GameVisual {
 	
 	public void updateDisplay()	{
 		updateObjects();
+		forceLevelCheck();
 
-		if(forceChangeAccept == false)	{
+		if(forceChangeAccept == false && timepassed >= 1)	{
 			forceChangeAccept = true;
+			timepassed = 0;
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_RETURN) && currentForce != 0)	{
@@ -315,14 +340,13 @@ public class GameVisual {
 			//System.out.println("Vector: " + dir.toString());
         }
 
-        /*
+
         if(Keyboard.isKeyDown(Keyboard.KEY_TAB))	{
      	   if(useFollow == false)
      		   useFollow = true;
      	   else
      		   useFollow = false;
         }
-        */
         if(forceChangeAccept == false)
         	timepassed += DisplayManager.getTimeDelat();
         
