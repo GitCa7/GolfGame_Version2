@@ -74,8 +74,10 @@ public class WindSystem extends EntitySystem
 
     public Vector3 randomFloatVector(Random generator)
     {
-        Vector3 v = new Vector3(generator.nextFloat(), generator.nextFloat(), generator.nextFloat());
-        v.setLength(1);
+        float rndX = generator.nextFloat() - .5f;
+        float rndY = generator.nextFloat() - .5f;
+        float rndZ = generator.nextFloat() - .5f;
+        Vector3 v = new Vector3(rndX, rndY, rndZ);
         return v;
     }
 
@@ -83,9 +85,11 @@ public class WindSystem extends EntitySystem
     {
         if (wind.mGen.nextDouble() <= wind.mFrequency)
         {
+            Vector3 randomWindVector = randomFloatVector(wind.mGen);
             wind.mDurationCounter = wind.mMinDuration + wind.mGen.nextInt(wind.mMaxDuration - wind.mMinDuration);
-            float windIntensity = (float) (wind.mMinMagnitude + (wind.mMaxMagnitude - wind.mMinMagnitude) * wind.mGen.nextGaussian());
-            wind.set(randomFloatVector(wind.mGen).setLength(windIntensity));
+            float windIntensity = (float) (wind.mMinMagnitude + (wind.mMaxMagnitude - wind.mMinMagnitude));
+            windIntensity *= wind.mGen.nextGaussian() / randomWindVector.len();
+            wind.set(randomWindVector.setLength(windIntensity));
         }
     }
 }

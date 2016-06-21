@@ -9,7 +9,9 @@ public class PhysicsCoefficients
 	public static final float STATIC_FRICTION = 0.2f;
 	public static final float DYNAMIC_FRICTION = 0.4f;
 	public static final float SPIN_FRICTION = 0.3f;
-	public static final float FRICTION_FLUCTUATION = 0f;
+
+	public static final float FRICTION_FLUCTUATION = .0f;
+
 
 	public static final float RESTITUTION_COEFFICIENT = 0.6f;
 	

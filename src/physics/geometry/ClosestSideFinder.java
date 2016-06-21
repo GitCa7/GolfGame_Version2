@@ -1,8 +1,6 @@
 package physics.geometry;
 import physics.constants.GlobalObjects;
-import physics.geometry.spatial.Solid;
 import physics.geometry.planar.Plane;
-import physics.geometry.planar.Shape;
 import com.badlogic.gdx.math.Vector3;
 import physics.geometry.spatial.SolidTranslator;
 
@@ -36,7 +34,7 @@ public class ClosestSideFinder
 
 
         for (int i = 0; i < mSides.getSidePlanes().length; i++) {
-            float thisDistance = distance(p,solidSides[i]);
+            float thisDistance = solidSides[i].getDistanceToPlane(p);
             //if condition to determine the shortest distance
             if (thisDistance < length) {
                 length = thisDistance;
@@ -66,7 +64,7 @@ public class ClosestSideFinder
 
         for (int i = 0; i < mSides.getSidePlanes().length; i++)
         {
-            float thisDistance = distance(point, solidSides[i]);
+            float thisDistance = solidSides[i].getDistanceToPlane(point);
 
             //evaluate: if normal has same direction as direction, dot product >(=) 0
             float planeDot = direction.dot(solidSides[i].getNormal());
@@ -87,19 +85,7 @@ public class ClosestSideFinder
         return closestSide;
     }
 
-    /**
-     *
-     * @param vector Vector whose distance to a plane is to determined
-     * @param plane Plane whose distance to a Vector3 is to be determined
-     * @return the distance between a Vector3 and a Plane
-     */
 
-    public float distance(Vector3 vector, Plane plane){
-        float distance=vector.dot(plane.getNormal())- plane.getDistance();
-        if(distance<0)
-            distance=-1*distance;
-        return distance;
-    }
     private SolidTranslator mSides;
 }
 

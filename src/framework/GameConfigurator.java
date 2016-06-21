@@ -96,7 +96,11 @@ public class GameConfigurator
         //add entity systems processing components to the engine
 		addAllSystems();
 
+<<<<<<< HEAD
 		Game game =  new Game (mEngine, mBallMap,0);
+=======
+		Game game =  new Game (mEngine, mBallMap, mHitNoise);
+>>>>>>> 416dcd13cb9a6b958cc5be027c50917a56422377
         //add input observers
         addAllObservers(game);
 
@@ -241,11 +245,13 @@ public class GameConfigurator
         }
         */
 
+
         /*mObstacleBodyFactory.clear();
         BoxParameter groundParameter = new BoxParameter(new Vector3(10000, 0, 0), new Vector3(0, -10000, 0), new Vector3(0, 0, 10000));
         Box ground = BoxPool.getInstance().getInstance(groundParameter);
         mObstacleBodyFactory.addSolid(new SolidTranslator(ground, new Vector3(-5000, 0, -5000)));
         mObstaclePositionFactory.setVector(new Vector3(-5000, 0, -5000));*/
+
 
         //add terrain obstacle to the engine
         mEngine.addEntity(mObstacleFactory.produce());

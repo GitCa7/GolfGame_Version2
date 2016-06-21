@@ -39,7 +39,8 @@ public class Game
 		mHitNoiseBound = hitNoiseBound;
 		mGlobalState = new Entity();
 		mObservers = new HashSet<>();
-		mGen = new Random();
+
+		mGen = new Random(System.currentTimeMillis());
         init();
 	}
 
