@@ -171,10 +171,10 @@ public class TerrainData implements Serializable {
     	TerrainData terraDat = new TerrainData(8, 300);
     	TerrainGeometryCalc calculate = new TerrainGeometryCalc();
     	ArrayList<Triangle> list = calculate.getAllTris(terraDat);
-    	/*
+    	
     	for(Triangle tri : list)	{
     		System.out.println(tri);
-    	}*/
+    	}
     	//calculate.printAllIndices(terraDat);
     }
 

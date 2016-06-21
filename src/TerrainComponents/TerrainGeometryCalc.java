@@ -244,24 +244,6 @@ public class TerrainGeometryCalc implements Serializable {
 		for (int i = 0; i < (endEncounter / 3) && i < list.length; i++) {
 			ret.add(list[i]);
 		}
-		/*
-		System.out.println("Normal Array:");
-		for(int i = 0; i < list.length; i++)	{
-			System.out.println(i + "\t" + list[i]);
-		}
-		int off2 = 0;
-		System.out.println("ArrayList:");
-		for(Triangle tri: ret)	{
-			System.out.println(off2 + "\t" + tri);
-			off2++;
-		}
-		*/
-		
-		//System.out.println("Ending with " + ret.size() + " Entries");
-		/*
-		 * if(ret.size() < 40) { for(Triangle tri:ret) {
-		 * System.out.println(tri); } }
-		 */
 		return ret;
 	}
 
@@ -343,6 +325,9 @@ public class TerrainGeometryCalc implements Serializable {
 		}
 		return true;
 	}
+	
+	
+	
 
 	public boolean getHeigtMapExcistence() {
 		return heightMapUse;
