@@ -199,6 +199,17 @@ public class MListener extends InputAdapter {
                     }
                 }
             }
+            for (int i=0;i<balls.size();i++){
+                if(dragSelec!=null){
+
+                }else{
+                    out = balls.get(i).boundingBox();
+                    if(Intersector.intersectRayBoundsFast(ray,out)){
+                        dragSelec = balls.get(i);
+                    }
+                }
+            }
+
             if(dragSelec!=null&&picker.getCurrentTerrainPoint()!=null){
 
                 Vector3f position= new Vector3f(picker.getCurrentTerrainPoint().x,terrain.getHeightDif(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z)+dragSelec.scale,picker.getCurrentTerrainPoint().z);

@@ -99,5 +99,5 @@ public class CollisionDetector
 		mAll.remove (ePair);
 	}
 
-	private HashSet<BodyPair> mActive, mAll;
+	 HashSet<BodyPair> mActive, mAll;
 }

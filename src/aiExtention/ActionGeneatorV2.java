@@ -7,9 +7,9 @@ import java.util.ArrayList;
 public class ActionGeneatorV2 {
 
 
-	private final int maxForceLength = 1000;
+	private final int maxForceLength = 2000;
 
-	private Vector3 firstTryDir;
+
 
 	private int maxNumberOfRep;
 
@@ -49,17 +49,15 @@ public class ActionGeneatorV2 {
 
 			for (int j = 0; j < planXYnumber; j++) {
 				referenceVector.rotate(zAxis, 360 / planXYnumber);
-				generateForceIncrement(referenceVector);
+				Vector3 reverseCoords= new Vector3(referenceVector.x,referenceVector.z,referenceVector.y);
+				generateForceIncrement(reverseCoords);
 
 			}
 		}
 	}
 
-	public void setReferanceVector(Vector3 referanceVector) {
-		Vector3 copy = referanceVector.cpy();
-		copy.scl(copy.len());
-		this.firstTryDir = copy;
-	}
+
+
 
 	public ArrayList<Vector3> generateVerticalIncrement(int degrees, int noRays) {
 		Vector3 yAxis = new Vector3(0, 1, 0);

@@ -2,17 +2,17 @@ package searchTree;
 
 
 /** Main class that performs the search process */
-public class TreeOperator<E extends SearchState, Action extends AbstractAction<E>> {
+public class GreedyOperator<E extends SearchState, Action extends AbstractAction<E>> {
 
-	private int noOfGenerChild = 1000;
-	private int noOfParents = 3;
+	private int noOfGenerChild = 100;
+	private int noOfParents = 1;
 
 	private TreeNode<E, Action> rootNode;
 	private SearchTree<E, Action> searchTree;
 	private NodeGenerator<E, Action> generator;
 	private GoalAchived<E> goalTester;
 
-	public TreeOperator(TreeNode<E, Action> rootNode, NodeGenerator<E, Action> generator, GoalAchived<E> goalTester) {
+	public GreedyOperator(TreeNode<E, Action> rootNode, NodeGenerator<E, Action> generator, GoalAchived<E> goalTester) {
 		this.setRootNode(rootNode);
 		this.searchTree = new SearchTree<E, Action>(rootNode);
 		this.generator = generator;
@@ -26,7 +26,7 @@ public class TreeOperator<E extends SearchState, Action extends AbstractAction<E
 		int depth = 0;
 		System.out.println("Running search");
 		System.out.println("Statetest " + !goalTester.test(searchTree.getListOfNodes(depth).peek().getState()));
-		while (!goalTester.test(searchTree.getListOfNodes(depth).peek().getState()) && depth < 10) {
+		while (!goalTester.test(searchTree.getListOfNodes(depth).peek().getState()) && depth < 2) {
 			expandDeapth(depth);
 			depth++;
 

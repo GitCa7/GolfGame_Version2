@@ -2,6 +2,7 @@ package physics.systems;
 
 import framework.EntitySystemFactory;
 import physics.collision.CollisionRepository;
+import physics.collision.TerrainPartition;
 
 /** Creates CollisionDetectionSystemFactory
  * Created by marcel on 21.05.2016.

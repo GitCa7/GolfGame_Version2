@@ -242,7 +242,7 @@ public class Editor implements ApplicationListener {
             }
         }
 
-        this.dispose();
+       // this.dispose();
     }
 }
 

@@ -30,6 +30,7 @@ public class Main
      //   Movement.DEBUG= true;
      //   CollisionImpactSystem.DEBUG = true;
      //   CollisionDetectionSystem.DEBUG = true;
+        Game.DEBUG = true;
         Main main = new Main();
         try {
             new MockMainMenu(main);
@@ -49,7 +50,9 @@ public class Main
     public void launchEditor()
     {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        new LwjglApplication(new Editor(), config);
+        Editor a = new Editor();
+        LwjglApplication b =new LwjglApplication(a, config);
+
     }
 
     /**

@@ -66,6 +66,7 @@ public class GameVisual {
 	boolean targetingState;
 	float timepassed;
 	TerrainGeometryCalc calc = new TerrainGeometryCalc();
+	Hole hole;
 	
 	private static final float forceLvlMax = 3;
 	private static final float power = 250;
@@ -240,7 +241,7 @@ public class GameVisual {
 		
 	}
 	public void setHole(Vector3f pos,float scale){
-		entities.add(new Hole(pos,scale));
+		hole = new Hole(pos,scale);
 	}
 	
 	public void forceLevelCheck()	{
@@ -354,7 +355,6 @@ public class GameVisual {
 	public void updateDisplay()	{
 		updateObjects();
 		forceLevelCheck();
-
 		if(forceChangeAccept == false && timepassed >= 1)	{
 			forceChangeAccept = true;
 			timepassed = 0;
@@ -390,7 +390,7 @@ public class GameVisual {
 		}
 
      	   renderer.processTerrain(terrains.get(0));
-        
+        	renderer.processEntity(hole);
         if(useFollow == false)	{
      	   renderer.render(light, cam);
         }

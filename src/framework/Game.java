@@ -27,6 +27,8 @@ import java.util.*;
  */
 public class Game
 {
+	public static boolean DEBUG = false;
+
 	/**
 	 * parametric constructor
 	 * @param e engine to use
@@ -117,7 +119,8 @@ public class Game
 	 */
 	public void hit (Player p, Vector3 force)
 	{
-		System.out.println ("hit ball with " + force);
+		if (DEBUG)
+			System.out.println ("hit ball with " + force);
 
 		force = force.cpy();
 		force.x += mGen.nextGaussian() * mHitNoiseBound;
