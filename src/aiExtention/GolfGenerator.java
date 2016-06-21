@@ -38,7 +38,7 @@ public class GolfGenerator extends NodeGenerator<GolfState, GolfAction> {
 		childNode.setAction(action);
 		childNode.setNodeDeapth(aNode.getNodeDeapth() + 1);
 		childNode.setValueOfNode(evaluator.evaluateNode(childNode));
-		// System.out.println(evaluator.evaluateNode(childNode));
+		System.out.println("value of node"+ evaluator.evaluateNode(childNode));
 		// aNode.addChildNode(childNode);
 		// System.out.println("childNodeActonStore" + childNode.getAction().getForce());
 		return childNode;
