@@ -202,7 +202,7 @@ public class GameVisual {
 		Vector2f current = GuiElements.get(1).getScale();
 		float origLength = original.length();
 		float currLength = current.length();
-		return origLength / currLength;
+		return currLength / origLength;
 	}
 	
 	public void setUpEntities()	{
