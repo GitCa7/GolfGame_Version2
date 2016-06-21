@@ -105,6 +105,7 @@ public class CollisionImpactSystem extends framework.EntitySystem implements Rep
      */
     private Vector3 compute (ColliderEntity active, ColliderEntity passive, float dTime)
     {
+
         //given initial velocity v, normal unit vector nu
         //decompose v into u orthogonal to the plane and w parallel to the plane
         //get collision plane
@@ -162,11 +163,10 @@ public class CollisionImpactSystem extends framework.EntitySystem implements Rep
     public void debugOut(Entity appliedTo, Vector3 force, Entity obstacle)
     {
         System.out.print("apply force " + force);
-        System.out.print(" to entity " + appliedTo);
-        System.out.print(" moving at v = " + CompoMappers.VELOCITY.get(appliedTo));
-        System.out.print(" at position s = " + CompoMappers.POSITION.get(appliedTo));
-        System.out.print(" due to collision with " + obstacle);
-        System.out.print(" at " + CompoMappers.POSITION.get(obstacle));
+        System.out.print(" v = " + CompoMappers.VELOCITY.get(appliedTo));
+        System.out.print(" s = " + CompoMappers.POSITION.get(appliedTo));
+        System.out.print(" obstacle at " + CompoMappers.POSITION.get(obstacle));
+        System.out.print(" moving " + appliedTo + " obstacle " + obstacle);
         System.out.println();
     }
 

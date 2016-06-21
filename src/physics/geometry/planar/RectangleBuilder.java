@@ -1,6 +1,7 @@
 package physics.geometry.planar;
 
 import com.badlogic.gdx.math.Vector3;
+import physics.constants.GlobalObjects;
 import physics.geometry.VertexGenerator;
 import physics.geometry.linear.Line;
 
@@ -81,7 +82,7 @@ public class RectangleBuilder
         {
             for (int cVec2 = cVec1 + 1; cVec2 < mDirections.length; ++cVec2)
             {
-                if (mDirections[cVec1].dot (mDirections[cVec2]) != 0)
+                if (!GlobalObjects.ROUND.epsilonEquals(mDirections[cVec1].dot (mDirections[cVec2]), 0f))
                     return false;
             }
         }

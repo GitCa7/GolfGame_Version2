@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 public class ActionGeneatorV2 {
 
-	private final int maxForceLength = 5000;
+
+	private final int maxForceLength = 1000;
 
 	private Vector3 firstTryDir;
 

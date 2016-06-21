@@ -43,19 +43,23 @@ public class MockMainMenu extends JFrame implements ActionListener {
         this.main = main;
         JPanel buttonPanel = new JPanel();
         ImagePanel imagePanel = new ImagePanel();
-        buttonPanel.setLayout(new GridLayout(3,1));
+        buttonPanel.setLayout(new GridLayout(4,1));
         JButton b1 = new JButton("Start Game");
         b1.addActionListener(this);
         JButton b2 = new JButton("Course Editor");
         b2.addActionListener(this);
         JButton b3 = new JButton("Exit");
         b3.addActionListener(this);
+        JButton b4 = new JButton("Editor info");
+        b4.addActionListener(this);
         b1.setActionCommand("start");
         b2.setActionCommand("editor");
         b3.setActionCommand("exit");
+        b4.setActionCommand("info");
 
         buttonPanel.add(b1);
         buttonPanel.add(b2);
+        buttonPanel.add(b4);
         buttonPanel.add(b3);
         this.add(buttonPanel, BorderLayout.WEST);
         this.add(imagePanel,BorderLayout.CENTER);
@@ -80,7 +84,34 @@ public class MockMainMenu extends JFrame implements ActionListener {
             main.loadGame(name);
             main.run();
         }
-
+        if(e.getActionCommand().equals("info")){
+            JFrame infoFrame = new JFrame("Editor info");
+            infoFrame.setSize(400,400);
+            JPanel infoPanel = new JPanel(new GridLayout(12,1));
+            JLabel l1 = new JLabel("P+click = Place Obstacle");
+            infoPanel.add(l1);
+            JLabel l2 = new JLabel("R+click = Rotate Obstacle");
+            infoPanel.add(l2);
+            JLabel l3 = new JLabel("Z+click = Remove Obstacle");
+            infoPanel.add(l3);
+            JLabel l8 = new JLabel("B+leftclick = Add player ball");
+            infoPanel.add(l8);
+            JLabel l9 = new JLabel("B+rightclick = Add bot ball");
+            infoPanel.add(l9);
+            JLabel l6 = new JLabel("Scroll = Change Obstacle scale");
+            infoPanel.add(l6);
+            JLabel l4 = new JLabel("U+Dragg = Increase Terrain Height");
+            infoPanel.add(l4);
+            JLabel l5 = new JLabel("J+Dragg = Decrease Terrain Height");
+            infoPanel.add(l5);
+            JLabel l7 = new JLabel("Dragg = Move Obstacle or Ball");
+            infoPanel.add(l7);
+            JLabel l10 = new JLabel("Q+click = Save Course(Name input might be behind editor window)");
+            infoPanel.add(l10);
+            infoFrame.add(infoPanel);
+            infoFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            infoFrame.setVisible(true);
+        }
     }
 
 }

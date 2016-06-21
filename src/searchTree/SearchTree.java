@@ -6,9 +6,9 @@ import java.util.PriorityQueue;
 
 //class  used for storing retrieving nodes according to their value
 public class SearchTree<E extends SearchState, Action extends AbstractAction<E>> {
-	
 
-	private ArrayList<PriorityQueue<TreeNode<E, Action>>> treeTable; // new ArrayList<PriorityQueue<TreeNode<E,
+	private ArrayList<PriorityQueue<TreeNode<E, Action>>> treeTable; // new
+																		// ArrayList<PriorityQueue<TreeNode<E,
 																		// Action>>>();
 
 	private Comparator<TreeNode<E, ?>> comparator;
@@ -20,7 +20,6 @@ public class SearchTree<E extends SearchState, Action extends AbstractAction<E>>
 		this.comparator = new NodeComparator<E, Action>();
 		treeTable = new ArrayList<PriorityQueue<TreeNode<E, Action>>>();
 		addNode(rootNode);
-
 
 	}
 

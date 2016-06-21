@@ -49,7 +49,7 @@ public class TestTrim {
 		Game game = config.game();
 
 		Player bot = game.getCurrentPlayers().get(0);
-		GolfSearchPerformer searchPerformer= new GolfSearchPerformer(bot, game);
+		GolfSearchPerformer searchPerformer= new GolfSearchPerformer(bot, game,0.02f);
 		
 		TreeNode<GolfState, GolfAction> solutionNode= searchPerformer.greedySolution();
 		System.out.println(solutionNode.getState().getPosition());

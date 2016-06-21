@@ -1,19 +1,16 @@
 package searchTree;
 
 
-import aiExtention.GolfAction;
-import aiExtention.GolfState;
-
 /** Main class that performs the search process */
 public class TreeOperator<E extends SearchState, Action extends AbstractAction<E>> {
 
-	private final int noOfGenerChild = 100;
-	private final int noOfParents = 3;
+	private int noOfGenerChild = 1000;
+	private int noOfParents = 3;
+
 	private TreeNode<E, Action> rootNode;
 	private SearchTree<E, Action> searchTree;
 	private NodeGenerator<E, Action> generator;
 	private GoalAchived<E> goalTester;
-
 
 	public TreeOperator(TreeNode<E, Action> rootNode, NodeGenerator<E, Action> generator, GoalAchived<E> goalTester) {
 		this.setRootNode(rootNode);
@@ -32,17 +29,20 @@ public class TreeOperator<E extends SearchState, Action extends AbstractAction<E
 		while (!goalTester.test(searchTree.getListOfNodes(depth).peek().getState()) && depth < 10) {
 			expandDeapth(depth);
 			depth++;
+
 			nodesExp++;
-		//	System.out.println("nodeExp" + nodesExp);
-		//	 System.out.println(depth + " " + searchTree.getListOfNodes(depth).peek().getNodeDeapth());
+
+			System.out.println("nodeExp" + nodesExp);
+			// System.out.println(depth + " " + searchTree.getListOfNodes(depth).peek().getNodeDeapth());
+
 		}
 		return searchTree.getListOfNodes(depth).poll();
 
 	}
 
 	/**
-	 * expands the nodes of the specified depth by adding their children to the a new priority queue in the SearchTree
-	 * instance used
+	 * expands the nodes of the specified depth by adding their children to the
+	 * a new priority queue in the SearchTree instance used
 	 */
 	public void expandDeapth(int deapth) {
 		// System.out.println("Expanding");
@@ -58,6 +58,24 @@ public class TreeOperator<E extends SearchState, Action extends AbstractAction<E
 		}
 		System.out.println("Finished exp");
 
+	}
+
+	/**
+	 * sets the number of children to generate for every parent to generatedChildren
+	 * @param generatedChildren
+     */
+	public void setNumberOfGeneratedChildren(int generatedChildren)
+	{
+		noOfGenerChild = generatedChildren;
+	}
+
+	/**
+	 * sets the number of parents to expand to expandedParents
+	 * @param expandedParents
+     */
+	public void setNumberOfExpandedParents(int expandedParents)
+	{
+		noOfParents = expandedParents;
 	}
 
 	// TEST METHODS

@@ -9,7 +9,8 @@ public class TreeNode<E extends SearchState, Action extends AbstractAction<E>> {
 	private Action action;
 	private TreeNode<E, Action> parentNode;
 	// not using this delete to be considered
-	private ArrayList<TreeNode<E, Action>> childNodeList = new ArrayList<>();// not needed???
+	private ArrayList<TreeNode<E, Action>> childNodeList = new ArrayList<>();// not
+																				// needed???
 	/** Depth of the specific node */
 	private int nodeDepth;
 	/** Value of the Node */
@@ -20,8 +21,8 @@ public class TreeNode<E extends SearchState, Action extends AbstractAction<E>> {
 	}
 
 	public void addChildNode(TreeNode<E, Action> aChild) {
-		if(childNodeList == null)
-		childNodeList.add(aChild);
+		if (childNodeList == null)
+			childNodeList.add(aChild);
 	}
 
 	public ArrayList<TreeNode<E, Action>> getChildNodeList() {

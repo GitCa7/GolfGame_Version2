@@ -3,40 +3,24 @@ package GamePackage;
 import java.util.ArrayList;
 import java.util.Random;
 
+import Entities.*;
 import TerrainComponents.TerrainGeometryCalc;
-import framework.Game;
-import physics.components.Body;
-import physics.components.Force;
-import physics.components.Friction;
-import physics.components.Mass;
+import framework.testing.HumanObserver;
 import physics.components.Position;
+
 import physics.constants.CompoMappers;
 import physics.constants.Families;
-import physics.geometry.spatial.Box;
-import physics.geometry.spatial.BoxBuilder;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.util.vector.Vector;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 
-import Entities.Arrow;
-import Entities.Camera;
-import Entities.FollowCamera;
-import Entities.GolfBall;
-import Entities.Light;
-import Entities.Obstacle;
-import Entities.crate;
-import Entities.gameEntity;
-import GamePackage.PhysicsTranslator;
+
 import LogicAndExtras.MousePicker;
-import ModelBuildComponents.ModelTexture;
-import ModelBuildComponents.RawModel;
-import ModelBuildComponents.TexturedModel;
 import ModelBuildComponents.ModelTexture;
 import ModelBuildComponents.RawModel;
 import ModelBuildComponents.TexturedModel;
@@ -63,7 +47,7 @@ public class GameVisual {
 	ArrayList<gameEntity> surrondings;
 	ArrayList<Terrain> terrains;
 	
-	Arrow directionArrow;
+	public Arrow directionArrow;
 	
 	FollowCamera followCam;
 	Arrow targetDestination;
@@ -103,14 +87,16 @@ public class GameVisual {
 		forcePresent = false;
 		forceChangeAccept = true;
 		timepassed = 0;
-		directionArrow = new Arrow(new Vector3f(-500,13,-460), 1.5f);
+		directionArrow = new Arrow(new Vector3f(-500,20,-460), 1.5f);
 		targetingState = false;
 		surrondings.add(directionArrow);
 	}
-	public void setBalls(ArrayList<Vector3f> balls){
+	public void setBalls(ArrayList<Vector3f> balls,ArrayList<HumanObserver>  obs){
 		ArrayList<GolfBall> tmp = new ArrayList();
 		for (int i =0;i<balls.size();i++){
 			GolfBall ball = new GolfBall(new Vector3f(balls.get(i).x,balls.get(i).y+5,balls.get(i).z),5,false);
+			FollowCamera tmp2 = new FollowCamera(ball,this);
+			obs.get(i).setCam(tmp2);
 			tmp.add(ball);
 		}
 		golfBalls = tmp;
@@ -183,13 +169,15 @@ public class GameVisual {
 			//System.out.println("Delta: " + position);
 			Vector3f fPos = new Vector3f(position.x, position.y + 2, position.z);
 			golfBalls.get(pos).setPosition(fPos);
-			directionArrow.setPosition(new Vector3f(fPos.x,fPos.y+4,fPos.z));
+			directionArrow.setPosition(new Vector3f(fPos.x,fPos.y+5,fPos.z));
 			pos++;
 		}
 	
 		
 	}
-	
+	public void setHole(Vector3f pos,float scale){
+		entities.add(new Hole(pos,scale));
+	}
 	
 	public void forceLevelCheck()	{
 		if(currentForce > 3)	{
@@ -281,7 +269,7 @@ public class GameVisual {
 	
 	public void setUpScene()	{
 		cam = new Camera(new Vector3f(4,20,-422));
-		followCam = new FollowCamera(golfBalls.get(0));
+		followCam = new FollowCamera(golfBalls.get(0),this);
 		light = new Light(new Vector3f(20000,20000,2000),new Vector3f(1,1,1));
 	}
 	
@@ -324,6 +312,14 @@ public class GameVisual {
      	   renderer.processEntity(ball);
      	   //System.out.println("Ball Position: " + ball.getPosition());
         }
+		for(Entity a:gameEngine.getEntities()){
+			if(a.getComponent(Position.class)!=null) {
+				Vector3 pos = a.getComponent(Position.class);
+				Obstacle tmp = new Obstacle(new Vector3f(pos.x, pos.y, pos.z), 0.5f);
+				renderer.processEntity(tmp);
+			}
+		}
+
 		for(gameEntity ob:entities)	{
 			renderer.processEntity(ob);
 			//System.out.println("Ball Position: " + ob.getPosition());

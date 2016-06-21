@@ -1,6 +1,8 @@
 package physics.components;
 
 
+import java.util.Random;
+
 /**
  * static friction component\n
  * provides direct access to friction coefficient (float primitive)
@@ -34,12 +36,17 @@ public class Friction implements Component
 		mDynamicMoveCoefficient = dynamicMove;
 		mStaticSpinCoefficient = staticSpin;
 		mDynamicSpinCoefficient = dynamicSpin;
+		mFluctuate = false;
+		mRandom = new Random();
 	}
 
 
 	public Friction clone()
 	{
-		 return new Friction (mStaticMoveCoefficient, mDynamicMoveCoefficient, mStaticSpinCoefficient, mDynamicSpinCoefficient);
+		Friction f = new Friction (mStaticMoveCoefficient, mDynamicMoveCoefficient, mStaticSpinCoefficient, mDynamicSpinCoefficient);
+		f.setFluctuating(mFluctuate);
+		f.setFluctuationMagnitude(mFluctuationMagnitude);
+		return f;
 	}
 
 	/**
@@ -50,6 +57,8 @@ public class Friction implements Component
 	 */
 	public float get (State s, Type t)
 	{
+
+
 		if (s == State.STATIC)
 		{
 			if (t == Type.MOVE)
@@ -59,12 +68,31 @@ public class Friction implements Component
 		}
 		else if (s == State.DYNAMIC)
 		{
+			float value = 0;
+
 			if (t == Type.MOVE)
-				return mDynamicMoveCoefficient;
+				value = mDynamicMoveCoefficient;
 			if (t == Type.SPIN)
-				return mDynamicSpinCoefficient;
+				value = mDynamicSpinCoefficient;
+
+			if(mFluctuate)
+				value += (float) (mFluctuationMagnitude * mRandom.nextGaussian());
+
+			return value;
 		}
 		throw new IllegalArgumentException ("invalid state or type parameter");
+	}
+
+
+	public void setFluctuating(boolean flag)
+	{
+		mFluctuate = flag;
+	}
+
+
+	public void setFluctuationMagnitude(float magnitude)
+	{
+		mFluctuationMagnitude = magnitude;
 	}
 	
 	/**
@@ -93,4 +121,7 @@ public class Friction implements Component
 	
 	private float mStaticMoveCoefficient, mDynamicMoveCoefficient;
 	private float mStaticSpinCoefficient, mDynamicSpinCoefficient;
+	private boolean mFluctuate;
+	private float mFluctuationMagnitude;
+	private Random mRandom;
 }

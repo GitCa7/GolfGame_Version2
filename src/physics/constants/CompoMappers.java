@@ -23,4 +23,6 @@ public class CompoMappers
 	public static final ComponentMapper<GravityForce> GRAVITY_FORCE = ComponentMapper.getFor (GravityForce.class);
 	//friction
 	public static final ComponentMapper<Friction> FRICTION = ComponentMapper.getFor(Friction.class);
+	//wind
+	public static final ComponentMapper<Wind> WIND = ComponentMapper.getFor(Wind.class);
 }

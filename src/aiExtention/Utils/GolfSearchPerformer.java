@@ -39,9 +39,10 @@ public class GolfSearchPerformer {
 	}
 	*/
 
-	public GolfSearchPerformer(Player me, Game game)
+	public GolfSearchPerformer(Player me, Game game, float deltaTime)
 	{
 		mSimulation = game.getGameSimulation(me);
+		this.deltaTime = deltaTime;
 		constructRoot(mSimulation);
 
 	}
@@ -66,14 +67,14 @@ public class GolfSearchPerformer {
 
 	public TreeNode<GolfState, GolfAction> aStarSolution(){
 		this.evaluator= new AStarEvaluator();
-		this.generator= new GolfGenerator(aiEngine, evaluator);
+		this.generator= new GolfGenerator(aiEngine, evaluator, deltaTime);
 		this.goalTester=new GolfGoalTester();
 		return rootNode;
 		
 	}
 	public TreeNode<GolfState, GolfAction> greedySolution(){
 		this.evaluator= new GolfEvaluator();
-		this.generator= new GolfGenerator(aiEngine, evaluator);
+		this.generator= new GolfGenerator(aiEngine, evaluator, deltaTime);
 		this.goalTester=new GolfGoalTester();
 		TreeOperator<GolfState, GolfAction> treeOperator = new TreeOperator<GolfState, GolfAction>(
 				rootNode, generator, goalTester);

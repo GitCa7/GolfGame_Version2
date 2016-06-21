@@ -20,9 +20,9 @@ public class StateComTest {
 		Position pos = ball.mEntity.getComponent(Position.class);
 		Entity target = new Entity();
 		target.add(new Position(100, 0, 0));
-		GolfState state = new GolfState(ball, target);
+		//GolfState state = new GolfState(ball, target);
 		//stateComparator.isStateExplored(state);
-		System.out.println(stateComparator.isStateExplored(state));
+		//System.out.println(stateComparator.isStateExplored(state));
 		
 	}
 

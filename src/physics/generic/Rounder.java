@@ -11,7 +11,7 @@ public class Rounder
 	 * @param precision number of digits relevant for rounding
 	 * @param tolerance number of digits relevant for comparing numbers
 	 */
-	public Rounder (int precision, int tolerance)
+	public Rounder (double precision, double tolerance)
 	{
 		assert (precision >= 0);
 		mPrecision = precision;
@@ -55,12 +55,12 @@ public class Rounder
 	/**
 	 * @return precision used
 	 */
-	public int getPrecision() { return mPrecision; }
+	public double getPrecision() { return mPrecision; }
 
 	/**
 	 * @return tolerance used
 	 */
-	public int getTolerance() { return mTolerance; }
+	public double getTolerance() { return mTolerance; }
 
 	/**
 	 * @param n1 a number
@@ -102,5 +102,5 @@ public class Rounder
 
 	private double mEpsilon;
 	private double mShift;
-	private int mPrecision, mTolerance;
+	private double mPrecision, mTolerance;
 }

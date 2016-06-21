@@ -16,10 +16,7 @@ import physics.components.Force;
 import physics.entities.Ball;
 import physics.entities.Hole;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * Class owning an engine establishing the rules of the game, a mapping of player to balls and a unique hole.
@@ -35,13 +32,15 @@ public class Game
 	 * @param e engine to use
 	 * @param ballMap mapping of players to balls
 	 */
-	public Game (Engine e, HashMap<Player, Ball> ballMap)
+	public Game (Engine e, HashMap<Player, Ball> ballMap, float hitNoiseBound)
 	{
 		mEngine = e;
 		mBallMap = ballMap;
+		mHitNoiseBound = hitNoiseBound;
 		mGlobalState = new Entity();
 		mObservers = new HashSet<>();
 
+		mGen = new Random(System.currentTimeMillis());
         init();
 	}
 
@@ -118,6 +117,13 @@ public class Game
 	 */
 	public void hit (Player p, Vector3 force)
 	{
+		System.out.println ("hit ball with " + force);
+
+		force = force.cpy();
+		force.x += mGen.nextGaussian() * mHitNoiseBound;
+		force.y += mGen.nextGaussian() * mHitNoiseBound;
+		force.z += mGen.nextGaussian() * mHitNoiseBound;
+
 		Ball ballHit = getBall (p);
 		Force forceComp = physics.constants.CompoMappers.FORCE.get(ballHit.mEntity);
 		forceComp.add (force);
@@ -223,4 +229,7 @@ public class Game
 	private HashMap<Player, Ball> mBallMap;
 	private Entity mGlobalState;
 	private HashSet<GameObserver> mObservers;
+
+	private float mHitNoiseBound;
+	private Random mGen;
 }

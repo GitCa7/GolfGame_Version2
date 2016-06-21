@@ -21,5 +21,7 @@ public class Families
 	public static Family FRICTION = Family.all (Friction.class, Mass.class, GravityForce.class, Velocity.class).get();
 	/** family object for objects involved in collisions */
 	public static Family COLLIDING = Family.all (Position.class, Body.class).get();
+	/** family object for objects affected by wind */
+	public static Family WIND_AFFECTED = Family.all(Wind.class, Position.class, Velocity.class, Force.class, Mass.class).get();
 
 }

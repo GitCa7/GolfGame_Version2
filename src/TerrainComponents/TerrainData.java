@@ -3,6 +3,7 @@ package TerrainComponents;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import physics.geometry.planar.Triangle;
 import physics.geometry.spatial.Tetrahedron;
 
 
@@ -77,12 +78,9 @@ public class TerrainData implements Serializable {
 
         tetrahedons = terraCalc.getAllTetrahedons(this);
     }
-    
-    public TerrainData(int newVertexCount, int newSIZE) throws Exception{
 
-    	if(newVertexCount % 8 != 0 || newVertexCount < 0)	{
-    		throw new Exception("Vertexcount has to be devisable by 8 and greater than 0");
-    	}
+    public TerrainData(int newVertexCount, int newSIZE){
+
     	
     	
     	int VERTEX_COUNT = newVertexCount;
@@ -101,9 +99,8 @@ public class TerrainData implements Serializable {
     	
     	terraCalc = new TerrainGeometryCalc(null);
         terraCalc.generateTerrain(vertices, normals, textureCoords, indices, leafs, SIZE, null);
-    	System.out.println("VertexCount: " + VERTEX_COUNT + "\nCount: " + count);
-    	System.out.println("Attributres before calculation: \n" + "Amount of vertices: " + "\t" + vertices.length + "\nAmount of indices: " + "\t" + indices.length + "\nAmount of normals: " + "\t" + normals.length + "\nAmount of Texture Coordinates: " + "\t" + textureCoords.length + "\nAmount of Triangles: " + "\t" + terraCalc.getAllTris(this).size());
-        tetrahedons = terraCalc.getAllTetrahedons(this);
+    	//System.out.println("Attributres before calculation: \n" + "Amount of vertices: " + "\t" + vertices.length + "\nAmount of indices: " + "\t" + indices.length + "\nAmount of normals: " + "\t" + normals.length + "\nAmount of Texture Coordinates: " + "\t" + textureCoords.length + "\nAmount of Triangles: " + "\t" + terraCalc.getAllTris(this).size());
+    	//tetrahedons = terraCalc.getAllTetrahedons(this);
     }
     
     private void updateTetraList()	{
@@ -171,9 +168,14 @@ public class TerrainData implements Serializable {
 
     
     public static void main(String[] args)	{
-    	TerrainData terraDat = new TerrainData();
+    	TerrainData terraDat = new TerrainData(8, 300);
     	TerrainGeometryCalc calculate = new TerrainGeometryCalc();
-    	System.out.println("Number of all Triangles: " + calculate.getAllTris(terraDat).size());
+    	ArrayList<Triangle> list = calculate.getAllTris(terraDat);
+    	/*
+    	for(Triangle tri : list)	{
+    		System.out.println(tri);
+    	}*/
+    	//calculate.printAllIndices(terraDat);
     }
 
 }
