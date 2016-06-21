@@ -71,7 +71,7 @@ public class Movement extends EntitySystem
 			p.add(change);
 
 			if (CompoMappers.BODY.has(move))
-				moveBody(CompoMappers.BODY.get(move), change);
+				moveBody(CompoMappers.BODY.get(move), p);
 
 			if (DEBUG)
 				debugOut(move);
@@ -105,13 +105,11 @@ public class Movement extends EntitySystem
 	/**
 	 * translates every body by the vector change
 	 * @param b a given body
-	 * @param change translation vector
+	 * @param position new position of the body
      */
-	private void moveBody(Body b, Vector3 change)
+	private void moveBody(Body b, Vector3 position)
 	{
-		for (SolidTranslator move : b)
-			move.addPosition(change);
-
+		b.setPosition(position);
 	}
 
 

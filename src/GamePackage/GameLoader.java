@@ -77,11 +77,16 @@ public class GameLoader {
 		for(int i=0;i<ballPos.size();i++) {
 			String pName = JOptionPane.showInputDialog("Player "+i+" Name?");
 			HumanObserver a = new HumanObserver();
+
+			//@TODO remove after testing
+			//bots.set(i, false);
+
 			if(bots.get(i)){
 				config.addBotAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y+20, ballPos.get(i).z));
 			}else {
 				config.addHumanAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y+20, ballPos.get(i).z),a);
 			}
+
 			obs.add(a);
 		}
 		a = new TerrainData(8,300);
@@ -89,14 +94,16 @@ public class GameLoader {
 		TerrainGeometryCalc calc =  new TerrainGeometryCalc();
 		System.out.println(calc.terrainIsFlat(tdata));
 		ArrayList<Triangle> tmp = calc.getAllTris(a);
+		System.out.println("aaaaaa");
 		config.setTerrain(tmp);
+
 		return config.game();
 	}
 	
 	public GameVisual loadVisual(Game game){
 		GameVisual visual  = new GameVisual();
 		visual.setBalls(ballPos,obs);
-		visual.setHole(holePos,20);
+		visual.setHole(new Vector3f(holePos.x,holePos.y+2,holePos.z),20);
 		//tdata.printVerts();
 		//System.out.println("--------------------------------------------------------------------------------------");
 		visual.setTerrain(a);

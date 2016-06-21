@@ -58,8 +58,74 @@ public class BoundingBox
         if (v.z > max.z)
             max.z = v.z;
     }
+    public float getLowestX() {
+        float min = mBoundingBox.getSides()[0].getVertices()[0].x;
+        for (int i = 1; i < mBoundingBox.getSides().length; i++) {
+            for (int j = 0; j < mBoundingBox.getSides().length; j++) {
+                if (min>mBoundingBox.getSides()[i].getVertices()[i].x){
+                    min = mBoundingBox.getSides()[i].getVertices()[i].x;
+                }
+            }
+        }
+        return  min;
+    }
 
+    public float getHighestX() {
+        float max = mBoundingBox.getSides()[0].getVertices()[0].x;
+        for (int i = 1; i < mBoundingBox.getSides().length; i++) {
+            for (int j = 0; j < mBoundingBox.getSides().length; j++) {
+                if (max<mBoundingBox.getSides()[i].getVertices()[i].x){
+                    max = mBoundingBox.getSides()[i].getVertices()[i].x;
+                }
+            }
+        }
+        return  max;
+    }
 
+    public float getLowestY() {
+        float min = mBoundingBox.getSides()[0].getVertices()[0].y;
+        for (int i = 1; i < mBoundingBox.getSides().length; i++) {
+            for (int j = 0; j < mBoundingBox.getSides().length; j++) {
+                if (min>mBoundingBox.getSides()[i].getVertices()[i].y){
+                    min = mBoundingBox.getSides()[i].getVertices()[i].y;
+                }
+            }
+        }
+        return  min;
+    }
 
+    public float getHighestY() {
+        float max = mBoundingBox.getSides()[0].getVertices()[0].y;
+        for (int i = 1; i < mBoundingBox.getSides().length; i++) {
+            for (int j = 0; j < mBoundingBox.getSides().length; j++) {
+                if (max<mBoundingBox.getSides()[i].getVertices()[i].y){
+                    max = mBoundingBox.getSides()[i].getVertices()[i].y;
+                }
+            }
+        }
+        return  max;
+    }
+    public float getLowestZ() {
+        float min = mBoundingBox.getSides()[0].getVertices()[0].z;
+        for (int i = 1; i < mBoundingBox.getSides().length; i++) {
+            for (int j = 0; j < mBoundingBox.getSides().length; j++) {
+                if (min>mBoundingBox.getSides()[i].getVertices()[i].z){
+                    min = mBoundingBox.getSides()[i].getVertices()[i].z;
+                }
+            }
+        }
+        return  min;
+    }
+    public float getHighestZ() {
+        float max = mBoundingBox.getSides()[0].getVertices()[0].z;
+        for (int i = 1; i < mBoundingBox.getSides().length; i++) {
+            for (int j = 0; j < mBoundingBox.getSides().length; j++) {
+                if (max<mBoundingBox.getSides()[i].getVertices()[i].z){
+                    max = mBoundingBox.getSides()[i].getVertices()[i].z;
+                }
+            }
+        }
+        return  max;
+    }
     private SolidTranslator mBoundingBox;
 }

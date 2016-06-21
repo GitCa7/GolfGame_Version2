@@ -34,8 +34,10 @@ public class EntityFactory
 	public Entity produce()
 	{
 		Entity newEntity = new Entity();
-		for (ComponentBundle cb : mComponentProducers)
-			newEntity.add (cb.component());
+		for (ComponentBundle cb : mComponentProducers) {
+
+			newEntity.add(cb.component());
+		}
 		return newEntity;
 	}
 

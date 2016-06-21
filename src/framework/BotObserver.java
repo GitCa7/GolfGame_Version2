@@ -22,55 +22,52 @@ import java.util.LinkedList;
  *
  * @author martin
  */
-public class BotObserver extends PlayerObserver
-{
+public class BotObserver extends PlayerObserver {
 
-    public static final float BOT_DT = .1f;
+    public static final float BOT_DT = .02f;
 
-    public BotObserver()
-    {
+    public BotObserver() {
         forceListToSolution = new LinkedList<>();
     }
 
     @Override
-    public Vector3 getForce(Game state)
-    {
+    public Vector3 getForce(Game state) {
         Rounder prevRounder = GlobalObjects.ROUND;
 
-        GlobalObjects.ROUND = new Rounder(PhysicsCoefficients.AI_ARITHMETIC_PRECISION, PhysicsCoefficients.AI_ARITHMETIC_TOLERANCE);
+        //    GlobalObjects.ROUND = new Rounder(PhysicsCoefficients.AI_ARITHMETIC_PRECISION, PhysicsCoefficients.AI_ARITHMETIC_TOLERANCE);
 
         Ball myBall = state.getBall(getPlayer());
         Vector3 goalPos = CompoMappers.GOAL.get(myBall.mEntity).mGoalSpace.getPosition();
         Entity target = new Entity();
         target.add(new Position(goalPos.x, goalPos.y, goalPos.z));
 
-        GolfSearchPerformer searchPerformer= new GolfSearchPerformer(state.getCurrentPlayers().get(0), state, BOT_DT);
+        GolfSearchPerformer searchPerformer = new GolfSearchPerformer(state.getCurrentPlayers().get(0), state, BOT_DT);
 
         TreeNode<GolfState, GolfAction> solutionNode = searchPerformer.greedySolution();
+        System.out.println(solutionNode.getNodeDeapth() + "aaaaa");
 
         extractSolution(solutionNode);
 
-        GlobalObjects.ROUND = prevRounder;
+        //    GlobalObjects.ROUND = prevRounder;
 
         return forceListToSolution.pollFirst();
     }
 
     /**
      * @param leaf the node considered leaf,
-     * adds the series of forces need  to be applied to the root state to reach the leaf state to the forceListToSolution List
+     *             adds the series of forces need  to be applied to the root state to reach the leaf state to the forceListToSolution List
      */
-    public void  extractSolution(TreeNode<GolfState, GolfAction> leaf)
-    {
-        int depthCounter=0;
-        TreeNode<GolfState, GolfAction> tempNode = leaf;
-        while(depthCounter<leaf.getNodeDeapth()){
-            while(tempNode.getParent().getNodeDeapth()!=depthCounter){
-                tempNode=tempNode.getParent();
-                depthCounter++;
-            }
-            forceListToSolution.add(tempNode.getAction().getForce());
-        }
-    }
+    public void extractSolution(TreeNode<GolfState, GolfAction> leaf) {
 
-    private LinkedList<Vector3> forceListToSolution;
+        TreeNode<GolfState, GolfAction> tempNode = leaf;
+        forceListToSolution.add(leaf.getAction().getForce());
+     for(int i=1;i<leaf.getNodeDeapth();i++)
+        tempNode = tempNode.getParent();
+        forceListToSolution.add(0,tempNode.getAction().getForce());
+
+    }
+        private LinkedList<Vector3> forceListToSolution;
+
+
+
 }

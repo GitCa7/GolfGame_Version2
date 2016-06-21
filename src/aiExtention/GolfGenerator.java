@@ -14,7 +14,7 @@ public class GolfGenerator extends NodeGenerator<GolfState, GolfAction> {
 
 	private Engine moveManager;
 	private NodeEvaluator<GolfState> evaluator ;
-	private ActionGeneatorV2 forceGenerator = new ActionGeneatorV2(1000);
+	private ActionGeneatorV2 forceGenerator = new ActionGeneatorV2(100);
 	private float mDeltaTime;
 
 	public GolfGenerator(Engine engine, NodeEvaluator<GolfState> evaluator, float deltaTime) {
@@ -39,7 +39,7 @@ public class GolfGenerator extends NodeGenerator<GolfState, GolfAction> {
 		childNode.setNodeDeapth(aNode.getNodeDeapth() + 1);
 		childNode.setValueOfNode(evaluator.evaluateNode(childNode));
 
-		System.out.println("value of node"+ evaluator.evaluateNode(childNode));
+		//System.out.println("value of node"+ evaluator.evaluateNode(childNode));
 
 		// aNode.addChildNode(childNode);
 		// System.out.println("childNodeActonStore" + childNode.getAction().getForce());
