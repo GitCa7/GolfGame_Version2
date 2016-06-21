@@ -1,5 +1,7 @@
 package Entities;
 
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.BoundingBox;
 import org.lwjgl.util.vector.Vector3f;
 
 import ModelBuildComponents.ModelTexture;
@@ -16,5 +18,11 @@ public class Hole extends gameEntity {
 	
 	public Hole(Vector3f position, float scale)	{
 		super(staticModel, position, 0, 0, 0, scale);
+	}
+
+	@Override
+	public BoundingBox boundingBox() {
+		BoundingBox tmp = new BoundingBox(new Vector3(position.x-scale,position.y-scale,position.z-scale),new Vector3(position.x+scale,position.y+scale,position.z+scale));
+		return tmp;
 	}
 }

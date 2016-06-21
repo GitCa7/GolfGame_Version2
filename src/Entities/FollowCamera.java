@@ -14,6 +14,7 @@ public class FollowCamera extends Camera implements InputObserver{
 	private float angleAroundPlayer = 0;
 	private gameEntity player;
 	private Vector3f pos = new Vector3f(0,0,0);
+	private boolean AITest = false;
 
 		
 	private GameVisual parent;
@@ -23,6 +24,14 @@ public class FollowCamera extends Camera implements InputObserver{
 
 		this.player = playerObject;
 		this.parent = parent;
+		super.setPosition(pos);
+	}
+	
+	public FollowCamera(GolfBall playerObject,GameVisual parent, boolean AITest) 	{
+
+		this.player = playerObject;
+		this.parent = parent;
+		this.AITest = AITest;
 		super.setPosition(pos);
 	}
 	
@@ -170,25 +179,40 @@ public class FollowCamera extends Camera implements InputObserver{
 	public Vector3 inputLoop(){
 		boolean up = true;
 		float curForce = 500;
+		float applForce;
 		while(!Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
-			//System.out.println(curForce);
-			if(up){
-				curForce += 10;
-			}else{
-				curForce -= 10;
-			}
-			if (up&&curForce>2000){
-				up = false;
-			}
-			if(!up&&curForce<500){
-				up = true;
+			if(AITest)	{
+				//System.out.println(curForce);
+				
+				if(up){
+					curForce += 10;
+				}else{
+					curForce -= 10;
+				}
+				if (up&&curForce>2000){
+					up = false;
+				}
+				if(!up&&curForce<500){
+					up = true;
+				}
 			}
 			parent.directionArrow.setScale(curForce/300);
 			parent.updateDisplay();
+			if(!AITest)	{
+				parent.updateForceGui(up);
+				up = parent.counterIncrease(up);
+			}
+			
 		}
 		Vector3 dir = new Vector3(0,0,1);
 		dir.rotate(parent.directionArrow.getRotY(),0,1,0);
-		return new Vector3(dir.x*curForce,curForce/5,dir.z*curForce);
+		if(AITest)	{
+			applForce = parent.getForce() * curForce;
+			return new Vector3(dir.x*applForce,applForce/5,dir.z*applForce);
+		}
+		else	{
+			return new Vector3(dir.x*curForce,curForce/5,dir.z*curForce);
+		}
 	}
 	
 	

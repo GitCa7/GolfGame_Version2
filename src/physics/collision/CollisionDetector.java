@@ -98,6 +98,6 @@ public class CollisionDetector
 			mActive.remove (ePair);
 		mAll.remove (ePair);
 	}
-
+	
 	private HashSet<EntityAndBody> mActive, mAll;
 }

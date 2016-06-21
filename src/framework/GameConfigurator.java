@@ -11,6 +11,7 @@ import framework.systems.TurnSystemFactory;
 import framework.entities.EntityFactory;
 
 import physics.collision.CollisionRepository;
+import physics.collision.TerrainPartition;
 import physics.collision.TerrainTetrahedronBuilder;
 import physics.components.*;
 import physics.constants.PhysicsCoefficients;
@@ -192,7 +193,7 @@ public class GameConfigurator
      */
     public void setTerrain(Collection<Triangle> terrainPoints)
     {
-
+    /*
         Triangle[] triangleArray = terrainPoints.toArray(new Triangle[terrainPoints.size()]);
         TerrainTetrahedronBuilder tetBuilder = new TerrainTetrahedronBuilder(triangleArray);
 
@@ -214,9 +215,8 @@ public class GameConfigurator
             }
         }
 
-
         mObstaclePositionFactory.setVector(minTerrainPosition.cpy());
-
+    */
         /*
         Vector3 min = new Vector3(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
         Vector3 max = new Vector3(-Float.MAX_VALUE, -Float.MAX_VALUE, -Float.MAX_VALUE);
@@ -242,11 +242,11 @@ public class GameConfigurator
         */
 
 
-        /*mObstacleBodyFactory.clear();
+        mObstacleBodyFactory.clear();
         BoxParameter groundParameter = new BoxParameter(new Vector3(10000, 0, 0), new Vector3(0, -10000, 0), new Vector3(0, 0, 10000));
         Box ground = BoxPool.getInstance().getInstance(groundParameter);
         mObstacleBodyFactory.addSolid(new SolidTranslator(ground, new Vector3(-5000, 0, -5000)));
-        mObstaclePositionFactory.setVector(new Vector3(-5000, 0, -5000));*/
+        mObstaclePositionFactory.setVector(new Vector3(-5000, 0, -5000));
 
 
         //add terrain obstacle to the engine

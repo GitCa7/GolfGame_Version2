@@ -7,6 +7,8 @@ import framework.constants.Families;
 import framework.internal.components.Busy;
 import physics.components.Position;
 import physics.components.Velocity;
+import physics.systems.CollisionDetectionSystem;
+import physics.systems.Movement;
 import physics.systems.RepositoryEntitySystem;
 import physics.collision.CollisionRepository;
 import physics.components.Force;
@@ -85,7 +87,7 @@ public class SimulatedGame
 
         f.add(force);
 
-        int maxIterations = 100;
+        int maxIterations = 1000;
         int cIteration = 0;
 
         //loop while busy
@@ -93,13 +95,18 @@ public class SimulatedGame
         {
             mEngine.update(dTime);
             ++cIteration;
-            /*
+            if (cIteration > maxIterations && false) {
+                Movement.DEBUG = true;
+                CollisionDetectionSystem.DEBUG = true;
+            }           /*
             System.out.print("ball s " + ballPos);
             System.out.print(" v " + ballVel);
             System.out.print(" busy " + busy.mBusy);
             System.out.println();
             */
         }while(busy.mBusy);
+
+        Movement.DEBUG = false;
     }
 
     /**

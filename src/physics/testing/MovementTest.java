@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 
 import GamePackage.GameVisual;
+import GamePackage.GameVisualTest;
 import TerrainComponents.TerrainData;
 
 import org.lwjgl.util.vector.Vector3f;

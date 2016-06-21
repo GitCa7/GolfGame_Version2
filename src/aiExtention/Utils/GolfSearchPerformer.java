@@ -2,18 +2,10 @@ package aiExtention.Utils;
 
 import aiExtention.*;
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
-import framework.EntitySystem;
 import framework.Game;
 import framework.SimulatedGame;
 import framework.entities.Player;
-import physics.entities.Ball;
 import searchTree.*;
-import physics.systems.*;
-
-
-import java.util.Arrays;
-import java.util.List;
 
 public class GolfSearchPerformer {
 
@@ -76,7 +68,7 @@ public class GolfSearchPerformer {
 		this.evaluator= new GolfEvaluator();
 		this.generator= new GolfGenerator(aiEngine, evaluator, deltaTime);
 		this.goalTester=new GolfGoalTester();
-		TreeOperator<GolfState, GolfAction> treeOperator = new TreeOperator<GolfState, GolfAction>(
+		GreedyOperator<GolfState, GolfAction> treeOperator = new GreedyOperator<GolfState, GolfAction>(
 				rootNode, generator, goalTester);
 		System.out.println("RUN");
 		return treeOperator.runSearch();

@@ -1,9 +1,11 @@
 package GamePackage;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import Entities.*;
+import GUIs.GUITexture;
 import TerrainComponents.TerrainGeometryCalc;
 import framework.testing.HumanObserver;
 import physics.components.Position;
@@ -13,6 +15,7 @@ import physics.constants.Families;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.badlogic.ashley.core.Engine;
@@ -26,6 +29,7 @@ import ModelBuildComponents.RawModel;
 import ModelBuildComponents.TexturedModel;
 
 import RenderComponents.DisplayManager;
+import RenderComponents.GuiRenderer;
 import RenderComponents.Loader;
 import RenderComponents.MasterRenderer;
 import RenderComponents.OBJLoader;
@@ -37,6 +41,7 @@ import TerrainComponents.TerrainData;
 
 public class GameVisual {
 	MasterRenderer renderer;
+	GuiRenderer guiRenderer;
 	
 	//For loading Object Data
 	Loader loader;
@@ -45,6 +50,7 @@ public class GameVisual {
 	ArrayList<GolfBall> golfBalls;
 	ArrayList<gameEntity> entities;
 	ArrayList<gameEntity> surrondings;
+	List<GUITexture> GuiElements;
 	ArrayList<Terrain> terrains;
 	
 	public Arrow directionArrow;
@@ -60,6 +66,7 @@ public class GameVisual {
 	boolean targetingState;
 	float timepassed;
 	TerrainGeometryCalc calc = new TerrainGeometryCalc();
+	Hole hole;
 	
 	private static final float forceLvlMax = 3;
 	private static final float power = 250;
@@ -75,9 +82,7 @@ public class GameVisual {
 		DisplayManager.createDisplay();
 		loader = new Loader();
 		renderer = new MasterRenderer(loader);
-		
-		
-		
+	
 		golfBalls = new ArrayList<GolfBall>();
 		entities = new ArrayList<gameEntity>();
 		surrondings = new ArrayList<gameEntity>();
@@ -88,9 +93,23 @@ public class GameVisual {
 		forceChangeAccept = true;
 		timepassed = 0;
 		directionArrow = new Arrow(new Vector3f(-500,20,-460), 1.5f);
+		GuiElements = new ArrayList<GUITexture>();
+		guiRenderer = new GuiRenderer(loader);
+		
 		targetingState = false;
+		
+		
+		
+		setUpGuis();
 		surrondings.add(directionArrow);
+		
+		
+		
 	}
+	
+	
+	
+	
 	public void setBalls(ArrayList<Vector3f> balls,ArrayList<HumanObserver>  obs){
 		ArrayList<GolfBall> tmp = new ArrayList();
 		for (int i =0;i<balls.size();i++){
@@ -114,15 +133,84 @@ public class GameVisual {
 		setUpScene();
 	}
 	
+	public void setUpGuis() {
+
+		GUITexture forceBar = new GUITexture(loader.loadTexture("/GuiTextures/force11"), new Vector2f(0.85f, -0.77f),
+				new Vector2f(0.15f, 0.225f));
+		// cam.setPosition(new Vector3f(4,20,-422));
+		// System.out.println("ID: " +
+		// golfball.getModel().getRawModel().getID());
+		GuiElements.add(forceBar);
+		
+		GUITexture forceBar2 = new GUITexture(loader.loadTexture("/GuiTextures/force33"), new Vector2f(0.85f, -0.77f),
+				new Vector2f(0.15f, 0.225f));
+		GuiElements.add(forceBar2);
+		GuiElements.get(1).setOriginal(new Vector2f(0.15f, 0.225f));
+		GUITexture golfClub = new GUITexture(loader.loadTexture("/GuiTextures/golf-club2"), new Vector2f(0.6f, -0.9f),
+				new Vector2f(0.15f, 0.225f));
+		GuiElements.add(golfClub);
+	}
+	
+	public void updateForceGui(boolean forceincrease)	{
+		Vector2f currScale = GuiElements.get(1).getScale();
+		Vector2f max = GuiElements.get(1).getOriginal();
+		Vector2f min = new Vector2f(0.05f, 0.05f);
+		
+		if(forceincrease)	{
+			System.out.println("ForceIncrease = true: \nCurrent Scale: " + currScale + "max: " + max);
+			if(currScale.x >= max.x || currScale.y >= max.y)	{
+				forceincrease = false;
+			}
+			GuiElements.get(1).reScale(1.01f);
+		}
+		else	{
+			System.out.println("ForceIncrease = false: \nCurrent Scale: " + currScale + "min: " + min);
+			if(currScale.x <= min.x || currScale.y <= min.y)	{
+				forceincrease = true;
+			}
+			else	{
+				GuiElements.get(1).reScale(0.99f);
+			}
+		}
+	}
+	
+	public boolean counterIncrease(boolean forceincrease)	{
+		Vector2f currScale = GuiElements.get(1).getScale();
+		Vector2f max = GuiElements.get(1).getOriginal();
+		Vector2f min = new Vector2f(0.05f, 0.05f);
+		if(forceincrease)	{
+			if(currScale.x >= max.x || currScale.y >= max.y)	{
+				return false;
+			}
+			else 	{
+				return true;
+			}
+		}
+		else	{
+			if(currScale.x <= min.x || currScale.y <= min.y)	{
+				return true;
+			}
+			else 	{
+				return false;
+			}
+		}
+		
+	}
+	
+	public float getForce()	{
+		Vector2f original = GuiElements.get(1).getOriginal();
+		Vector2f current = GuiElements.get(1).getScale();
+		float origLength = original.length();
+		float currLength = current.length();
+		return currLength / origLength;
+	}
+	
 	public void setUpEntities()	{
 		Terrain tmpTerrain = terrains.get(0);
 		int middle = tmpTerrain.leafs.size() / 2;
 		PointNode centerNode = tmpTerrain.leafs.get(middle);
 		Vector3f center = new Vector3f(centerNode.getCoordinates().x, centerNode.getCoordinates().y + 10, centerNode.getCoordinates().z);
 
-
-		
-		
 	}
 	
 	public void createSurrondings()	{
@@ -176,7 +264,7 @@ public class GameVisual {
 		
 	}
 	public void setHole(Vector3f pos,float scale){
-		entities.add(new Hole(pos,scale));
+		hole = new Hole(pos,scale);
 	}
 	
 	public void forceLevelCheck()	{
@@ -290,7 +378,6 @@ public class GameVisual {
 	public void updateDisplay()	{
 		updateObjects();
 		forceLevelCheck();
-
 		if(forceChangeAccept == false && timepassed >= 1)	{
 			forceChangeAccept = true;
 			timepassed = 0;
@@ -326,7 +413,7 @@ public class GameVisual {
 		}
 
      	   renderer.processTerrain(terrains.get(0));
-        
+        	renderer.processEntity(hole);
         if(useFollow == false)	{
      	   renderer.render(light, cam);
         }
@@ -350,11 +437,13 @@ public class GameVisual {
         if(forceChangeAccept == false)
         	timepassed += DisplayManager.getTimeDelat();
         
+        guiRenderer.render(GuiElements);
         DisplayManager.updateDisplay();
 	}
 	
 	public void endDisplay()	{
 		renderer.cleanUp();
+		guiRenderer.cleanUp();
 	    loader.cleanUp();
 	    DisplayManager.closeDisplay();
 	}

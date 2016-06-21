@@ -26,8 +26,10 @@ public class Triangle extends Shape
     {
         super (vertices, border);
 
-        if (!checkNotOnLine(vertices))
+        if (!checkNotOnLine(vertices))	{
+        	System.out.println(vertices[0] + "\t" + vertices[1] + "\t" + vertices[2]);
             throw new IllegalArgumentException("vertices lie on line, don't form a triangle");
+        }
 
         lines = border;
         this.vertices = vertices;
@@ -53,6 +55,10 @@ public class Triangle extends Shape
         Vector3 d2 = vertices[2].cpy().sub(vertices[0]);
 
         return (!d1.isOnLine(d2) && !d1.isOnLine(d2));
+    }
+    
+    public String toString()	{
+    	return new String(vertices[0] + "\t" + vertices[1] + "\t" + vertices[2]);
     }
 
 }
