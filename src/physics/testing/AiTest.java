@@ -1,36 +1,48 @@
 package physics.testing;
 
-import Entities.Arrow;
+import java.util.ArrayList;
+
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 
+import GamePackage.GameLoader;
 import GamePackage.GameVisual;
-import GamePackage.GameVisualTest;
 import TerrainComponents.TerrainData;
-
-import org.lwjgl.util.vector.Vector3f;
+import TerrainComponents.TerrainGeometryCalc;
+import framework.Game;
+import framework.GameConfigurator;
 import physics.collision.CollisionRepository;
-import physics.components.*;
+import physics.components.Body;
+import physics.components.Force;
+import physics.components.Friction;
+import physics.components.GravityForce;
+import physics.components.Mass;
+import physics.components.Position;
+import physics.components.Velocity;
 import physics.constants.CompoMappers;
 import physics.constants.Families;
 import physics.entities.Ball;
+import physics.geometry.planar.Triangle;
+import physics.geometry.planar.TriangleBuilder;
 import physics.geometry.spatial.Box;
 import physics.geometry.spatial.BoxParameter;
 import physics.geometry.spatial.BoxPool;
 import physics.geometry.spatial.SolidTranslator;
-import physics.systems.*;
+import physics.geometry.spatial.TetrahedronParameter;
+import physics.geometry.spatial.TetrahedronPool;
+import physics.systems.CollisionDetectionSystem;
+import physics.systems.ForceApply;
+import physics.systems.FrictionSystem;
+import physics.systems.Movement;
 
-
-public class MovementTest 
-{
-	
+public class AiTest {
 	public static void main (String[] args)
 	{
 
 		Vector3 initBallPos = new Vector3(-100, 0,-100);
 
-		MovementTest test = new MovementTest (initBallPos);
+		AiTest test = new AiTest (initBallPos);
 		Vector3 hitForce = new Vector3 (-800, 0, -800);
 
 		test.init();
@@ -44,10 +56,6 @@ public class MovementTest
 		{
 			test.updateEngine();
 
-			if(test.mVisualizer.hasForce())	{
-				test.hitBall(test.mVisualizer.deliverForce());
-				test.mVisualizer.setForcePresent(false);
-			}
 			
 			test.printBallPosition();
 			
@@ -74,7 +82,7 @@ public class MovementTest
 	 * Uses movement, force apply and friction systems.
 	 * @param ballPos initial ball position.
      */
-	public MovementTest(Vector3 ballPos)
+	public AiTest(Vector3 ballPos)
 	{
 		mBall = new Ball (new Entity());
 		//set and add components to ball
@@ -184,6 +192,44 @@ public class MovementTest
 		mVisualizer.startDisplay();
 	}
 
+	public void initGame() throws Exception
+    {
+        GameConfigurator config = new GameConfigurator();
+
+        //terrain from huge triangle
+        TerrainData terrainDat = new TerrainData(4, 300);
+        TerrainGeometryCalc calcualte = new TerrainGeometryCalc();
+        
+        ArrayList<Triangle> terrainMesh = calcualte.getAllTris(terrainDat);
+        config.setTerrain(terrainMesh);
+
+        //add a box obstacle
+        Vector3 boxPos = new Vector3(10, -5, 10);
+        BoxParameter bp = new BoxParameter(new Vector3(-20, 0, 0), new Vector3(0, 0, 25), new Vector3(0, 20, 0));
+        ArrayList<SolidTranslator> boxBodyList = new ArrayList<>();
+        boxBodyList.add(new SolidTranslator(BoxPool.getInstance().getInstance(bp), boxPos));
+        config.addObstacle(boxBodyList);
+
+        //add a tetrahedron obstacle
+        Vector3 tetPos = new Vector3(75, 0, -40);
+        TetrahedronParameter tp = new TetrahedronParameter(new Vector3(15, 0, 0), new Vector3(0, 0, 15), new Vector3(8, 8, 10));
+        ArrayList<SolidTranslator> tetBodyList = new ArrayList<>();
+        tetBodyList.add(new SolidTranslator(TetrahedronPool.getInstance().getInstance(tp), tetPos));
+        config.addObstacle(tetBodyList);
+
+        //set the hole
+        Vector3 holePosition = new Vector3(100, 0, 0);
+        float holeSize = 20;
+        config.setHole(holePosition, holeSize);
+
+        float ballRadius = 3, ballMass = 5;
+        Vector3 initBallPos = new Vector3();
+        config.addHumanAndBall("martin", ballRadius, ballMass, initBallPos);
+        //comment above and uncomment below for bot
+     //   config.addBotAndBall("bot", ballRadius, ballMass, initBallPos);
+        mGame = config.game();
+    }
+	
 	/**
 	 * ends test
 	 */
@@ -192,8 +238,11 @@ public class MovementTest
 		mVisualizer.endDisplay();
 	}
 
-
+	private Game mGame;
 	public GameVisual mVisualizer;
 	private Ball mBall;
 	private Engine mEngine;
+	private GameLoader mLoader;
+    
+
 }

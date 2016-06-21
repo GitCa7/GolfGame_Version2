@@ -170,8 +170,10 @@ public class FollowCamera extends Camera implements InputObserver{
 	public Vector3 inputLoop(){
 		boolean up = true;
 		float curForce = 500;
+		float applForce;
 		while(!Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
 			//System.out.println(curForce);
+			/*
 			if(up){
 				curForce += 10;
 			}else{
@@ -183,12 +185,16 @@ public class FollowCamera extends Camera implements InputObserver{
 			if(!up&&curForce<500){
 				up = true;
 			}
+			*/
 			parent.directionArrow.setScale(curForce/300);
 			parent.updateDisplay();
+			parent.updateForceGui(up);
+			
 		}
 		Vector3 dir = new Vector3(0,0,1);
 		dir.rotate(parent.directionArrow.getRotY(),0,1,0);
-		return new Vector3(dir.x*curForce,curForce/5,dir.z*curForce);
+		applForce = parent.getForce() * curForce;
+		return new Vector3(dir.x*applForce,applForce/5,dir.z*applForce);
 	}
 	
 	
