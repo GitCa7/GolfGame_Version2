@@ -11,6 +11,11 @@ public class FollowCamera extends Camera implements InputObserver{
 	private float angleAroundPlayer = 0;
 	private gameEntity player;
 	private Vector3f pos = new Vector3f(0,0,0);
+	
+	private float ArrowScale = 1;
+	private boolean sizeIncrease;
+	private final float maxScale = 3.0f;
+	private final float minScale = 0.5f;
 		
 	
 	public FollowCamera(GolfBall playerObject)	{
@@ -37,6 +42,7 @@ public class FollowCamera extends Camera implements InputObserver{
 			super.setYaw(180 - (player.getRotY() + angleAroundPlayer));
 			super.setYaw(super.getYaw() % 360);
 			super.setPosition(pos);
+			updateArrowScale();
 		}
 	}
 	
@@ -151,5 +157,32 @@ public class FollowCamera extends Camera implements InputObserver{
 		}
 	}
 	
+	private void updateArrowScale()	{
+		if(sizeIncrease)	{
+			if(ArrowScale >= maxScale)	{
+				sizeIncrease = false;
+			}
+			else {
+				ArrowScale += 0.01f;
+			}
+		}
+		else	{
+			if(ArrowScale <= minScale)	{
+				sizeIncrease = true;
+			}
+			else {
+				ArrowScale -= 0.01f;
+			}
+		}
+	}
+	
+	public float getArrowScale()	{
+		return ArrowScale;
+	}
+	
+	public void resetArrowScale()	{
+		ArrowScale = 1;
+	}
+
 	
 }
