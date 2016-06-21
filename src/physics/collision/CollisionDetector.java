@@ -29,15 +29,15 @@ public class CollisionDetector
 	public ArrayList<ColliderPair<ColliderEntity>> getAnyColliding()
 	{
 		//clone sets
-		HashSet<BodyPair> currentBodies = (HashSet<BodyPair>) mAll.clone();
+		HashSet<EntityAndBody> currentBodies = (HashSet<EntityAndBody>) mAll.clone();
 
 		ArrayList<ColliderPair<ColliderEntity>> colliding = new ArrayList<>();
 
 		//for every active|all pair check for physics.collision
-		for (BodyPair activeBody : mActive)
+		for (EntityAndBody activeBody : mActive)
 		{
 			currentBodies.remove (activeBody);
-			for (BodyPair passiveBody : currentBodies)
+			for (EntityAndBody passiveBody : currentBodies)
 			{
 				//if colliding: add as collider pair
 				//@TODO store intersection detectors permanently
@@ -66,7 +66,7 @@ public class CollisionDetector
 	 */
 	public void add (Entity e)
 	{
-		BodyPair ePair = new BodyPair (e);
+		EntityAndBody ePair = new EntityAndBody(e);
 		boolean notPresent = mAll.add (ePair);
 		if (!notPresent)
 			throw new IllegalArgumentException ("entity " + e + " was already contained");
@@ -92,12 +92,12 @@ public class CollisionDetector
 	 */
 	public void remove (Entity e)
 	{
-		BodyPair ePair = new BodyPair (e);
+		EntityAndBody ePair = new EntityAndBody(e);
 		mActive.toArray()[0].equals(ePair);
 		if (Families.ACCELERABLE.matches (e))
 			mActive.remove (ePair);
 		mAll.remove (ePair);
 	}
 
-	private HashSet<BodyPair> mActive, mAll;
+	private HashSet<EntityAndBody> mActive, mAll;
 }
