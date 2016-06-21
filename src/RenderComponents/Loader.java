@@ -51,11 +51,25 @@ public class Loader implements Serializable {
 		return new RawModel(vaoID, indices.length);
 	}
 	
+	public int loadToVAO(float[] positions, float[] textureCoords)	{
+		int vaoID = createVAO();
+		
+		//In Attribute 1 in VAO ARRAY
+		storeDataAttributeList(0, 2,positions);
+		
+		//In Attribute 2 in VAO ARRAY
+		storeDataAttributeList(1,2,textureCoords);
+		
+		//In Attribute 3 in VAO ARRAY
+		unbindVAO();
+		return vaoID;
+	}
+	
 	public RawModel loadToVAO(float[] positions, int dimensions)	{
 		int vaoID = createVAO();
 		this.storeDataAttributeList(0, dimensions, positions);
 		unbindVAO();
-		return new RawModel(vaoID, positions.length / 2);
+		return new RawModel(vaoID, positions.length / dimensions);
 	}
 
 	public int loadCubeMap(String[] textureFiles)	{
