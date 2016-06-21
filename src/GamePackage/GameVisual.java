@@ -40,6 +40,9 @@ import TerrainComponents.TerrainData;
 
 
 public class GameVisual {
+
+	public static boolean DEBUG = false;
+
 	MasterRenderer renderer;
 	GuiRenderer guiRenderer;
 	
@@ -157,14 +160,16 @@ public class GameVisual {
 		Vector2f min = new Vector2f(0.05f, 0.05f);
 		
 		if(forceincrease)	{
-			System.out.println("ForceIncrease = true: \nCurrent Scale: " + currScale + "max: " + max);
+			if (DEBUG)
+				System.out.println("ForceIncrease = true: \nCurrent Scale: " + currScale + "max: " + max);
 			if(currScale.x >= max.x || currScale.y >= max.y)	{
 				forceincrease = false;
 			}
 			GuiElements.get(1).reScale(1.01f);
 		}
 		else	{
-			System.out.println("ForceIncrease = false: \nCurrent Scale: " + currScale + "min: " + min);
+			if (DEBUG)
+				System.out.println("ForceIncrease = false: \nCurrent Scale: " + currScale + "min: " + min);
 			if(currScale.x <= min.x || currScale.y <= min.y)	{
 				forceincrease = true;
 			}
