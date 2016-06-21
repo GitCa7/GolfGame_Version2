@@ -96,11 +96,7 @@ public class GameConfigurator
         //add entity systems processing components to the engine
 		addAllSystems();
 
-<<<<<<< HEAD
-		Game game =  new Game (mEngine, mBallMap,0);
-=======
 		Game game =  new Game (mEngine, mBallMap, mHitNoise);
->>>>>>> 416dcd13cb9a6b958cc5be027c50917a56422377
         //add input observers
         addAllObservers(game);
 
