@@ -105,24 +105,14 @@ public class FrictionSystem extends EntitySystem implements RepositoryEntitySyst
 	private boolean hasFriction(ColliderEntity active, ColliderEntity passive)
 	{
 		Vector3 gravity = CompoMappers.GRAVITY_FORCE.get(active.getEntity());
+		Vector3 velocity = CompoMappers.VELOCITY.get(active.getEntity());
 
 		Plane collisionPlane = new ColliderClosestSideFinder(active, passive).find();
-		//let normal point inwards => towards any vertex not in plane
-		Vector3[] solidCollidingVertices = passive.getCollidingSolid().getVertices();
-		boolean foundOutsidePlane = false;
-		int cVertex = 0;
-		while (cVertex < solidCollidingVertices.length && !foundOutsidePlane)
-		{
-			if (collisionPlane.testPoint(solidCollidingVertices[cVertex]) != 0)
-			{
-				collisionPlane.setNormalOrientation(solidCollidingVertices[cVertex]);
-				foundOutsidePlane = true;
-			}
-			++cVertex;
-		}
 
 		//true if gravity does not point inwards the object
-		return (gravity.dot(collisionPlane.getNormal()) > 0);
+		float gravityDotNormal = gravity.dot(collisionPlane.getNormal());
+
+		return (gravityDotNormal > 0 && !GlobalObjects.ROUND.epsilonEquals(gravityDotNormal, 0f));
 	}
 
 	/**

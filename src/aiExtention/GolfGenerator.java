@@ -12,18 +12,16 @@ import searchTree.TreeNode;
 
 public class GolfGenerator extends NodeGenerator<GolfState, GolfAction> {
 
-	public static final float DELTA_TIME  = .02f;
-
-
 	private Engine moveManager;
 	private NodeEvaluator<GolfState> evaluator ;
 	private ActionGeneatorV2 forceGenerator = new ActionGeneatorV2(1000);
+	private float mDeltaTime;
 
-	public GolfGenerator(Engine engine, NodeEvaluator<GolfState> evaluator) {
+	public GolfGenerator(Engine engine, NodeEvaluator<GolfState> evaluator, float deltaTime) {
 		super(evaluator);
 		this.evaluator= evaluator;
 		moveManager = engine;
-		
+		mDeltaTime = deltaTime;
 	}
 
 	@Override
@@ -40,7 +38,7 @@ public class GolfGenerator extends NodeGenerator<GolfState, GolfAction> {
 		childNode.setAction(action);
 		childNode.setNodeDeapth(aNode.getNodeDeapth() + 1);
 		childNode.setValueOfNode(evaluator.evaluateNode(childNode));
-		// System.out.println(evaluator.evaluateNode(childNode));
+		System.out.println("value of node"+ evaluator.evaluateNode(childNode));
 		// aNode.addChildNode(childNode);
 		// System.out.println("childNodeActonStore" + childNode.getAction().getForce());
 		return childNode;
@@ -50,7 +48,7 @@ public class GolfGenerator extends NodeGenerator<GolfState, GolfAction> {
 	{
 
 		SimulatedGame simulation = childState.getSimulation();
-		simulation.play(new Vector3(anAction.getForce()), DELTA_TIME);
+		simulation.play(new Vector3(anAction.getForce()), mDeltaTime);
 
 
 
@@ -93,8 +91,17 @@ public class GolfGenerator extends NodeGenerator<GolfState, GolfAction> {
 				i++;
 			}
 	*/
-		}
-
 	}
+
+	/**
+	 * sets the delta time used for simulation to newDeltaTime
+	 * @param newDeltaTime
+     */
+	public void setDeltaTime(float newDeltaTime)
+	{
+		mDeltaTime = newDeltaTime;
+	}
+
+}
 
 

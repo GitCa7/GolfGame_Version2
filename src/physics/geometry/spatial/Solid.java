@@ -41,7 +41,7 @@ public abstract class Solid
 		mVertices = vertices;
 		mSides = sides;
 		mSidePlanes = new Plane[sides.length];
-		setPlanes();
+		init();
 	}
 	
 	/**
@@ -58,6 +58,11 @@ public abstract class Solid
 	 * @return the planes in which the sides are located, the normals pointing inwards
      */
 	public Plane[] getSidePlanes() { return mSidePlanes; }
+
+	/**
+	 * @return the center vertex of this solid
+     */
+	public Vector3 getCenter() { return mCenter; }
 
 	/**
 	 * @param p a point, given by vector
@@ -78,6 +83,13 @@ public abstract class Solid
 		return (tVertices.containsAll (compVertices) && compVertices.containsAll (tVertices));
 	}
 
+
+	private void init()
+	{
+		setPlanes();
+		setCenter();
+	}
+
 	/**
 	 * instantiates plane instances for every side and norms their normals inwards
 	 */
@@ -94,10 +106,23 @@ public abstract class Solid
 			mSidePlanes[cPlane].setNormalOrientation(mVertices[cVertexNotInPlane]);
 		}
 	}
+
+	/**
+	 * sets the center vertex
+	 */
+	private void setCenter()
+	{
+		mCenter = new Vector3();
+		for (Vector3 vertex : mVertices)
+			mCenter.add(vertex);
+		mCenter.scl(1f / mVertices.length);
+	}
 	
 	
 	private Vector3[] mVertices;
 	private Shape[] mSides;
 	/** planes containing the sides with normal pointing inwards */
 	private Plane[] mSidePlanes;
+	/** average of all points */
+	private Vector3 mCenter;
 }

@@ -78,9 +78,9 @@ public class TerrainData implements Serializable {
 
         tetrahedons = terraCalc.getAllTetrahedons(this);
     }
-    
+
     public TerrainData(int newVertexCount, int newSIZE){
-    	
+
     	
     	
     	int VERTEX_COUNT = newVertexCount;

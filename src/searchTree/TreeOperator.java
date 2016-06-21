@@ -3,8 +3,8 @@ package searchTree;
 /** Main class that performs the search process */
 public class TreeOperator<E extends SearchState, Action extends AbstractAction<E>> {
 
-	private final int noOfGenerChild = 1000;
-	private final int noOfParents = 3;
+	private int noOfGenerChild = 1000;
+	private int noOfParents = 3;
 	private TreeNode<E, Action> rootNode;
 	private SearchTree<E, Action> searchTree;
 	private NodeGenerator<E, Action> generator;
@@ -54,6 +54,24 @@ public class TreeOperator<E extends SearchState, Action extends AbstractAction<E
 		}
 		// System.out.println("Finished exp");
 
+	}
+
+	/**
+	 * sets the number of children to generate for every parent to generatedChildren
+	 * @param generatedChildren
+     */
+	public void setNumberOfGeneratedChildren(int generatedChildren)
+	{
+		noOfGenerChild = generatedChildren;
+	}
+
+	/**
+	 * sets the number of parents to expand to expandedParents
+	 * @param expandedParents
+     */
+	public void setNumberOfExpandedParents(int expandedParents)
+	{
+		noOfParents = expandedParents;
 	}
 
 	// TEST METHODS

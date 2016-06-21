@@ -7,7 +7,10 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 import framework.constants.CompoMappers;
 import physics.components.Position;
+import physics.constants.GlobalObjects;
+import physics.constants.PhysicsCoefficients;
 import physics.entities.Ball;
+import physics.generic.Rounder;
 import searchTree.TreeNode;
 
 import java.util.LinkedList;
@@ -22,6 +25,8 @@ import java.util.LinkedList;
 public class BotObserver extends PlayerObserver
 {
 
+    public static final float BOT_DT = .1f;
+
     public BotObserver()
     {
         forceListToSolution = new LinkedList<>();
@@ -30,16 +35,22 @@ public class BotObserver extends PlayerObserver
     @Override
     public Vector3 getForce(Game state)
     {
+        Rounder prevRounder = GlobalObjects.ROUND;
+
+        GlobalObjects.ROUND = new Rounder(PhysicsCoefficients.AI_ARITHMETIC_PRECISION, PhysicsCoefficients.AI_ARITHMETIC_TOLERANCE);
+
         Ball myBall = state.getBall(getPlayer());
         Vector3 goalPos = CompoMappers.GOAL.get(myBall.mEntity).mGoalSpace.getPosition();
         Entity target = new Entity();
         target.add(new Position(goalPos.x, goalPos.y, goalPos.z));
 
-        GolfSearchPerformer searchPerformer= new GolfSearchPerformer(state.getCurrentPlayers().get(0), state);
+        GolfSearchPerformer searchPerformer= new GolfSearchPerformer(state.getCurrentPlayers().get(0), state, BOT_DT);
 
         TreeNode<GolfState, GolfAction> solutionNode = searchPerformer.greedySolution();
 
         extractSolution(solutionNode);
+
+        GlobalObjects.ROUND = prevRounder;
 
         return forceListToSolution.pollFirst();
     }

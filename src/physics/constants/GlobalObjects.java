@@ -8,5 +8,5 @@ import physics.generic.Rounder;
  */
 public class GlobalObjects 
 {
-	public static final Rounder ROUND = new Rounder (PhysicsCoefficients.ARITHMETIC_PRECISION, PhysicsCoefficients.ARITHMETIC_TOLERANCE);
+	public static Rounder ROUND = new Rounder (PhysicsCoefficients.ARITHMETIC_PRECISION, PhysicsCoefficients.ARITHMETIC_TOLERANCE);
 }

@@ -28,11 +28,12 @@ public class TerrainTetrahedronBuilder
      */
     public SolidTranslator[] build(float thickness)
     {
-
+        //@TODO undo using one tetrahedron
         float bottomPlaneHeight = findLowestHeightValue() - thickness;
 
         //each triangle yields 3 tetrahedra
-        SolidTranslator[] tetrahedra = new SolidTranslator[mTerrainMesh.length * 3];
+   //     SolidTranslator[] tetrahedra = new SolidTranslator[mTerrainMesh.length * 3];
+        SolidTranslator[] tetrahedra = new SolidTranslator[mTerrainMesh.length];
 
         for (int cTriangle = 0; cTriangle < mTerrainMesh.length; ++cTriangle)
         {
@@ -47,16 +48,20 @@ public class TerrainTetrahedronBuilder
 
             //vertices translated to bottom plane y value, matching a, b, c in order
             Vector3 d, e, f;
-            d = new Vector3(a.x, bottomPlaneHeight, a.z);
+            d = new Vector3((a.x + b.x + c.x) / 3, bottomPlaneHeight, (a.z + b.z + c.z) / 3);
+/*            d = new Vector3(a.x, bottomPlaneHeight, a.z);
             e = new Vector3(b.x, bottomPlaneHeight, b.z);
             f = new Vector3(c.x, bottomPlaneHeight, c.z);
-
+*/
+/*
             //First tetrahedron ABCD with offset A
             tetrahedra[3*cTriangle] = makeAndPlaceTetrahedron(a, b, c, d);
             //Second tetrahedron CBFD
             tetrahedra[3*cTriangle + 1] = makeAndPlaceTetrahedron(c, b, d, f);
             //Third tetrahedron CDEF
             tetrahedra[3*cTriangle + 2] = makeAndPlaceTetrahedron(c, d, e, f);
+ */
+            tetrahedra[cTriangle] = makeAndPlaceTetrahedron(a, b, c, d);
         }
         return tetrahedra;
     }

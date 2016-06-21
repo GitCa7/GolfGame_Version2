@@ -1,6 +1,7 @@
 package physics.geometry.spatial;
 
 import com.badlogic.gdx.math.Vector3;
+import physics.constants.GlobalObjects;
 import physics.generic.PowersetGenerator;
 import physics.geometry.VertexGenerator;
 import physics.geometry.planar.Rectangle;
@@ -109,7 +110,8 @@ public class BoxBuilder
         {
             for (int nComparing = 0; nComparing < mDirections.length; ++nComparing)
             {
-                if (nCompare != nComparing && mDirections[nCompare].dot (mDirections[nComparing]) != 0)
+                if (    nCompare != nComparing &&
+                        !GlobalObjects.ROUND.epsilonEquals (mDirections[nCompare].dot (mDirections[nComparing]), 0))
                     return false;
             }
         }

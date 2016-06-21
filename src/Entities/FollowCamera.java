@@ -1,5 +1,8 @@
 package Entities;
 
+import GamePackage.GameVisual;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector3;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
@@ -11,15 +14,22 @@ public class FollowCamera extends Camera implements InputObserver{
 	private float angleAroundPlayer = 0;
 	private gameEntity player;
 	private Vector3f pos = new Vector3f(0,0,0);
-	
-	private float ArrowScale = 1;
-	private boolean sizeIncrease;
-	private final float maxScale = 3.0f;
-	private final float minScale = 0.5f;
+
 		
+	private GameVisual parent;
+
+
+	public FollowCamera(GolfBall playerObject,GameVisual parent)	{
+
+		this.player = playerObject;
+		this.parent = parent;
+		super.setPosition(pos);
+	}
 	
 	public FollowCamera(GolfBall playerObject)	{
+
 		this.player = playerObject;
+		this.parent = null;
 		super.setPosition(pos);
 	}
 	
@@ -42,7 +52,7 @@ public class FollowCamera extends Camera implements InputObserver{
 			super.setYaw(180 - (player.getRotY() + angleAroundPlayer));
 			super.setYaw(super.getYaw() % 360);
 			super.setPosition(pos);
-			updateArrowScale();
+
 		}
 	}
 	
@@ -156,33 +166,32 @@ public class FollowCamera extends Camera implements InputObserver{
 			super.setPosition(pos);
 		}
 	}
-	
-	private void updateArrowScale()	{
-		if(sizeIncrease)	{
-			if(ArrowScale >= maxScale)	{
-				sizeIncrease = false;
-			}
-			else {
-				ArrowScale += 0.01f;
-			}
-		}
-		else	{
-			if(ArrowScale <= minScale)	{
-				sizeIncrease = true;
-			}
-			else {
-				ArrowScale -= 0.01f;
-			}
-		}
-	}
-	
-	public float getArrowScale()	{
-		return ArrowScale;
-	}
-	
-	public void resetArrowScale()	{
-		ArrowScale = 1;
-	}
 
+	public Vector3 inputLoop(){
+		boolean up = true;
+		float curForce = 500;
+		while(!Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
+			//System.out.println(curForce);
+			if(up){
+				curForce += 10;
+			}else{
+				curForce -= 10;
+			}
+			if (up&&curForce>2000){
+				up = false;
+			}
+			if(!up&&curForce<500){
+				up = true;
+			}
+			parent.directionArrow.setScale(curForce/300);
+			parent.updateDisplay();
+		}
+		Vector3 dir = new Vector3(0,0,1);
+		dir.rotate(parent.directionArrow.getRotY(),0,1,0);
+		return new Vector3(dir.x*curForce,curForce/5,dir.z*curForce);
+	}
+	
+	
+	
 	
 }
