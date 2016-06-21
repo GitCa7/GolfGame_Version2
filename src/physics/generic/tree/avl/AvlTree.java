@@ -1,6 +1,7 @@
 package physics.generic.tree.avl;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Stack;
 
 import physics.generic.QuickSort;
@@ -15,8 +16,8 @@ import physics.generic.tree.avl.BinTreeNode.Side;
  * @author martin
  * @param <T> type to store in tree
  */
-public class AvlTree<T extends Comparable<T>> implements Cloneable
-{	
+public class AvlTree<T> implements Cloneable
+{
 	/**
 	 * exception thrown if node requested does not exist
 	 * @author martin
@@ -73,7 +74,7 @@ public class AvlTree<T extends Comparable<T>> implements Cloneable
 				return -1;
 			else if (comp.mNode == null)
 				return 1;
-			return mNode.getElement().compareTo (comp.mNode.getElement());
+			return mComparator.compare(mNode.getElement(), comp.mNode.getElement());
 		}
 		
 		private BinTreeNode<T> mNode;
@@ -82,8 +83,9 @@ public class AvlTree<T extends Comparable<T>> implements Cloneable
 	/**
 	 * default constructor
 	 */
-	public AvlTree()
+	public AvlTree(Comparator<T> comparator)
 	{
+		mComparator = comparator;
 		mSize = 0;
 	}
 	
@@ -123,12 +125,12 @@ public class AvlTree<T extends Comparable<T>> implements Cloneable
 		{
 			public Cloner()
 			{
-				mClone = new AvlTree<>();
+				mClone = new AvlTree<>(mComparator);
 			}
 			
 			public void visit (T elem)
 			{
-				if (mLast == null || mLast.getElement().compareTo (elem) < 0)
+				if (mLast == null || mComparator.compare(mLast.getElement(), elem) < 0)
 				{
 					mClone.add (elem);
 					mLast = mClone.getNode (elem, true);
@@ -270,7 +272,7 @@ public class AvlTree<T extends Comparable<T>> implements Cloneable
 		{
 			BinTreeNode<T> leaf = getClosestLeaf (addVal);
 			//add new node to tree
-			if (addVal.compareTo (leaf.getElement()) < 0)
+			if (mComparator.compare(addVal, leaf.getElement()) < 0)
 			{
 				leaf.setChild (new BinTreeNode<> (addVal, leaf), Side.LEFT);
 				leaf = leaf.getChild (Side.LEFT);
@@ -415,7 +417,7 @@ public class AvlTree<T extends Comparable<T>> implements Cloneable
 	 */
 	private BinTreeNode<T> getNode (T elem, boolean caching)
 	{
-		if (mCache != null && mCache.getElement().compareTo (elem) == 0)
+		if (mCache != null && mComparator.compare(mCache.getElement(), elem) == 0)
 		{
 			if (!caching)
 			{
@@ -428,7 +430,7 @@ public class AvlTree<T extends Comparable<T>> implements Cloneable
 		BinTreeNode<T> currNode = mRoot;
 		while (currNode != null)
 		{
-			int indicator = currNode.getElement().compareTo (elem);
+			int indicator = mComparator.compare(currNode.getElement(), elem);
 			if (indicator == 0)
 			{
 				if (caching)
@@ -456,7 +458,7 @@ public class AvlTree<T extends Comparable<T>> implements Cloneable
 		{
 			if (curr.hasChild (Side.LEFT) && curr.hasChild (Side.RIGHT))
 			{
-				if (val.compareTo (curr.getElement()) < 0)
+				if (mComparator.compare(val, curr.getElement()) < 0)
 					curr = curr.getChild (Side.LEFT);
 				else
 					curr = curr.getChild (Side.RIGHT);
@@ -551,4 +553,6 @@ public class AvlTree<T extends Comparable<T>> implements Cloneable
 	//stores root, last node accessed via getNode()
 	private BinTreeNode<T> mRoot, mCache;
 	private int mSize;
+
+	private Comparator<T> mComparator;
 }
