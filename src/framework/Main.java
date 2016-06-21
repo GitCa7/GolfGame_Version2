@@ -30,7 +30,7 @@ public class Main
 
      //   Movement.DEBUG= true;
      //   CollisionImpactSystem.DEBUG = true;
-     //   CollisionDetectionSystem.DEBUG = true;
+        CollisionDetectionSystem.DEBUG = true;
         Game.DEBUG = true;
         GoalSystem.DEBUG = true;
 

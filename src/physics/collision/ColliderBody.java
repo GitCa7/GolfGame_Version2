@@ -22,7 +22,7 @@ public class ColliderBody extends ColliderSolid
 	/**
 	 * @return body colliding stored
 	 */
-	public Body getCollidingBody() { return mColliding; }
+	public Body getBody() { return mColliding; }
 
 	private Body mColliding;
 }

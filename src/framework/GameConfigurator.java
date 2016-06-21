@@ -10,9 +10,7 @@ import framework.systems.GoalSystemFactory;
 import framework.systems.TurnSystemFactory;
 import framework.entities.EntityFactory;
 
-import physics.collision.CollisionRepository;
-import physics.collision.TerrainPartition;
-import physics.collision.TerrainTetrahedronBuilder;
+import physics.collision.*;
 import physics.components.*;
 import physics.constants.PhysicsCoefficients;
 import physics.entities.Ball;
@@ -375,6 +373,11 @@ public class GameConfigurator
         normalForceFactory.setRepository(collisionRepo);
         nonPenetrationFactory.setRepository(collisionRepo);
         frictionSystemFactory.setRepository(collisionRepo);
+
+        //set collision detector in collision detection system
+        BroadCollisionFinder broadFinder = new PruneAndSweep();
+        NarrowCollisionFinder narrowFinder = new NaiveCollisionFinder();
+        collisionDetectionFactory.setCollisionDetector(new CollisionDetector(broadFinder, narrowFinder));
 
         //additional component factories for balls
         VelocityFactory ballVelocityFactory = new VelocityFactory();

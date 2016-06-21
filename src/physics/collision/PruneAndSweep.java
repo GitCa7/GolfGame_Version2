@@ -1,7 +1,7 @@
 package physics.collision;
 
 import com.badlogic.gdx.math.Vector3;
-import physics.components.Body;
+import physics.constants.Families;
 import physics.generic.QuickSort;
 import physics.geometry.spatial.Box;
 
@@ -14,7 +14,7 @@ import java.util.HashSet;
  * Class performing the prune and sort algorithm
  * @author martin
  */
-public class PruneAndSweep extends CollisionFinder
+public class PruneAndSweep extends BroadCollisionFinder
 {
 
     public enum Coordinate {X, Y, Z}
@@ -64,11 +64,7 @@ public class PruneAndSweep extends CollisionFinder
         private CoordinateExtractor mCoord;
     }
 
-    public PruneAndSweep(ArrayList<EntityAndBody> bodies)
-    {
-        super(bodies);
-    }
-
+    public PruneAndSweep clone() { return new PruneAndSweep(); }
 
     public Collection<ColliderPair<ColliderEntity>> possibleCollisions()
     {
@@ -86,30 +82,28 @@ public class PruneAndSweep extends CollisionFinder
 
     private HashSet<ColliderPair<ColliderEntity>> getIntersectionsFor(CoordinateExtractor coord, int nCoord)
     {
-        QuickSort<EntityAndBody> sorter = new QuickSort<>(getBodies(), new Intersector(coord));
+        QuickSort<EntityAndBody> sorter = new QuickSort<>(getAllBodies(), new Intersector(coord));
         sorter.sort(0, sorter.size() - 1);
 
         HashSet<ColliderPair<ColliderEntity>> lineCollisions = new HashSet<>();
         for (int cSorted = 0; cSorted < sorter.size(); ++cSorted)
         {
+            boolean sortedMoving = Families.MOVING.matches(sorter.get(cSorted).mEntity);
             int cCompare = cSorted + 1;
             while (cCompare < sorter.size() && doCoordinatesIntersect(sorter.get(cSorted), sorter.get(cCompare), coord, nCoord))
             {
-                ColliderEntity e1 = getIncompleteCollider(sorter.get(cSorted));
-                ColliderEntity e2 = getIncompleteCollider(sorter.get(cCompare));
-                lineCollisions.add(new ColliderPair<>(e1, e2));
+                if (sortedMoving || Families.MOVING.matches(sorter.get(cCompare).mEntity))
+                {
+                    ColliderEntity e1 = getIncompleteCollider(sorter.get(cSorted));
+                    ColliderEntity e2 = getIncompleteCollider(sorter.get(cCompare));
+                    lineCollisions.add(new ColliderPair<>(e1, e2));
+                }
+
+                ++cCompare;
             }
         }
 
         return lineCollisions;
-    }
-
-
-    private ColliderEntity getIncompleteCollider(EntityAndBody entity)
-    {
-        ColliderSolid colliderSolid = new ColliderSolid(null, null);
-        ColliderBody colliderBody = new ColliderBody(entity.mBody, colliderSolid);
-        return new ColliderEntity(entity.mEntity, colliderBody);
     }
 
     private boolean doCoordinatesIntersect (EntityAndBody b1, EntityAndBody b2, CoordinateExtractor coord, int dimValue)
@@ -117,9 +111,9 @@ public class PruneAndSweep extends CollisionFinder
         float o1 = coord.getValue(b1.mBody.getBound().getBoundingBox().getPosition());
         float o2 = coord.getValue(b2.mBody.getBound().getBoundingBox().getPosition());
 
-        float l2 = ((Box) b2.mBody.getBound().getBoundingBox().getSolid()).getDimensions()[dimValue];
+        float l1 = ((Box) b1.mBody.getBound().getBoundingBox().getSolid()).getDimensions()[dimValue];
 
-        if (o1 >= o2 && o1 <= o2 + l2)
+        if (o1 <= o2 && o2 <= o1 + l1)
             return true;
         return false;
     }

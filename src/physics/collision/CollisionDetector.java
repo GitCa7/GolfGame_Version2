@@ -12,92 +12,92 @@ import java.util.HashSet;
  * @autor martin
  * created 13.05.2016
  */
-public class CollisionDetector
+public class CollisionDetector implements Cloneable
 {
 
-
-	public CollisionDetector ()
+	/**
+	 * construct a collision detector using a one-phase approach
+	 * @param finder a collision finder returning complete collider pairs
+     */
+	public CollisionDetector (NarrowCollisionFinder finder)
 	{
 		mActive = new HashSet<>();
 		mAll = new HashSet<>();
+
+		mBroadFinder = null;
+		mNarrowFinder = finder;
+	}
+
+	/**
+	 * construct collision detector differentiating between broad and narrow phase
+	 * @param broadFinder a collision finder which may return incomplete collider pairs lacking solids/vertices
+	 *                    used for the broad phase
+	 * @param narrowFinder a collision finder returning complete collider pairs used for narrow phase
+     */
+	public CollisionDetector (BroadCollisionFinder broadFinder, NarrowCollisionFinder narrowFinder)
+	{
+		mActive = new HashSet<>();
+		mAll = new HashSet<>();
+
+		mBroadFinder = broadFinder;
+		mNarrowFinder = narrowFinder;
+	}
+
+	/**
+	 * @return a copy of this collision detector containing no entities to check
+     */
+	public CollisionDetector clone()
+	{
+		if (mBroadFinder == null)
+			return new CollisionDetector(mNarrowFinder.clone());
+
+		return new CollisionDetector(mBroadFinder.clone(), mNarrowFinder.clone());
 	}
 
 	/**
 	 *
 	 * @return a collider for each unordered pair of (active|passive) or (active/active) physics.entities
 	 */
-	public ArrayList<ColliderPair<ColliderEntity>> getAnyColliding()
+	public Collection<ColliderPair<ColliderEntity>> getAnyColliding()
 	{
-		//clone sets
-		HashSet<EntityAndBody> currentBodies = (HashSet<EntityAndBody>) mAll.clone();
-
-		ArrayList<ColliderPair<ColliderEntity>> colliding = new ArrayList<>();
-
-		//for every active|all pair check for physics.collision
-		for (EntityAndBody activeBody : mActive)
+		if (mBroadFinder != null)
 		{
-			currentBodies.remove (activeBody);
-			for (EntityAndBody passiveBody : currentBodies)
-			{
-				//if colliding: add as collider pair
-				//@TODO store intersection detectors permanently
-				BodyIntersectionDetector checkBodies = new BodyIntersectionDetector (activeBody.mBody, passiveBody.mBody);
-				checkBodies.checkForIntersection();
-				if (checkBodies.doIntersect())
-				{
-					ColliderPair<ColliderBody> cPair = checkBodies.getBodyCollision();
-					ColliderBody cb1 = cPair.getFirst();
-					ColliderBody cb2 = cPair.getSecond();
-					ColliderEntity ec1 = new ColliderEntity(activeBody.mEntity, cb1);
-					ColliderEntity ec2 = new ColliderEntity(passiveBody.mEntity, cb2);
-					ColliderPair<ColliderEntity> ePair = new ColliderPair<>(ec1, ec2);
-					colliding.add(ePair);
-				}
-			}
+			Collection<ColliderPair<ColliderEntity>> narrowInput = mBroadFinder.possibleCollisions();
+			mNarrowFinder.setPossibleCollisions(narrowInput);
 		}
 
-		return colliding;
+		return mNarrowFinder.collisions();
 	}
 
 	/**
-	 * adds e to the set of physics.entities to check for collisions with.
-	 * @param e an entity belonging to the colliding family
-	 * @throws IllegalArgumentException if e was already stored
-	 */
-	public void add (Entity e)
-	{
-		EntityAndBody ePair = new EntityAndBody(e);
-		boolean notPresent = mAll.add (ePair);
-		if (!notPresent)
-			throw new IllegalArgumentException ("entity " + e + " was already contained");
-		if (Families.ACCELERABLE.matches (e))
-			mActive.add (ePair);
-	}
-
-	/**
-	 * adds all elements of es to the collision detector. For all entities added,
-	 * collisions will be checked.
-	 * @param es a collection of entities all belonging to the colliding family
+	 * set the entities for which to detect collisions
+	 * @param allEntities collection of entities to check
      */
-	public void addAll(Collection<Entity> es)
+	public void setEntities(Collection<Entity> allEntities)
 	{
-		for (Entity e : es)
-			add (e);
+		mAll.clear();
+		mActive.clear();
+
+		for (Entity entity : allEntities)
+		{
+			EntityAndBody entityAndBody = new EntityAndBody(entity);
+			mAll.add(entityAndBody);
+			if (Families.MOVING.matches(entity))
+				mActive.add(entityAndBody);
+		}
+
+		initCollisionFinder();
 	}
 
-	/**
-	 * removes  e from the set of physics.entities to check for collisions if e is stored there.
-	 * Otherwise nothing happens.
-	 * @param e an entity
-	 */
-	public void remove (Entity e)
+	private void initCollisionFinder()
 	{
-		EntityAndBody ePair = new EntityAndBody(e);
-		mActive.toArray()[0].equals(ePair);
-		if (Families.ACCELERABLE.matches (e))
-			mActive.remove (ePair);
-		mAll.remove (ePair);
+		if (mBroadFinder != null)
+			mBroadFinder.setBodies(mAll, mActive);
+		else
+			mNarrowFinder.setCollidingEntities(mAll, mActive);
 	}
 
 	private HashSet<EntityAndBody> mActive, mAll;
+	private BroadCollisionFinder mBroadFinder;
+	private NarrowCollisionFinder mNarrowFinder;
 }

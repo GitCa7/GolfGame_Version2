@@ -1,10 +1,7 @@
 package physics.collision;
 
 import com.badlogic.ashley.core.Entity;
-import physics.constants.CompoMappers;
 import physics.constants.Families;
-import physics.geometry.spatial.Solid;
-import physics.components.Body;
 
 /**
  * stores colliding entity together with the part of the entity (i.e. a solid it is composed of)
@@ -21,7 +18,7 @@ public class ColliderEntity extends ColliderBody
 	 */
 	public ColliderEntity(Entity collidingEntity, ColliderBody collidingBody)
 	{
-		super (collidingBody.getCollidingBody(), collidingBody);
+		super (collidingBody.getBody(), collidingBody);
 		mColliding = collidingEntity;
 
 
