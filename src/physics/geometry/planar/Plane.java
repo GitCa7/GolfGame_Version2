@@ -52,7 +52,9 @@ public class Plane
 	{
 		mNormal = normal;
 		mOffset = offset;
-		distance = mOffset.dot(normal);
+
+		mNormal.nor();
+		setDistance();
 	}
 
 	/**
@@ -78,7 +80,7 @@ public class Plane
 
 		mOffset = points[0];
 		setNormal (indep[0], indep[1]);
-		distance = mOffset.dot(mNormal);
+		setDistance();
 
 		if (!inPlane (points))
 			throw new IllegalArgumentException ("points lie in a 3d space");
@@ -130,6 +132,20 @@ public class Plane
 	}
 
 	/**
+	 * @return the smallest distance of the plane to the origin
+     */
+	public float getDistanceToOrigin(){return mDistanceOrigin;}
+
+	/**
+	 * @param point an arbitrary point
+	 * @return the distance to the plane
+     */
+	public float getDistanceToPlane(Vector3 point)
+	{
+		return mNormal.dot(point) + getDistanceToOrigin();
+	}
+
+	/**
 	 * @param v1 a vector in the plane, lin. independent from v2
 	 * @param v2 a vector in the plane, lin independent from v1
 	 * Postcondition: sets normal vector to the cross product of v1, v2
@@ -141,10 +157,13 @@ public class Plane
 		mNormal.nor();
 	}
 
-	public float getDistance(){return distance;}
 
+	private void setDistance()
+	{
+		mDistanceOrigin = -mNormal.dot(mOffset);
+	}
 
 
 	private Vector3 mOffset, mNormal;
-	private float distance;
+	private float mDistanceOrigin;
 }
