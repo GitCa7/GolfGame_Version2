@@ -100,7 +100,7 @@ public class TerrainData implements Serializable {
     	terraCalc = new TerrainGeometryCalc(null);
         terraCalc.generateTerrain(vertices, normals, textureCoords, indices, leafs, SIZE, null);
     	//System.out.println("Attributres before calculation: \n" + "Amount of vertices: " + "\t" + vertices.length + "\nAmount of indices: " + "\t" + indices.length + "\nAmount of normals: " + "\t" + normals.length + "\nAmount of Texture Coordinates: " + "\t" + textureCoords.length + "\nAmount of Triangles: " + "\t" + terraCalc.getAllTris(this).size());
-    	//tetrahedons = terraCalc.getAllTetrahedons(this);
+    	tetrahedons = terraCalc.getAllTetrahedons(this);
     }
     
     private void updateTetraList()	{
@@ -171,10 +171,10 @@ public class TerrainData implements Serializable {
     	TerrainData terraDat = new TerrainData(8, 300);
     	TerrainGeometryCalc calculate = new TerrainGeometryCalc();
     	ArrayList<Triangle> list = calculate.getAllTris(terraDat);
-    	/*
+    	
     	for(Triangle tri : list)	{
     		System.out.println(tri);
-    	}*/
+    	}
     	//calculate.printAllIndices(terraDat);
     }
 
