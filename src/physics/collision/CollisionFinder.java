@@ -13,7 +13,7 @@ public abstract class CollisionFinder
     /**
      * @param bodies the bodies for which to determine the pairs which may be colliding
      */
-    public CollisionFinder(ArrayList<Body> bodies)
+    public CollisionFinder(Collection<EntityAndBody> bodies)
     {
         mBodies = bodies;
     }
@@ -21,10 +21,10 @@ public abstract class CollisionFinder
     /**
      * @return the bodies stored
      */
-    public ArrayList<Body> getBodies() { return mBodies; }
+    public Collection<EntityAndBody> getBodies() { return mBodies; }
 
-    public abstract ArrayList<BodyPair> possibleCollisions();
+    public abstract Collection<ColliderPair<ColliderEntity>> possibleCollisions();
 
 
-    private ArrayList<Body> mBodies;
+    private Collection<EntityAndBody> mBodies;
 }

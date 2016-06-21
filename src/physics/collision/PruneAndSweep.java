@@ -40,7 +40,7 @@ public class PruneAndSweep extends CollisionFinder
         public float getValue (Vector3 v) {return v.z; }
     }
 
-    public class Intersector implements Comparator<Body>
+    public class Intersector implements Comparator<EntityAndBody>
     {
 
         public Intersector(CoordinateExtractor coord)
@@ -49,10 +49,10 @@ public class PruneAndSweep extends CollisionFinder
         }
 
         @Override
-        public int compare(Body left, Body right)
+        public int compare(EntityAndBody left, EntityAndBody right)
         {
-            Vector3 leftOffset = left.getBound().getBoundingBox().getPosition();
-            Vector3 rightOffset = right.getBound().getBoundingBox().getPosition();
+            Vector3 leftOffset = left.mBody.getBound().getBoundingBox().getPosition();
+            Vector3 rightOffset = right.mBody.getBound().getBoundingBox().getPosition();
 
             if (mCoord.getValue(leftOffset) < mCoord.getValue(rightOffset))
                 return -1;
@@ -64,15 +64,15 @@ public class PruneAndSweep extends CollisionFinder
         private CoordinateExtractor mCoord;
     }
 
-    public PruneAndSweep(ArrayList<Body> bodies)
+    public PruneAndSweep(ArrayList<EntityAndBody> bodies)
     {
         super(bodies);
     }
 
 
-    public ArrayList<BodyPair> possibleCollisions()
+    public Collection<ColliderPair<ColliderEntity>> possibleCollisions()
     {
-        HashSet<BodyPair> interX, interY, interZ;
+        HashSet<ColliderPair<ColliderEntity>> interX, interY, interZ;
         interX = getIntersectionsFor(new XExtractor(), 0);
         interY = getIntersectionsFor(new YExtractor(), 1);
         interZ = getIntersectionsFor(new ZExtractor(), 2);
@@ -84,28 +84,40 @@ public class PruneAndSweep extends CollisionFinder
 
 
 
-    private HashSet<BodyPair> getIntersectionsFor(CoordinateExtractor coord, int nCoord)
+    private HashSet<ColliderPair<ColliderEntity>> getIntersectionsFor(CoordinateExtractor coord, int nCoord)
     {
-        QuickSort<Body> sorter = new QuickSort<Body>(getBodies(), new Intersector(coord));
+        QuickSort<EntityAndBody> sorter = new QuickSort<>(getBodies(), new Intersector(coord));
         sorter.sort(0, sorter.size() - 1);
 
-        HashSet<BodyPair> lineCollisions = new HashSet<>();
+        HashSet<ColliderPair<ColliderEntity>> lineCollisions = new HashSet<>();
         for (int cSorted = 0; cSorted < sorter.size(); ++cSorted)
         {
             int cCompare = cSorted + 1;
             while (cCompare < sorter.size() && doCoordinatesIntersect(sorter.get(cSorted), sorter.get(cCompare), coord, nCoord))
-                lineCollisions.add(new BodyPair(sorter.get(cSorted), sorter.get(cCompare)));
+            {
+                ColliderEntity e1 = getIncompleteCollider(sorter.get(cSorted));
+                ColliderEntity e2 = getIncompleteCollider(sorter.get(cCompare));
+                lineCollisions.add(new ColliderPair<>(e1, e2));
+            }
         }
 
         return lineCollisions;
     }
 
-    private boolean doCoordinatesIntersect (Body b1, Body b2, CoordinateExtractor coord, int dimValue)
-    {
-        float o1 = coord.getValue(b1.getBound().getBoundingBox().getPosition());
-        float o2 = coord.getValue(b2.getBound().getBoundingBox().getPosition());
 
-        float l2 = ((Box) b2.getBound().getBoundingBox().getSolid()).getDimensions()[dimValue];
+    private ColliderEntity getIncompleteCollider(EntityAndBody entity)
+    {
+        ColliderSolid colliderSolid = new ColliderSolid(null, null);
+        ColliderBody colliderBody = new ColliderBody(entity.mBody, colliderSolid);
+        return new ColliderEntity(entity.mEntity, colliderBody);
+    }
+
+    private boolean doCoordinatesIntersect (EntityAndBody b1, EntityAndBody b2, CoordinateExtractor coord, int dimValue)
+    {
+        float o1 = coord.getValue(b1.mBody.getBound().getBoundingBox().getPosition());
+        float o2 = coord.getValue(b2.mBody.getBound().getBoundingBox().getPosition());
+
+        float l2 = ((Box) b2.mBody.getBound().getBoundingBox().getSolid()).getDimensions()[dimValue];
 
         if (o1 >= o2 && o1 <= o2 + l2)
             return true;
