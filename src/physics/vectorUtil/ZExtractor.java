@@ -13,4 +13,9 @@ public class ZExtractor implements CoordinateExtractor
     public float extract(Vector3 v) {
         return v.z;
     }
+
+    public void set(Vector3 setTo, float value)
+    {
+        setTo.set(setTo.x, setTo.y, value);
+    }
 }

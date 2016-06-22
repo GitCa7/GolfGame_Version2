@@ -77,11 +77,9 @@ public class Movement extends EntitySystem
 			//v = dp / dt
 			//initial condition y = [dv, dp] = [F / m, p]
 
-			float x = solveODE(f, v, p, m.mMass, dTime, new XExtractor());
-			float y = solveODE(f, v, p, m.mMass, dTime, new YExtractor());
-			float z = solveODE(f, v, p, m.mMass, dTime, new ZExtractor());
-
-			p.set(x, y, z);
+			solveODE(f, v, p, m.mMass, dTime, new XExtractor());
+			solveODE(f, v, p, m.mMass, dTime, new YExtractor());
+			solveODE(f, v, p, m.mMass, dTime, new ZExtractor());
 
 			if (CompoMappers.BODY.has(move))
 				moveBody(CompoMappers.BODY.get(move), p);
@@ -128,7 +126,7 @@ public class Movement extends EntitySystem
 	}
 
 	/**
-	 *
+	 * solves the de for a particular coordinate and set the values
 	 * @param force
 	 * @param velocity
 	 * @param position
@@ -137,40 +135,44 @@ public class Movement extends EntitySystem
      * @param extractor
      * @return the displacement for the given coordinate
      */
-	private float solveODE(Vector3 force, Vector3 velocity, Vector3 position, double mass, float time, CoordinateExtractor extractor)
+	private void solveODE(Vector3 force, Vector3 velocity, Vector3 position, double mass, float time, CoordinateExtractor extractor)
 	{
-		double initA = extractor.extract(force) / mass;
-		double initV = extractor.extract(velocity);
-		double initP = extractor.extract(position);
 
-		ODEquation deAcceleration = new ODEquation() {
-			@Override
-			public double evaluate(double t, double[] ys) {
-				return ys[0];
-			}
-		};
-
-		ODEquation deVelocity = new ODEquation() {
+		class VelocityDE implements ODEquation
+		{
 			@Override
 			public double evaluate(double t, double[] ys)
 			{
-				//a = dv / dt
 				return ys[0] / t;
 			}
-		};
-		ODEquation dePosition = new ODEquation() {
-			@Override
-			public double evaluate(double t, double[] ys) {
-				//v = dp / dt
-				return ys[1] / t;
-			}
-		};
+		}
 
-		getODESolver().setEquations(deAcceleration, deVelocity, dePosition);
-		getODESolver().setInitialYs(initA, initV, initP);
+		class PositionDE implements ODEquation
+		{
+
+			public PositionDE(double v0) { mV0 = v0; }
+
+			@Override
+			public double evaluate(double t, double[] ys)
+			{
+				return (mV0 + ys[0]) * t;
+			}
+
+			private double mV0;
+		}
+
+		double v0 = extractor.extract(velocity);
+
+		double initV = extractor.extract(force)  / mass * PhysicsCoefficients.FORCE_TO_MOMENTUM_COEFFICIENT;
+		double initP = 0;
+
+		getODESolver().setEquations(new VelocityDE(), new PositionDE(v0));
+		getODESolver().setInitialYs(initV, initP);
 		getODESolver().setInitialT(1);
 
-		return (float) getODESolver().solve(time + 1, PhysicsCoefficients.ODE_STEPS)[1];
+		double[] solution = getODESolver().solve(time + 1, PhysicsCoefficients.ODE_STEPS);
+		extractor.set(velocity, (float) solution[0] + extractor.extract(velocity));
+		extractor.set(position, (float) solution[1] + extractor.extract(position));
 	}
 
 

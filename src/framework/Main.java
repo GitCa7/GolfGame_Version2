@@ -29,7 +29,7 @@ public class Main
     {
 
         Movement.DEBUG= true;
-     //   CollisionImpactSystem.DEBUG = true;
+        CollisionImpactSystem.DEBUG = true;
         CollisionDetectionSystem.DEBUG = true;
         Game.DEBUG = true;
         GoalSystem.DEBUG = true;
@@ -42,7 +42,7 @@ public class Main
         }
     }
 
-    public static final float DELTA_TIME = 0.01f;
+    public static final float DELTA_TIME = .1f;
     public static final int FRAMES = (int) (1.2 * 1000 * DELTA_TIME);
 
 
