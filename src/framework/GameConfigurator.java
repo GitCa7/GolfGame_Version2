@@ -51,6 +51,7 @@ public class GameConfigurator
         mBallBodyFactory = new BodyFactory();
 
         mBallGoalFactory = new GoalFactory();
+        mBallOwnershipFactory = new OwnershipFactory();
 
         mPlayerNameFactory = new NameFactory();
 
@@ -88,6 +89,7 @@ public class GameConfigurator
         mBallBodyFactory = new BodyFactory();
 
         mBallGoalFactory = new GoalFactory();
+        mBallOwnershipFactory = new OwnershipFactory();
 
         mPlayerNameFactory = new NameFactory();
 
@@ -318,7 +320,7 @@ public class GameConfigurator
      * @param initPos ball's initial position
      * @return a ball instance containing a ball entity with components for the desired properties
      */
-    private Ball constructBall(float radius, float mass, Vector3 initPos)
+    private Ball constructBall(float radius, float mass, Vector3 initPos, Player owner)
     {
         //@TODO tetrahedrize sphere
         Vector3 ballCenter = new Vector3(initPos.x + radius, initPos.y + radius, initPos.z + radius);
@@ -326,6 +328,7 @@ public class GameConfigurator
 
         mBallPositionFactory.setVector(initPos);
         mBallMassFactory.setParameter(mass);
+        mBallOwnershipFactory.setOwner(owner.mEntity);
         mBallBodyFactory.clear();
 
     /*
@@ -466,6 +469,7 @@ public class GameConfigurator
         ComponentBundle ballGravity = new ComponentBundle(ballGravityFactory, gravitySystemFactory, normalForceFactory);
         ComponentBundle ballWind = new ComponentBundle(ballWindFactory, windSystemFactory);
         ComponentBundle ballGoal = new ComponentBundle(mBallGoalFactory, goalSystemFactory);
+        ComponentBundle ballOwnership = new ComponentBundle(mBallOwnershipFactory);
 
 
         //simplyfied
@@ -482,6 +486,7 @@ public class GameConfigurator
         mBallFactory.addComponent(ballPosition, ballVelocity, ballFriction);
         mBallFactory.addComponent(ballForce, ballGravity, ballWind);
         mBallFactory.addComponent(ballMass, ballBody, ballGoal);
+        mBallFactory.addComponent(ballOwnership);
 
         //additional component factories for players
         TurnFactory playerTurnFactory = new TurnFactory();
@@ -516,8 +521,9 @@ public class GameConfigurator
      */
     private void addPlayerAndBall(String name, float ballRadius, float ballMass, Vector3 initBallPos, PlayerObserver inputMethod)
     {
-        Ball b = constructBall(ballRadius, ballMass, initBallPos);
         Player p = constructPlayer(name);
+        Ball b = constructBall(ballRadius, ballMass, initBallPos, p);
+
         //set the first player as active player
         if (mBallMap.isEmpty())
         {
@@ -591,6 +597,7 @@ public class GameConfigurator
     private MassFactory mBallMassFactory;
     private BodyFactory mBallBodyFactory;
     private GoalFactory mBallGoalFactory;
+    private OwnershipFactory mBallOwnershipFactory;
     /** player */
     private NameFactory mPlayerNameFactory;
     /** obstacles */
