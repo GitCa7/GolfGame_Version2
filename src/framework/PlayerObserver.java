@@ -1,5 +1,6 @@
 package framework;
 
+import Entities.FollowCamera;
 import com.badlogic.gdx.math.Vector3;
 import framework.constants.CompoMappers;
 import framework.entities.Player;
@@ -13,6 +14,7 @@ import physics.entities.Ball;
  */
 public abstract class PlayerObserver implements GameObserver
 {
+    private FollowCamera cam;
 
     public PlayerObserver()
     {
@@ -28,7 +30,7 @@ public abstract class PlayerObserver implements GameObserver
         mMatchingPlayer = match;
         mTurn = false;
     }
-
+    public void setCam(FollowCamera cam){this.cam=cam;}
     public void update(Game state)
     {
         if (mMatchingPlayer == null)

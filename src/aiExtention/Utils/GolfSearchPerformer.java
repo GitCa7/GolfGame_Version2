@@ -61,7 +61,9 @@ public class GolfSearchPerformer {
 		this.evaluator= new AStarEvaluator();
 		this.generator= new GolfGenerator(aiEngine, evaluator, deltaTime);
 		this.goalTester=new GolfGoalTester();
-		return rootNode;
+		AStar<GolfState,GolfAction> astatr= new AStar<>(generator,goalTester,new GolfStateComparator(2000,2000,30));
+		System.out.println(astatr);
+		return astatr.runAStar(rootNode);
 		
 	}
 	public TreeNode<GolfState, GolfAction> greedySolution(){

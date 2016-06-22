@@ -43,7 +43,7 @@ public class BotObserver extends PlayerObserver {
 
         GolfSearchPerformer searchPerformer = new GolfSearchPerformer(state.getCurrentPlayers().get(0), state, BOT_DT);
 
-        TreeNode<GolfState, GolfAction> solutionNode = searchPerformer.greedySolution();
+        TreeNode<GolfState, GolfAction> solutionNode = searchPerformer.aStarSolution();
         System.out.println(solutionNode.getNodeDeapth() + "aaaaa");
 
         extractSolution(solutionNode);

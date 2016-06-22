@@ -27,7 +27,9 @@ public class GreedyOperator<E extends SearchState, Action extends AbstractAction
 		System.out.println("Running search");
 		System.out.println("Statetest " + !goalTester.test(searchTree.getListOfNodes(depth).peek().getState()));
 		while (!goalTester.test(searchTree.getListOfNodes(depth).peek().getState()) && depth < 2) {
+			System.out.println("test before exp");
 			expandDeapth(depth);
+			System.out.println("test after exp");
 			depth++;
 
 			nodesExp++;
@@ -50,9 +52,9 @@ public class GreedyOperator<E extends SearchState, Action extends AbstractAction
 		for (int i = 1; i <= nodesToExpand; i++) {
 			TreeNode<E, Action> tempParent = searchTree.getListOfNodes(deapth).poll();
 			for (int j = 1; j <= noOfGenerChild; j++) {
-				//System.out.println("testing node " + (i * (noOfGenerChild - 1) + j));
+				System.out.println("testing node " + (i * (noOfGenerChild - 1) + j));
 				searchTree.addNode(generator.generateChildNode(tempParent));
-				//System.out.println("ValueOfNode" + tempParent.getValueOfNode());
+				System.out.println("ValueOfNode" + tempParent.getValueOfNode());
 				//System.out.println("ball possition " + tempParent.getState());
 			}
 		}
