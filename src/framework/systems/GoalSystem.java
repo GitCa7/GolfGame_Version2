@@ -93,10 +93,12 @@ public class GoalSystem extends EntitySystem
                     if (CompoMappers.PLAYER_ORDER.has(owner.mOwner))
                     {
                         PlayerOrder order = CompoMappers.PLAYER_ORDER.get(owner.mOwner);
-                        if (CompoMappers.PLAYER_ORDER.has(order.mPrevious.mEntity))
-                            CompoMappers.PLAYER_ORDER.get(order.mPrevious.mEntity).mNext = order.mNext;
-                        if (CompoMappers.PLAYER_ORDER.has(order.mNext.mEntity))
-                            CompoMappers.PLAYER_ORDER.get(order.mNext.mEntity).mPrevious = order.mPrevious;
+
+                        PlayerOrder previousOrder = CompoMappers.PLAYER_ORDER.get(order.mPrevious.mEntity);
+                        PlayerOrder nextOrder = CompoMappers.PLAYER_ORDER.get(order.mNext.mEntity);
+
+                        previousOrder.mNext = order.mNext;
+                        nextOrder.mPrevious = order.mPrevious;
                     }
                     mEngine.removeEntity(owner.mOwner);
 

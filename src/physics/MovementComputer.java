@@ -48,7 +48,7 @@ public class MovementComputer
 
     public Vector3 getSolutionVelocity()
     {
-        
+
     }
 
     /**
@@ -77,7 +77,7 @@ public class MovementComputer
     }
 
 
-    private void solveOneDimension(Vector3 force, Vector3 velocity, Vector3 position, float mass, float init)
+    private void solveOneDimension(Vector3 force, Vector3 velocity, Vector3 position, float mass, float init )
 
 
     private ODEquation mPositionDE, VelocityDE;
