@@ -7,17 +7,6 @@ package physics.generic.ode;
  */
 public class RungeKutta4 extends ODESolver
 {
-    /**
-     * parametric constructor
-     *
-     * @param equation od equation to solve for
-     * @param initialT initial t condition
-     * @param initialY initial y condition
-     */
-    public RungeKutta4(ODEquation equation, double initialT, double initialY)
-    {
-        super(equation, initialT, initialY);
-    }
 
     @Override
     protected double evalutate(double t, double y, double deltaT)

@@ -9,16 +9,8 @@ package physics.generic.ode;
 public class BogackiShampine extends ODESolver
 {
 
-    /**
-     * parametric constructor
-     *
-     * @param equation od equation to solve for
-     * @param initialT initial t condition
-     * @param initialY initial y condition
-     */
-    public BogackiShampine(ODEquation equation, double initialT, double initialY)
+    public BogackiShampine()
     {
-        super(equation, initialT, initialY);
         mEpsilon = -1;
         mSafety = -1;
     }

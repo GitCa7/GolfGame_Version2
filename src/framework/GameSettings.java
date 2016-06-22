@@ -1,6 +1,7 @@
 package framework;
 
 import framework.logging.Logger;
+import physics.generic.ode.Euler;
 import physics.generic.ode.ODESolver;
 
 import java.util.Random;
@@ -13,8 +14,8 @@ import java.util.Random;
  */
 public class GameSettings
 {
-    public float mHitNoiseBound;
-    public Random mRandomGenerator;
-    public Logger mLogger;
-    public ODESolver mODESolver;
+    public float mHitNoiseBound = 0f;
+    public Random mRandomGenerator = new Random(System.currentTimeMillis());
+    public Logger mLogger = null;
+    public ODESolver mODESolver = new Euler();
 }

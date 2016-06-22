@@ -11,20 +11,6 @@ public abstract class ODESolver
 {
 
     /**
-     * parametric constructor
-     * @param equation od equation to solve for
-     * @param initialT initial t condition
-     * @param initialY initial y condition
-     */
-    public ODESolver(ODEquation equation, double initialT, double initialY)
-    {
-        mEquation = equation;
-        mInitialT = initialT;
-        mInitialY = initialY;
-    }
-
-
-    /**
      * Solves the initial value problem and sets the initial values to the solution at the final time step
      * @param finalT the final t value
      * @param numberSteps the initial number of steps to get to finalT. Depending on the method used, this
@@ -33,6 +19,9 @@ public abstract class ODESolver
      */
     public double solve(double finalT, int numberSteps)
     {
+        if (mEquation == null)
+            throw new IllegalStateException("equation is not set for ode solver, cannot solve");
+
         //set initial conditions
         double t = mInitialT, y = mInitialY;
         double dt = (finalT - mInitialT) / numberSteps;
@@ -105,6 +94,13 @@ public abstract class ODESolver
      */
     protected abstract boolean accept(double t, double y, double nextY, double deltaT);
 
+
+    public void set(ODEquation equation, double initialY, double initialT)
+    {
+        mEquation = equation;
+        mInitialY = initialY;
+        mInitialT = initialT;
+    }
 
     protected ODEquation mEquation;
     private double mInitialY, mInitialT;
