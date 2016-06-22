@@ -13,6 +13,8 @@ import framework.Game;
 import framework.GameConfigurator;
 import framework.PlayerObserver;
 import framework.logging.Logger;
+import framework.GameSettings;
+
 import framework.testing.HumanObserver;
 import org.lwjgl.util.vector.Vector3f;
 import physics.geometry.planar.Triangle;
@@ -109,6 +111,7 @@ public class GameLoader {
 		ArrayList<Triangle> tmp = calc.getAllTris(a);
 		System.out.println("aaaaaa");
 		config.setTerrain(tmp);
+
 
 		return config.game();
 	}

@@ -16,6 +16,7 @@ public class MovementFactory extends EntitySystemFactory {
     {
         Movement m = new Movement();
         initSystem(m);
+        initSystemODE(m);
         return m;
     }
 }

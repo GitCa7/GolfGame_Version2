@@ -16,6 +16,7 @@ public class ForceApplyFactory extends EntitySystemFactory {
     {
         ForceApply fa = new ForceApply();
         initSystem(fa);
+        initSystemODE(fa);
         return fa;
     }
 }

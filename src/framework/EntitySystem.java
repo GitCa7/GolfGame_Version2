@@ -3,6 +3,7 @@ package framework;
 import com.badlogic.ashley.core.Entity;
 
 import framework.systems.EntityListener;
+import physics.generic.ode.ODESolver;
 
 import java.util.HashSet;
 
@@ -30,6 +31,11 @@ public abstract class EntitySystem extends com.badlogic.ashley.core.EntitySystem
 	}
 
 	/**
+	 * @return the ode solver used
+     */
+	public ODESolver getODESolver() { return mODESolver; }
+
+	/**
 	 * sets the priority value to priority. The lower the value, the sooner a system is updated.
 	 * @param priority
 	 */
@@ -37,6 +43,12 @@ public abstract class EntitySystem extends com.badlogic.ashley.core.EntitySystem
 	{
 		this.priority = priority;
 	}
+
+	/**
+	 * sets the ode solver for this system
+	 * @param solver
+     */
+	public void setODESolver(ODESolver solver) { mODESolver = solver; }
 	
 	/**
 	 * @param comp entity system to compare with
@@ -69,4 +81,5 @@ public abstract class EntitySystem extends com.badlogic.ashley.core.EntitySystem
 
 	
 	private HashSet<Entity> mEntities;
+	private ODESolver mODESolver;
 }

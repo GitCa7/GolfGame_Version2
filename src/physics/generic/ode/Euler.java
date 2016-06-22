@@ -9,33 +9,20 @@ package physics.generic.ode;
 public class Euler extends ODESolver
 {
 
-    /**
-     * parametric constructor
-     *
-     * @param equation od equation to solve for
-     * @param initialT initial t condition
-     * @param initialY initial y condition
-     */
-    public Euler(ODEquation equation, double initialT, double initialY)
+
+    @Override
+    protected double evaluate(ODEquation equation, double t, double[] ys, double deltaT, int index)
     {
-        super(equation, initialT, initialY);
+        return ys[index] + deltaT * equation.evaluate(t, ys);
     }
 
     @Override
-    protected double evalutate(double t, double y, double deltaT)
-    {
-        return y + deltaT * mEquation.evaluate(t, y);
-    }
-
-    @Override
-    protected double nextDeltaT(double t, double y, double nextY, double deltaT)
-    {
+    protected double nextDeltaT(ODEquation equation, double t, double[] ys, double[] nextY, double deltaT, int index) {
         return deltaT;
     }
 
     @Override
-    protected boolean accept(double t, double y, double nextY, double deltaT)
-    {
+    protected boolean accept(ODEquation equation, double t, double[] ys, double[] nextY, double deltaT, int index) {
         return true;
     }
 }
