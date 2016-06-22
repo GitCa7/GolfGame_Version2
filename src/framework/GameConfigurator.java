@@ -377,7 +377,7 @@ public class GameConfigurator
         //set collision detector in collision detection system
         BroadCollisionFinder broadFinder = new PruneAndSweep();
         NarrowCollisionFinder narrowFinder = new NaiveCollisionFinder();
-        collisionDetectionFactory.setCollisionDetector(new CollisionDetector(broadFinder, narrowFinder));
+        collisionDetectionFactory.setCollisionDetector(new CollisionDetector(narrowFinder));
 
         //additional component factories for balls
         VelocityFactory ballVelocityFactory = new VelocityFactory();
