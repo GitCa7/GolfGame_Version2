@@ -69,9 +69,13 @@ public class PruneAndSweep extends BroadCollisionFinder
     public Collection<ColliderPair<ColliderEntity>> possibleCollisions()
     {
         HashSet<ColliderPair<ColliderEntity>> interX, interY, interZ;
-        interX = getIntersectionsFor(new XExtractor(), 0);
-        interY = getIntersectionsFor(new YExtractor(), 1);
-        interZ = getIntersectionsFor(new ZExtractor(), 2);
+
+        int entities = getAllBodies().size();
+        ColliderPair<ColliderEntity>[][] colliderPairBuffer = new ColliderPair[entities - 1][entities - 1];
+
+        interX = getIntersectionsFor(new XExtractor(), 0, colliderPairBuffer);
+        interY = getIntersectionsFor(new YExtractor(), 1, colliderPairBuffer);
+        interZ = getIntersectionsFor(new ZExtractor(), 2, colliderPairBuffer);
 
         interX.retainAll(interY);
         interX.retainAll(interZ);
@@ -80,7 +84,7 @@ public class PruneAndSweep extends BroadCollisionFinder
 
 
 
-    private HashSet<ColliderPair<ColliderEntity>> getIntersectionsFor(CoordinateExtractor coord, int nCoord)
+    private HashSet<ColliderPair<ColliderEntity>> getIntersectionsFor(CoordinateExtractor coord, int nCoord, ColliderPair<ColliderEntity>[][] buffer)
     {
         QuickSort<EntityAndBody> sorter = new QuickSort<>(getAllBodies(), new Intersector(coord));
         sorter.sort(0, sorter.size() - 1);
@@ -89,14 +93,20 @@ public class PruneAndSweep extends BroadCollisionFinder
         for (int cSorted = 0; cSorted < sorter.size(); ++cSorted)
         {
             boolean sortedMoving = Families.MOVING.matches(sorter.get(cSorted).mEntity);
+
             int cCompare = cSorted + 1;
             while (cCompare < sorter.size() && doCoordinatesIntersect(sorter.get(cSorted), sorter.get(cCompare), coord, nCoord))
             {
                 if (sortedMoving || Families.MOVING.matches(sorter.get(cCompare).mEntity))
                 {
-                    ColliderEntity e1 = getIncompleteCollider(sorter.get(cSorted));
-                    ColliderEntity e2 = getIncompleteCollider(sorter.get(cCompare));
-                    lineCollisions.add(new ColliderPair<>(e1, e2));
+                    //previous buffer size + added elements
+                    if (buffer[cSorted][cCompare - 1] == null)
+                    {
+                        ColliderEntity e1 = getIncompleteCollider(sorter.get(cSorted));
+                        ColliderEntity e2 = getIncompleteCollider(sorter.get(cCompare));
+                        buffer[cSorted][cCompare - 1] = new ColliderPair<>(e1, e2);
+                    }
+                    lineCollisions.add(buffer[cSorted][cCompare - 1]);
                 }
 
                 ++cCompare;

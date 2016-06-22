@@ -39,6 +39,13 @@ public class ColliderEntity extends ColliderBody
 	 */
 	public boolean isActive() { return (Families.ACCELERABLE.matches (getEntity())); }
 
+	public boolean equals(ColliderEntity another)
+	{
+		boolean entityEqual = this.getEntity().equals(another.getEntity());
+		boolean vertexEqual = this.getCollidingVertex().equals(another.getCollidingVertex());
+		boolean solidEqual = this.getCollidingSolid().equals(another.getCollidingSolid());
+		return entityEqual && vertexEqual && solidEqual;
+	}
 
 	private Entity mColliding;
 }

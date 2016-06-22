@@ -24,5 +24,11 @@ public class ColliderBody extends ColliderSolid
 	 */
 	public Body getBody() { return mColliding; }
 
+
+	public boolean equals(ColliderBody another)
+	{
+		return (another.getCollidingSolid().equals(this.getCollidingSolid()) && another.getBody().equals(this.getBody()));
+	}
+
 	private Body mColliding;
 }

@@ -36,6 +36,11 @@ public class ColliderSolid{
         return mCollidingVector;
     }
 
+    public boolean equals (ColliderSolid another)
+    {
+        return (this.getCollidingVertex().equals(another.getCollidingVertex()) && this.getCollidingSolid().equals(another.getCollidingSolid()));
+    }
+
     /**
      * @return true if this solid has a vertex involved in the collision
      */
