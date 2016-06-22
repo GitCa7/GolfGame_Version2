@@ -85,19 +85,21 @@ public class GameLoader {
 		System.out.println(ballPos.size());
 		obs = new ArrayList<>();
 		for(int i=0;i<ballPos.size();i++) {
-			String pName = JOptionPane.showInputDialog("Player "+i+" Name?");
+
 			PlayerObserver a ;
 
 			//@TODO remove after testing
 			//bots.set(i, false);
 
 			if(bots.get(i)){
+				String pName = JOptionPane.showInputDialog("Bot "+i+" Name?");
 				mBobs = new BotObserver();
 				a = mBobs;
 				Logger logger = new Logger();
 				mBobs.setLogger(logger);
 				config.addBotAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y+20, ballPos.get(i).z), mBobs);
 			}else {
+				String pName = JOptionPane.showInputDialog("Player "+i+" Name?");
 				a = new HumanObserver();
 				config.addHumanAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y+20, ballPos.get(i).z),a);
 			}
