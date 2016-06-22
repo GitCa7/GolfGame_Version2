@@ -57,7 +57,7 @@ public class GameConfigurator
         mObstacleBodyFactory = new BodyFactory();
         mObstaclePositionFactory = new PositionFactory();
 
-        mHitNoise = 0;
+        mSettings = null;
 
         mSetHole = false;
 
@@ -82,6 +82,8 @@ public class GameConfigurator
 		if (mBallMap.size() < 1)
 			throw new IllegalStateException ("there are no players/balls");
 
+        if (!checkSettings())
+            throw new IllegalStateException("settings are not set properly");
 
         if (!mSetHole)
 			throw new IllegalStateException ("the hole is not set");
@@ -95,12 +97,25 @@ public class GameConfigurator
         //add entity systems processing components to the engine
 		addAllSystems();
 
-		Game game =  new Game (mEngine, mBallMap, mHitNoise);
+		Game game =  new Game (mEngine, mBallMap, mSettings);
         //add input observers
         addAllObservers(game);
 
         return  game;
 	}
+
+    /**
+     * sets the game settings
+     * @param settings
+     */
+    public void setSettings(GameSettings settings)
+    {
+        mSettings = settings;
+
+        mMovementFactory.setODESolver(mSettings.mODESolver);
+        mForceApplyFactory.setODESolver(mSettings.mODESolver);
+        mFrictionSystemFactory.setODESolver(mSettings.mODESolver);
+    }
 
     /**
      * Construct a new human player and a new ball. Map this player to this ball. Players will take turns in the order
@@ -252,14 +267,6 @@ public class GameConfigurator
 
     }
 
-    /**
-     * set upper bound for absolute amount of noise added to each coordinate during a hit
-     * @param hitNoise amount of noise
-     */
-    public void setHitNoise(float hitNoise)
-    {
-        mHitNoise = hitNoise;
-    }
 
     /**
      * constructs ball of given radius, mass and sets the initial position of it
@@ -314,15 +321,29 @@ public class GameConfigurator
         return new Player (mPlayerFactory.produce());
     }
 
+    private boolean checkSettings()
+    {
+        if (mSettings == null)
+            return false;
+        if (mSettings.mRandomGenerator == null)
+            return false;
+        if (mSettings.mLogger == null)
+            return false;
+        if (mSettings.mODESolver == null)
+            return false;
+
+        return true;
+    }
+
     /**
      * constructs component bundles neccesary for the entity factories to work
      */
     private void initFactories()
     {
         //dynamics system factories
-        MovementFactory movementFactory = new MovementFactory();
-        ForceApplyFactory forceApplyFactory = new ForceApplyFactory();
-        FrictionSystemFactory frictionSystemFactory = new FrictionSystemFactory();
+        mMovementFactory = new MovementFactory();
+        mForceApplyFactory = new ForceApplyFactory();
+        mFrictionSystemFactory = new FrictionSystemFactory();
         GravitySystemFactory gravitySystemFactory = new GravitySystemFactory();
         WindSystemFactory windSystemFactory = new WindSystemFactory();
         GoalSystemFactory goalSystemFactory = new GoalSystemFactory();
@@ -340,13 +361,13 @@ public class GameConfigurator
         collisionDetectionFactory.setSystemPriority(1);
         nonPenetrationFactory.setSystemPriority(2);
         gravitySystemFactory.setSystemPriority(3);
-        frictionSystemFactory.setSystemPriority(5);
+        mFrictionSystemFactory.setSystemPriority(5);
         windSystemFactory.setSystemPriority(6);
         normalForceFactory.setSystemPriority(8);
         collisionImpactFactory.setSystemPriority(9);
-        forceApplyFactory.setSystemPriority(10);
+        mForceApplyFactory.setSystemPriority(10);
 
-        movementFactory.setSystemPriority(12);
+        mMovementFactory.setSystemPriority(12);
         goalSystemFactory.setSystemPriority(16);
         turnSystemFactory.setSystemPriority(20);
         roundingSystemFactory.setSystemPriority(25);
@@ -358,9 +379,9 @@ public class GameConfigurator
         normalForceFactory.setEngine(mEngine);
         gravitySystemFactory.setEngine(mEngine);
         windSystemFactory.setEngine(mEngine);
-        frictionSystemFactory.setEngine(mEngine);
-        forceApplyFactory.setEngine(mEngine);
-        movementFactory.setEngine(mEngine);
+        mFrictionSystemFactory.setEngine(mEngine);
+        mForceApplyFactory.setEngine(mEngine);
+        mMovementFactory.setEngine(mEngine);
         nonPenetrationFactory.setEngine(mEngine);
         goalSystemFactory.setEngine(mEngine);
         turnSystemFactory.setEngine(mEngine);
@@ -372,7 +393,7 @@ public class GameConfigurator
         collisionImpactFactory.setRepository(collisionRepo);
         normalForceFactory.setRepository(collisionRepo);
         nonPenetrationFactory.setRepository(collisionRepo);
-        frictionSystemFactory.setRepository(collisionRepo);
+        mFrictionSystemFactory.setRepository(collisionRepo);
 
         //set collision detector in collision detection system
         BroadCollisionFinder broadFinder = new PruneAndSweep();
@@ -400,9 +421,9 @@ public class GameConfigurator
         //construct ball component bundles
 
         ComponentBundle ballPosition = new ComponentBundle(mBallPositionFactory);
-        ComponentBundle ballVelocity = new ComponentBundle(ballVelocityFactory, movementFactory, roundingSystemFactory);
-        ComponentBundle ballForce = new ComponentBundle(ballForceFactory, forceApplyFactory);
-        ComponentBundle ballFriction = new ComponentBundle(ballFrictionFactory, frictionSystemFactory);
+        ComponentBundle ballVelocity = new ComponentBundle(ballVelocityFactory, mMovementFactory, roundingSystemFactory);
+        ComponentBundle ballForce = new ComponentBundle(ballForceFactory, mForceApplyFactory);
+        ComponentBundle ballFriction = new ComponentBundle(ballFrictionFactory, mFrictionSystemFactory);
         ComponentBundle ballMass = new ComponentBundle(mBallMassFactory);
         ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory, collisionDetectionFactory, collisionImpactFactory);
         ComponentBundle ballGravity = new ComponentBundle(ballGravityFactory, gravitySystemFactory, normalForceFactory);
@@ -516,6 +537,7 @@ public class GameConfigurator
         }
     }
 
+
 	/** mapping of players to their balls */
 	private HashMap<Player, Ball> mBallMap;
     /** stores all observers which need to be added to the game before it runs */
@@ -537,9 +559,13 @@ public class GameConfigurator
     /** obstacles */
     private BodyFactory mObstacleBodyFactory;
     private PositionFactory mObstaclePositionFactory;
+    /** system factories depending on ode solver */
+    private MovementFactory mMovementFactory;
+    private ForceApplyFactory mForceApplyFactory;
+    private FrictionSystemFactory mFrictionSystemFactory;
 
-    // noise during hit
-    private float mHitNoise;
+    private GameSettings mSettings;
+
     //boolean flags for conditions fulfilled before start
     boolean mSetHole;
 }

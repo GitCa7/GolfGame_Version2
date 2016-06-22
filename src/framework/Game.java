@@ -37,17 +37,16 @@ public class Game
 	 * @param e engine to use
 	 * @param ballMap mapping of players to balls
 	 */
-	public Game (Engine e, HashMap<Player, Ball> ballMap, float hitNoiseBound)
+	public Game (Engine e, HashMap<Player, Ball> ballMap, GameSettings settings)
 	{
 		mEngine = e;
 		mBallMap = ballMap;
-		mHitNoiseBound = hitNoiseBound;
 		mGlobalState = new Entity();
 		mObservers = new HashSet<>();
 
-		mGen = new Random(System.currentTimeMillis());
-		mLogger = null;
+		mSettings = settings;
         init();
+		checkSettings();
 	}
 
 	public Engine getEnigine(){
@@ -87,8 +86,13 @@ public class Game
 	public ArrayList<Ball> getBalls() 
 	{ return new ArrayList<Ball> (mBallMap.values()); }
 
-
-	public Logger getLogger() { return mLogger; }
+	/**
+	 * @return The settings object owned. Changes to this object will have an immediate impact on the game.
+     */
+	public GameSettings getSettings()
+	{
+		return mSettings;
+	}
 
 	/**
 	 *
@@ -119,12 +123,6 @@ public class Game
 		return CompoMappers.ACTIVE.get(mGlobalState).mActive;
 	}
 
-
-	public void setLogger(Logger logger)
-	{
-		mLogger = logger;
-	}
-
 	/**
 	 * makes the current player hit the ball with force
 	 * Precondition: the game is not busy
@@ -135,10 +133,13 @@ public class Game
 		if (DEBUG)
 			System.out.println ("hit ball with " + force);
 
+		Random gen = mSettings.mRandomGenerator;
+		float hitNoise = mSettings.mHitNoiseBound;
+
 		force = force.cpy();
-		force.x += mGen.nextGaussian() * mHitNoiseBound;
-		force.y += mGen.nextGaussian() * mHitNoiseBound;
-		force.z += mGen.nextGaussian() * mHitNoiseBound;
+		force.x += gen.nextGaussian() * hitNoise;
+		force.y += gen.nextGaussian() * hitNoise;
+		force.z += gen.nextGaussian() * hitNoise;
 
 		Ball ballHit = getBall (p);
 		Force forceComp = physics.constants.CompoMappers.FORCE.get(ballHit.mEntity);
@@ -153,13 +154,13 @@ public class Game
 	{
 		long time = System.currentTimeMillis();
 		mEngine.update (ticks);
-  		if (mLogger != null)
-			mLogger.addItem(ENGINE_TIME_NAME, Long.toString(System.currentTimeMillis() - time));
+
+		log(ENGINE_TIME_NAME, Long.toString(System.currentTimeMillis() - time), false);
 
 		time = System.currentTimeMillis();
 		updateObservers();
-		if (mLogger != null)
-			mLogger.addItem(OBSERVER_TIME_NAME, Long.toString(System.currentTimeMillis() - time));
+
+		log(OBSERVER_TIME_NAME, Long.toString(System.currentTimeMillis() - time), true);
 	}
 
 	/**
@@ -248,13 +249,26 @@ public class Game
 		mEngine.addEntityListener (new EntityListener (busySystem));
 	}
 
+	private void checkSettings()
+	{
+		if (mSettings.mRandomGenerator == null)
+			throw new IllegalStateException("random generator not set");
+	}
+
+	private void log(String name, String description, boolean newSection)
+	{
+		if (mSettings.mLogger != null)
+		{
+			mSettings.mLogger.addItem(name, description);
+			if (newSection)
+				mSettings.mLogger.closeSection();
+		}
+	}
+
 	private Engine mEngine;
 	private HashMap<Player, Ball> mBallMap;
 	private Entity mGlobalState;
 	private HashSet<GameObserver> mObservers;
 
-	private float mHitNoiseBound;
-	private Random mGen;
-
-	private Logger mLogger;
+	private GameSettings mSettings;
 }
