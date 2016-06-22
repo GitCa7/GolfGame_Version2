@@ -57,12 +57,54 @@ public class GameConfigurator
         mObstacleBodyFactory = new BodyFactory();
         mObstaclePositionFactory = new PositionFactory();
 
+        mMovementFactory = new MovementFactory();
+        mForceApplyFactory = new ForceApplyFactory();
+        mFrictionSystemFactory = new FrictionSystemFactory();
+
         mSettings = null;
 
         mSetHole = false;
 
+        setSettings(new GameSettings());
         initFactories();
 	}
+
+    /**
+     * constructs game configurator using a new engine with an empty map of balls, no hole set and no physics.systems stored
+     */
+    public GameConfigurator (GameSettings settings)
+    {
+        mSystemsTracker = new SystemsTracker();
+        mEngine = new Engine();
+        mBallMap = new HashMap<>();
+        mGameObservers = new ArrayList<>();
+
+        mBallFactory = new EntityFactory(mSystemsTracker);
+        mPlayerFactory = new EntityFactory(mSystemsTracker);
+        mObstacleFactory = new EntityFactory(mSystemsTracker);
+
+        mBallPositionFactory = new PositionFactory();
+        mBallMassFactory = new MassFactory();
+        mBallBodyFactory = new BodyFactory();
+
+        mBallGoalFactory = new GoalFactory();
+
+        mPlayerNameFactory = new NameFactory();
+
+        mObstacleBodyFactory = new BodyFactory();
+        mObstaclePositionFactory = new PositionFactory();
+
+        mMovementFactory = new MovementFactory();
+        mForceApplyFactory = new ForceApplyFactory();
+        mFrictionSystemFactory = new FrictionSystemFactory();
+
+        mSettings = null;
+
+        mSetHole = false;
+
+        setSettings(settings);
+        initFactories();
+    }
 
 	/**
 	 *
@@ -327,8 +369,6 @@ public class GameConfigurator
             return false;
         if (mSettings.mRandomGenerator == null)
             return false;
-        if (mSettings.mLogger == null)
-            return false;
         if (mSettings.mODESolver == null)
             return false;
 
@@ -341,9 +381,6 @@ public class GameConfigurator
     private void initFactories()
     {
         //dynamics system factories
-        mMovementFactory = new MovementFactory();
-        mForceApplyFactory = new ForceApplyFactory();
-        mFrictionSystemFactory = new FrictionSystemFactory();
         GravitySystemFactory gravitySystemFactory = new GravitySystemFactory();
         WindSystemFactory windSystemFactory = new WindSystemFactory();
         GoalSystemFactory goalSystemFactory = new GoalSystemFactory();
@@ -422,7 +459,7 @@ public class GameConfigurator
 
         ComponentBundle ballPosition = new ComponentBundle(mBallPositionFactory);
         ComponentBundle ballVelocity = new ComponentBundle(ballVelocityFactory, mMovementFactory, roundingSystemFactory);
-        ComponentBundle ballForce = new ComponentBundle(ballForceFactory, mForceApplyFactory);
+        ComponentBundle ballForce = new ComponentBundle(ballForceFactory);
         ComponentBundle ballFriction = new ComponentBundle(ballFrictionFactory, mFrictionSystemFactory);
         ComponentBundle ballMass = new ComponentBundle(mBallMassFactory);
         ComponentBundle ballBody = new ComponentBundle(mBallBodyFactory, collisionDetectionFactory, collisionImpactFactory);

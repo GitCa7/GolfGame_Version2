@@ -5,14 +5,18 @@ import com.badlogic.ashley.core.Engine;
 
 import com.badlogic.gdx.math.Vector3;
 import framework.EntitySystem;
-import physics.components.Body;
+import physics.components.*;
 import physics.constants.CompoMappers;
 import physics.constants.Families;
 import physics.constants.GlobalObjects;
 
-import physics.components.Position;
-import physics.components.Velocity;
+import physics.constants.PhysicsCoefficients;
+import physics.generic.ode.ODEquation;
 import physics.geometry.spatial.SolidTranslator;
+import physics.vectorUtil.CoordinateExtractor;
+import physics.vectorUtil.XExtractor;
+import physics.vectorUtil.YExtractor;
+import physics.vectorUtil.ZExtractor;
 
 /**
  * entity system applying movement to every entity
@@ -28,7 +32,7 @@ public class Movement extends EntitySystem
 	 */
 	public Movement()
 	{
-		
+
 	}
 
 
@@ -61,20 +65,31 @@ public class Movement extends EntitySystem
 	public void update (float dTime)
 	{
 		for (Entity move : entities())
-		{	
+		{
+			//initial conditions
+			Force f = CompoMappers.FORCE.get(move);
+			Mass m = CompoMappers.MASS.get(move);
 			Velocity v = CompoMappers.VELOCITY.get (move);
+			Position p = CompoMappers.POSITION.get(move);
 
-			//alter position
-			Vector3 change = v.cpy().scl(dTime);
+			//odes
+			//a = dv / dt
+			//v = dp / dt
+			//initial condition y = [dv, dp] = [F / m, p]
 
-			Position p = CompoMappers.POSITION.get (move);
-			p.add(change);
+			float x = solveODE(f, v, p, m.mMass, dTime, new XExtractor());
+			float y = solveODE(f, v, p, m.mMass, dTime, new YExtractor());
+			float z = solveODE(f, v, p, m.mMass, dTime, new ZExtractor());
+
+			p.set(x, y, z);
 
 			if (CompoMappers.BODY.has(move))
 				moveBody(CompoMappers.BODY.get(move), p);
 
 			if (DEBUG)
 				debugOut(move);
+
+			f.setZero();
 		}
 	}
 
@@ -110,6 +125,52 @@ public class Movement extends EntitySystem
 	private void moveBody(Body b, Vector3 position)
 	{
 		b.setPosition(position);
+	}
+
+	/**
+	 *
+	 * @param force
+	 * @param velocity
+	 * @param position
+	 * @param mass
+	 * @param time
+     * @param extractor
+     * @return the displacement for the given coordinate
+     */
+	private float solveODE(Vector3 force, Vector3 velocity, Vector3 position, double mass, float time, CoordinateExtractor extractor)
+	{
+		double initA = extractor.extract(force) / mass;
+		double initV = extractor.extract(velocity);
+		double initP = extractor.extract(position);
+
+		ODEquation deAcceleration = new ODEquation() {
+			@Override
+			public double evaluate(double t, double[] ys) {
+				return ys[0];
+			}
+		};
+
+		ODEquation deVelocity = new ODEquation() {
+			@Override
+			public double evaluate(double t, double[] ys)
+			{
+				//a = dv / dt
+				return ys[0] / t;
+			}
+		};
+		ODEquation dePosition = new ODEquation() {
+			@Override
+			public double evaluate(double t, double[] ys) {
+				//v = dp / dt
+				return ys[1] / t;
+			}
+		};
+
+		getODESolver().setEquations(deAcceleration, deVelocity, dePosition);
+		getODESolver().setInitialYs(initA, initV, initP);
+		getODESolver().setInitialT(1);
+
+		return (float) getODESolver().solve(time + 1, PhysicsCoefficients.ODE_STEPS)[1];
 	}
 
 

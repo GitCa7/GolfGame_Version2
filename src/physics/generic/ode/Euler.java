@@ -11,20 +11,18 @@ public class Euler extends ODESolver
 
 
     @Override
-    protected double evalutate(double t, double y, double deltaT)
+    protected double evaluate(ODEquation equation, double t, double[] ys, double deltaT, int index)
     {
-        return y + deltaT * mEquation.evaluate(t, y);
+        return ys[index] + deltaT * equation.evaluate(t, ys);
     }
 
     @Override
-    protected double nextDeltaT(double t, double y, double nextY, double deltaT)
-    {
+    protected double nextDeltaT(ODEquation equation, double t, double[] ys, double[] nextY, double deltaT, int index) {
         return deltaT;
     }
 
     @Override
-    protected boolean accept(double t, double y, double nextY, double deltaT)
-    {
+    protected boolean accept(ODEquation equation, double t, double[] ys, double[] nextY, double deltaT, int index) {
         return true;
     }
 }
