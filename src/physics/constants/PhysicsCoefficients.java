@@ -10,7 +10,7 @@ public class PhysicsCoefficients
 	public static final float DYNAMIC_FRICTION = 0.2f;
 	public static final float SPIN_FRICTION = 0.3f;
 
-	public static final float FRICTION_FLUCTUATION = .0f;
+	public static final float FRICTION_FLUCTUATION =0.3f;
 
 	public static final float FORCE_TO_MOMENTUM_COEFFICIENT = 1/20f;
 
@@ -24,9 +24,9 @@ public class PhysicsCoefficients
 
 	public static final float TERRAIN_THICKNESS = 10000;
 
-	public static final float WIND_FREQUENCY = -1f;
+	public static final float WIND_FREQUENCY = 0.001f;
 	public static final float WIND_MIN_INTENSITY = 10f;
-	public static final float WIND_MAX_INTENSITY = 50f;
+	public static final float WIND_MAX_INTENSITY = 40f;
 	public static final int WIND_MIN_DURATION = 10;
 	public static final int WIND_MAX_DURATION = 15;
 

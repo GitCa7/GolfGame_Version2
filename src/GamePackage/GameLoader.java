@@ -8,9 +8,13 @@ import Entities.gameEntity;
 import TerrainComponents.TerrainData;
 import TerrainComponents.TerrainGeometryCalc;
 import com.badlogic.gdx.math.Vector3;
+import framework.BotObserver;
 import framework.Game;
 import framework.GameConfigurator;
+import framework.PlayerObserver;
+import framework.logging.Logger;
 import framework.GameSettings;
+
 import framework.testing.HumanObserver;
 import org.lwjgl.util.vector.Vector3f;
 import physics.geometry.planar.Triangle;
@@ -21,7 +25,10 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class GameLoader {
-	public static final float HOLE_SIZE = 40;
+	public static final float HOLE_SIZE = 20;
+
+	public BotObserver mBobs;
+
 	TerrainData tdata;
 	ArrayList<ObstacleDat> obstacles;
 	ArrayList<Boolean> bots;
@@ -29,7 +36,7 @@ public class GameLoader {
 	ArrayList<Vector3f> ballPos;
 	Vector3f holePos;
 	TerrainData a;
-	ArrayList<HumanObserver> obs;
+	ArrayList<PlayerObserver> obs;
 
 	public Game loadConfig(String name)	{
 		toPlay = CourseLoader.loadCourse(name);
@@ -79,14 +86,19 @@ public class GameLoader {
 		obs = new ArrayList<>();
 		for(int i=0;i<ballPos.size();i++) {
 			String pName = JOptionPane.showInputDialog("Player "+i+" Name?");
-			HumanObserver a = new HumanObserver();
+			PlayerObserver a ;
 
 			//@TODO remove after testing
 			//bots.set(i, false);
 
 			if(bots.get(i)){
-				config.addBotAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y+20, ballPos.get(i).z));
+				mBobs = new BotObserver();
+				a = mBobs;
+				Logger logger = new Logger();
+				mBobs.setLogger(logger);
+				config.addBotAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y+20, ballPos.get(i).z), mBobs);
 			}else {
+				a = new HumanObserver();
 				config.addHumanAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y+20, ballPos.get(i).z),a);
 			}
 

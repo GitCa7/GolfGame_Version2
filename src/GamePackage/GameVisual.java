@@ -7,6 +7,8 @@ import java.util.Random;
 import Entities.*;
 import GUIs.GUITexture;
 import TerrainComponents.TerrainGeometryCalc;
+import framework.BotObserver;
+import framework.PlayerObserver;
 import framework.testing.HumanObserver;
 import physics.components.Position;
 
@@ -113,11 +115,17 @@ public class GameVisual {
 	
 	
 	
-	public void setBalls(ArrayList<Vector3f> balls,ArrayList<HumanObserver>  obs){
+	public void setBalls(ArrayList<Vector3f> balls,ArrayList<PlayerObserver>  obs){
 		ArrayList<GolfBall> tmp = new ArrayList();
 		for (int i =0;i<balls.size();i++){
 			GolfBall ball = new GolfBall(new Vector3f(balls.get(i).x,balls.get(i).y+5,balls.get(i).z),5,false);
-			FollowCamera tmp2 = new FollowCamera(ball,this);
+			FollowCamera tmp2;
+			if(obs.get(i).getClass()== BotObserver.class) {
+				tmp2 = new FollowCamera(ball, this, true);
+			}
+			else {
+				tmp2 = new FollowCamera(ball, this, false);
+			}
 			obs.get(i).setCam(tmp2);
 			tmp.add(ball);
 		}
@@ -207,7 +215,7 @@ public class GameVisual {
 		Vector2f current = GuiElements.get(1).getScale();
 		float origLength = original.length();
 		float currLength = current.length();
-		return currLength / origLength;
+		return (currLength / origLength) * 3;
 	}
 	
 	public void setUpEntities()	{
