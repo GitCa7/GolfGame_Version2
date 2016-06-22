@@ -43,7 +43,7 @@ public class ColliderClosestSideFinder {
         // if active collides with a vertex of passive
         else
         {
-            System.out.println("vertex collision");
+            //System.out.println("vertex collision");
             //assume a plane orthogonal to the velocity as collision plane
             Velocity activeVelocity = CompoMappers.VELOCITY.get(mActive.getEntity());
             Vector3 collisionVertex = mPassive.getCollidingSolid().getCenter();

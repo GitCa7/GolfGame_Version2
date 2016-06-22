@@ -12,6 +12,7 @@ import framework.BotObserver;
 import framework.Game;
 import framework.GameConfigurator;
 import framework.PlayerObserver;
+import framework.logging.Logger;
 import framework.testing.HumanObserver;
 import org.lwjgl.util.vector.Vector3f;
 import physics.geometry.planar.Triangle;
@@ -22,7 +23,10 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class GameLoader {
-	public static final float HOLE_SIZE = 40;
+	public static final float HOLE_SIZE = 20;
+
+	public BotObserver mBobs;
+
 	TerrainData tdata;
 	ArrayList<ObstacleDat> obstacles;
 	ArrayList<Boolean> bots;
@@ -86,8 +90,11 @@ public class GameLoader {
 			//bots.set(i, false);
 
 			if(bots.get(i)){
-				a = new BotObserver();
-				config.addBotAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y+20, ballPos.get(i).z));
+				mBobs = new BotObserver();
+				a = mBobs;
+				Logger logger = new Logger();
+				mBobs.setLogger(logger);
+				config.addBotAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y+20, ballPos.get(i).z), mBobs);
 			}else {
 				a = new HumanObserver();
 				config.addHumanAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y+20, ballPos.get(i).z),a);

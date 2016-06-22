@@ -5,7 +5,7 @@ import physics.components.Position;
 import searchTree.GoalAchived;
 
 public class GolfGoalTester extends GoalAchived<GolfState> {
-	private final int diameterOfTarget = 40;
+	private final int diameterOfTarget = 15;
 
 	@Override
 	public boolean test(GolfState aState) {

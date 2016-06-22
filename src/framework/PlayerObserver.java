@@ -4,6 +4,7 @@ import Entities.FollowCamera;
 import com.badlogic.gdx.math.Vector3;
 import framework.constants.CompoMappers;
 import framework.entities.Player;
+import framework.logging.Logger;
 import physics.entities.Ball;
 
 /**
@@ -20,6 +21,8 @@ public abstract class PlayerObserver implements GameObserver
     {
         mTurn = false;
     }
+
+    public Logger getLog() { return mLogger; }
 
     /**
      * sets the player to match to match
@@ -46,6 +49,25 @@ public abstract class PlayerObserver implements GameObserver
         }
     }
 
+    protected void log(String name, String description, boolean closeSection)
+    {
+        if (mLogger != null)
+        {
+            mLogger.addItem(name, description);
+            if (closeSection)
+                mLogger.closeSection();
+        }
+    }
+
+    /**
+     * sets the logger
+     * @param logger the logger to set
+     */
+    public void setLogger(Logger logger)
+    {
+        mLogger = logger;
+    }
+
     /**
      * @return the force the player wishes to apply to the ball
      */
@@ -56,8 +78,12 @@ public abstract class PlayerObserver implements GameObserver
      */
     protected Player getPlayer() { return mMatchingPlayer; }
 
+
+
     /** store the matching player */
     private Player mMatchingPlayer;
     /** store whether it was this player's turn at the previous update already */
     private boolean mTurn;
+
+    private Logger mLogger;
 }
