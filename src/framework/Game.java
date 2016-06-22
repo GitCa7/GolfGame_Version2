@@ -11,6 +11,7 @@ import framework.constants.Families;
 import framework.entities.Player;
 import framework.internal.components.*;
 import framework.internal.systems.*;
+import framework.logging.Logger;
 import framework.systems.EntityListener;
 import physics.components.Force;
 import physics.entities.Ball;
@@ -29,6 +30,8 @@ public class Game
 {
 	public static boolean DEBUG = false;
 
+	public static final String HIT_NAME = "HIT", ENGINE_TIME_NAME = "ENGINE_TIME", OBSERVER_TIME_NAME = "OBSERVER_TIME";
+
 	/**
 	 * parametric constructor
 	 * @param e engine to use
@@ -43,6 +46,7 @@ public class Game
 		mObservers = new HashSet<>();
 
 		mGen = new Random(System.currentTimeMillis());
+		mLogger = null;
         init();
 	}
 
@@ -82,7 +86,10 @@ public class Game
 	 */
 	public ArrayList<Ball> getBalls() 
 	{ return new ArrayList<Ball> (mBallMap.values()); }
-	
+
+
+	public Logger getLogger() { return mLogger; }
+
 	/**
 	 *
 	 * @param p a player participating in this game
@@ -112,6 +119,12 @@ public class Game
 		return CompoMappers.ACTIVE.get(mGlobalState).mActive;
 	}
 
+
+	public void setLogger(Logger logger)
+	{
+		mLogger = logger;
+	}
+
 	/**
 	 * makes the current player hit the ball with force
 	 * Precondition: the game is not busy
@@ -138,8 +151,15 @@ public class Game
 	 */
 	public void tick (float ticks)
 	{
+		long time = System.currentTimeMillis();
 		mEngine.update (ticks);
-  		updateObservers();
+  		if (mLogger != null)
+			mLogger.addItem(ENGINE_TIME_NAME, Long.toString(System.currentTimeMillis() - time));
+
+		time = System.currentTimeMillis();
+		updateObservers();
+		if (mLogger != null)
+			mLogger.addItem(OBSERVER_TIME_NAME, Long.toString(System.currentTimeMillis() - time));
 	}
 
 	/**
@@ -235,4 +255,6 @@ public class Game
 
 	private float mHitNoiseBound;
 	private Random mGen;
+
+	private Logger mLogger;
 }

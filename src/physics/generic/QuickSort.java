@@ -2,6 +2,7 @@ package physics.generic;
 
 import java.util.Collection;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Random;
 
 /**
@@ -10,16 +11,18 @@ import java.util.Random;
  * @author martin
  * @param <T> a comparable type
  */
-public class QuickSort<T extends Comparable<T>> extends ArrayList<T> 
+public class QuickSort<T> extends ArrayList<T>
 {
 	private static long cnt = 100;
-	
+
 	/**
 	 * default constructor
 	 */
-	public QuickSort()
+	public QuickSort (Comparator<T> comparator)
 	{
 		mRand = new Random (System.currentTimeMillis() % cnt);
+		mComparator = comparator;
+
 		if (cnt < Long.MAX_VALUE)
 			++cnt;
 		else
@@ -30,11 +33,13 @@ public class QuickSort<T extends Comparable<T>> extends ArrayList<T>
 	 * @param data list of data to be stored
 	 * data will not be deep copied
 	 */
-	public QuickSort (Collection<T> data)
+	public QuickSort (Collection<T> data, Comparator<T> comparator)
 	{
 		super (data);
 		
 		mRand = new Random (System.currentTimeMillis() % cnt);
+		mComparator = comparator;
+
 		if (cnt < Long.MAX_VALUE)
 			++cnt;
 		else
@@ -48,12 +53,21 @@ public class QuickSort<T extends Comparable<T>> extends ArrayList<T>
 	{
 		for (int cCheck = 0; cCheck < size() - 1; ++cCheck)
 		{
-			if (get (cCheck).compareTo (get (cCheck + 1)) > 0)
+			if (mComparator.compare(get(cCheck), get(cCheck + 1)) > 0)
 				return false;
 		}
 		return true;
 	}
-	
+
+	/**
+	 * sets the comparator to replace the default comparator if no comparator was set previously
+	 * @param comparator
+     */
+	public void setComparator(Comparator<T> comparator)
+	{
+		mComparator = comparator;
+	}
+
 	/**
 	 * @param iStart first index of sequence
 	 * @param iEnd last index of sequence
@@ -67,9 +81,9 @@ public class QuickSort<T extends Comparable<T>> extends ArrayList<T>
 		
 		while (cLess <= cLarger)
 		{
-			while (cLess <= cLarger && get (cLess).compareTo (pElem) < 0)
+			while (cLess <= cLarger && mComparator.compare(get(cLess), pElem) < 0)
 				++cLess;
-			while (cLess <= cLarger && get (cLarger).compareTo (pElem) >= 0)
+			while (cLess <= cLarger && mComparator.compare(get(cLarger), pElem) >= 0)
 				--cLarger;
 			if (cLess < cLarger)
 				swap (cLess, cLarger);
@@ -102,4 +116,5 @@ public class QuickSort<T extends Comparable<T>> extends ArrayList<T>
 	}
 	
 	private Random mRand;
+	private Comparator<T> mComparator;
 }

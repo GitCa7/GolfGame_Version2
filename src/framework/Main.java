@@ -7,6 +7,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.math.Vector3;
 import framework.entities.Player;
+import framework.systems.GoalSystem;
 import framework.testing.MockMainMenu;
 import physics.components.Position;
 import physics.components.Velocity;
@@ -18,7 +19,7 @@ import physics.systems.Movement;
 import java.io.IOException;
 
 /**
- * Class running the game.
+ * Class running the game.QQ
  * @author martin
  */
 public class Main
@@ -29,8 +30,10 @@ public class Main
 
      //   Movement.DEBUG= true;
      //   CollisionImpactSystem.DEBUG = true;
-     //   CollisionDetectionSystem.DEBUG = true;
+        CollisionDetectionSystem.DEBUG = true;
         Game.DEBUG = true;
+        GoalSystem.DEBUG = true;
+
         Main main = new Main();
         try {
             new MockMainMenu(main);

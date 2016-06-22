@@ -2,6 +2,7 @@ package physics.systems;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 
 import framework.EntitySystem;
@@ -14,6 +15,11 @@ import physics.constants.CompoMappers;
 import physics.constants.Families;
 
 /**
+ * System checking all colliding entities for collisions.
+ * Maintains information about collisions in a collision repository.
+ * Note: Entities added are not immediatly added to the collision detector used internally.
+ * Instead this happens whenever the system is updated next, so adding entities individually
+ * does not cause big performance issues.
  * @autor martin
  * created 13.05.2016
  */
@@ -26,15 +32,17 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 	/**
 	 * default constructor. Constructs objects needed.
 	 */
-	public CollisionDetectionSystem()
+	public CollisionDetectionSystem(CollisionDetector detector)
 	{
 		mActive = new HashSet<>();
+		mDetect = detector;
+		mDetectorUpdatePending = false;
 	}
 
 
 	public CollisionDetectionSystem clone()
 	{
-		CollisionDetectionSystem newSystem = new CollisionDetectionSystem();
+		CollisionDetectionSystem newSystem = new CollisionDetectionSystem(mDetect.clone());
 		newSystem.setPriority(priority);
 		return newSystem;
 	}
@@ -50,6 +58,7 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 		{
 			if (Families.COLLIDING.matches(add))
 			{
+				mDetectorUpdatePending = true;
 				entities().add(add);
 				if (Families.ACCELERABLE.matches(add))
 					mActive.add(add);
@@ -67,16 +76,13 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 	 */
 	public void update (float dTime)
 	{
+		if (mDetectorUpdatePending)
+			updateDetector();
+
 		//detect collisions
 		mRepository.clear();
-		CollisionDetector detector = new CollisionDetector();
-		detector.addAll(entities());
-		ArrayList<ColliderPair<ColliderEntity>> colliding = detector.getAnyColliding();
-		if (!colliding.isEmpty())	{
-			if(mDebug) {
-				//System.out.println ("detected a collision!");
-			}
-		}
+
+		Collection<ColliderPair<ColliderEntity>> colliding = mDetect.getAnyColliding();
 
 		for(ColliderPair<ColliderEntity> pair : colliding)
 		{
@@ -87,11 +93,11 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 	}
 
 
-
-
-
-	public void addEntity(Entity e) {
-		if (Families.COLLIDING.matches((e))) {
+	public void addEntity(Entity e)
+	{
+		if (Families.COLLIDING.matches((e)))
+		{
+			mDetectorUpdatePending = true;
 			entities().add(e);
 			if (Families.ACCELERABLE.matches(e))
 				mActive.add(e);
@@ -103,6 +109,7 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 	{
 		if (Families.COLLIDING.matches((e)))
 		{
+			mDetectorUpdatePending = true;
 			entities().remove (e);
 			if (Families.ACCELERABLE.matches (e))
 				mActive.remove (e);
@@ -118,11 +125,17 @@ public class CollisionDetectionSystem extends EntitySystem implements Repository
 	}
 
 
+	private void updateDetector()
+	{
+		mDetect.setEntities(entities());
+		mDetectorUpdatePending = false;
+	}
+
 	/** store impacted by collisions */
 	private HashSet<Entity> mActive;
 	/** detects collisions within the set of physics.entities */
-//	private CollisionDetector mDetect;
+	private CollisionDetector mDetect;
 	private CollisionRepository mRepository;
-	private final boolean mDebug = true;
 
+	private boolean mDetectorUpdatePending;
 }

@@ -30,6 +30,8 @@ import fontRendering.TextMaster;
 
 public class TestWithGUI {
 
+	public static boolean DEBUG = false;
+
 	MasterRenderer renderer;
 	GuiRenderer guiRenderer;
 
@@ -50,6 +52,8 @@ public class TestWithGUI {
 	final Vector2f max = new Vector2f(0.15f, 0.225f);
 
 	public TestWithGUI() {
+
+
 		DisplayManager.createDisplay();
 		loader = new Loader();
 		renderer = new MasterRenderer(loader);
@@ -135,14 +139,16 @@ public class TestWithGUI {
 		Vector2f min = new Vector2f(0.05f, 0.05f);
 		
 		if(forceincrease)	{
-			System.out.println("ForceIncrease = true: \nCurrent Scale: " + currScale + "max: " + max);
+			if (DEBUG)
+				System.out.println("ForceIncrease = true: \nCurrent Scale: " + currScale + "max: " + max);
 			if(currScale.x >= max.x || currScale.y >= max.y)	{
 				forceincrease = false;
 			}
 			GuiElements.get(1).reScale(1.01f);
 		}
 		else	{
-			System.out.println("ForceIncrease = false: \nCurrent Scale: " + currScale + "min: " + min);
+			if (DEBUG)
+				System.out.println("ForceIncrease = false: \nCurrent Scale: " + currScale + "min: " + min);
 			if(currScale.x <= min.x || currScale.y <= min.y)	{
 				forceincrease = true;
 			}
@@ -177,18 +183,22 @@ public class TestWithGUI {
 	}
 	*/
 	public void displayAllEntites() {
-		System.out.println("Size Entities:" + entities.size());
-		System.out.println("Size Surronding:" + surrondings.size());
+		if (DEBUG) {
+			System.out.println("Size Entities:" + entities.size());
+			System.out.println("Size Surronding:" + surrondings.size());
+		}
 
 		for (gameEntity ent : entities) {
-			System.out.print("GameEntity: ");
+			if (DEBUG)
+				System.out.print("GameEntity: ");
 			int ID = ent.getModel().getRawModel().getID();
 			System.out.println();
 		}
 		System.out.println();
 
 		for (gameEntity surronding : surrondings) {
-			System.out.print("surronding: ");
+			if (DEBUG)
+				System.out.print("surronding: ");
 			int ID = surronding.getModel().getRawModel().getID();
 			System.out.println();
 		}

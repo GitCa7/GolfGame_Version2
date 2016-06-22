@@ -17,6 +17,14 @@ public class ColliderPair<E extends ColliderSolid>
 		mFirst = first;
 		mSecond = second;
 	}
+
+	public boolean equals(ColliderPair<E> another)
+	{
+		boolean firstMatch = this.getFirst().equals(another.getFirst()) || this.getFirst().equals(another.getSecond());
+		boolean secondMatch = this.getSecond().equals(another.getFirst()) || this.getSecond().equals(another.getSecond());
+		return firstMatch && secondMatch;
+	}
+
 	public E getFirst(){return mFirst;}
 	public E getSecond(){return mSecond;}
 

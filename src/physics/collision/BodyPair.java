@@ -1,29 +1,24 @@
 package physics.collision;
 
-
-import com.badlogic.ashley.core.Entity;
 import physics.components.Body;
-import physics.constants.CompoMappers;
 
 /**
- * class storing an entity together with its body
- * @author martin
+ * Created by marcel on 21.06.2016.
  */
 public class BodyPair
 {
-	/**
-	 *
-	 * @param e entity belonging to the colliding family
-	 */
-	public BodyPair (Entity e)
-	{
-		mEntity = e;
-		mBody = CompoMappers.BODY.get (e);
-	}
+    public BodyPair(Body b1, Body b2)
+    {
+        mB1 = b1;
+        mB2 = b2;
+    }
 
+    public boolean equals(BodyPair another)
+    {
+        return ((another.mB1 == this.mB1 || another.mB1 == this.mB2)
+                && (another.mB2 == this.mB1 && another.mB2 == this.mB2));
+    }
 
-	public boolean equals (BodyPair comp) { return this.mEntity.equals (comp.mEntity); }
-
-	public Body mBody;
-	public Entity mEntity;
+    public Body mB1;
+    public Body mB2;
 }

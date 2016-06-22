@@ -20,6 +20,8 @@ import framework.EntitySystem;
  */
 public class GoalSystem extends EntitySystem
 {
+    public static boolean DEBUG = false;
+
     /**
      * cefault constructor
      */
@@ -83,6 +85,8 @@ public class GoalSystem extends EntitySystem
 
             if (isBodyInGoal(body, goal) && GlobalObjects.ROUND.epsilonEquals(v.len(), 0))
             {
+                if (DEBUG)
+                    System.out.print (e + " reached goal ");
                 if (CompoMappers.OWNERSHIP.has(e))
                 {
                     Ownership owner = CompoMappers.OWNERSHIP.get(e);
@@ -95,8 +99,13 @@ public class GoalSystem extends EntitySystem
                             CompoMappers.PLAYER_ORDER.get(order.mNext.mEntity).mPrevious = order.mPrevious;
                     }
                     mEngine.removeEntity(owner.mOwner);
+
+                    if (DEBUG)
+                        System.out.print(" and is linked to owner " + owner);
                 }
                 mEngine.removeEntity(e);
+                if (DEBUG)
+                    System.out.println();
             }
         }
     }

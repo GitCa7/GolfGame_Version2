@@ -31,7 +31,7 @@ public abstract class ODESolver
      *                    may change.
      * @return the solution of the differential equation at finalT
      */
-    public double solve(double finalT, double numberSteps)
+    public double solve(double finalT, int numberSteps)
     {
         //set initial conditions
         double t = mInitialT, y = mInitialY;
@@ -41,7 +41,6 @@ public abstract class ODESolver
 
         for (int cStep = 0; cStep < numberSteps; ++cStep)
         {
-
             //update t
             t  = mInitialT + cStep * dt;
 
@@ -54,8 +53,8 @@ public abstract class ODESolver
             } while (!accept(t, y, nextY, dt));
 
             //set new number of steps (depending on finalT - mInitialT)
-            numberSteps += (finalT - mInitialT) / dt;
-            cStep = (int) Math.round((y - mInitialY) / dt);
+            numberSteps = (int) Math.round((finalT - mInitialT) / dt);
+            cStep = (int) Math.round((t - mInitialT) / dt);
             //update y
             y = nextY;
         }
@@ -107,6 +106,6 @@ public abstract class ODESolver
     protected abstract boolean accept(double t, double y, double nextY, double deltaT);
 
 
-    private ODEquation mEquation;
+    protected ODEquation mEquation;
     private double mInitialY, mInitialT;
 }

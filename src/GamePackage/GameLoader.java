@@ -22,6 +22,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class GameLoader {
+	public static final float HOLE_SIZE = 40;
 	TerrainData tdata;
 	ArrayList<ObstacleDat> obstacles;
 	ArrayList<Boolean> bots;
@@ -72,8 +73,9 @@ public class GameLoader {
 
         }
 
-		Vector3 pos = new Vector3(holePos.x,holePos.y,holePos.z);
-		config.setHole(pos,20);
+		//@TODO set hole position correctly
+		Vector3 pos = new Vector3(holePos.x,(float) (holePos.y - .25 * HOLE_SIZE),holePos.z);
+		config.setHole(pos,HOLE_SIZE);
 		System.out.println(ballPos.size());
 		obs = new ArrayList<>();
 		for(int i=0;i<ballPos.size();i++) {
@@ -107,7 +109,7 @@ public class GameLoader {
 	public GameVisual loadVisual(Game game){
 		GameVisual visual  = new GameVisual();
 		visual.setBalls(ballPos,obs);
-		visual.setHole(new Vector3f(holePos.x,holePos.y+2,holePos.z),20);
+		visual.setHole(new Vector3f(holePos.x,holePos.y+2,holePos.z),HOLE_SIZE);
 		//tdata.printVerts();
 		//System.out.println("--------------------------------------------------------------------------------------");
 		visual.setTerrain(a);
