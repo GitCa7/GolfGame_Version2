@@ -25,7 +25,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class GameLoader {
-	public static final float HOLE_SIZE = 20;
+	public static final float HOLE_SIZE = 100;
 
 	public BotObserver mBobs;
 

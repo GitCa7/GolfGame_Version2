@@ -34,7 +34,7 @@ public class Main
         //CollisionImpactSystem.DEBUG = true;
         //CollisionDetectionSystem.DEBUG = true;
         //Game.DEBUG = true;
-        //GoalSystem.DEBUG = true;
+        GoalSystem.DEBUG = true;
 
         Main main = new Main();
         try {

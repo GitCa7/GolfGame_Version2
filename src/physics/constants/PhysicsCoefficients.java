@@ -12,7 +12,7 @@ public class PhysicsCoefficients
 
 	public static final float FRICTION_FLUCTUATION =0.3f;
 
-	public static final float FORCE_TO_MOMENTUM_COEFFICIENT = 1/20f;
+	public static final float FORCE_TO_MOMENTUM_COEFFICIENT = 1/40f;
 
 	public static final float RESTITUTION_COEFFICIENT = 0.6f;
 	
