@@ -1,6 +1,7 @@
 package physics.testing.generic;
 
 import org.junit.Test;
+import physics.generic.ode.BogackiShampine;
 import physics.generic.ode.ODEquation;
 import physics.generic.ode.RungeKutta4;
 
@@ -11,7 +12,7 @@ import static org.junit.Assert.assertTrue;
  *
  * @author martin
  */
-public class RungeKutta4Test
+public class BogackiShampineTest
 {
 
     public static <T> T[] array(T ... values)
@@ -37,7 +38,9 @@ public class RungeKutta4Test
         double finalT = 10;
         int steps = 10;
 
-        RungeKutta4 solver = new RungeKutta4();
+        BogackiShampine solver = new BogackiShampine();
+        solver.setEpsilon(.00001);
+        solver.setSafetyFactor(2);
         solver.set(array(eq), initY, initT);
         double[] solutionObtained = solver.solve(finalT, steps);
 
@@ -66,7 +69,9 @@ public class RungeKutta4Test
         double finalT = 10;
         int steps = 10;
 
-        RungeKutta4 solver = new RungeKutta4();
+        BogackiShampine solver = new BogackiShampine();
+        solver.setEpsilon(.000001);
+        solver.setSafetyFactor(2);
         solver.set(array(eq), initY, initT);
         double[] solutionObtained = solver.solve(finalT, steps);
 

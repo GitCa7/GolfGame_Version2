@@ -20,13 +20,13 @@ public class RungeKutta4 extends ODESolver
     }
 
     @Override
-    protected double nextDeltaT(ODEquation equation, double t, double[] ys, double[] nextYs, double deltaT, int index)
+    protected double nextDeltaT(ODEquation equation, double t, double[] ys, double nextYs, double deltaT, int index)
     {
         return deltaT;
     }
 
     @Override
-    protected boolean accept(ODEquation equation, double t, double[] ys, double[] nextYs, double deltaT, int index)
+    protected boolean accept(ODEquation equation, double t, double[] ys, double nextYs, double deltaT, int index)
     {
         return true;
     }

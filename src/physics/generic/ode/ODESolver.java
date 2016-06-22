@@ -29,28 +29,28 @@ public abstract class ODESolver
         double[] ys = mInitialYs;
         double dt = (finalT - mInitialT) / numberSteps;
 
-        double[] nextYs = new double[mInitialYs.length];
+        int cStep = 0;
 
-        for (int cStep = 0; cStep < numberSteps; ++cStep)
+
+        while (t < finalT)
         {
-            //update t
-            t  = mInitialT + cStep * dt;
-
+            double dtUsed = dt;
+            double[] nextYs = new double[mInitialYs.length];
 
             for (int cEquation = 0; cEquation < mInitialYs.length; ++cEquation)
             {
-                do {
-                    //set intermediary values
+                do
+                {
+                    dtUsed = dt;
                     nextYs[cEquation] = evaluate(mEquations[cEquation], t, ys, dt, cEquation);
-                    dt = nextDeltaT(mEquations[cEquation], t, ys, nextYs, dt, cEquation);
-
-                } while (!accept(mEquations[cEquation], t, ys, nextYs, dt, cEquation));
+                    dt = nextDeltaT(mEquations[cEquation], t, ys, nextYs[cEquation], dt, cEquation);
+                } while (!accept(mEquations[cEquation], t, ys, nextYs[cEquation], dtUsed, cEquation));
             }
-            //set new number of steps (depending on finalT - mInitialT)
-            numberSteps = (int) Math.round((finalT - mInitialT) / dt);
-            cStep = (int) Math.round((t - mInitialT) / dt);
-            //update y
-            ys = Arrays.copyOf(nextYs, nextYs.length);
+
+            t += dtUsed;
+            dt = dtUsed;
+            dt = Math.min(finalT - t, dt);
+            ys = nextYs;
         }
 
         mInitialT = finalT;
@@ -86,7 +86,7 @@ public abstract class ODESolver
      * @param deltaT change of t from this step to the next step
      * @return the change of t to be used for the next iteration
      */
-    protected abstract double nextDeltaT(ODEquation equation, double t, double[] ys, double[] nextY, double deltaT, int index);
+    protected abstract double nextDeltaT(ODEquation equation, double t, double[] ys, double nextY, double deltaT, int index);
 
     /**
      * @param t current value of t
@@ -97,7 +97,7 @@ public abstract class ODESolver
      * will proceed to compute the following next y value. If the value is not accepted, the
      * algorithm will recompute the next y value using the current conditions.
      */
-    protected abstract boolean accept(ODEquation equation, double t, double[] ys, double[] nextY, double deltaT, int index);
+    protected abstract boolean accept(ODEquation equation, double t, double[] ys, double nextY, double deltaT, int index);
 
 
     protected double[] addToVector(double[] vec, double value)

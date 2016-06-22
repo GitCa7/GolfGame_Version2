@@ -56,7 +56,7 @@ public class BogackiShampine extends ODESolver
     }
 
     @Override
-    protected double nextDeltaT(ODEquation equation, double t, double[] ys, double[] nextY, double deltaT, int index)
+    protected double nextDeltaT(ODEquation equation, double t, double[] ys, double nextY, double deltaT, int index)
     {
         double recommendedStepSize = deltaT * mStepSizeFactor;
 
@@ -67,9 +67,9 @@ public class BogackiShampine extends ODESolver
     }
 
     @Override
-    protected boolean accept(ODEquation equation, double t, double[] ys, double[] nextY, double deltaT, int index)
+    protected boolean accept(ODEquation equation, double t, double[] ys, double nextY, double deltaT, int index)
     {
-        if (Math.abs(nextY[index] - mNextYHat) > mEpsilon * deltaT)
+        if (Math.abs(nextY - mNextYHat) > mEpsilon * deltaT)
             return false;
         return true;
     }
