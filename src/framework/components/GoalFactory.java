@@ -1,8 +1,12 @@
 package framework.components;
 
+
+
 import com.badlogic.gdx.math.Vector3;
 import physics.geometry.spatial.Solid;
 import physics.geometry.spatial.SolidTranslator;
+
+
 
 /**
  * Class creating goal instances
