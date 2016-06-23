@@ -56,7 +56,7 @@ public class ODEDifferenceTest
     public static int START_STEPS = 10, END_STEPS = 100;
     public static int STEPS_INCREMENT = 10;
 
-    public static float TIME_TICK = .001f;
+    public static float TIME_TICK = .075f;
 
     public static int ITERATION_LIMIT = 2500;
 
