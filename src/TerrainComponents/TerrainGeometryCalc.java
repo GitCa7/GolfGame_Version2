@@ -103,7 +103,7 @@ public class TerrainGeometryCalc implements Serializable {
 						vertices[vertexPointer * 3 + 2]);
 				leafs.add(tmp);
 
-				if(vertexPointer * 3 == 63)	{
+				if(vertexPointer * 3 == 108)	{
 					vertices[vertexPointer * 3+1] = 11; 
 				}
 				
