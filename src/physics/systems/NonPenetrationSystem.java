@@ -90,7 +90,10 @@ public class NonPenetrationSystem extends EntitySystem implements RepositoryEnti
         SolidTranslator dynamic = active.getCollidingSolid(), stat = passive.getCollidingSolid();
         SolidBisection adjustPosition = new SolidBisection(activePos, activePos.mPrevious, dynamic, stat);
         adjustPosition.run();
-        return adjustPosition.getSolution();
+        if (adjustPosition.hasSolution())
+            return adjustPosition.getSolution();
+        else
+            return activePos;
     }
 
     private void setEntityPosition(Entity e, Vector3 newPosition)

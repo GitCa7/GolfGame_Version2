@@ -18,7 +18,7 @@ import org.lwjgl.util.vector.Vector3f;
 import physics.geometry.planar.Triangle;
 import physics.geometry.spatial.*;
 import physics.geometry.spatial.Box;
-import testing.system.framework.HumanObserver;
+import framework.main.HumanObserver;
 
 import javax.swing.*;
 import java.util.ArrayList;

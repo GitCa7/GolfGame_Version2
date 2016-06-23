@@ -76,9 +76,14 @@ public class Movement extends EntitySystem
 			//v = dp / dt
 			//initial condition y = [dv, dp] = [F / m, p]
 
-			solveODE(f, v, p, m.mMass, dTime, new XExtractor());
-			solveODE(f, v, p, m.mMass, dTime, new YExtractor());
-			solveODE(f, v, p, m.mMass, dTime, new ZExtractor());
+			Vector3 vvec = v.cpy(), pvec = p.cpy();
+
+			solveODE(f, vvec, pvec, m.mMass, dTime, new XExtractor());
+			solveODE(f, vvec, pvec, m.mMass, dTime, new YExtractor());
+			solveODE(f, vvec, pvec, m.mMass, dTime, new ZExtractor());
+
+			v.set(vvec);
+			p.set(pvec);
 
 			if (CompoMappers.BODY.has(move))
 				moveBody(CompoMappers.BODY.get(move), p);

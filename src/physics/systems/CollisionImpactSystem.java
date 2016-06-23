@@ -134,9 +134,10 @@ public class CollisionImpactSystem extends framework.systems.EntitySystem implem
 
                 //New force
                 //v' = f*w - r*u
-                Vector3 newDirection = paraVec.scl(friction).sub(orthoVec.scl(restitution));
+                Vector3 newDirection = paraVec.scl(1 - friction).sub(orthoVec.scl(restitution));
                 //F = m / dt * dv, dv = v' - v => F = m / dt * (v' - v)
-                float velocityScale = activeMass / PhysicsCoefficients.FORCE_TO_MOMENTUM_COEFFICIENT;
+                float velocityScale = activeMass * PhysicsCoefficients.COLLISION_COEFFICIENT;
+            //    float velocityScale = activeMass;
                 Vector3 needToApply = newDirection.sub(currentDirection).scl(velocityScale);
                 return needToApply;
             }

@@ -11,7 +11,10 @@ import framework.constants.Families;
 import physics.components.Body;
 import physics.components.Velocity;
 import physics.constants.GlobalObjects;
+import physics.constants.PhysicsCoefficients;
 import physics.geometry.spatial.SolidTranslator;
+
+import java.util.ArrayList;
 
 /**
  * Entity system class operating on entities seeking a goal and owned by another entity.
@@ -26,7 +29,7 @@ public class GoalSystem extends EntitySystem
      */
     public GoalSystem()
     {
-
+        mGoalSeekers = new ArrayList<>();
     }
 
     public GoalSystem clone()
@@ -40,14 +43,14 @@ public class GoalSystem extends EntitySystem
     public void addEntity(Entity e)
     {
         if (Families.GOAL_SEEKING.matches(e))
-            entities().add(e);
+            mGoalSeekers.add(new EntityPositionHistory(e));
     }
 
     @Override
     public void removeEntity(Entity e)
     {
         if (Families.GOAL_SEEKING.matches(e))
-            entities().remove(e);
+            mGoalSeekers.remove(new EntityPositionHistory(e));
     }
 
     public void addedToEngine (Engine e)
@@ -59,14 +62,14 @@ public class GoalSystem extends EntitySystem
         for (Entity add : e.getEntities())
         {
             if (Families.GOAL_SEEKING.matches(add))
-                entities().add(add);
+                mGoalSeekers.add(new EntityPositionHistory(add));
         }
     }
 
     public void removedFromEngine(Engine e)
     {
         mEngine = null;
-        entities().clear();
+        mGoalSeekers.clear();
     }
 
     /**
@@ -76,6 +79,45 @@ public class GoalSystem extends EntitySystem
      */
     public void update(float dTime)
     {
+
+        for (EntityPositionHistory entity : mGoalSeekers)
+        {
+            entity.update();
+            if (entity.isStable())
+            {
+                Goal goal = CompoMappers.GOAL.get(entity.getEntity());
+                Body body = physics.constants.CompoMappers.BODY.get(entity.getEntity());
+                Velocity v = physics.constants.CompoMappers.VELOCITY.get(entity.getEntity());
+
+                if (isBodyInGoal(body, goal) && GlobalObjects.ROUND.epsilonEquals(v.len(), 0))
+                {
+                    if (DEBUG)
+                        System.out.print (entity.getEntity() + " reached goal ");
+                    if (CompoMappers.OWNERSHIP.has(entity.getEntity()))
+                    {
+                        Ownership owner = CompoMappers.OWNERSHIP.get(entity.getEntity());
+                        if (CompoMappers.PLAYER_ORDER.has(owner.mOwner))
+                        {
+                            PlayerOrder order = CompoMappers.PLAYER_ORDER.get(owner.mOwner);
+
+                            PlayerOrder previousOrder = CompoMappers.PLAYER_ORDER.get(order.mPrevious.mEntity);
+                            PlayerOrder nextOrder = CompoMappers.PLAYER_ORDER.get(order.mNext.mEntity);
+
+                            previousOrder.mNext = order.mNext;
+                            nextOrder.mPrevious = order.mPrevious;
+                        }
+                        mEngine.removeEntity(owner.mOwner);
+
+                        if (DEBUG)
+                            System.out.print(" and is linked to owner " + owner);
+                    }
+                    mEngine.removeEntity(entity.getEntity());
+                    if (DEBUG)
+                        System.out.println();
+                }
+            }
+        }
+
         for (Entity e : entities())
         {
             Goal goal = CompoMappers.GOAL.get(e);
@@ -130,5 +172,49 @@ public class GoalSystem extends EntitySystem
     }
 
 
+    private class EntityPositionHistory
+    {
+        public EntityPositionHistory(Entity coupled)
+        {
+            mEntity = coupled;
+            mLast = physics.constants.CompoMappers.POSITION.get(coupled).cpy();
+        }
+
+        public Entity getEntity() { return mEntity; }
+
+        public boolean equals(EntityPositionHistory comp)
+        {
+            return this.mEntity.equals(comp.mEntity);
+        }
+
+        public boolean isStable()
+        {
+            return mStableUpdates >= PhysicsCoefficients.MAX_ZERO_UPDATES;
+        }
+
+        public void update()
+        {
+            Vector3 newPos = physics.constants.CompoMappers.POSITION.get(mEntity);
+            if (!GlobalObjects.ROUND.epsilonEquals(newPos.dst(mLast), 0f))
+                mStableUpdates = 0;
+            else
+                ++mStableUpdates;
+
+            mLast = newPos.cpy();
+        }
+
+        public void resetStableCounter()
+        {
+            mStableUpdates = 0;
+        }
+
+
+        private Entity mEntity;
+        private Vector3 mLast;
+        private int mStableUpdates;
+    }
+
+
+    private ArrayList<EntityPositionHistory> mGoalSeekers;
     private Engine mEngine;
 }

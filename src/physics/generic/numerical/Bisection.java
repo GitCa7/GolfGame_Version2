@@ -1,5 +1,7 @@
 package physics.generic.numerical;
 
+import physics.vectorUtil.Vector3Rounder;
+
 /**
  * Template method for bisection method for a generic type T.
  * Searches for an object within an iterval delimited by a starting point and an end point
@@ -55,6 +57,14 @@ public abstract class Bisection<T> implements Runnable
     public abstract boolean accept(T point);
 
     /**
+     * @param left the left end point
+     * @param right the right end point
+     * @return true if the algorithm should terminate without further checks
+     * (i.e. numerical non-convergence due to precision)
+     */
+    public abstract boolean terminate(T left, T right);
+
+    /**
      * @return if the solution is set
      */
     public boolean hasSolution() { return mSolution != null; }
@@ -64,27 +74,36 @@ public abstract class Bisection<T> implements Runnable
      */
     public void run()
     {
+
         T left = mIntervalStart, right = mIntervalEnd;
         int leftValue = compare (mIntervalStart);
         int rightValue = compare (mIntervalEnd);
 
-        T middle = pickMiddle(left, right);
-
-        while (!accept(middle))
+        if (leftValue != rightValue)
         {
-
+            T middle = pickMiddle(left, right);
             int middleValue = compare(middle);
 
-            if (middleValue == leftValue)
-                left = middle;
-            else if (middleValue == rightValue)
-                right = middle;
-            //if solution is not exact
-            if (middleValue != 0)
-                middle = pickMiddle(left, right);
-        }
+            boolean error = terminate(left, right);
 
-        mSolution = middle;
+            while (!accept(middle) && ! error)
+            {
+                if (middleValue == leftValue)
+                    left = middle;
+                else if (middleValue == rightValue)
+                    right = middle;
+                //if solution is not exact
+                middle = pickMiddle(left, right);
+                middleValue = compare(middle);
+
+                error = terminate(left, right);
+            }
+
+            if (error)
+                mSolution = (leftValue == 1 ? left : right);
+            else
+                mSolution = middle;
+        }
     }
 
     private T mIntervalStart, mIntervalEnd;

@@ -18,6 +18,7 @@ public class SolidBisection extends Bisection<Vector3>
 {
 
     public static final double DEFAULT_EPSILON = Math.pow (10, -PhysicsCoefficients.ARITHMETIC_PRECISION);
+    public static final double DEFAULT_QUIT_EPSILON = Math.pow(10, -PhysicsCoefficients.MAXIMUM_ARITHMETIC_PRECISION);
 
     /**
      * parametric constructor
@@ -35,6 +36,7 @@ public class SolidBisection extends Bisection<Vector3>
         mCurrRight = null;
         mLastComparison = -1;
         mEpsilon = DEFAULT_EPSILON;
+        mQuitEpsilon = DEFAULT_QUIT_EPSILON;
     }
 
     @Override
@@ -81,9 +83,22 @@ public class SolidBisection extends Bisection<Vector3>
 
         boolean distanceRule = mCurrLeft.dst(mCurrRight) < mEpsilon;
         boolean comparisonRule = mLastComparison == 1;
-        boolean equalityRule = mCurrLeft.epsilonEquals(mCurrRight, (float) GlobalObjects.ROUND.getEpsilon());
+        boolean strictDistanceRule = mCurrLeft.dst(mCurrRight) < mQuitEpsilon;
+     //
+        //   boolean equalityRule = GlobalObjects.ROUND.epsilonEquals(mCurrLeft.dst(mCurrRight), 0f);
+                //mCurrLeft.epsilonEquals(mCurrRight, (float) GlobalObjects.ROUND.getEpsilon());
 
-        return (equalityRule || (distanceRule && comparisonRule));
+        return (strictDistanceRule || (distanceRule && comparisonRule));
+    }
+
+    /**
+     * @param left the left end point
+     * @param right the right end point
+     * @return true if the distance between left, right is below the maximum precision set
+     */
+    public boolean terminate(Vector3 left, Vector3 right)
+    {
+        return mCurrLeft.dst(mCurrRight) < mQuitEpsilon;
     }
 
     /**
@@ -96,5 +111,5 @@ public class SolidBisection extends Bisection<Vector3>
     private SolidTranslator mDynamic, mStatic;
     private Vector3 mCurrLeft, mCurrRight;
     private int mLastComparison;
-    private double mEpsilon;
+    private double mEpsilon, mQuitEpsilon;
 }

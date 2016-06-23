@@ -1,4 +1,4 @@
-package testing.system.framework;
+package framework.main;
 
 import Entities.FollowCamera;
 import com.badlogic.gdx.math.Vector3;
