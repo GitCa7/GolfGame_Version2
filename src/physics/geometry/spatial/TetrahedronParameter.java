@@ -1,7 +1,7 @@
 package physics.geometry.spatial;
 
 import com.badlogic.gdx.math.Vector3;
-import physics.generic.Parameter;
+import physics.generic.pool.Parameter;
 
 import java.util.Arrays;
 import java.util.HashSet;

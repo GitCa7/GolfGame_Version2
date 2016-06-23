@@ -1,6 +1,5 @@
 package framework.components;
 
-import physics.components.Component;
 import physics.geometry.spatial.SolidTranslator;
 
 /**

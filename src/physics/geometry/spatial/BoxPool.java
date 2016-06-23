@@ -1,6 +1,6 @@
 package physics.geometry.spatial;
 
-import physics.generic.Pool;
+import physics.generic.pool.Pool;
 
 /**
  * singleton class for box pool

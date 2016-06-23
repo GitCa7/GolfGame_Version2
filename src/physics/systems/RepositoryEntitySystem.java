@@ -1,6 +1,6 @@
 package physics.systems;
 
-import physics.collision.CollisionRepository;
+import physics.collision.structure.CollisionRepository;
 
 /**
  * Interface for classes requiring a collision repository to work

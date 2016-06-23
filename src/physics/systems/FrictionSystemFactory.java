@@ -1,8 +1,8 @@
 package physics.systems;
 
-import framework.EntitySystem;
-import framework.EntitySystemFactory;
-import physics.collision.CollisionRepository;
+import framework.systems.EntitySystem;
+import framework.systems.EntitySystemFactory;
+import physics.collision.structure.CollisionRepository;
 
 /**
  * class producing friction systems

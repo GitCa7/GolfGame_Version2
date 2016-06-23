@@ -1,10 +1,6 @@
 package GamePackage;
 
-import Entities.GolfBall;
-import framework.Game;
-import framework.GameConfigurator;
-
-import java.util.ArrayList;
+import framework.main.Game;
 
 public class GameStart {
 	GameLoader gLoader;

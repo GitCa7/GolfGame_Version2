@@ -1,7 +1,6 @@
 package framework.components;
 
 import com.badlogic.ashley.core.Entity;
-import physics.components.ComponentFactory;
 
 /**
  * Factory class producing ownership components

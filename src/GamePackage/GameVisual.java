@@ -7,9 +7,8 @@ import java.util.Random;
 import Entities.*;
 import GUIs.GUITexture;
 import TerrainComponents.TerrainGeometryCalc;
-import framework.BotObserver;
-import framework.PlayerObserver;
-import framework.testing.HumanObserver;
+import framework.main.BotObserver;
+import framework.main.PlayerObserver;
 import physics.components.Position;
 
 import physics.constants.CompoMappers;

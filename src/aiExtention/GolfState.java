@@ -1,16 +1,10 @@
 package aiExtention;
 
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
-import framework.Game;
-import framework.GameState;
-import framework.SimulatedGame;
-import physics.components.Force;
-import physics.components.GravityForce;
-import physics.components.Position;
-import physics.components.Velocity;
-import physics.entities.Ball;
+import framework.simulation.GameState;
+import framework.simulation.SimulatedGame;
+import framework.entities.Ball;
 import searchTree.SearchState;
 
 public class GolfState extends SearchState {

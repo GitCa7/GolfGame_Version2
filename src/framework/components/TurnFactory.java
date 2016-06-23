@@ -1,9 +1,6 @@
 package framework.components;
 
 
-import physics.components.Component;
-import physics.components.ComponentFactory;
-
 /**
  * class producing turn components
  * @author martin

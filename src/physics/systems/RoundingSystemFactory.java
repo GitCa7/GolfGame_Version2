@@ -1,7 +1,7 @@
 package physics.systems;
 
-import framework.EntitySystem;
-import framework.EntitySystemFactory;
+import framework.systems.EntitySystem;
+import framework.systems.EntitySystemFactory;
 
 /**
  * created 20.06.16

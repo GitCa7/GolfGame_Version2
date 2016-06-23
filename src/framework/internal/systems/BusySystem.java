@@ -5,17 +5,11 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 import framework.constants.Families;
 import framework.internal.components.Busy;
-import framework.systems.TurnSystem;
-import physics.components.Force;
-import physics.components.Position;
-import physics.components.Velocity;
 import physics.constants.CompoMappers;
-import framework.EntitySystem;
+import framework.systems.EntitySystem;
 import physics.constants.GlobalObjects;
 import physics.constants.PhysicsCoefficients;
-import physics.generic.History;
 
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 

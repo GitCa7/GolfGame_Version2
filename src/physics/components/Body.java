@@ -2,8 +2,8 @@ package physics.components;
 
 
 import com.badlogic.gdx.math.Vector3;
+import framework.components.Component;
 import physics.geometry.spatial.BoundingBox;
-import physics.geometry.spatial.Solid;
 import physics.geometry.spatial.SolidTranslator;
 
 import java.util.Collection;

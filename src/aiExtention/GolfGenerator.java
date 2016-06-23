@@ -2,9 +2,6 @@ package aiExtention;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.math.Vector3;
-import framework.SimulatedGame;
-import physics.components.Force;
-import physics.components.Velocity;
 import physics.entities.Ball;
 import searchTree.NodeEvaluator;
 import searchTree.NodeGenerator;

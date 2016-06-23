@@ -5,6 +5,7 @@ package physics.components;
  * @autor martin
  */
 import com.badlogic.gdx.math.*;
+import framework.components.Component;
 
 public class Force extends Vector3 implements Component
 {

@@ -1,5 +1,7 @@
 package physics.generic;
 
+import physics.generic.pool.Operation;
+
 /**
  * class performing a for each loop on every element for a stored operation
  * @author martin

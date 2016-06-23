@@ -1,8 +1,5 @@
 package physics.components;
-import java.util.HashSet;
-import com.badlogic.ashley.core.*;
-import com.badlogic.ashley.core.Component;
-import physics.geometry.spatial.Solid;
+import framework.components.ComponentFactory;
 import physics.geometry.spatial.SolidTranslator;
 
 import java.util.ArrayList;
@@ -11,7 +8,8 @@ import java.util.ArrayList;
  * Created by Alexander on 20.05.2016.
  * Factory to produce bodies.
  */
-public class BodyFactory implements ComponentFactory {
+public class BodyFactory implements ComponentFactory
+{
 
     public BodyFactory(){
         mSolidList=new ArrayList<>();

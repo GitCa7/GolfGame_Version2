@@ -1,7 +1,5 @@
 package framework.systems;
 
-import framework.EntitySystemFactory;
-
 /**
  * Factory class producing goal systems.
  * @author martin

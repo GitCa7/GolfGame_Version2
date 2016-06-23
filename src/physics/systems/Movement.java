@@ -4,15 +4,13 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Engine;
 
 import com.badlogic.gdx.math.Vector3;
-import framework.EntitySystem;
+import framework.systems.EntitySystem;
 import physics.components.*;
 import physics.constants.CompoMappers;
 import physics.constants.Families;
-import physics.constants.GlobalObjects;
 
 import physics.constants.PhysicsCoefficients;
-import physics.generic.ode.ODEquation;
-import physics.geometry.spatial.SolidTranslator;
+import physics.generic.numerical.ode.ODEquation;
 import physics.vectorUtil.CoordinateExtractor;
 import physics.vectorUtil.XExtractor;
 import physics.vectorUtil.YExtractor;

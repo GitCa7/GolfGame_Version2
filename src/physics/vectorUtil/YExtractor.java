@@ -1,7 +1,6 @@
 package physics.vectorUtil;
 
 import com.badlogic.gdx.math.Vector3;
-import physics.collision.PruneAndSweep;
 
 /**
  * on 22.06.2016.

@@ -1,6 +1,7 @@
 package physics.components;
 
 import com.badlogic.gdx.math.*;
+import framework.components.Component;
 
 /**
  * component class modelling gravity

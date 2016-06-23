@@ -1,6 +1,8 @@
 package physics.components;
 
 
+import framework.components.Component;
+
 public class Mass implements Component
 {
 	public Mass (float mass)

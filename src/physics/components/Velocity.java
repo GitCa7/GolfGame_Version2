@@ -1,12 +1,13 @@
 package physics.components;
 
 import com.badlogic.gdx.math.*;
+import framework.components.Component;
 
 /**
  * class storing a velocity
  * @author martin
  */
-public class Velocity extends Vector3 implements Component 
+public class Velocity extends Vector3 implements Component
 {
 	/**
 	 * default constructor: [0,0,0] velocity

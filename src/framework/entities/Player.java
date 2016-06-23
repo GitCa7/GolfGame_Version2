@@ -2,8 +2,6 @@ package framework.entities;
 
 import com.badlogic.ashley.core.Entity;
 
-import physics.entities.Hole;
-
 /**
  * Tag class for player objects signalling special treatment.
  * Additionally, every entity labelled as player shall belong to the turn taking

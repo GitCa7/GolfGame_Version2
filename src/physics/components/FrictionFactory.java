@@ -1,13 +1,13 @@
 package physics.components;
 
-import com.badlogic.ashley.core.*;
-import com.badlogic.ashley.core.Component;
+import framework.components.ComponentFactory;
 
 /**
  * Created by Alexander on 20.05.2016.
  * Factory for producing Friction objects
  */
-public class FrictionFactory implements ComponentFactory {
+public class FrictionFactory implements ComponentFactory
+{
 
     public FrictionFactory()
     {

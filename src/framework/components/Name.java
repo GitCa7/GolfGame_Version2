@@ -1,7 +1,5 @@
 package framework.components;
 
-import physics.components.Component;
-
 /**
  * component storing a name as string
  * @author martin

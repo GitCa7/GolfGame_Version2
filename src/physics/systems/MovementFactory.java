@@ -1,6 +1,6 @@
 package physics.systems;
 
-import framework.EntitySystemFactory;
+import framework.systems.EntitySystemFactory;
 
 /** Creates MovementFactory
  * Created by marcel on 21.05.2016.

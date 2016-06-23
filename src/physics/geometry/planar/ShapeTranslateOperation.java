@@ -1,6 +1,6 @@
 package physics.geometry.planar;
 import com.badlogic.gdx.math.*;
-import physics.generic.Operation;
+import physics.generic.pool.Operation;
 
 
 

@@ -1,7 +1,7 @@
 package physics.components;
 
 import com.badlogic.gdx.math.*;
-import org.lwjgl.util.vector.Vector3f;
+import framework.components.Component;
 
 /**
  * class storing a position

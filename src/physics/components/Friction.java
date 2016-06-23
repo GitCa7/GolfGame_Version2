@@ -1,6 +1,8 @@
 package physics.components;
 
 
+import framework.components.Component;
+
 import java.util.Random;
 
 /**

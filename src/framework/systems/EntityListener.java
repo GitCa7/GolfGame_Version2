@@ -2,8 +2,6 @@ package framework.systems;
 
 import com.badlogic.ashley.core.Entity;
 
-import framework.EntitySystem;
-
 /**
  * listener updating the set of physics.entities of an EntitySystem
  * @author martin

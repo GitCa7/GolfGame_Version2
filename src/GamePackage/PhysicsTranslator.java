@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.math.Vector3;
-import framework.Game;
-import framework.constants.CompoMappers;
+import framework.main.Game;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.badlogic.ashley.core.Entity;
 
 import Entities.GolfBall;
-import Entities.gameEntity;
 
 public class PhysicsTranslator {
 	

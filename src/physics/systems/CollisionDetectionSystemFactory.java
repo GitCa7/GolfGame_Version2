@@ -1,9 +1,8 @@
 package physics.systems;
 
-import framework.EntitySystemFactory;
-import physics.collision.CollisionDetector;
-import physics.collision.CollisionRepository;
-import physics.collision.TerrainPartition;
+import framework.systems.EntitySystemFactory;
+import physics.collision.detection.CollisionDetector;
+import physics.collision.structure.CollisionRepository;
 
 /** Creates CollisionDetectionSystemFactory
  * Created by marcel on 21.05.2016.

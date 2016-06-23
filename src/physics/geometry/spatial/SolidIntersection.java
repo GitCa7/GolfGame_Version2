@@ -1,8 +1,8 @@
 package physics.geometry.spatial;
 
 import com.badlogic.gdx.math.Vector3;
-import physics.collision.ColliderPair;
-import physics.collision.ColliderSolid;
+import physics.collision.structure.ColliderPair;
+import physics.collision.structure.ColliderSolid;
 
 /**
  * class determining intersections between two solids

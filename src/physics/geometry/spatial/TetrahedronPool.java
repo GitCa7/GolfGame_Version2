@@ -1,10 +1,12 @@
 package physics.geometry.spatial;
 
+import physics.generic.pool.Pool;
+
 /**
  * singleton class for tetrahedron pool
  * @author martin
  */
-public class TetrahedronPool extends physics.generic.Pool<Tetrahedron>
+public class TetrahedronPool extends Pool<Tetrahedron>
 {
 
     static

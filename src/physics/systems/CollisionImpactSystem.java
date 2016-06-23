@@ -1,11 +1,13 @@
 package physics.systems;
 import com.badlogic.ashley.core.*;
 import com.badlogic.gdx.math.*;
-import physics.collision.*;
+import physics.collision.reaction.ColliderClosestSideFinder;
+import physics.collision.structure.ColliderEntity;
+import physics.collision.structure.ColliderPair;
+import physics.collision.structure.CollisionRepository;
 import physics.components.Friction;
 import physics.components.Velocity;
 import physics.constants.CompoMappers;
-import physics.constants.Families;
 import physics.constants.GlobalObjects;
 import physics.constants.PhysicsCoefficients;
 
@@ -25,7 +27,7 @@ import java.util.HashSet;
         repository => normal force system
         */
 
-public class CollisionImpactSystem extends framework.EntitySystem implements RepositoryEntitySystem
+public class CollisionImpactSystem extends framework.systems.EntitySystem implements RepositoryEntitySystem
 {
 
     public static boolean DEBUG = false;

@@ -1,5 +1,5 @@
 package physics.geometry.spatial;
-import physics.generic.Parameter;
+import physics.generic.pool.Parameter;
 import com.badlogic.gdx.math.Vector3;
 import java.util.HashSet;
 import java.util.Arrays;
