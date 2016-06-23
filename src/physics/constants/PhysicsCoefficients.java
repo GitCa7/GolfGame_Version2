@@ -36,7 +36,7 @@ public class PhysicsCoefficients
 	public static final int AI_ARITHMETIC_PRECISION = 3;
 	public static final int AI_ARITHMETIC_TOLERANCE = 0;
 
-	public static final int ODE_STEPS = 100;
+	public static int ODE_STEPS = 100;
 
 	public static final int MAX_ZERO_UPDATES = 10;
 }

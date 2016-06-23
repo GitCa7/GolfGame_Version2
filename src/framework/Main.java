@@ -31,7 +31,7 @@ public class Main
     {
 
 
-        Movement.DEBUG= true;
+        //Movement.DEBUG= true;
         //CollisionImpactSystem.DEBUG = true;
         //CollisionDetectionSystem.DEBUG = true;
         //Game.DEBUG = true;
@@ -118,6 +118,7 @@ public class Main
                 catch (NullPointerException npe)
                 {
                     botThrowException = true;
+                    npe.printStackTrace();
                 }
                 mVisual.updateDisplay();
                 controlFPS.endFrame();
