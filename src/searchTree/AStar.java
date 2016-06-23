@@ -12,7 +12,7 @@ public class AStar<E extends SearchState, Action extends AbstractAction<E>> {
 	private Comparator<TreeNode<E, ?>> comparator;
 
 	private NodeGenerator<E, Action> generator;
-	private final int noOfGenerChild = 1000;
+	private final int noOfGenerChild = 100;
 
 	private StateComparator<E> stateComparator;
 

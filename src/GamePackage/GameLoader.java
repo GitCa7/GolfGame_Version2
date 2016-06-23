@@ -8,8 +8,13 @@ import Entities.gameEntity;
 import TerrainComponents.TerrainData;
 import TerrainComponents.TerrainGeometryCalc;
 import com.badlogic.gdx.math.Vector3;
+import framework.BotObserver;
 import framework.Game;
 import framework.GameConfigurator;
+import framework.PlayerObserver;
+import framework.logging.Logger;
+import framework.GameSettings;
+
 import framework.testing.HumanObserver;
 import org.lwjgl.util.vector.Vector3f;
 import physics.geometry.planar.Triangle;
@@ -20,6 +25,10 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class GameLoader {
+	public static final float HOLE_SIZE = 100;
+
+	public BotObserver mBobs;
+
 	TerrainData tdata;
 	ArrayList<ObstacleDat> obstacles;
 	ArrayList<Boolean> bots;
@@ -27,7 +36,7 @@ public class GameLoader {
 	ArrayList<Vector3f> ballPos;
 	Vector3f holePos;
 	TerrainData a;
-	ArrayList<HumanObserver> obs;
+	ArrayList<PlayerObserver> obs;
 
 	public Game loadConfig(String name)	{
 		toPlay = CourseLoader.loadCourse(name);
@@ -70,20 +79,28 @@ public class GameLoader {
 
         }
 
-		Vector3 pos = new Vector3(holePos.x,holePos.y,holePos.z);
-		config.setHole(pos,20);
+		//@TODO set hole position correctly
+		Vector3 pos = new Vector3(holePos.x,(float) (holePos.y - .25 * HOLE_SIZE),holePos.z);
+		config.setHole(pos,HOLE_SIZE);
 		System.out.println(ballPos.size());
 		obs = new ArrayList<>();
 		for(int i=0;i<ballPos.size();i++) {
-			String pName = JOptionPane.showInputDialog("Player "+i+" Name?");
-			HumanObserver a = new HumanObserver();
+
+			PlayerObserver a ;
 
 			//@TODO remove after testing
 			//bots.set(i, false);
 
 			if(bots.get(i)){
-				config.addBotAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y+20, ballPos.get(i).z));
+				String pName = JOptionPane.showInputDialog("Bot "+i+" Name?");
+				mBobs = new BotObserver();
+				a = mBobs;
+				Logger logger = new Logger();
+				mBobs.setLogger(logger);
+				config.addBotAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y+20, ballPos.get(i).z), mBobs);
 			}else {
+				String pName = JOptionPane.showInputDialog("Player "+i+" Name?");
+				a = new HumanObserver();
 				config.addHumanAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y+20, ballPos.get(i).z),a);
 			}
 
@@ -97,13 +114,14 @@ public class GameLoader {
 		System.out.println("aaaaaa");
 		config.setTerrain(tmp);
 
+
 		return config.game();
 	}
 	
 	public GameVisual loadVisual(Game game){
 		GameVisual visual  = new GameVisual();
 		visual.setBalls(ballPos,obs);
-		visual.setHole(new Vector3f(holePos.x,holePos.y+2,holePos.z),20);
+		visual.setHole(new Vector3f(holePos.x,holePos.y+2,holePos.z),HOLE_SIZE);
 		//tdata.printVerts();
 		//System.out.println("--------------------------------------------------------------------------------------");
 		visual.setTerrain(a);

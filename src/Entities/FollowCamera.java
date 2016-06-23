@@ -206,7 +206,7 @@ public class FollowCamera extends Camera implements InputObserver{
 		}
 		Vector3 dir = new Vector3(0,0,1);
 		dir.rotate(parent.directionArrow.getRotY(),0,1,0);
-		if(AITest)	{
+		if(!AITest)	{
 			applForce = parent.getForce() * curForce;
 			return new Vector3(dir.x*applForce,applForce/5,dir.z*applForce);
 		}

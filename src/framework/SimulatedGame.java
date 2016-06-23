@@ -95,7 +95,7 @@ public class SimulatedGame
         {
             mEngine.update(dTime);
             ++cIteration;
-            if (cIteration > maxIterations && false) {
+            if (cIteration > maxIterations) {
                 Movement.DEBUG = true;
                 CollisionDetectionSystem.DEBUG = true;
             }           /*

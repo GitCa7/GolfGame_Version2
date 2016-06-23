@@ -7,6 +7,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.math.Vector3;
 import framework.entities.Player;
+import framework.systems.GoalSystem;
+import framework.systems.TurnSystem;
 import framework.testing.MockMainMenu;
 import physics.components.Position;
 import physics.components.Velocity;
@@ -15,10 +17,11 @@ import physics.systems.CollisionDetectionSystem;
 import physics.systems.CollisionImpactSystem;
 import physics.systems.Movement;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
- * Class running the game.
+ * Class running the game.QQ
  * @author martin
  */
 public class Main
@@ -27,10 +30,15 @@ public class Main
     public static void main(String[] args)
     {
 
-     //   Movement.DEBUG= true;
-     //   CollisionImpactSystem.DEBUG = true;
-     //   CollisionDetectionSystem.DEBUG = true;
-        Game.DEBUG = true;
+
+        Movement.DEBUG= true;
+        //CollisionImpactSystem.DEBUG = true;
+        //CollisionDetectionSystem.DEBUG = true;
+        //Game.DEBUG = true;
+        GoalSystem.DEBUG = true;
+
+        TurnSystem.DEBUG = true;
+
         Main main = new Main();
         try {
             new MockMainMenu(main);
@@ -39,9 +47,10 @@ public class Main
         }
     }
 
-    public static final float DELTA_TIME = 0.05f;
+    public static final float DELTA_TIME = .05f;
     public static final int FRAMES = (int) (1.2 * 1000 * DELTA_TIME);
 
+    public static String SAVE_FILE = "C:\\Users\\Asus\\Documents\\UNI\\GolfGame_Version2\\botResults.csv";
 
 
     /**
@@ -94,13 +103,22 @@ public class Main
 
         FPSController controlFPS = new FPSController(FRAMES);
 
-        while (mGame.isActive())
+
+        boolean botThrowException = false;
+
+        while (mGame.isActive() && !botThrowException)
         {
 
             do
             {
                 controlFPS.startFrame();
-                mGame.tick(DELTA_TIME);
+                try {
+                    mGame.tick(DELTA_TIME);
+                }
+                catch (NullPointerException npe)
+                {
+                    botThrowException = true;
+                }
                 mVisual.updateDisplay();
                 controlFPS.endFrame();
                 /*printCurrentBall();
@@ -115,6 +133,15 @@ public class Main
         }
 
         mVisual.endDisplay();
+
+        if (mLoader.mBobs.getLog() != null)
+        {
+            try
+            {
+                mLoader.mBobs.getLog().exportLog(new File(SAVE_FILE), BotObserver.BOT_TIME, BotObserver.BOT_REMAINING_MOVES);
+            }
+            catch (Exception e) {e.printStackTrace();}
+        }
     }
 
 

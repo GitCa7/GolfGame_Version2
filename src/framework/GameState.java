@@ -99,7 +99,7 @@ public class GameState
     /**
      * @return the position of the goal matching the ball being modified
      */
-    public Vector3 getTargetPosition() { return framework.constants.CompoMappers.GOAL.get(mPlayerBall.mEntity).mGoalSpace.getPosition(); }
+    public Vector3 getTargetPosition() { return framework.constants.CompoMappers.GOAL.get(mPlayerBall.mEntity).mGoalSpace.getCenter(); }
 
     /**
      * @param cloning the entity to clone

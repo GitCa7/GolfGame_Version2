@@ -24,7 +24,7 @@ public class AStarEvaluator  extends NodeEvaluator<GolfState> {
 		// }
 		 
 
-		return  difference.len()/maxDist+aNode.getNodeDeapth();
+		return  difference.len();///maxDist+aNode.getNodeDeapth();
 	}
 
 }

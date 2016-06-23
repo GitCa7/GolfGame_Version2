@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class ActionGeneatorV2 {
 
 
-	private final int maxForceLength = 2000;
+	private final int maxForceLength = 5000;
 
 
 
@@ -50,6 +50,7 @@ public class ActionGeneatorV2 {
 			for (int j = 0; j < planXYnumber; j++) {
 				referenceVector.rotate(zAxis, 360 / planXYnumber);
 				Vector3 reverseCoords= new Vector3(referenceVector.x,referenceVector.z,referenceVector.y);
+				//reverseCoords.add(new Vector3(0,100,0));
 				generateForceIncrement(reverseCoords);
 
 			}

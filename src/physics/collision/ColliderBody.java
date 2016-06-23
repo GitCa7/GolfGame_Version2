@@ -22,7 +22,13 @@ public class ColliderBody extends ColliderSolid
 	/**
 	 * @return body colliding stored
 	 */
-	public Body getCollidingBody() { return mColliding; }
+	public Body getBody() { return mColliding; }
+
+
+	public boolean equals(ColliderBody another)
+	{
+		return (another.getCollidingSolid().equals(this.getCollidingSolid()) && another.getBody().equals(this.getBody()));
+	}
 
 	private Body mColliding;
 }

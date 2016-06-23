@@ -11,6 +11,7 @@ import framework.constants.Families;
 import framework.entities.Player;
 import framework.internal.components.*;
 import framework.internal.systems.*;
+import framework.logging.Logger;
 import framework.systems.EntityListener;
 import physics.components.Force;
 import physics.entities.Ball;
@@ -29,21 +30,23 @@ public class Game
 {
 	public static boolean DEBUG = false;
 
+	public static final String HIT_NAME = "HIT", ENGINE_TIME_NAME = "ENGINE_TIME", OBSERVER_TIME_NAME = "OBSERVER_TIME";
+
 	/**
 	 * parametric constructor
 	 * @param e engine to use
 	 * @param ballMap mapping of players to balls
 	 */
-	public Game (Engine e, HashMap<Player, Ball> ballMap, float hitNoiseBound)
+	public Game (Engine e, HashMap<Player, Ball> ballMap, GameSettings settings)
 	{
 		mEngine = e;
 		mBallMap = ballMap;
-		mHitNoiseBound = hitNoiseBound;
 		mGlobalState = new Entity();
 		mObservers = new HashSet<>();
 
-		mGen = new Random(System.currentTimeMillis());
+		mSettings = settings;
         init();
+		checkSettings();
 	}
 
 	public Engine getEnigine(){
@@ -82,7 +85,15 @@ public class Game
 	 */
 	public ArrayList<Ball> getBalls() 
 	{ return new ArrayList<Ball> (mBallMap.values()); }
-	
+
+	/**
+	 * @return The settings object owned. Changes to this object will have an immediate impact on the game.
+     */
+	public GameSettings getSettings()
+	{
+		return mSettings;
+	}
+
 	/**
 	 *
 	 * @param p a player participating in this game
@@ -122,10 +133,13 @@ public class Game
 		if (DEBUG)
 			System.out.println ("hit ball with " + force);
 
+		Random gen = mSettings.mRandomGenerator;
+		float hitNoise = mSettings.mHitNoiseBound;
+
 		force = force.cpy();
-		force.x += mGen.nextGaussian() * mHitNoiseBound;
-		force.y += mGen.nextGaussian() * mHitNoiseBound;
-		force.z += mGen.nextGaussian() * mHitNoiseBound;
+		force.x += gen.nextGaussian() * hitNoise;
+		force.y += gen.nextGaussian() * hitNoise;
+		force.z += gen.nextGaussian() * hitNoise;
 
 		Ball ballHit = getBall (p);
 		Force forceComp = physics.constants.CompoMappers.FORCE.get(ballHit.mEntity);
@@ -138,8 +152,15 @@ public class Game
 	 */
 	public void tick (float ticks)
 	{
+		long time = System.currentTimeMillis();
 		mEngine.update (ticks);
-  		updateObservers();
+
+		log(ENGINE_TIME_NAME, Long.toString(System.currentTimeMillis() - time), false);
+
+		time = System.currentTimeMillis();
+		updateObservers();
+
+		log(OBSERVER_TIME_NAME, Long.toString(System.currentTimeMillis() - time), true);
 	}
 
 	/**
@@ -228,11 +249,26 @@ public class Game
 		mEngine.addEntityListener (new EntityListener (busySystem));
 	}
 
+	private void checkSettings()
+	{
+		if (mSettings.mRandomGenerator == null)
+			throw new IllegalStateException("random generator not set");
+	}
+
+	private void log(String name, String description, boolean newSection)
+	{
+		if (mSettings.mLogger != null)
+		{
+			mSettings.mLogger.addItem(name, description);
+			if (newSection)
+				mSettings.mLogger.closeSection();
+		}
+	}
+
 	private Engine mEngine;
 	private HashMap<Player, Ball> mBallMap;
 	private Entity mGlobalState;
 	private HashSet<GameObserver> mObservers;
 
-	private float mHitNoiseBound;
-	private Random mGen;
+	private GameSettings mSettings;
 }

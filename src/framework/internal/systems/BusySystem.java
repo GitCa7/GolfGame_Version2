@@ -2,8 +2,10 @@ package framework.internal.systems;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.math.Vector3;
 import framework.constants.Families;
 import framework.internal.components.Busy;
+import framework.systems.TurnSystem;
 import physics.components.Force;
 import physics.components.Position;
 import physics.components.Velocity;
@@ -75,7 +77,7 @@ public class BusySystem extends EntitySystem
         {
             EntityPositionHistory m = iMoving.next();
             m.update();
-            if (!testForInactivity(m))
+            if (!m.isStable())
                 detectedMove = true;
         }
 
@@ -96,31 +98,13 @@ public class BusySystem extends EntitySystem
         mMovementThreshold = threshold;
     }
 
-    /**
-     * @param entity entity to test
-     * @return true if the entity's position did not change throughout its history stored
-     */
-    private boolean testForInactivity(EntityPositionHistory entity)
-    {
-        if (entity.hasSpace())
-            return false;
 
-        for (int cSize = entity.getSize() - 1; cSize > 0; --cSize)
-        {
-            float diff = entity.getElement(cSize).cpy().sub(entity.getElement(cSize - 1)).len();
-            if (!GlobalObjects.ROUND.epsilonEquals(diff, 0f))
-                return false;
-        }
-
-        return true;
-    }
-
-    private class EntityPositionHistory extends History<Position>
+    private class EntityPositionHistory
     {
         public EntityPositionHistory(Entity coupled)
         {
-            super(PhysicsCoefficients.MAX_ZERO_UPDATES);
             mEntity = coupled;
+            mLast = physics.constants.CompoMappers.POSITION.get(coupled).cpy();
         }
 
         public Entity getEntity() { return mEntity; }
@@ -130,12 +114,33 @@ public class BusySystem extends EntitySystem
             return this.mEntity.equals(comp.mEntity);
         }
 
-        public void update()
+        public boolean isStable()
         {
-            push(CompoMappers.POSITION.get(mEntity).clone());
+            return mStableUpdates >= PhysicsCoefficients.MAX_ZERO_UPDATES;
         }
 
+        public void update()
+        {
+            Vector3 newPos = CompoMappers.POSITION.get(mEntity);
+            if (!GlobalObjects.ROUND.epsilonEquals(newPos.dst(mLast), 0f))
+            {
+                mStableUpdates = 0;
+            }
+            else
+                ++mStableUpdates;
+
+            mLast = newPos.cpy();
+        }
+
+        public void resetStableCounter()
+        {
+            mStableUpdates = 0;
+        }
+
+
         private Entity mEntity;
+        private Vector3 mLast;
+        private int mStableUpdates;
     }
 
     private LinkedList<EntityPositionHistory> mMoving;

@@ -9,5 +9,5 @@ package physics.generic.ode;
  */
 public interface ODEquation
 {
-    public double evaluate(double t, double y);
+    public double evaluate(double t, double[] ys);
 }

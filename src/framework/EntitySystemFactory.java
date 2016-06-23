@@ -2,6 +2,7 @@ package framework;
 
 import com.badlogic.ashley.core.Engine;
 import framework.systems.EntityListener;
+import physics.generic.ode.ODESolver;
 
 /**
  * Interface for factory classes producing entity physics.systems.
@@ -48,6 +49,11 @@ public abstract class EntitySystemFactory
 		mPriority = priority;
 	}
 
+	/**
+	 * set the ode solver to solver
+	 * @param solver
+     */
+	public void setODESolver(ODESolver solver) { mODESolver = solver; }
 
 	/**
 	 * initialize a new entity system for proper use in clients
@@ -58,6 +64,18 @@ public abstract class EntitySystemFactory
 		checkAndThrowPriorityException();
 		init.setPriority(mPriority);
 		attachListener(init);
+	}
+
+	/**
+	 * checks whether is set and sets the ode solver in the system to initialize
+	 * @param init
+	 * @throws IllegalStateException if no ode solver is set in the factory
+     */
+	protected void initSystemODE(EntitySystem init)
+	{
+		if (mODESolver == null)
+			throw new IllegalStateException("ode solver is not set but required");
+		init.setODESolver(mODESolver);
 	}
 
 	/**
@@ -85,5 +103,6 @@ public abstract class EntitySystemFactory
 	}
 
 	private Engine mListenEngine;
+	private ODESolver mODESolver;
 	private int mPriority;
 }
