@@ -4,11 +4,11 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
 
-import framework.EntitySystem;
-import physics.collision.ColliderClosestSideFinder;
-import physics.collision.ColliderEntity;
-import physics.collision.ColliderPair;
-import physics.collision.CollisionRepository;
+import framework.systems.EntitySystem;
+import physics.collision.reaction.ColliderClosestSideFinder;
+import physics.collision.structure.ColliderEntity;
+import physics.collision.structure.ColliderPair;
+import physics.collision.structure.CollisionRepository;
 import physics.components.Force;
 import physics.components.Friction;
 import physics.components.GravityForce;

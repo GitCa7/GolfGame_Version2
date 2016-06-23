@@ -1,7 +1,7 @@
 package physics.components;
 
-import framework.EntitySystem;
-import framework.EntitySystemFactory;
+import framework.components.Component;
+import framework.components.ComponentFactory;
 
 import java.util.Random;
 

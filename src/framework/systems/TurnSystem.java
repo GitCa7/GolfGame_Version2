@@ -6,17 +6,10 @@ import com.badlogic.gdx.math.Vector3;
 import framework.components.Turn;
 import framework.constants.CompoMappers;
 import framework.constants.Families;
-import framework.internal.systems.BusySystem;
-import physics.components.Position;
-import physics.components.Velocity;
 import physics.constants.GlobalObjects;
-import framework.EntitySystem;
 import physics.constants.PhysicsCoefficients;
-import physics.generic.History;
 //import sun.org.mozilla.javascript.tools.shell.Global;
 
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 /**

@@ -1,10 +1,6 @@
 package framework.components;
 
 
-import framework.components.Name;
-import physics.components.Component;
-import physics.components.ComponentFactory;
-
 /**
  * class producing name components
  * @author martin

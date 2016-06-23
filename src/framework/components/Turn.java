@@ -1,7 +1,5 @@
 package framework.components;
 
-import physics.components.Component;
-
 /**
  * empty component to be added to player's whose turn it is
  * @author martin

@@ -4,21 +4,17 @@ import aiExtention.GolfAction;
 import aiExtention.GolfState;
 import aiExtention.Utils.GolfSearchPerformer;
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
-import framework.Game;
-import framework.GameConfigurator;
+import framework.main.Game;
+import framework.main.GameConfigurator;
 import framework.entities.Player;
 import physics.components.Force;
 import physics.components.Position;
 import physics.components.Velocity;
-import physics.entities.Ball;
+import framework.entities.Ball;
 import physics.geometry.planar.Triangle;
 import physics.geometry.planar.TriangleBuilder;
-import physics.systems.Movement;
 import searchTree.TreeNode;
-import physics.systems.ForceApply;
-import physics.systems.FrictionSystem;
 
 import java.util.ArrayList;
 

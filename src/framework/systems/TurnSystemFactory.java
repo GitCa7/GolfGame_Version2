@@ -1,7 +1,5 @@
 package framework.systems;
 
-import framework.EntitySystemFactory;
-
 /**
  * Factory class producing turn systems.
  * @author martin

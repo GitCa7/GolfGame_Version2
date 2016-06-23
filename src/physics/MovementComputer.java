@@ -1,7 +1,7 @@
 package physics;
 
 import com.badlogic.gdx.math.Vector3;
-import physics.generic.ode.ODEquation;
+import physics.generic.numerical.ode.ODEquation;
 
 /**
  * Class for calculating the movement of a ball only using differential equations.

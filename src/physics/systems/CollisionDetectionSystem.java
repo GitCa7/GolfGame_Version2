@@ -1,16 +1,18 @@
 package physics.systems;
 
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
-import framework.EntitySystem;
-import physics.collision.*;
+import framework.systems.EntitySystem;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 
 
+import physics.collision.detection.CollisionDetector;
+import physics.collision.structure.ColliderEntity;
+import physics.collision.structure.ColliderPair;
+import physics.collision.structure.CollisionRepository;
 import physics.constants.CompoMappers;
 import physics.constants.Families;
 

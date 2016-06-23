@@ -2,7 +2,7 @@ package physics.geometry.spatial;
 
 import com.badlogic.gdx.math.Vector3;
 import physics.constants.GlobalObjects;
-import physics.geometry.VertexSet;
+import physics.geometry.linear.VertexSet;
 import physics.geometry.planar.Plane;
 import physics.geometry.planar.Triangle;
 

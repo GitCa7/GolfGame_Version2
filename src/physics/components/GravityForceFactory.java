@@ -1,14 +1,14 @@
 package physics.components;
 
-import com.badlogic.ashley.core.*;
-import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.*;
+import framework.components.ComponentFactory;
 
 /**
  * Created by Alexander on 20.05.2016.
  * Factory for producing GravityForce objects.
  */
-public class GravityForceFactory implements ComponentFactory {
+public class GravityForceFactory implements ComponentFactory
+{
 
     public GravityForceFactory(){}
 

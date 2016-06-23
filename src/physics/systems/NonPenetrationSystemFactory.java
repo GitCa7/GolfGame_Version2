@@ -1,7 +1,7 @@
 package physics.systems;
 
-import framework.EntitySystemFactory;
-import physics.collision.CollisionRepository;
+import framework.systems.EntitySystemFactory;
+import physics.collision.structure.CollisionRepository;
 
 /**
  * Class producing non penetration systems

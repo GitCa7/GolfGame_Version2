@@ -1,6 +1,6 @@
 package framework.internal.components;
 
-import physics.components.Component;
+import framework.components.Component;
 
 /**
  * component to be added to internal game state entity. Indicates whether the simulation is currently

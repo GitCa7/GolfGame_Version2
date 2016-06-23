@@ -1,6 +1,6 @@
 package physics.systems;
-import framework.EntitySystemFactory;
-import physics.collision.CollisionRepository;
+import framework.systems.EntitySystemFactory;
+import physics.collision.structure.CollisionRepository;
 
 /** Creates a CollisionImpactSystemFactory
  * Created by marcel on 21.05.2016.

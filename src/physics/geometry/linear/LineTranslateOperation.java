@@ -1,6 +1,6 @@
 package physics.geometry.linear;
 
-import physics.generic.Operation;
+import physics.generic.pool.Operation;
 import com.badlogic.gdx.math.*;
 
 

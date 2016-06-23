@@ -1,7 +1,6 @@
 package framework.components;
 
 import framework.entities.Player;
-import physics.components.ComponentFactory;
 
 /**
  * Factory producing next player components to handle player transitions.

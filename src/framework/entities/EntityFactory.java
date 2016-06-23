@@ -1,8 +1,7 @@
 package framework.entities;
 
-import Entities.entity;
 import com.badlogic.ashley.core.Entity;
-import framework.ComponentBundle;
+import framework.components.ComponentBundle;
 import physics.systems.SystemsTracker;
 
 import java.util.ArrayList;

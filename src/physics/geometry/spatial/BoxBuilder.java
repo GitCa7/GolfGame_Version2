@@ -3,7 +3,7 @@ package physics.geometry.spatial;
 import com.badlogic.gdx.math.Vector3;
 import physics.constants.GlobalObjects;
 import physics.generic.PowersetGenerator;
-import physics.geometry.VertexGenerator;
+import physics.geometry.linear.VertexGenerator;
 import physics.geometry.planar.Rectangle;
 import physics.geometry.planar.RectangleBuilder;
 

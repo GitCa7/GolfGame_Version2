@@ -3,7 +3,7 @@ package physics.geometry.spatial;
 import com.badlogic.gdx.math.Vector3;
 import physics.constants.GlobalObjects;
 import physics.constants.PhysicsCoefficients;
-import physics.generic.Bisection;
+import physics.generic.numerical.Bisection;
 
 /**
  * Class adjusting the position of a dynamic solid intersecting with a static solid

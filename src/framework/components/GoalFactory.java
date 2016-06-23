@@ -1,8 +1,6 @@
 package framework.components;
 
 import com.badlogic.gdx.math.Vector3;
-import physics.components.Component;
-import physics.components.ComponentFactory;
 import physics.geometry.spatial.Solid;
 import physics.geometry.spatial.SolidTranslator;
 

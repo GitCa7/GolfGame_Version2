@@ -1,7 +1,7 @@
 package physics.systems;
 
-import framework.EntitySystem;
-import framework.EntitySystemFactory;
+import framework.systems.EntitySystem;
+import framework.systems.EntitySystemFactory;
 
 /**
  * Class producing wind systems

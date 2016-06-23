@@ -1,6 +1,6 @@
 package framework.internal.components;
 
-import physics.components.Component;
+import framework.components.Component;
 
 /**
  * Component to be added to the game state entity. Indicates whether the game is active.

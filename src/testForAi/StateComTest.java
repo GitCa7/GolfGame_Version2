@@ -1,12 +1,10 @@
 package testForAi;
 
-import aiExtention.GolfState;
 import aiExtention.GolfStateComparator;
 import com.badlogic.ashley.core.Entity;
 import  physics.components.Force;
-import  physics.components.GravityForce;
 import  physics.components.Position;
-import  physics.entities.Ball;
+import framework.entities.Ball;
 
 public class StateComTest {
 

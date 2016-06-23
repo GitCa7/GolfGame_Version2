@@ -2,8 +2,8 @@ package aiExtention.Utils;
 
 import aiExtention.*;
 import com.badlogic.ashley.core.Engine;
-import framework.Game;
-import framework.SimulatedGame;
+import framework.main.Game;
+import framework.simulation.SimulatedGame;
 import framework.entities.Player;
 import searchTree.*;
 

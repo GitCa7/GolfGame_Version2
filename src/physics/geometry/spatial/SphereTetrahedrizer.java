@@ -1,9 +1,9 @@
 package physics.geometry.spatial;
 
 import com.badlogic.gdx.math.Vector3;
-import physics.Vector3Rounder;
+import physics.vectorUtil.Vector3Rounder;
 import physics.constants.GlobalObjects;
-import physics.generic.Parameter;
+import physics.generic.pool.Parameter;
 
 import java.util.ArrayList;
 

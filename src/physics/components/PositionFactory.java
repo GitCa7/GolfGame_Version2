@@ -1,8 +1,7 @@
 package physics.components;
 
-import com.badlogic.ashley.core.*;
-import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector3;
+import framework.components.ComponentFactory;
 
 /**
  * Created by Alexander on 20.05.2016.

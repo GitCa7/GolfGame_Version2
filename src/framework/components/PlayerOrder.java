@@ -1,8 +1,6 @@
 package framework.components;
 
-import com.badlogic.ashley.core.Entity;
 import framework.entities.Player;
-import physics.components.Component;
 
 /**
  * created on 23.05.16.

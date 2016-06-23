@@ -2,10 +2,10 @@ package physics.systems;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
-import framework.EntitySystem;
-import physics.collision.ColliderEntity;
-import physics.collision.ColliderPair;
-import physics.collision.CollisionRepository;
+import framework.systems.EntitySystem;
+import physics.collision.structure.ColliderEntity;
+import physics.collision.structure.ColliderPair;
+import physics.collision.structure.CollisionRepository;
 import physics.components.Body;
 import physics.components.Position;
 import physics.constants.CompoMappers;
