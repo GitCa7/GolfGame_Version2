@@ -68,6 +68,7 @@ public class CollisionDetector implements Cloneable
 			mNarrowFinder.setPossibleCollisions(narrowInput);
 		}
 
+
 		return mNarrowFinder.collisions();
 	}
 

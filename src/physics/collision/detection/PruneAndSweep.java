@@ -73,7 +73,6 @@ public class PruneAndSweep extends BroadCollisionFinder
     {
         HashSet<ColliderPair<ColliderEntity>> interX, interY, interZ;
 
-        int entities = getAllBodies().size();
 
         interX = getIntersectionsFor(new XExtractor(), 0);
         interY = getIntersectionsFor(new YExtractor(), 1);

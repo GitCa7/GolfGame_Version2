@@ -10,6 +10,7 @@ import framework.entities.Ball;
 import framework.entities.Player;
 import framework.systems.GoalSystem;
 import framework.systems.TurnSystem;
+import physics.systems.Movement;
 import testing.system.framework.MockMainMenu;
 import physics.components.Position;
 import physics.components.Velocity;
@@ -27,7 +28,7 @@ public class Main
     {
 
 
-        //Movement.DEBUG= true;
+        Movement.DEBUG= true;
         //CollisionImpactSystem.DEBUG = true;
         //CollisionDetectionSystem.DEBUG = true;
         //Game.DEBUG = true;
