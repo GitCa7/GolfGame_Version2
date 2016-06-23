@@ -190,7 +190,7 @@ public class GameVisual {
 	public boolean counterIncrease(boolean forceincrease)	{
 		Vector2f currScale = GuiElements.get(1).getScale();
 		Vector2f max = GuiElements.get(1).getOriginal();
-		Vector2f min = new Vector2f(0.02f, 0.02f);
+		Vector2f min = new Vector2f(0.05f, 0.05f);
 		if(forceincrease)	{
 			if(currScale.x >= max.x || currScale.y >= max.y)	{
 				return false;

@@ -27,7 +27,7 @@ public class Camera {
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
 			position.y+= movemntSpeed;
 		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
+		if(Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)){
 			position.y-= movemntSpeed;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
@@ -42,7 +42,7 @@ public class Camera {
 		if(Keyboard.isKeyDown(Keyboard.KEY_A)){
 			position.x-= movemntSpeed;
 		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
+		if(Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)){
 			position.y+= 0.2f;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){

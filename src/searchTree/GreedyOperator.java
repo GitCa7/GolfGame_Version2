@@ -26,7 +26,7 @@ public class GreedyOperator<E extends SearchState, Action extends AbstractAction
 		int depth = 0;
 		System.out.println("Running search");
 		System.out.println("Statetest " + !goalTester.test(searchTree.getListOfNodes(depth).peek().getState()));
-		while (!goalTester.test(searchTree.getListOfNodes(depth).peek().getState()) && depth < 3) {
+		while (!goalTester.test(searchTree.getListOfNodes(depth).peek().getState()) && depth < 2) {
 			System.out.println("test before exp");
 			expandDeapth(depth);
 			System.out.println("test after exp");
