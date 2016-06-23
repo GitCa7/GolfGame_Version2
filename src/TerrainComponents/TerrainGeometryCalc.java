@@ -103,6 +103,10 @@ public class TerrainGeometryCalc implements Serializable {
 						vertices[vertexPointer * 3 + 2]);
 				leafs.add(tmp);
 
+				if(vertexPointer * 3 == 63)	{
+					vertices[vertexPointer * 3+1] = 11; 
+				}
+				
 				normal = new Vector3f();
 				if (heightMapUse) {
 					normal = calculateNormal(j, i, heightMapImage);
@@ -123,6 +127,9 @@ public class TerrainGeometryCalc implements Serializable {
 				vertexPointer++;
 			}
 		}
+		
+		
+		
 		int pointer = 0;
 		for (int gz = 0; gz < VERTEX_COUNT - 1; gz++) {
 			for (int gx = 0; gx < VERTEX_COUNT - 1; gx++) {
@@ -187,7 +194,13 @@ public class TerrainGeometryCalc implements Serializable {
 		return height;
 
 	}
-
+	
+	public void addSlopeInMiddle(float[] vertices)	{
+		int middle = vertices.length / 3;
+		vertices[middle] += 10;
+		
+	}
+	
 	public ArrayList<Triangle> getAllTris(TerrainData terraData) {
 		Vector3f start, middle, end;
 		Vector3 startTemp, middleTemp, endTemp;
@@ -325,6 +338,9 @@ public class TerrainGeometryCalc implements Serializable {
 		}
 		return true;
 	}
+	
+	
+	
 	
 	
 	
