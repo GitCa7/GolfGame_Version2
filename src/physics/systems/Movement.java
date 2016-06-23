@@ -40,6 +40,7 @@ public class Movement extends EntitySystem
 	{
 		Movement newSystem = new Movement();
 		newSystem.setPriority(priority);
+		newSystem.setODESolver(getODESolver());
 		return newSystem;
 	}
 

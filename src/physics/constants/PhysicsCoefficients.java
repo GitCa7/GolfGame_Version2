@@ -30,7 +30,7 @@ public class PhysicsCoefficients
 	public static final int WIND_MIN_DURATION = 10;
 	public static final int WIND_MAX_DURATION = 15;
 
-	public static final int ARITHMETIC_PRECISION = 10;
+	public static final int ARITHMETIC_PRECISION = 4;
 	public static final int ARITHMETIC_TOLERANCE = 1;
 
 	public static final int AI_ARITHMETIC_PRECISION = 3;
