@@ -58,6 +58,7 @@ public class BoundingBox
         if (v.z > max.z)
             max.z = v.z;
     }
+
     public float getLowestX() {
         float min = mBoundingBox.getSides()[0].getVertices()[0].x;
         for (int i = 1; i < mBoundingBox.getSides().length; i++) {

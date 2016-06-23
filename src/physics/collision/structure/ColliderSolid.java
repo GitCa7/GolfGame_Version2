@@ -14,10 +14,20 @@ public class ColliderSolid{
      * @param collidingSolid Solid involved in collision
      * @param collidingVector Vector3 that is part of CollidingSolid that causes the collision.
      */
-    public ColliderSolid(Vector3 collidingVector, SolidTranslator collidingSolid){
+    public ColliderSolid(Vector3 collidingVector, SolidTranslator collidingSolid)
+    {
         mCollidingSolid=collidingSolid;
         mCollidingVector=collidingVector;
 
+
+        if (mCollidingVector == null && mCollidingSolid == null)
+            mHash = 0;
+        else if (mCollidingVector == null)
+            mHash = mCollidingSolid.hashCode();
+        else if (mCollidingSolid == null)
+            mHash = mCollidingVector.hashCode();
+        else
+            mHash = mCollidingSolid.hashCode() % mCollidingVector.hashCode();
     }
 
     /**
@@ -36,9 +46,22 @@ public class ColliderSolid{
         return mCollidingVector;
     }
 
-    public boolean equals (ColliderSolid another)
+    public int hashCode()
     {
-        return (this.getCollidingVertex().equals(another.getCollidingVertex()) && this.getCollidingSolid().equals(another.getCollidingSolid()));
+        return mHash;
+    }
+
+    public boolean equals (Object another)
+    {
+        ColliderSolid comp = (ColliderSolid) another;
+
+        boolean solidEqual = (mCollidingSolid == null ? comp.mCollidingSolid == null : comp.mCollidingSolid.equals(this.mCollidingSolid));
+        if (!solidEqual)
+            return false;
+
+        boolean vertexEqual = (mCollidingVector == null ? comp.mCollidingVector == null : comp.mCollidingVector.equals(this.mCollidingVector));
+
+        return solidEqual && vertexEqual;
     }
 
     /**
@@ -52,4 +75,5 @@ public class ColliderSolid{
 
     private Vector3 mCollidingVector;
     private SolidTranslator mCollidingSolid;
+    private int mHash;
 }

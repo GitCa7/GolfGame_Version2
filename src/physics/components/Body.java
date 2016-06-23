@@ -66,6 +66,7 @@ public class Body extends HashSet<SolidTranslator> implements Component
 	{
 		for (SolidTranslator s : this)
 			s.setPosition(newPosition);
+		mBound.getBoundingBox().setPosition(newPosition);
 	}
 
 

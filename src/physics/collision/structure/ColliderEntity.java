@@ -21,6 +21,10 @@ public class ColliderEntity extends ColliderBody
 		super (collidingBody.getBody(), collidingBody);
 		mColliding = collidingEntity;
 
+		if (super.hashCode() == 0)
+			mHash = mColliding.hashCode();
+		else
+			mHash =  mColliding.hashCode() % super.hashCode();
 
 		assert (Families.COLLIDING.matches (mColliding));
 	}
@@ -33,19 +37,23 @@ public class ColliderEntity extends ColliderBody
 	public Entity getEntity() { return mColliding; }
 
 
+	public int hashCode()
+	{
+		return mHash;
+	}
+
 	/**
 	 *
 	 * @return true if entity stored is actively involved in collisions, i.e. belongs to accelerable family
 	 */
 	public boolean isActive() { return (Families.ACCELERABLE.matches (getEntity())); }
 
-	public boolean equals(ColliderEntity another)
+	public boolean equals(Object another)
 	{
-		boolean entityEqual = this.getEntity().equals(another.getEntity());
-		boolean vertexEqual = this.getCollidingVertex().equals(another.getCollidingVertex());
-		boolean solidEqual = this.getCollidingSolid().equals(another.getCollidingSolid());
-		return entityEqual && vertexEqual && solidEqual;
+		ColliderEntity comp = (ColliderEntity) another;
+		return this.mColliding.equals(comp.mColliding) && super.equals(comp);
 	}
 
 	private Entity mColliding;
+	private int mHash;
 }

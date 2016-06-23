@@ -132,8 +132,11 @@ public class PruneAndSweep extends BroadCollisionFinder
 
         float l1 = ((Box) b1.mBody.getBound().getBoundingBox().getSolid()).getDimensions()[dimValue];
 
-        if (o1 <= o2 && o2 <= o1 + l1)
+        if (l1 >= 0 && o1 <= o2 && o2 <= o1 + l1)
             return true;
+        else if (l1 < 0 && o1 >= o2 && o2 >= o1 + l1)
+            return true;
+
         return false;
     }
 }
