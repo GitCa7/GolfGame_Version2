@@ -8,16 +8,19 @@ import Entities.gameEntity;
 import TerrainComponents.TerrainData;
 import TerrainComponents.TerrainGeometryCalc;
 import com.badlogic.gdx.math.Vector3;
-import framework.Game;
-import framework.PlayerObserver;
-import framework.logging.Logger;
-import framework.GameSettings;
 
-import framework.testing.HumanObserver;
+import framework.logging.Logger;
+
+
+import framework.main.BotObserver;
+import framework.main.Game;
+import framework.main.GameConfigurator;
+import framework.main.PlayerObserver;
 import org.lwjgl.util.vector.Vector3f;
 import physics.geometry.planar.Triangle;
 import physics.geometry.spatial.*;
 import physics.geometry.spatial.Box;
+import testing.system.framework.HumanObserver;
 
 import javax.swing.*;
 import java.util.ArrayList;
