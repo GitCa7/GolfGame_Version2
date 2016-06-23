@@ -99,13 +99,15 @@ public class TerrainGeometryCalc implements Serializable {
 
 				vertices[vertexPointer * 3 + 2] = -(float) i / ((float) VERTEX_COUNT - 1) * SIZE;
 
-				PointNode tmp = new PointNode(vertices[vertexPointer * 3], vertices[vertexPointer * 3 + 1],
-						vertices[vertexPointer * 3 + 2]);
-				leafs.add(tmp);
+				
 
 				if(vertexPointer * 3 == 108)	{
 					vertices[vertexPointer * 3+1] = 11; 
 				}
+				
+				PointNode tmp = new PointNode(vertices[vertexPointer * 3], vertices[vertexPointer * 3 + 1],
+						vertices[vertexPointer * 3 + 2]);
+				leafs.add(tmp);
 				
 				normal = new Vector3f();
 				if (heightMapUse) {
