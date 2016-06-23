@@ -183,11 +183,15 @@ public class Terrain {
 
     public void changeHeight(float x_start, float xLim, float z_start, float zLim, float amount)	{
         //int number = 0;
+    
+    	float heightBorder = 30;
+    	int interrator = 0;
+    	
         for(int i = 0; i < vertices.length; i+=3)	{
+        	
             if(vertices[i] < x_start && vertices[i] > xLim && vertices[i+2] < z_start && vertices[i+2] > zLim)	{
-                if(vertices[i+1] < 30&&vertices[i+1]>-30) {
+                if(vertices[i+1] < heightBorder && vertices[i+1]> -heightBorder) {
                     vertices[i + 1] += amount;
-
                 }
 
             }
