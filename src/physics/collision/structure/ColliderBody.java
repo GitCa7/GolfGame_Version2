@@ -17,6 +17,11 @@ public class ColliderBody extends ColliderSolid
 		super((solidCollider.hasCollidingVertex() ? solidCollider.getCollidingVertex() : null),
 				solidCollider.getCollidingSolid());
 		mColliding = colliding;
+
+		if (super.hashCode() == 0)
+			mHash = mColliding.hashCode();
+		else
+			mHash = mColliding.hashCode() % super.hashCode();
 	}
 
 	/**
@@ -25,10 +30,17 @@ public class ColliderBody extends ColliderSolid
 	public Body getBody() { return mColliding; }
 
 
-	public boolean equals(ColliderBody another)
+	public int hashCode()
 	{
-		return (another.getCollidingSolid().equals(this.getCollidingSolid()) && another.getBody().equals(this.getBody()));
+		return mHash;
+	}
+
+	public boolean equals(Object another)
+	{
+		ColliderBody comp = (ColliderBody) another;
+		return (comp.getBody().equals(this.getBody()) && super.equals(comp));
 	}
 
 	private Body mColliding;
+	private int mHash;
 }
