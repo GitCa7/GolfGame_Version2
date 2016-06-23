@@ -31,15 +31,16 @@ public class GolfGenerator extends NodeGenerator<GolfState, GolfAction> {
 		GolfState childState = aNode.getState().cloneState();
 		GolfAction action = new GolfAction(forceGenerator.generateNextForce());
 
-		//System.out.println ("new node expanded");
-		// System.out.println("Action " + action.getForce());
+		System.out.println ("new node expanded");
+		 System.out.println("Action " + action.getForce());
 		applyAction(childState, action);
+
 		childNode.setState(childState);
 		childNode.setAction(action);
 		childNode.setNodeDeapth(aNode.getNodeDeapth() + 1);
 		childNode.setValueOfNode(evaluator.evaluateNode(childNode));
 
-		//System.out.println("value of node"+ evaluator.evaluateNode(childNode));
+		System.out.println("value of node"+ evaluator.evaluateNode(childNode));
 
 		// aNode.addChildNode(childNode);
 		// System.out.println("childNodeActonStore" + childNode.getAction().getForce());
@@ -50,6 +51,7 @@ public class GolfGenerator extends NodeGenerator<GolfState, GolfAction> {
 	{
 
 		SimulatedGame simulation = childState.getSimulation();
+
 		simulation.play(new Vector3(anAction.getForce()), mDeltaTime);
 
 

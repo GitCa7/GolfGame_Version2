@@ -25,7 +25,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class GameLoader {
-	public static final float HOLE_SIZE = 100;
+	public static final float HOLE_SIZE = 20;
 
 	public BotObserver mBobs;
 
@@ -113,7 +113,7 @@ public class GameLoader {
 		ArrayList<Triangle> tmp = calc.getAllTris(a);
 		System.out.println("aaaaaa");
 		config.setTerrain(tmp);
-
+		System.out.println("aaaaaa");
 
 		return config.game();
 	}

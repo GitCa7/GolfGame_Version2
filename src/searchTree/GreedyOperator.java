@@ -47,15 +47,15 @@ public class GreedyOperator<E extends SearchState, Action extends AbstractAction
 	 * a new priority queue in the SearchTree instance used
 	 */
 	public void expandDeapth(int deapth) {
-		// System.out.println("Expanding");
+		 System.out.println("Expanding");
 		int nodesToExpand = Math.min(noOfParents, searchTree.getListOfNodes(deapth).size());
 		for (int i = 1; i <= nodesToExpand; i++) {
 			TreeNode<E, Action> tempParent = searchTree.getListOfNodes(deapth).poll();
 			for (int j = 1; j <= noOfGenerChild; j++) {
-				//System.out.println("testing node " + (i * (noOfGenerChild - 1) + j));
+				System.out.println("testing node " + (i * (noOfGenerChild - 1) + j));
 				searchTree.addNode(generator.generateChildNode(tempParent));
-				//System.out.println("ValueOfNode" + tempParent.getValueOfNode());
-				//System.out.println("ball possition " + tempParent.getState());
+				System.out.println("ValueOfNode" + tempParent.getValueOfNode());
+				//.out.println("ball possition " + tempParent.getState());
 			}
 		}
 		System.out.println("Finished exp");

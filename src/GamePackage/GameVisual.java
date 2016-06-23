@@ -268,7 +268,7 @@ public class GameVisual {
 		for(Entity ent : gameEngine.getEntitiesFor(Families.MOVING))	{
 			Vector3 position = CompoMappers.POSITION.get(ent);
 			//System.out.println("Delta: " + position);
-			Vector3f fPos = new Vector3f(position.x, position.y + 2, position.z);
+			Vector3f fPos = new Vector3f(position.x, position.y + 5, position.z);
 			golfBalls.get(pos).setPosition(fPos);
 			directionArrow.setPosition(new Vector3f(fPos.x,fPos.y+5,fPos.z));
 			pos++;
@@ -412,13 +412,14 @@ public class GameVisual {
      	   renderer.processEntity(ball);
      	   //System.out.println("Ball Position: " + ball.getPosition());
         }
+		/*
 		for(Entity a:gameEngine.getEntities()){
 			if(a.getComponent(Position.class)!=null) {
 				Vector3 pos = a.getComponent(Position.class);
 				Obstacle tmp = new Obstacle(new Vector3f(pos.x, pos.y, pos.z), 0.5f);
 				renderer.processEntity(tmp);
 			}
-		}
+		}*/
 
 		for(gameEntity ob:entities)	{
 			renderer.processEntity(ob);

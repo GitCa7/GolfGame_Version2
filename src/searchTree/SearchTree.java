@@ -25,6 +25,7 @@ public class SearchTree<E extends SearchState, Action extends AbstractAction<E>>
 
 	public void addNode(TreeNode<E, Action> aNode) {
 		int depth = aNode.getNodeDeapth();
+		System.out.println("frt");
 		if (treeTable.size() <= depth) {
 			// if (aNode.getNodeDeapth() > depth) {
 			PriorityQueue<TreeNode<E, Action>> queue = new PriorityQueue<TreeNode<E, Action>>(comparator);

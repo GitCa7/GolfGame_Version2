@@ -67,14 +67,14 @@ public class BotObserver extends PlayerObserver {
      *             adds the series of forces need  to be applied to the root state to reach the leaf state to the forceListToSolution List
      */
     public void extractSolution(TreeNode<GolfState, GolfAction> leaf) {
-        if (leaf.getAction() != null) {
+        //if (leaf.getAction() != null) {
             TreeNode<GolfState, GolfAction> tempNode = leaf;
             forceListToSolution.add(leaf.getAction().getForce());
             for (int i = 1; i < leaf.getNodeDeapth(); i++)
                 tempNode = tempNode.getParent();
             forceListToSolution.add(0, tempNode.getAction().getForce());
 
-        } else {
+        /*} else {
             long tot=0;
             for(Long a:times){
                 tot=a+tot;
@@ -86,7 +86,7 @@ public class BotObserver extends PlayerObserver {
             log(BOT_REMAINING_MOVES, Integer.toString(times.size()), false);
 
             Gdx.app.exit();
-        }
+        }*/
     }
         private LinkedList<Vector3> forceListToSolution;
 

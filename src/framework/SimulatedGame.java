@@ -80,7 +80,7 @@ public class SimulatedGame
     {
         Force f = CompoMappers.FORCE.get(mBall.mEntity);
         Busy busy = framework.constants.CompoMappers.BUSY.get(mGlobalState);
-
+        System.out.println("aaahh");
         Position ballPos = CompoMappers.POSITION.get(mBall.mEntity);
         Velocity ballVel = CompoMappers.VELOCITY.get(mBall.mEntity);
 
