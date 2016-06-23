@@ -1,10 +1,8 @@
 package framework.components;
 
-import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector3;
 import physics.geometry.spatial.Solid;
 import physics.geometry.spatial.SolidTranslator;
-import sun.awt.ComponentFactory;
 
 /**
  * Class creating goal instances
