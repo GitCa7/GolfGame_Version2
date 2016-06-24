@@ -18,6 +18,7 @@ import framework.main.Game;
 import framework.main.GameConfigurator;
 import framework.main.PlayerObserver;
 import org.lwjgl.util.vector.Vector3f;
+import physics.constants.PhysicsCoefficients;
 import physics.geometry.planar.Triangle;
 import physics.geometry.spatial.*;
 import physics.geometry.spatial.Box;
@@ -93,17 +94,21 @@ public class GameLoader {
 			//@TODO remove after testing
 			//bots.set(i, false);
 
+			float mass = PhysicsCoefficients.BALL_MASS;
+			float radius = 4;
+			Vector3 ballPosition = new Vector3(ballPos.get(i).x, ballPos.get(i).y+20, ballPos.get(i).z);
+
 			if(bots.get(i)){
 				String pName = JOptionPane.showInputDialog("Bot "+i+" Name?");
 				mBobs = new BotObserver();
 				a = mBobs;
 				Logger logger = new Logger();
 				mBobs.setLogger(logger);
-				config.addBotAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y+20, ballPos.get(i).z), mBobs);
+				config.addBotAndBall(pName, radius, mass, ballPosition, mBobs);
 			}else {
 				String pName = JOptionPane.showInputDialog("Player "+i+" Name?");
 				a = new HumanObserver();
-				config.addHumanAndBall(pName, 5, 1, new Vector3(ballPos.get(i).x, ballPos.get(i).y+20, ballPos.get(i).z),a);
+				config.addHumanAndBall(pName, radius, mass, ballPosition,a);
 			}
 
 			obs.add(a);

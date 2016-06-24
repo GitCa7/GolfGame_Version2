@@ -83,16 +83,6 @@ public class BusySystem extends EntitySystem
         }
     }
 
-    /**
-     * sets the threshold defining which objects are still moving
-     * @param threshold minimum magnitude of velocity vector
-     */
-    public void setThreshold(float threshold)
-    {
-        mMovementThreshold = threshold;
-    }
-
-
     private class EntityPositionHistory
     {
         public EntityPositionHistory(Entity coupled)
@@ -138,5 +128,4 @@ public class BusySystem extends EntitySystem
     }
 
     private LinkedList<EntityPositionHistory> mMoving;
-    private float mMovementThreshold;
 }

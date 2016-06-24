@@ -26,7 +26,9 @@ import physics.geometry.planar.Plane;
  */
 public class FrictionSystem extends EntitySystem implements RepositoryEntitySystem
 {
-	
+
+	public static boolean DEBUG = false;
+
 	public FrictionSystem()
 	{
 		mRepo = null;
@@ -112,7 +114,7 @@ public class FrictionSystem extends EntitySystem implements RepositoryEntitySyst
 		//true if gravity does not point inwards the object
 		float gravityDotNormal = gravity.dot(collisionPlane.getNormal());
 
-		return (gravityDotNormal > 0 && !GlobalObjects.ROUND.epsilonEquals(gravityDotNormal, 0f));
+		return (gravityDotNormal > 0 /* && !GlobalObjects.ROUND.epsilonEquals(gravityDotNormal, 0f)*/);
 	}
 
 	/**
@@ -140,18 +142,25 @@ public class FrictionSystem extends EntitySystem implements RepositoryEntitySyst
 
 		float magFriction = new VectorProjector(collisionPlane.getNormal()).project(grav).len();
 
+		Vector3 fricForce;
+
 		if (magFriction *dTime / m.mMass > velocityOnPlane.len())
 		{
-			if(mDebug) {
-				System.out.println("set zero");
+			if(DEBUG)
+			{
+				System.out.print("set zero; ");
 			}
-			return velocityOnPlane.scl(-1 * m.mMass / dTime);
+			fricForce =  velocityOnPlane.scl(-1 * m.mMass);
 		}
+		else
+			fricForce = velocityOnPlane.scl(-1).setLength(magFriction);
 
-		return velocityOnPlane.scl(-1).setLength(magFriction);
+		if (DEBUG)
+			System.out.println(" friction of " + fricForce);
+
+		return fricForce;
 	}
 	
 	
 	private CollisionRepository mRepo;
-	private final boolean mDebug = false;
 }

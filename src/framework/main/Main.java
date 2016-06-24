@@ -11,6 +11,7 @@ import framework.entities.Player;
 import framework.systems.GoalSystem;
 import framework.systems.TurnSystem;
 import physics.systems.CollisionDetectionSystem;
+import physics.systems.FrictionSystem;
 import physics.systems.Movement;
 import physics.systems.NonPenetrationSystem;
 import testing.system.framework.MockMainMenu;
@@ -30,12 +31,13 @@ public class Main
     {
 
 
-        //Movement.DEBUG= true;
+        Movement.DEBUG= true;
         //NonPenetrationSystem.DEBUG = true;
         //CollisionImpactSystem.DEBUG = true;
         //CollisionDetectionSystem.DEBUG = true;
         Game.DEBUG = true;
-        GoalSystem.DEBUG = true;
+        //GoalSystem.DEBUG = true;
+        //FrictionSystem.DEBUG = true;
 
        // TurnSystem.DEBUG = true;
 
@@ -47,7 +49,7 @@ public class Main
         }
     }
 
-    public static final float DELTA_TIME = .05f;
+    public static final float DELTA_TIME = .02f;
     public static final int FRAMES = (int) (4 / (DELTA_TIME ));
 
     public static String SAVE_FILE = "C:\\Users\\Asus\\Documents\\UNI\\GolfGame_Version2\\botResults.csv";

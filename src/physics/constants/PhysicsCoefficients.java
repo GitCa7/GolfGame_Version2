@@ -6,8 +6,8 @@ package physics.constants;
  */
 public class PhysicsCoefficients 
 {	
-	public static final float STATIC_FRICTION = 0.3f;
-	public static final float DYNAMIC_FRICTION = 0.12f;
+	public static final float STATIC_FRICTION = 1.5f;
+	public static final float DYNAMIC_FRICTION = 1.2f;
 	public static final float SPIN_FRICTION = 0.3f;
 
 	public static final float FRICTION_FLUCTUATION =0.0f;
@@ -21,11 +21,11 @@ public class PhysicsCoefficients
 
 	public static final float SPIN_COEFFICIENT = 0.75f;
 	
-	public static final float GRAVITY_EARTH = 4.81f;
+	public static final float GRAVITY_EARTH = 9.81f;
 
 	public static final float TERRAIN_THICKNESS = 10000;
 
-	public static final float WIND_FREQUENCY = .001f;
+	public static final float WIND_FREQUENCY = -.001f;
 	public static final float WIND_MIN_INTENSITY = 10f;
 	public static final float WIND_MAX_INTENSITY = 20f;
 	public static final int WIND_MIN_DURATION = 10;
@@ -41,4 +41,6 @@ public class PhysicsCoefficients
 	public static int ODE_STEPS = 100;
 
 	public static final int MAX_ZERO_UPDATES = 50;
+
+	public static final float BALL_MASS = 2.5f;
 }
