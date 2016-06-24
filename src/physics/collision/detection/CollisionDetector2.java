@@ -11,6 +11,7 @@ import java.util.HashSet;
 /**
  * Created by Asus on 21-6-2016.
  */
+/*
 public class CollisionDetector2 extends CollisionDetector {
     TerrainPartition mPart;
 
@@ -67,3 +68,4 @@ public class CollisionDetector2 extends CollisionDetector {
         return colliding;
     }
 }
+*/

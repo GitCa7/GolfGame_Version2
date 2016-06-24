@@ -1,6 +1,11 @@
 package Entities;
 
 
+import com.badlogic.gdx.math.Vector3;
+import framework.entities.Player;
+import framework.main.Game;
+import org.lwjgl.input.Mouse;
+/*
 public class InputObserver2{
 
 	//The Observer needs a followCamera thats updated whenever MouseInput is receives
@@ -9,7 +14,7 @@ public class InputObserver2{
 	//The Observer needs a free Camera in case he wants to change the perspective
 	private Camera freeCam;
 	
-	// The camera´s Input is processed for a certain player
+	// The cameraï¿½s Input is processed for a certain player
 	private Player mPlayer;
 	
 	//The currentZoomlevel, as soon as that changes the value needs to be updated in the follow camera
@@ -90,3 +95,5 @@ public class InputObserver2{
 	}
 
 }
+
+*/

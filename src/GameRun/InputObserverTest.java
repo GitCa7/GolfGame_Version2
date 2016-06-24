@@ -30,7 +30,7 @@ import RenderComponents.OBJLoader;
 import TerrainComponents.Terrain;
 import TerrainComponents.TerrainData;
 import framework.entities.Player;
-
+/*
 public class InputObserverTest {
 	
 	// For rendering and displaying the Scene
@@ -241,3 +241,4 @@ public class InputObserverTest {
 		}
 	
 }
+*/

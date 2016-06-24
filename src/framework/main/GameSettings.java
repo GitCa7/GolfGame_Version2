@@ -1,6 +1,10 @@
 package framework.main;
 
 import framework.logging.Logger;
+import physics.collision.detection.BroadCollisionFinder;
+import physics.collision.detection.CollisionDetector;
+import physics.collision.detection.NaiveCollisionFinder;
+import physics.collision.detection.NarrowCollisionFinder;
 import physics.constants.PhysicsCoefficients;
 import physics.generic.numerical.ode.BogackiShampine;
 import physics.generic.numerical.ode.ODESolver;
@@ -25,10 +29,15 @@ public class GameSettings
         bs.setEpsilon(Math.pow(10, -PhysicsCoefficients.ARITHMETIC_PRECISION));
         bs.setSafetyFactor(2);
         mODESolver = new RungeKutta4();
+
+        BroadCollisionFinder bf = null;
+        NarrowCollisionFinder nf = new NaiveCollisionFinder();
+        mCollisionDetector = new CollisionDetector(bf, nf);
     }
 
     public float mHitNoiseBound;
     public Random mRandomGenerator;
     public Logger mLogger;
     public ODESolver mODESolver;
+    public CollisionDetector mCollisionDetector;
 }

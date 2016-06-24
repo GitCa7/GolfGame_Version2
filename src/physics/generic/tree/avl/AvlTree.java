@@ -51,7 +51,7 @@ public class AvlTree<T> implements Cloneable
 	 * used to compare nodes depending on their value
 	 * @author martin
 	 */
-	public class NodeOrderWrapper implements Comparable<NodeOrderWrapper>
+	public class NodeOrderWrapper implements Comparable<NodeOrderWrapper>, Comparator<NodeOrderWrapper>
 	{
 		/**
 		 * @param n node to use as reference for comparison
@@ -75,6 +75,18 @@ public class AvlTree<T> implements Cloneable
 			else if (comp.mNode == null)
 				return 1;
 			return mComparator.compare(mNode.getElement(), comp.mNode.getElement());
+		}
+
+
+		public int compare(NodeOrderWrapper w1, NodeOrderWrapper w2)
+		{
+			if (w1.mNode == null && w2.mNode == null)
+				return 0;
+			else if (w1.mNode == null)
+				return -1;
+			else if (w2.mNode == null)
+				return 1;
+			return mComparator.compare(w1.mNode.getElement(), w2.mNode.getElement());
 		}
 		
 		private BinTreeNode<T> mNode;
@@ -497,7 +509,7 @@ public class AvlTree<T> implements Cloneable
 	private void restructure (BinTreeNode<T> x, BinTreeNode<T> y, BinTreeNode<T> z)
 	{
 		//map x, y, z to inorder sequence
-		QuickSort<NodeOrderWrapper> orderInput = new QuickSort<>();
+		QuickSort<NodeOrderWrapper> orderInput = new QuickSort<NodeOrderWrapper>(new NodeOrderWrapper(x));
 		
 		orderInput.add (new NodeOrderWrapper (x));
 		orderInput.add (new NodeOrderWrapper (y));

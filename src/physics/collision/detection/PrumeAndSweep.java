@@ -5,9 +5,11 @@ import physics.geometry.spatial.BoundingBox;
 
 import java.util.ArrayList;
 
+
 /**
  * Created by Asus on 21-6-2016.
  */
+/*
 public class PrumeAndSweep {
     ArrayList<BoundingBox> bodies;
     private AvlTree<BoundingBox> X,Y,Z;
@@ -30,3 +32,4 @@ public class PrumeAndSweep {
 
     }
 }
+*/

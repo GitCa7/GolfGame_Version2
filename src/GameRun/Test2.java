@@ -30,6 +30,7 @@ import fontMeshCreator.GUIText;
 import fontRendering.TextMaster;
 import framework.entities.Player;
 
+/*
 public class Test2 {
 	public static void main(String[] args) {
 
@@ -139,4 +140,5 @@ public class Test2 {
 		DisplayManager.closeDisplay();
 
 }
-}
+
+}*/

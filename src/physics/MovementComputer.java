@@ -9,6 +9,7 @@ import physics.generic.numerical.ode.ODEquation;
  *
  * @author martin
  */
+/*
 public class MovementComputer
 {
 
@@ -50,20 +51,20 @@ public class MovementComputer
     {
 
     }
-
+*/
     /**
      * sets the interval for which to compute a solution and the step size
      * @param initTime
      * @param finalTime
      * @param timeSteps
      */
-    public void setSolveInterval(float initTime, float finalTime, int timeSteps)
+/*    public void setSolveInterval(float initTime, float finalTime, int timeSteps)
     {
         mInitTime = initTime;
         mFinalTime = finalTime;
         mTimeSteps = timeSteps;
     }
-
+*/
     /**
      * solve for the given force, velocity, position and mass for the stored time interval
      * @param force
@@ -71,7 +72,7 @@ public class MovementComputer
      * @param position
      * @param mass
      */
-    public void solve(Vector3 force, Vector3 velocity, Vector3 position, float mass)
+/*    public void solve(Vector3 force, Vector3 velocity, Vector3 position, float mass)
     {
 
     }
@@ -86,3 +87,4 @@ public class MovementComputer
     private float mInitTime, mFinalTime;
     private int mTimeSteps;
 }
+*/
